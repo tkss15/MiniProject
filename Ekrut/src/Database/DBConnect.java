@@ -10,14 +10,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import gui.ServerInterfaceController;
  
 public class DBConnect 
 {
 	class Constants {
-		public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/lab5db?serverTimezone=IST";
+		public static final String DB_SCHEMA = "db ekrut";
+		public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/"+ DB_SCHEMA + "?serverTimezone=IST";
 		public static final String DB_USER = "root";
-		public static final String DB_PASSWORD = "Aa123456";
-		public static final String DB_Name = "userdata";
+		public static final String DB_PASSWORD = "Huq106jgf68!";
+		public static final String DB_Name = "subscriber";
 	}
 	public static Connection connectToDB()
 	{
@@ -25,6 +28,7 @@ public class DBConnect
 		{
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             System.out.println("Driver definition succeed");
+            
         } catch (Exception ex) {
         	 System.out.println("Driver definition failed");
         }

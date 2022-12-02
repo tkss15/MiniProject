@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="951.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerInterfaceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="951.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerInterfaceController">
    <children>
       <Label layoutX="24.0" layoutY="234.0" prefHeight="31.0" prefWidth="48.0" text="IP:" underline="true" AnchorPane.bottomAnchor="500.0" AnchorPane.leftAnchor="24.0">
          <font>
@@ -62,7 +62,7 @@
             <Font name="Arial Black" size="30.0" />
          </font>
       </Label>
-      <TextArea layoutX="476.0" layoutY="225.0" prefHeight="204.0" prefWidth="422.0" AnchorPane.leftAnchor="476.0" />
+      <TextArea fx:id="textConsole" layoutX="476.0" layoutY="225.0" prefHeight="204.0" prefWidth="422.0" AnchorPane.leftAnchor="476.0" />
       <Label layoutX="530.0" layoutY="466.0" prefHeight="61.0" prefWidth="314.0" text="Connected Clients" underline="true">
          <font>
             <Font name="Arial Black" size="30.0" />
@@ -82,4 +82,4 @@
          </columnResizePolicy>
       </TableView>
    </children>
-</fx:root>
+</AnchorPane>
