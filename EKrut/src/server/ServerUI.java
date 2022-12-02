@@ -1,4 +1,4 @@
-package Server;
+package server;
 
 import gui.ServerInterfaceController;
 import javafx.application.Application;

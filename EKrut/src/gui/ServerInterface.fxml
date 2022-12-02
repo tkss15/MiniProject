@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="951.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerInterfaceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="758.0" prefWidth="951.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="24.0" layoutY="234.0" prefHeight="31.0" prefWidth="48.0" text="IP:" underline="true" AnchorPane.bottomAnchor="500.0" AnchorPane.leftAnchor="24.0">
          <font>
@@ -47,16 +47,6 @@
             <Font name="Arial Black" size="30.0" />
          </font>
       </Label>
-      <Button fx:id="connectButton" layoutX="108.0" layoutY="544.0" mnemonicParsing="false" onAction="#ConnectToDB" prefHeight="48.0" prefWidth="147.0" text="Connect">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Button>
-      <Button layoutX="108.0" layoutY="633.0" mnemonicParsing="false" text="Dissconnect">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Button>
       <Label layoutX="563.0" layoutY="152.0" prefHeight="61.0" prefWidth="281.0" text="Console Log" underline="true">
          <font>
             <Font name="Arial Black" size="30.0" />
@@ -81,5 +71,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <Button layoutX="116.0" layoutY="583.0" mnemonicParsing="false" text="Button" />
    </children>
-</fx:root>
+</AnchorPane>
