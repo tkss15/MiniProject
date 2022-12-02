@@ -5,35 +5,59 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+
+import gui.ServerInterfaceController;
  
 public class DBConnect 
 {
+	ServerInterfaceController serverUIController;
+	Connection conn;
+	//jdbc:mysql://127.0.0.1:3306/?user=root
+	private String DB_USER,DB_PASSWORD,DB_NAME;
 	class Constants {
-		public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/lab5db?serverTimezone=IST";
-		public static final String DB_USER = "root";
-		public static final String DB_PASSWORD = "Aa123456";
-		public static final String DB_Name = "userdata";
+		public static final String DB_SCHEMA = "ekrutdatabase";
+		public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/"+ DB_SCHEMA + "?serverTimezone=IST";
+		//public static final String DB_USER = "root";
+		//public static final String DB_PASSWORD = "nset1234!@#$";
+		//public static final String DB_Name = "subscriber";
 	}
-	public static Connection connectToDB()
+	
+	public DBConnect(ServerInterfaceController serverUIController,String DB_USER, String DB_PASSWORD, String DB_NAME)
+	{
+		this.DB_USER = DB_USER;
+		this.DB_PASSWORD = DB_PASSWORD;
+		this.DB_NAME = DB_NAME;
+		this.serverUIController = serverUIController;
+	}
+	public void disconnectFromDB()
+	{
+		try 
+		{
+			if(conn != null)
+				conn.close();
+			serverUIController.writeToConsole("DB disconnection succeed");
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	public void connectToDB()
 	{
 		try 
 		{
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            System.out.println("Driver definition succeed");
+            serverUIController.writeToConsole("Driver definition succeed");
         } catch (Exception ex) {
-        	 System.out.println("Driver definition failed");
+            serverUIController.writeToConsole("Driver definition failed");
         }
         try 
         {
-            Connection conn = DriverManager.getConnection(Constants.DB_URL,Constants.DB_USER,Constants.DB_PASSWORD);
-            System.out.println("SQL connection succeed");
- 
-            return conn;
+            conn = DriverManager.getConnection(Constants.DB_URL,DB_USER,DB_PASSWORD);
+            serverUIController.writeToConsole("SQL connection succeed");
      	} 
         catch (SQLException ex) 
      	{/* handle any errors*/
@@ -41,7 +65,6 @@ public class DBConnect
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         } 
-        return null;
    	}
 	public static Map<String,String> parsingTheData(ArrayList<String> data)
 	{
@@ -69,7 +92,7 @@ public class DBConnect
 				String query = new String();
  
 				queryBuilder.append("INSERT INTO ");
-				queryBuilder.append(Constants.DB_Name);
+				//queryBuilder.append(DB_NAME);
 				queryBuilder.append("(");
 				for (String name : dataparsing.keySet()) 
 					queryBuilder.append(name + ",");
@@ -106,47 +129,16 @@ public class DBConnect
 		//INSERT INTO table_name (column1, column2, column3, ...)
 		//VALUES (value1, value2, value3, ...); 
 	}
-//	public static void printCourses(Connection con)
-//	{
-//	    Scanner scannerInput = new Scanner(System.in);  // Create a Scanner object
+
+ 
+//	public static void createTableCourses(Connection con1){
 //		Statement stmt;
-//		try 
-//		{
-//			stmt = con.createStatement();
-//			System.out.println("Enter Updated arrivel time for Flight KU101:");
-//			String date = scannerInput.nextLine();
-//			stmt.executeUpdate(("UPDATE Flights SET flight_status = \"" + date + "\" WHERE flight=\"KU101\";"));
-//			System.out.println("Updated time");
+//		try {
+//			stmt = con1.createStatement();
+//			stmt.executeUpdate("create table courses(num int, name VARCHAR(40), semestr VARCHAR(10));");
+//			stmt.executeUpdate("load data local infile \"courses.txt\" into table courses");
 // 
-//			stmt = con.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT flight,flight_status,scheduled FROM flights WHERE arriving_from = \"PARIS\";");
-//			while(rs.next())
-//	 		{
-//				String[] time = (rs.getString(3).split(":"));
-//				if(Integer.parseInt(time[0]) >= 15)
-//					continue;
-//				 String delayed = new String("DELAYED 15:00");
-//				 Statement stmt1 = con.createStatement();
-//				 stmt1.executeUpdate(("UPDATE Flights SET flight_status = \"" + delayed + "\" WHERE flight=\""+ rs.getString(1) +"\";"));
-//				 System.out.println(rs.getString(3) + " " + rs.getString(1)+"  " +rs.getString(2)+ " Changed into ->" + rs.getString(1) + " " + delayed);
-//			} 
-//			rs.close();
-//			System.out.println("Updated Delay time to be 15:00");
+//		} catch (SQLException e) {	e.printStackTrace();}
 // 
-//		} catch (SQLException e) {
-//			e.printStackTrace();	
-//		}
 //	}
- 
- 
-	public static void createTableCourses(Connection con1){
-		Statement stmt;
-		try {
-			stmt = con1.createStatement();
-			stmt.executeUpdate("create table courses(num int, name VARCHAR(40), semestr VARCHAR(10));");
-			stmt.executeUpdate("load data local infile \"courses.txt\" into table courses");
- 
-		} catch (SQLException e) {	e.printStackTrace();}
- 
-	}
 }
