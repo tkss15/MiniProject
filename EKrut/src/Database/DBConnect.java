@@ -9,31 +9,56 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+import java.util.Set;
+
+import gui.ServerInterfaceController;
  
 public class DBConnect 
 {
-	class Constants {
-		public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/lab5db?serverTimezone=IST";
-		public static final String DB_USER = "root";
-		public static final String DB_PASSWORD = "Aa123456";
-		public static final String DB_Name = "userdata";
+	ServerInterfaceController serverUIController;
+	Connection conn;
+	public Connection getConn() {
+		return conn;
 	}
-	public static Connection connectToDB()
+	//jdbc:mysql://127.0.0.1:3306/?user=root
+	class Constants {
+		public static final String DB_SCHEMA = "db ekrut";
+		public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/"+ DB_SCHEMA + "?serverTimezone=IST";
+		public static final String DB_USER = "root";
+		public static final String DB_PASSWORD = "Huq106jgf68!";
+		public static final String DB_Name = "subscriber";
+	}
+	
+	public DBConnect(ServerInterfaceController serverUIController)
+	{
+		this.serverUIController = serverUIController;
+	}
+	public void disconnectFromDB()
+	{
+		try 
+		{
+			if(conn != null)
+				conn.close();
+			serverUIController.writeToConsole("DB disconnection succeed");
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	public void connectToDB()
 	{
 		try 
 		{
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            System.out.println("Driver definition succeed");
+            serverUIController.writeToConsole("Driver definition succeed");
         } catch (Exception ex) {
-        	 System.out.println("Driver definition failed");
+            serverUIController.writeToConsole("Driver definition failed");
         }
         try 
         {
-            Connection conn = DriverManager.getConnection(Constants.DB_URL,Constants.DB_USER,Constants.DB_PASSWORD);
-            System.out.println("SQL connection succeed");
- 
-            return conn;
+            conn = DriverManager.getConnection(Constants.DB_URL,Constants.DB_USER,Constants.DB_PASSWORD);
+            serverUIController.writeToConsole("SQL connection succeed");
      	} 
         catch (SQLException ex) 
      	{/* handle any errors*/
@@ -41,7 +66,6 @@ public class DBConnect
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         } 
-        return null;
    	}
 	public static Map<String,String> parsingTheData(ArrayList<String> data)
 	{
@@ -53,12 +77,12 @@ public class DBConnect
 		return dataparsing;
  
 	}
-	public static void saveUserToDB(Connection con, ArrayList<String> data)
+	public static void saveUserToDB(Connection conn, ArrayList<String> data)
 	{	
 		Map<String,String> dataparsing = parsingTheData(data);
 		System.out.println(dataparsing);
 		try {
-			PreparedStatement stmt = con.prepareStatement("SELECT ID FROM userdata WHERE ID = ?");
+			PreparedStatement stmt = conn.prepareStatement("SELECT ID FROM userdata WHERE ID = ?");
 			stmt.setString(1,dataparsing.get("ID"));
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next() == false)
@@ -69,7 +93,7 @@ public class DBConnect
 				String query = new String();
  
 				queryBuilder.append("INSERT INTO ");
-				queryBuilder.append(Constants.DB_Name);
+				//queryBuilder.append(DB_NAME);
 				queryBuilder.append("(");
 				for (String name : dataparsing.keySet()) 
 					queryBuilder.append(name + ",");
@@ -84,7 +108,7 @@ public class DBConnect
 				queryBuilder.deleteCharAt(queryBuilder.length() - 1);// Deleting the last ',' which is not needed.
 				queryBuilder.append(")");
  
-				PreparedStatement insertstat = con.prepareStatement(queryBuilder.toString());
+				PreparedStatement insertstat = conn.prepareStatement(queryBuilder.toString());
  
 				for (String name : dataparsing.values()) 
 				{
@@ -106,47 +130,55 @@ public class DBConnect
 		//INSERT INTO table_name (column1, column2, column3, ...)
 		//VALUES (value1, value2, value3, ...); 
 	}
-//	public static void printCourses(Connection con)
-//	{
-//	    Scanner scannerInput = new Scanner(System.in);  // Create a Scanner object
-//		Statement stmt;
-//		try 
-//		{
-//			stmt = con.createStatement();
-//			System.out.println("Enter Updated arrivel time for Flight KU101:");
-//			String date = scannerInput.nextLine();
-//			stmt.executeUpdate(("UPDATE Flights SET flight_status = \"" + date + "\" WHERE flight=\"KU101\";"));
-//			System.out.println("Updated time");
-// 
-//			stmt = con.createStatement();
-//			ResultSet rs = stmt.executeQuery("SELECT flight,flight_status,scheduled FROM flights WHERE arriving_from = \"PARIS\";");
-//			while(rs.next())
-//	 		{
-//				String[] time = (rs.getString(3).split(":"));
-//				if(Integer.parseInt(time[0]) >= 15)
-//					continue;
-//				 String delayed = new String("DELAYED 15:00");
-//				 Statement stmt1 = con.createStatement();
-//				 stmt1.executeUpdate(("UPDATE Flights SET flight_status = \"" + delayed + "\" WHERE flight=\""+ rs.getString(1) +"\";"));
-//				 System.out.println(rs.getString(3) + " " + rs.getString(1)+"  " +rs.getString(2)+ " Changed into ->" + rs.getString(1) + " " + delayed);
-//			} 
-//			rs.close();
-//			System.out.println("Updated Delay time to be 15:00");
-// 
-//		} catch (SQLException e) {
-//			e.printStackTrace();	
-//		}
-//	}
- 
- 
-	public static void createTableCourses(Connection con1){
+	public HashMap<String,String> searchUserInDB(Connection conn,String id) {
 		Statement stmt;
+		HashMap<String,String> subscriber = new HashMap<>();
 		try {
-			stmt = con1.createStatement();
-			stmt.executeUpdate("create table courses(num int, name VARCHAR(40), semestr VARCHAR(10));");
-			stmt.executeUpdate("load data local infile \"courses.txt\" into table courses");
- 
-		} catch (SQLException e) {	e.printStackTrace();}
- 
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM subscriber WHERE id='%s';",id));
+			
+			while (rs.next()) {
+				// Print out the values
+				subscriber.putIfAbsent("firstName", rs.getString(1));
+				subscriber.putIfAbsent("lastName", rs.getString(2));
+				subscriber.putIfAbsent("id", rs.getString(3));
+				subscriber.putIfAbsent("phoneNumber", rs.getString(4));
+				subscriber.putIfAbsent("emailAddress", rs.getString(5));
+				subscriber.putIfAbsent("creditCardNumber", rs.getString(6));
+				subscriber.putIfAbsent("subscriberNumber", rs.getString(7));
+				
+				System.out.println(
+						rs.getString(1) + "  " + rs.getString(2) + "  " + rs.getString(3) + "  " + rs.getString(4)+"  "
+						+ rs.getString(5) + "  " + rs.getString(6) + "  " + rs.getString(7));
+			}
+			rs.close();
+			// stmt.executeUpdate("UPDATE course SET semestr=\"W08\" WHERE num=61309");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return subscriber;
 	}
+
+	public static void updateArrivalTime(Connection con) {
+		Statement stmt;
+
+		try {
+			stmt = con.createStatement();
+			stmt.executeUpdate("UPDATE flights SET status= 'Expected 15:00' WHERE flight='KU101'");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+ 
+//	public static void createTableCourses(Connection con1){
+//		Statement stmt;
+//		try {
+//			stmt = con1.createStatement();
+//			stmt.executeUpdate("create table courses(num int, name VARCHAR(40), semestr VARCHAR(10));");
+//			stmt.executeUpdate("load data local infile \"courses.txt\" into table courses");
+// 
+//		} catch (SQLException e) {	e.printStackTrace();}
+// 
+//	}
 }

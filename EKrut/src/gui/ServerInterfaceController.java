@@ -1,44 +1,124 @@
 package gui;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import Server.ServerUI;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
-import server.ServerUI;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 
-
-public class ServerInterfaceController {
+public class ServerInterfaceController implements Initializable {
 	private static String GUI_DIR = "/gui/";
 	@FXML
 	private Button connectButton;
-	
+
+	@FXML
+    private TableView<?> connectedClientsTable;
+	@FXML
+	private Button CloseButton;
+
 	@FXML
 	private Button dissconnectButton;
-	
-	public void ConnectToDB() {
-		
+
+	@FXML
+	private TextArea textConsole;
+
+	@FXML
+	private TextField textboxDBName;
+	@FXML
+	private TextField textboxDBUserName;
+	@FXML
+	private PasswordField textPasswordF;
+	@FXML
+	private ImageView ConnectLogo;
+
+	public TextField getTextboxDBName() {
+		return textboxDBName;
 	}
-	
-	public void DissconnectFromDB() {
-		
+
+	public void setTextboxDBName(TextField textboxDBName) {
+		this.textboxDBName = textboxDBName;
 	}
-	
-	public void start(Stage primaryStage) throws IOException 
-	{
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerInterface.fxml"));
-		
-		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource(GUI_DIR + "/css/ServerPort.css").toExternalForm());
-		primaryStage.setTitle("Server UI");
-		primaryStage.setScene(scene);
-		
-		primaryStage.show();	
+
+	public TextField getTextboxDBUserName() {
+		return textboxDBUserName;
 	}
-	 
-	public void writeToConsole() {}
-	
+
+	public void setTextboxDBUserName(TextField textboxDBUserName) {
+		this.textboxDBUserName = textboxDBUserName;
+	}
+
+	public PasswordField getTextPasswordF() {
+		return textPasswordF;
+	}
+
+	public void setTextPasswordF(PasswordField textPasswordF) {
+		this.textPasswordF = textPasswordF;
+	}
+
+	public ServerInterfaceController() {
+	}
+
+	@FXML
+	public void ConnectToDB(ActionEvent event) {
+		System.out.println("Controller " + this);
+		ServerUI.runServer("5555");
+
+	}
+//    public void initialize() {
+////    	textConsole.setText("");
+////    	dissconnectButton.setDisable(true);
+//    }
+
+	@FXML
+	public void disconnectFromDB() {
+		ServerUI.StopServer("5555");
+	}
+
+	@FXML
+	void closeWindow(ActionEvent event) {
+		System.exit(0);
+	}
+
+	public ImageView getConnectLogo() {
+		return ConnectLogo;
+	}
+
+	public void setConnectLogo(ImageView connectLogo) {
+		ConnectLogo = connectLogo;
+	}
+
+	public Button getConnectButton() {
+		return connectButton;
+	}
+
+	public void setConnectButton(Button connectButton) {
+		this.connectButton = connectButton;
+	}
+
+	public Button getDissconnectButton() {
+		return dissconnectButton;
+	}
+
+	public void setdisconnectButton(Button dissconnectButton) {
+		this.dissconnectButton = dissconnectButton;
+	}
+
+	public void writeToConsole(String message) {
+		this.textConsole.appendText(message + "\n");
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		dissconnectButton.setDisable(true);
+
+	}
+
 }
