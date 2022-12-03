@@ -10,12 +10,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ServerUI extends Application 
 {
 	final public static int DEFAULT_PORT = 5555;	
 	public static ServerInterfaceController serverC;
-	private static ServerSide sv;
+	private static EchoServer sv;
 	public static void main( String args[] ) throws Exception
 	{   
 		 launch(args);
@@ -28,9 +29,16 @@ public class ServerUI extends Application
         Parent root = loader.load();
         serverC = (ServerInterfaceController) loader.getController();
         Scene scene = new Scene(root);
+        setAppIcon(primaryStage);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(scene);
         primaryStage.show();
 
+	}
+
+	private void setAppIcon(Stage primaryStage) {
+		primaryStage.setTitle("EKrut System");
+        primaryStage.getIcons().add(new Image("\\gui\\pictures\\LogoEKRUT.png"));
 	}
 	public static void StopServer(String p)
 	{
@@ -42,7 +50,6 @@ public class ServerUI extends Application
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			sv.stopListening();
 		}
 	}
 	public static void runServer(String p)
@@ -59,7 +66,7 @@ public class ServerUI extends Application
 	        	System.out.println("ERROR - Could not connect!");
 	        }
 	    	
-		        sv = new ServerSide(port, serverC);		    
+		        sv = new EchoServer(port, serverC);		    
 		        //DBConnect mySql = new DBConnect(aFrame);
 	        try 
 	        {

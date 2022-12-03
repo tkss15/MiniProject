@@ -10,12 +10,13 @@ import javafx.scene.layout.AnchorPane;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
-public class ServerSide extends AbstractServer
+public class EchoServer extends AbstractServer
 {
 	final public static int DEFAULT_PORT = 5555;
+	
 	ServerInterfaceController ServerController;
 	DBConnect mySqlConnection;
-	public ServerSide(int port, ServerInterfaceController ServerController) 
+	public EchoServer(int port, ServerInterfaceController ServerController) 
 	{
 		super(port);
 		this.ServerController = ServerController;
@@ -24,17 +25,28 @@ public class ServerSide extends AbstractServer
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) 
 	{
-		// TODO Auto-generated method stub
+		if(!(msg instanceof String)) {
+			throw new IllegalArgumentException("msg was not ID", null);
+		}
+		System.out.println("Message received: " + msg + " from " + client);
+		try {
+			client.sendToClient(mySqlConnection.searchUserInDB(mySqlConnection.getConn(),msg.toString()));
+			System.out.println("Subscriber sent back from server to client");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	protected void serverStarted()
 	{
 		ServerController.writeToConsole("Server Started at Port 5555");
-		mySqlConnection = new DBConnect(ServerController, ServerController.getTextboxDBUserName().getText(), ServerController.getTextPasswordF().getText(), ServerController.getTextboxDBName().getText());
+		mySqlConnection = new DBConnect(ServerController);
 		mySqlConnection.connectToDB();
 		ServerController.getConnectLogo().setVisible(false);
 		ServerController.getConnectButton().setDisable(true);
 		ServerController.getDissconnectButton().setDisable(false);
+		
 		//SendMessageToConsoleUI();
 	}
 	

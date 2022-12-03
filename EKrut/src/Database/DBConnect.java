@@ -5,9 +5,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import gui.ServerInterfaceController;
  
@@ -15,21 +17,20 @@ public class DBConnect
 {
 	ServerInterfaceController serverUIController;
 	Connection conn;
+	public Connection getConn() {
+		return conn;
+	}
 	//jdbc:mysql://127.0.0.1:3306/?user=root
-	private String DB_USER,DB_PASSWORD,DB_NAME;
 	class Constants {
-		public static final String DB_SCHEMA = "ekrutdatabase";
+		public static final String DB_SCHEMA = "db ekrut";
 		public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/"+ DB_SCHEMA + "?serverTimezone=IST";
-		//public static final String DB_USER = "root";
-		//public static final String DB_PASSWORD = "nset1234!@#$";
-		//public static final String DB_Name = "subscriber";
+		public static final String DB_USER = "root";
+		public static final String DB_PASSWORD = "Huq106jgf68!";
+		public static final String DB_Name = "subscriber";
 	}
 	
-	public DBConnect(ServerInterfaceController serverUIController,String DB_USER, String DB_PASSWORD, String DB_NAME)
+	public DBConnect(ServerInterfaceController serverUIController)
 	{
-		this.DB_USER = DB_USER;
-		this.DB_PASSWORD = DB_PASSWORD;
-		this.DB_NAME = DB_NAME;
 		this.serverUIController = serverUIController;
 	}
 	public void disconnectFromDB()
@@ -56,7 +57,7 @@ public class DBConnect
         }
         try 
         {
-            conn = DriverManager.getConnection(Constants.DB_URL,DB_USER,DB_PASSWORD);
+            conn = DriverManager.getConnection(Constants.DB_URL,Constants.DB_USER,Constants.DB_PASSWORD);
             serverUIController.writeToConsole("SQL connection succeed");
      	} 
         catch (SQLException ex) 
@@ -76,12 +77,12 @@ public class DBConnect
 		return dataparsing;
  
 	}
-	public static void saveUserToDB(Connection con, ArrayList<String> data)
+	public static void saveUserToDB(Connection conn, ArrayList<String> data)
 	{	
 		Map<String,String> dataparsing = parsingTheData(data);
 		System.out.println(dataparsing);
 		try {
-			PreparedStatement stmt = con.prepareStatement("SELECT ID FROM userdata WHERE ID = ?");
+			PreparedStatement stmt = conn.prepareStatement("SELECT ID FROM userdata WHERE ID = ?");
 			stmt.setString(1,dataparsing.get("ID"));
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next() == false)
@@ -107,7 +108,7 @@ public class DBConnect
 				queryBuilder.deleteCharAt(queryBuilder.length() - 1);// Deleting the last ',' which is not needed.
 				queryBuilder.append(")");
  
-				PreparedStatement insertstat = con.prepareStatement(queryBuilder.toString());
+				PreparedStatement insertstat = conn.prepareStatement(queryBuilder.toString());
  
 				for (String name : dataparsing.values()) 
 				{
@@ -128,6 +129,45 @@ public class DBConnect
 		}
 		//INSERT INTO table_name (column1, column2, column3, ...)
 		//VALUES (value1, value2, value3, ...); 
+	}
+	public HashMap<String,String> searchUserInDB(Connection conn,String id) {
+		Statement stmt;
+		HashMap<String,String> subscriber = new HashMap<>();
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM subscriber WHERE id='%s';",id));
+			
+			while (rs.next()) {
+				// Print out the values
+				subscriber.putIfAbsent("firstName", rs.getString(1));
+				subscriber.putIfAbsent("lastName", rs.getString(2));
+				subscriber.putIfAbsent("id", rs.getString(3));
+				subscriber.putIfAbsent("phoneNumber", rs.getString(4));
+				subscriber.putIfAbsent("emailAddress", rs.getString(5));
+				subscriber.putIfAbsent("creditCardNumber", rs.getString(6));
+				subscriber.putIfAbsent("subscriberNumber", rs.getString(7));
+				
+				System.out.println(
+						rs.getString(1) + "  " + rs.getString(2) + "  " + rs.getString(3) + "  " + rs.getString(4)+"  "
+						+ rs.getString(5) + "  " + rs.getString(6) + "  " + rs.getString(7));
+			}
+			rs.close();
+			// stmt.executeUpdate("UPDATE course SET semestr=\"W08\" WHERE num=61309");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return subscriber;
+	}
+
+	public static void updateArrivalTime(Connection con) {
+		Statement stmt;
+
+		try {
+			stmt = con.createStatement();
+			stmt.executeUpdate("UPDATE flights SET status= 'Expected 15:00' WHERE flight='KU101'");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
  
