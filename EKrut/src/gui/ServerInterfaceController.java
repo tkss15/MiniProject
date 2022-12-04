@@ -79,6 +79,7 @@ public class ServerInterfaceController implements Initializable {
 	}
 
 	public ServerInterfaceController() {
+		
 	}
 
 	@FXML
@@ -146,7 +147,7 @@ public class ServerInterfaceController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		dissconnectButton.setDisable(true);
 		missingTxt.setVisible(false);
-
+		textConsole.setEditable(false);
 	}
 
 }

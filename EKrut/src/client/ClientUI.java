@@ -22,12 +22,14 @@ public class ClientUI extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		clientController = new ClientController("localhost",5555);
-		
 		clientInterfaceController = new ClientInterfaceController();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ClientInterface.fxml"));
         Parent root = loader.load();
         clientInterfaceController = (ClientInterfaceController) loader.getController();
+
+		
+
+		clientController = new ClientController("localhost",5555,clientInterfaceController);
         Scene scene = new Scene(root);
         scene.setOnMousePressed(event -> {
             offset_x = event.getSceneX();

@@ -32,7 +32,7 @@ public class EchoServer extends AbstractServer
 		System.out.println("Message received: " + msg + " from " + client);
 		try {
 			client.sendToClient(mySqlConnection.searchUserInDB(mySqlConnection.getConn(),msg.toString()));
-			System.out.println("Subscriber sent back from server to client");
+			ServerController.writeToConsole("Subscriber sent back from server to client");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
