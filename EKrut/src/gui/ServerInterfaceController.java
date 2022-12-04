@@ -44,15 +44,24 @@ public class ServerInterfaceController implements Initializable {
 	private TextField textboxPort;
 	
 	@FXML
+	private Button refreshButton;
+	
+	@FXML
 	private TextField textboxDBUserName;
 	@FXML
 	private PasswordField textPasswordF;
 	@FXML
 	private ImageView ConnectLogo;
 
+	public void refreshClients(ActionEvent event) {
+		
+		
+	}
+	
 	public TextField getTextboxDBName() {
 		return textboxDBName;
 	}
+
 
 	public void setTextboxDBName(TextField textboxDBName) {
 		this.textboxDBName = textboxDBName;
@@ -96,14 +105,7 @@ public class ServerInterfaceController implements Initializable {
 			ServerUI.runServer(portTxt);
 			missingTxt.setVisible(false);
 		}
-		
-		
-
 	}
-//    public void initialize() {
-////    	textConsole.setText("");
-////    	dissconnectButton.setDisable(true);
-//    }
 
 	@FXML
 	public void disconnectFromDB() {

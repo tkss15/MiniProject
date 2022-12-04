@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import gui.ServerInterfaceController;
  
@@ -39,7 +39,7 @@ public class DBConnect
 		{
 			if(conn != null)
 				conn.close();
-			serverUIController.writeToConsole("DB disconnection succeed");
+			serverUIController.writeToConsole("DB disconnection succeeded");
 		} 
 		catch (SQLException e) 
 		{
@@ -51,14 +51,14 @@ public class DBConnect
 		try 
 		{
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            serverUIController.writeToConsole("Driver definition succeed");
+            serverUIController.writeToConsole("Driver definition succeeded");
         } catch (Exception ex) {
             serverUIController.writeToConsole("Driver definition failed");
         }
         try 
         {
             conn = DriverManager.getConnection(Constants.DB_URL,Constants.DB_USER,Constants.DB_PASSWORD);
-            serverUIController.writeToConsole("SQL connection succeed");
+            serverUIController.writeToConsole("SQL connection succeeded");
      	} 
         catch (SQLException ex) 
      	{/* handle any errors*/
@@ -87,7 +87,6 @@ public class DBConnect
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next() == false)
 			{
-				//PreparedStatement insertstat = con.prepareStatement();
 				int i = 1;
 				StringBuilder queryBuilder = new StringBuilder();
 				String query = new String();
@@ -115,11 +114,7 @@ public class DBConnect
 					insertstat.setString(i, name);
 					i++;
 				}
-//				insertstat.setString(1, dataparsing.get("UserName"));
-//				insertstat.setString(2, dataparsing.get("ID"));
-//				insertstat.setString(3, dataparsing.get("Department"));
-//				insertstat.setString(4, dataparsing.get("Telphone"));
- 
+
 				insertstat.executeUpdate();
 			}
 			rs.close();
@@ -127,25 +122,23 @@ public class DBConnect
 		} catch (SQLException e) {
 			e.printStackTrace();	
 		}
-		//INSERT INTO table_name (column1, column2, column3, ...)
-		//VALUES (value1, value2, value3, ...); 
 	}
 	public HashMap<String,String> searchUserInDB(Connection conn,String id) {
 		Statement stmt;
-		HashMap<String,String> subscriber = new HashMap<>();
+		HashMap<String,String> subscriber = new LinkedHashMap<>();
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM subscriber WHERE id='%s';",id));
 			
 			while (rs.next()) {
 				// Print out the values
-				subscriber.putIfAbsent("firstName", rs.getString(1));
-				subscriber.putIfAbsent("lastName", rs.getString(2));
-				subscriber.putIfAbsent("id", rs.getString(3));
-				subscriber.putIfAbsent("phoneNumber", rs.getString(4));
-				subscriber.putIfAbsent("emailAddress", rs.getString(5));
-				subscriber.putIfAbsent("creditCardNumber", rs.getString(6));
-				subscriber.putIfAbsent("subscriberNumber", rs.getString(7));
+				subscriber.putIfAbsent("First Name", rs.getString(1));
+				subscriber.putIfAbsent("Last Name", rs.getString(2));
+				subscriber.putIfAbsent("ID", rs.getString(3));
+				subscriber.putIfAbsent("Phone Number", rs.getString(4));
+				subscriber.putIfAbsent("Email Address", rs.getString(5));
+				subscriber.putIfAbsent("Credit Card Number", rs.getString(6));
+				subscriber.putIfAbsent("Subscriber Number", rs.getString(7));
 				
 				System.out.println(
 						rs.getString(1) + "  " + rs.getString(2) + "  " + rs.getString(3) + "  " + rs.getString(4)+"  "
@@ -158,27 +151,4 @@ public class DBConnect
 		}
 		return subscriber;
 	}
-
-	public static void updateArrivalTime(Connection con) {
-		Statement stmt;
-
-		try {
-			stmt = con.createStatement();
-			stmt.executeUpdate("UPDATE flights SET status= 'Expected 15:00' WHERE flight='KU101'");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
- 
-//	public static void createTableCourses(Connection con1){
-//		Statement stmt;
-//		try {
-//			stmt = con1.createStatement();
-//			stmt.executeUpdate("create table courses(num int, name VARCHAR(40), semestr VARCHAR(10));");
-//			stmt.executeUpdate("load data local infile \"courses.txt\" into table courses");
-// 
-//		} catch (SQLException e) {	e.printStackTrace();}
-// 
-//	}
 }

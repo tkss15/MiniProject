@@ -85,8 +85,8 @@
             <DropShadow height="10.0" radius="4.5" width="10.0" />
          </effect>
       </Label>
-      <TextArea fx:id="textConsole" layoutX="447.0" layoutY="243.0" prefHeight="148.0" prefWidth="294.0" AnchorPane.leftAnchor="447.0" />
-      <Label layoutX="470.0" layoutY="429.0" prefHeight="61.0" prefWidth="314.0" text="Connected Clients" textFill="WHITE">
+      <TextArea fx:id="textConsole" layoutX="432.0" layoutY="243.0" prefHeight="148.0" prefWidth="294.0" AnchorPane.leftAnchor="435.0" />
+      <Label layoutX="454.0" layoutY="399.0" prefHeight="61.0" prefWidth="314.0" text="Connected Clients" textFill="WHITE">
          <font>
             <Font name="Cambria Bold" size="30.0" />
          </font>
@@ -94,7 +94,7 @@
             <DropShadow height="10.0" radius="4.5" width="10.0" />
          </effect>
       </Label>
-      <TableView editable="true" fixedCellSize="3.0" layoutX="446.0" layoutY="485.0" opacity="0.87" prefHeight="148.0" prefWidth="294.0" AnchorPane.leftAnchor="446.0">
+      <TableView editable="true" fixedCellSize="3.0" layoutX="435.0" layoutY="448.0" opacity="0.87" prefHeight="148.0" prefWidth="294.0" AnchorPane.leftAnchor="435.0" AnchorPane.rightAnchor="64.0">
         <columns>
           <TableColumn prefWidth="75.0" text="Status" />
           <TableColumn prefWidth="174.0" text="Host" />
@@ -136,6 +136,11 @@
             <Font name="Arial Black" size="13.0" />
          </font>
       </Text>
+      <Button fx:id="refreshButton" layoutX="524.0" layoutY="599.0" mnemonicParsing="false" onAction="#refreshClients" prefHeight="34.0" prefWidth="121.0" style="-fx-background-color: White;" text="Refresh" textFill="#fdb925" AnchorPane.leftAnchor="524.0" AnchorPane.rightAnchor="148.0">
+         <font>
+            <Font name="Cambria Bold" size="20.0" />
+         </font>
+      </Button>
    </children>
    <cursor>
       <Cursor fx:constant="DEFAULT" />
