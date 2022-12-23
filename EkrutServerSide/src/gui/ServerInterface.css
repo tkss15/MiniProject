@@ -1,0 +1,39 @@
+.text-field {
+    -fx-text-box-border: transparent;
+    -fx-border-color: #FDB926;
+    -fx-border-radius: 40;
+}
+
+.text-field:focused {
+    -fx-background-color: transparent, white, transparent, white;
+    -fx-highlight-fill: #FDB926;
+}
+
+#LoginButton:hover {
+    -fx-background-color: #f06236;
+    -webkit-transition: background-color 1s linear;
+}
+
+.button {
+    -fx-background-color: #FDB926;
+    -fx-border-radius: 40;
+    -fx-cursor: hand;
+}
+
+#vboxlogo {
+    -fx-border-style: hidden solid hidden hidden;
+    -fx-border-width: 1;
+    -fx-border-color: #838888;
+}
+
+#exitbutton {
+    -fx-background-color: transparent;
+    -fx-text-box-border: transparent;
+}
+
+#LoginApp {
+    -fx-background-color: transparent;
+    -fx-border-color: #FDB926;
+    -fx-border-raduis: 40;
+    -fx-text-box-border: transparent;
+}
