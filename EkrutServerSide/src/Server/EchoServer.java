@@ -2,6 +2,11 @@ package Server;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +16,10 @@ import ServerHandlers.UpdateUserHandler;
 import common.ChatIF;
 import common.ClientConnection;
 import common.MessageHandler;
+import common.RequestObjectClient;
+import common.ResponseObject;
 import database.DBConnect;
+import database.RequestObject;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -118,6 +126,37 @@ public class EchoServer extends AbstractServer
 			else 
 			{
 				serverUI.display(String.format(">Server Message: Error command{%s} is not existing", type));
+			}
+		}
+		if(msg instanceof RequestObjectClient)
+		{
+			System.out.println("Here");
+			RequestObjectClient clientRequest = (RequestObjectClient) msg;
+			RequestObject ServerRequest = new RequestObject(clientRequest.getURL(), clientRequest.getSQLOpreation());
+			ServerRequest.CreateOpreation();
+			System.out.println(ServerRequest.CreateSqlStatement());
+			System.out.println(ServerRequest.getTable());
+			ResponseObject res = new ResponseObject(ServerRequest.getTable());
+			try {
+				
+				PreparedStatement stmt = (mySqlConnection.getConn()).prepareStatement(ServerRequest.CreateSqlStatement());
+				ResultSet rs = stmt.executeQuery();
+				ResultSetMetaData rsdm = rs.getMetaData();
+				int columnCount = rsdm.getColumnCount();
+				while(rs.next())
+				{
+					Object[] values = new Object[columnCount];
+					for(int j = 1; j <= columnCount; j++)
+					{
+						values[j-1] = rs.getObject(j);
+					}
+					res.addObject(values);
+				}
+				System.out.println(res.Responsedata.size());
+				client.sendToClient(res);
+			} catch (SQLException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

@@ -3,13 +3,17 @@ package client;
 import java.io.IOException;
 import java.util.HashMap;
 
+import Entity.User;
 import common.ChatIF;
+import common.SceneManager;
 import gui.ClientInterfaceController;
 
 public class ClientConsole implements ChatIF 
 {
 	public static int DEFAULT_PORT = 5555;
 	ChatClient client;
+	private User clientUser = new User(null,null);
+	SceneManager sceneManager = new SceneManager();
 	/***
 	 * ClientConsole is the Second layer of client. client console works with the ClientInterfaceController and with ChatClient.
 	 * @param host - saves the ip-address string adress that allows client to connect to sever.
@@ -27,6 +31,10 @@ public class ClientConsole implements ChatIF
 			System.out.println("Error: Can't setup connection!Terminating client.");
 			System.exit(1);
 		}
+	}
+	public User getUser()
+	{
+		return clientUser;
 	}
 	/***
 	 * @param msg
@@ -48,31 +56,11 @@ public class ClientConsole implements ChatIF
 	@Override
 	public void display(Object message) 
 	{
-//		if (message instanceof HashMap) 
-//		{
-//			clientInterface.setPanesAfterSearch(true);
-//			clientInterface.writeToClientTextArea(message);
-//		} 
-//		else 
-//		{
-//			String msg = (String) message;
-//			if (msg.startsWith("#ErrorSub")) {
-//				String[] messageToClient = msg.split("#ErrorSub");
-//				clientInterface.UpdateMessage(messageToClient[1], false);
-//			} else if (msg.startsWith("#SucssSub")) {
-//				String[] messageToClient = msg.split("#SucssSub");
-//				clientInterface.UpdateMessage(messageToClient[1], true);
-//			}
-//			if (message.equals("#errornoid")) {
-//				clientInterface.setPanesAfterSearch(false);
-//				clientInterface.getMissingIDField().setVisible(false);
-//				clientInterface.getIDNotFoundMSG().setVisible(true);
-//			} 
-//			else 
-//			{
-//				clientInterface.writeToClientTextArea((String) message);
-//			}
-//		}
+		if(message instanceof User)
+		{
+			System.out.println("back");
+			clientUser = (User)message;
+		}
 	}
 
 	@Override

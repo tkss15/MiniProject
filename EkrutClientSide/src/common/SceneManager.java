@@ -1,6 +1,8 @@
 package common;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import javafx.event.ActionEvent;
@@ -16,33 +18,42 @@ public class SceneManager
 	private double offset_x;
 	private double offset_y;
 	private FXMLLoader loader;
-	private Stack<String> BackList = new Stack<String>();
-	
-	public void ShowScene(String urlResources) throws IOException
+	private Map<String,Scene> BackList = new HashMap<>();
+	public void ShowScene(String urlResources)
 	{	
-		BackList.push(urlResources);
+		Scene scene;
         loader = new FXMLLoader(getClass().getResource(urlResources));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-		Stage stage = new Stage();
-		SceneMovable(scene, stage);
-		
-		stage.initStyle(StageStyle.UNDECORATED);
-		stage.setScene(scene);
-		stage.show();
-	}
-	
-	public void SceneBack(ActionEvent event)
-	{
-		if(BackList.isEmpty())
-			return;
-		((Node) event.getSource()).getScene().getWindow().hide();
+        Parent root;
 		try {
-			ShowScene(BackList.pop());
+			root = loader.load();
+			Stage stage = new Stage();
+	        scene = new Scene(root);
+	        if(BackList.containsKey(urlResources))
+	        {
+	        	scene = BackList.get(urlResources);
+	        }
+			SceneMovable(scene, stage);
+			
+			BackList.put(urlResources, scene);
+			stage.initStyle(StageStyle.UNDECORATED);
+			stage.setScene(scene);
+			stage.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	/***
+	 * 
+	 * @param event
+	 * @param urlResources
+	 */
+	public void SceneBack(ActionEvent event, String urlResources )
+	{
+		if(BackList.isEmpty())
+			return;
+		((Node) event.getSource()).getScene().getWindow().hide();
+		ShowScene(urlResources);
 	}
 	public FXMLLoader getLoader()
 	{

@@ -1,5 +1,6 @@
 package database;
 
+import com.mysql.cj.jdbc.Driver;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -46,7 +47,7 @@ public class DBConnect
 	{
 		try 
 		{
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.cj.jdbc.Drive").newInstance();
             serverUI.display("Driver definition succeeded");
         } catch (Exception ex) {
         	serverUI.display("Driver definition failed");
@@ -63,36 +64,19 @@ public class DBConnect
         	serverUI.display("VendorError: " + ex.getErrorCode());
         } 
    	}
-	public void makeQuery(String request, String table, String Where, String Set)
+	public void makeQuery(String query)
 	{
-		
-		String query = "SELECT subscribernumber FROM subscriber WHERE subscribernumber = ?";
-		String operationQuery;
-		/*
-		 * /test/!name=3&c=2?name1=value1&name2=value2
-		 * URL = users/delete/where?customerID=1
-		 * Update - put - UPDATE Customers SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE CustomerID = 1;
-		 * Delete - delete - DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
-		 * Insert - post - INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country) VALUES ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway');
-		 * SELECT - get - SELECT * FROM Customers WHERE Country='Mexico';
-		 * */
-		
-		switch(request)
-		{
-			case "Put":
-				operationQuery = "UPDATE";
-				break;
-			case "Delete":
-				operationQuery = "DELETE";
-				break;
-			case "Post":
-				operationQuery = "Insert";
-				break;
-			case "Get":
-				operationQuery = "SELECT";
-				break;
-		}
-		
+		System.out.println("D");
+//		PreparedStatement stmt = conn.prepareStatement(query);
+//		ResultSet rs = stmt.executeQuery();
+//		if(rs.next())
+//			return false;
+//		rs.close();
+//		PreparedStatement UpdateStatement = conn.prepareStatement("UPDATE subscriber SET creditcardnumber=?,subscribernumber=? WHERE (ID = ?);");
+//		UpdateStatement.setString(1, data.get("Credit Card Number"));
+//		UpdateStatement.setString(2, data.get("Subscriber Number"));
+//		UpdateStatement.setString(3, data.get("ID"));
+//		UpdateStatement.executeUpdate();
 	}
 	public Boolean updateUserToDB(Connection conn, HashMap<String,String> data)
 	{

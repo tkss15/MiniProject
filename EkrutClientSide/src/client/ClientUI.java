@@ -1,6 +1,6 @@
 package client;
 
-import gui.ClientInterfaceController;
+import common.SceneManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +15,7 @@ public class ClientUI extends Application
 	public static ClientConsole clientController;
 	private double offset_x;
 	private double offset_y;
+	public static SceneManager sceneManager = new SceneManager();
 	
 	public static void main(String[] args) 
 	{
@@ -24,7 +25,7 @@ public class ClientUI extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
-		ShowScence(primaryStage, "/gui/LogInServer.fxml");		
+		ShowScence(primaryStage, "../views/LogInServer.fxml");		
 	}
 	
 	public static void ConnectToServer(String p)

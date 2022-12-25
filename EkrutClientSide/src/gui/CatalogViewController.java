@@ -5,6 +5,9 @@ import java.util.ResourceBundle;
 
 import Entity.Order;
 import Entity.Product;
+import client.ClientUI;
+import common.RequestObjectClient;
+import common.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,10 +31,6 @@ import javafx.scene.text.Text;
 
 public class CatalogViewController implements Initializable 
 {
-	// User 1 מה שאת מכניסה לו פרטים
-	// User 2 אם היה DATA BASE
-
-//public class CatalogViewController {
 	private final String TrashcanImage = "trashcan.png";
 	private final String PlusImage = "Plus.png";
 	private final String MinusImage = "Minus.png";
@@ -47,15 +46,24 @@ public class CatalogViewController implements Initializable
     private HBox RowItems;
     @FXML
     private Button GetOrder;
+    
+    @FXML
+    private Button BtnBack;
 
+    @FXML 
+    void ShowPrevPage(ActionEvent event)
+    {
+    	ClientUI.sceneManager.SceneBack(event, "/gui/Homepage.fxml");
+    }
     @FXML
     void closeWindow(ActionEvent event) {
     	System.exit(0);
     }
     
     @FXML
-    void printElements(ActionEvent event) {
-    	//System.out.println(myShoppingCart.myCart.toString());
+    void printElements(ActionEvent event) 
+    {
+    	System.out.println("d");
     }
     
 	@Override
