@@ -132,17 +132,22 @@ public class EchoServer extends AbstractServer
 		{
 			System.out.println("Here");
 			RequestObjectClient clientRequest = (RequestObjectClient) msg;
+			
 			RequestObject ServerRequest = new RequestObject(clientRequest.getURL(), clientRequest.getSQLOpreation());
 			ServerRequest.CreateOpreation();
+			
 			System.out.println(ServerRequest.CreateSqlStatement());
 			System.out.println(ServerRequest.getTable());
+			
 			ResponseObject res = new ResponseObject(ServerRequest.getTable());
 			try {
 				
 				PreparedStatement stmt = (mySqlConnection.getConn()).prepareStatement(ServerRequest.CreateSqlStatement());
 				ResultSet rs = stmt.executeQuery();
+				
 				ResultSetMetaData rsdm = rs.getMetaData();
 				int columnCount = rsdm.getColumnCount();
+				
 				while(rs.next())
 				{
 					Object[] values = new Object[columnCount];
