@@ -3,6 +3,7 @@ package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import common.IController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 
-public class OrderSettingsController implements Initializable {
+public class OrderSettingsController implements Initializable, IController {
 
 	@FXML
 	private ComboBox<?> ComboboxFacility;
@@ -50,6 +51,12 @@ public class OrderSettingsController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updatedata(Object data) {
+		// TODO Auto-generated method stub
+		System.out.println("OrderSettingsController");
 	}
 
 }

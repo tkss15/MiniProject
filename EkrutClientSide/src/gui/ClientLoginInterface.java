@@ -1,6 +1,7 @@
 package gui;
 
 import client.ClientUI;
+import common.IController;
 import common.RequestObjectClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
-public class ClientLoginInterface {
+public class ClientLoginInterface implements IController {
 	private RequestObjectClient request;
 	@FXML
 	private Button UpdateButton;
@@ -33,10 +34,10 @@ public class ClientLoginInterface {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		ClientUI.ConnectToServer(ipaddress);
 		
-		request = new RequestObjectClient("table=users#condition=userName=tkss15&userPassword=123456","GET");    	
-		ClientUI.clientController.accept(request);
+//		request = new RequestObjectClient("USER_RETURN_DATA","table=users#condition=userName=tkss15","GET");    	
+//		ClientUI.clientController.accept(request);
 		
-		ClientUI.sceneManager.ShowScene("../views/Homepage.fxml");
+		ClientUI.sceneManager.ShowScene("../views/LoginClientInterface.fxml");
 		
 	}
 
@@ -44,6 +45,12 @@ public class ClientLoginInterface {
 	@FXML
 	void exitFromLogin(ActionEvent event) {
 		System.exit(0);
+	}
+
+
+	@Override
+	public void updatedata(Object data) {
+		System.out.println("ClientLoginInterface");
 	}
 
 }

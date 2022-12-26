@@ -1,12 +1,11 @@
 package client;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import Entity.User;
 import common.ChatIF;
+import common.IController;
 import common.SceneManager;
-import gui.ClientInterfaceController;
 
 public class ClientConsole implements ChatIF 
 {
@@ -14,6 +13,7 @@ public class ClientConsole implements ChatIF
 	ChatClient client;
 	private User clientUser = new User(null,null);
 	SceneManager sceneManager = new SceneManager();
+	IController currentController;
 	/***
 	 * ClientConsole is the Second layer of client. client console works with the ClientInterfaceController and with ChatClient.
 	 * @param host - saves the ip-address string adress that allows client to connect to sever.
@@ -36,6 +36,14 @@ public class ClientConsole implements ChatIF
 	{
 		return clientUser;
 	}
+	public void setUser(User user)
+	{
+		clientUser = user;
+	}
+	public void setController(IController currentController) {
+		this.currentController = currentController;
+		this.currentController.updatedata(null);
+	}
 	/***
 	 * @param msg
 	 * Function operates as second layer. the function sends object(msg) to the @ChatClient
@@ -56,11 +64,7 @@ public class ClientConsole implements ChatIF
 	@Override
 	public void display(Object message) 
 	{
-		if(message instanceof User)
-		{
-			System.out.println("back");
-			clientUser = (User)message;
-		}
+		currentController.updatedata(message);
 	}
 
 	@Override

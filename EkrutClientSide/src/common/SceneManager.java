@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,6 +20,7 @@ public class SceneManager
 	private double offset_y;
 	private FXMLLoader loader;
 	private Map<String,Scene> BackList = new HashMap<>();
+	
 	public void ShowScene(String urlResources)
 	{	
 		Scene scene;
@@ -26,6 +28,7 @@ public class SceneManager
         Parent root;
 		try {
 			root = loader.load();
+			ClientUI.clientController.setController(loader.getController());
 			Stage stage = new Stage();
 	        scene = new Scene(root);
 	        if(BackList.containsKey(urlResources))
@@ -38,6 +41,7 @@ public class SceneManager
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setScene(scene);
 			stage.show();
+			stage.toFront();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

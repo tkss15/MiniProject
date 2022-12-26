@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import Entity.Order;
 import Entity.Product;
 import client.ClientUI;
+import common.IController;
 import common.RequestObjectClient;
 import common.SceneManager;
 import javafx.event.ActionEvent;
@@ -29,7 +30,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class CatalogViewController implements Initializable 
+public class CatalogViewController implements Initializable, IController
 {
 	private final String TrashcanImage = "trashcan.png";
 	private final String PlusImage = "Plus.png";
@@ -69,6 +70,7 @@ public class CatalogViewController implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
+		//ClientUI.clientController.setController(this);
 		ScrollPane = new ScrollPane();
 
 		ProductUI Cola = new ProductUI(new Product(1,"Coke Cola Zero","350 mill coke zero glass", "cola.png", 7.5));
@@ -344,6 +346,11 @@ public class CatalogViewController implements Initializable
 		ItemPicture.setPreserveRatio(PresarveRatio);
 		
 		return ItemPicture;
+	}
+	@Override
+	public void updatedata(Object data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

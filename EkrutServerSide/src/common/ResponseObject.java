@@ -9,6 +9,7 @@ public class ResponseObject implements Serializable
 	/**
 	 * 
 	 */
+	private String RequestID;
 	public String Table;
 	public ArrayList<Object> Responsedata;
 	private static final long serialVersionUID = -37052886646462340L;
@@ -22,5 +23,9 @@ public class ResponseObject implements Serializable
 	public void addObject(Object data)
 	{
 		Responsedata.add(data);
+	}
+	public void setRequest(String RequestID)
+	{
+		this.RequestID = RequestID;
 	}
 }

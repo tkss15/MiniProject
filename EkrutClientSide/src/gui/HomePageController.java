@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import client.ClientConsole;
 import client.ClientUI;
+import common.IController;
 import common.SceneManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -16,7 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
-public class HomePageController implements Initializable
+public class HomePageController implements Initializable, IController
 {
 
 	@FXML
@@ -63,11 +64,17 @@ public class HomePageController implements Initializable
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		textFirstName.setText(ClientUI.clientController.getUser().getFirstName());
-		textLastName.setText(ClientUI.clientController.getUser().getLastName());
-		textID.setText(ClientUI.clientController.getUser().getID());
-		textTelephone.setText(ClientUI.clientController.getUser().getPhone());
-		textEmail.setText(ClientUI.clientController.getUser().getEmail());
+//		textFirstName.setText(ClientUI.clientController.getUser().getFirstName());
+//		textLastName.setText(ClientUI.clientController.getUser().getLastName());
+//		textID.setText(ClientUI.clientController.getUser().getID());
+//		textTelephone.setText(ClientUI.clientController.getUser().getPhone());
+//		textEmail.setText(ClientUI.clientController.getUser().getEmail());
+	}
+
+	@Override
+	public void updatedata(Object data) {
+		System.out.println("HomePageController");
+		
 	}
 
 }

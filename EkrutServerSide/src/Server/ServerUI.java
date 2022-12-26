@@ -16,7 +16,7 @@ public class ServerUI extends Application
 {
 	final public static int DEFAULT_PORT = 5555;	
 	public static ServerConsole sv;
-	public static ServerInterfaceController serverInterface;
+	private static ServerInterfaceController serverInterface;
 	public static void main( String args[] ) throws Exception
 	{   
 		 launch(args);

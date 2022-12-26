@@ -19,5 +19,4 @@ public interface ChatIF
    * a UI.
    */
   public abstract void display(Object message);
-  public void setButtons(boolean isConnected);
 }

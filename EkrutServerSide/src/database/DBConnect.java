@@ -1,35 +1,41 @@
 package database;
 
-import com.mysql.cj.jdbc.Driver;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import common.ChatIF;
+import common.RequestObjectClient;
+import common.ResponseObject;
  
 public class DBConnect 
 {
 	ChatIF serverUI;
 	Connection conn;
+	private Map<String,String> SQLCondition = new HashMap<>();
+	private Map<String,String> SQLValues = new HashMap<>();
+
 	//jdbc:mysql://127.0.0.1:3306/?user=root
 	class Constants 
 	{
 		public static final String DB_SCHEMA = "ekrutdatabase";
 		public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/"+ DB_SCHEMA + "?serverTimezone=IST";
 	}
+	
 	private ArrayList<String> databaseDetails;
+	
 	public DBConnect(ChatIF serverUI, ArrayList<String> databaseDetails)
 	{
 		this.databaseDetails = databaseDetails;
 		this.serverUI = serverUI;
 	}
+	
 	public void disconnectFromDB()
 	{
 		try 
@@ -43,6 +49,7 @@ public class DBConnect
 			e.printStackTrace();
 		}
 	}
+	
 	public void connectToDB()
 	{
 		try 
@@ -64,74 +71,199 @@ public class DBConnect
         	serverUI.display("VendorError: " + ex.getErrorCode());
         } 
    	}
-	public void makeQuery(String query)
+	/*
+	 * Update - PUT - 
+	 * 		- URL: table=subscriber#condition=id=4#values=creditcardnumber=3&subscribernumber=4
+	 * 		- UPDATE subscriber SET subscribernumber = 4, creditcardnumber = 3 WHERE id = 4;
+	 * Delete - DELETE - 
+	 * 		- table=subscriber#values=id=3
+	 * 		- DELETE FROM subscriber WHERE id=3
+	 * Insert - POST - 
+	 * 		- table=subscriber#values=id=3&username=tkss15&lastname=shneor
+	 * 		- INSERT INTO subscriber (id,username,lastname) VALUES ('3','tkss15','shneor')
+	 * SELECT - GET
+	 * 		- table=users#condition=userName=%s#values=userName=username&userPassword=password
+	 * 		- SELECT userPassword, userName FROM users WHERE userName = "tkss15"
+	 * Gal Changed
+	 * WildCard -
+	 * 
+	 * */
+	public String CreateSqlStatement(RequestObjectClient reqObject)
 	{
-		System.out.println("D");
-//		PreparedStatement stmt = conn.prepareStatement(query);
-//		ResultSet rs = stmt.executeQuery();
-//		if(rs.next())
-//			return false;
-//		rs.close();
-//		PreparedStatement UpdateStatement = conn.prepareStatement("UPDATE subscriber SET creditcardnumber=?,subscribernumber=? WHERE (ID = ?);");
-//		UpdateStatement.setString(1, data.get("Credit Card Number"));
-//		UpdateStatement.setString(2, data.get("Subscriber Number"));
-//		UpdateStatement.setString(3, data.get("ID"));
-//		UpdateStatement.executeUpdate();
-	}
-	public Boolean updateUserToDB(Connection conn, HashMap<String,String> data)
-	{
-		try {
+		StringBuilder query = new StringBuilder();
+		String Table = reqObject.getTable();
+		switch(reqObject.getSQLOpreation())
+		{
+			case "PUT":
+			{
+				query.append("UPDATE " + Table);
+				if(!SQLValues.isEmpty())
+				{					
+					query.append(" SET ");
+				    for (Map.Entry<String,String> entry : SQLValues.entrySet()) 
+				    {
+				    	query.append(entry.getKey() + " = " + entry.getValue());
+				    	query.append(", ");				    	
+				    }
+				    query.delete(query.length()-2, query.length());
+				}
+				
+				if(!SQLCondition.isEmpty())
+				{
+					query.append(" WHERE " );
+					for (Map.Entry<String,String> entry : SQLCondition.entrySet()) 
+					{
+						query.append(entry.getKey() + " = " + entry.getValue());
+						query.append(", ");
+					}
+					query.delete(query.length()-2, query.length());
+				}
+				break;
+			}
+			case "DELETE": 
+			{
+				query.append("DELETE FROM " + Table);
+				if(!SQLValues.isEmpty())
+				{					
+					query.append(" WHERE ");
+					for (Map.Entry<String,String> entry : SQLValues.entrySet()) 
+						query.append(entry.getKey() + "=" + entry.getValue());
+				}
+				break;
+			}
+			case "POST": 
+			{
+				query.append("INSERT INTO ");
+				query.append(Table + " (");
+				if(!SQLValues.isEmpty())
+				{					
+					for (Map.Entry<String,String> entry : SQLValues.entrySet()) 
+						query.append(entry.getKey() + ",");
+					query.deleteCharAt(query.length()-1);
+					query.append(") VALUES (");
+					for (Map.Entry<String,String> entry : SQLValues.entrySet()) 
+						query.append(String.format("\'%s\'", entry.getValue())  + ",");
+					query.deleteCharAt(query.length()-1);
+					query.append(")");
+				}
+				break;
+			}
+			case "GET":
+			{
+				query.append("SELECT ");
+				
+				if(SQLValues.isEmpty())
+				{					
+					query.append("*");
+				}
+				else
+				{
+			       for (Map.Entry<String,String> entry : SQLValues.entrySet()) 
+			    	   query.append(entry.getKey() + ", ");
+			       query.delete(query.length()-2, query.length());
+				}
+				query.append(" FROM " + Table);
+				
+				if(!SQLCondition.isEmpty())
+				{
+					query.append(" WHERE " );
+					for (Map.Entry<String,String> entry : SQLCondition.entrySet()) 
+					{
+						query.append(entry.getKey() + " = " + String.format("\"%s\"", entry.getValue()));
+						query.append("AND ");
+					}
+					query.delete(query.length()-4, query.length());
+				}
+				break;	
+			}
 			
-			PreparedStatement stmt = conn.prepareStatement("SELECT subscribernumber FROM subscriber WHERE subscribernumber = ?");
-			stmt.setString(1,data.get("Subscriber Number"));
-			ResultSet rs = stmt.executeQuery();
-			if(rs.next())
-				return false;
-			rs.close();
-			PreparedStatement UpdateStatement = conn.prepareStatement("UPDATE subscriber SET creditcardnumber=?,subscribernumber=? WHERE (ID = ?);");
-			UpdateStatement.setString(1, data.get("Credit Card Number"));
-			UpdateStatement.setString(2, data.get("Subscriber Number"));
-			UpdateStatement.setString(3, data.get("ID"));
-			UpdateStatement.executeUpdate();
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace();	
 		}
-		return false;
+		serverUI.display(query.toString());
+		return query.toString();	
 	}
-	public Connection getConn() {
+
+	public void CreateOpreation(RequestObjectClient reqObject)
+	{
+		if(reqObject.getSQLOpreation().equals("*"))
+			return;
+		
+		String[] arrRequest = reqObject.getURL().split("#");
+		reqObject.setTable((arrRequest[0].split("="))[1]);
+		
+		SQLCondition.clear();
+		SQLValues.clear();
+		
+		for(String loop : arrRequest)
+		{
+			if(loop.startsWith("condition="))
+			{
+				String req = (loop.split("condition="))[1];
+				String[] Conditions = req.split("&");
+				for(String pair : Conditions)
+				{
+					 String[] keyValue = pair.split("=");
+					 String key = keyValue[0];
+					 String value = keyValue[1];
+					 SQLCondition.put(key, value);
+				}
+			}
+			if(loop.startsWith("values="))
+			{
+				String req = (loop.split("values="))[1];
+				String[] Values = req.split("&");
+				for(String pair : Values)
+				{
+					 String[] keyValue = pair.split("=");
+					 String key = keyValue[0];
+					 String value = keyValue[1];
+					 SQLValues.put(key, value);
+				}
+			}
+		}
+	}
+		/*
+		 * /table=tablename?condition=condition?Values=set
+		 * */
+		
+	public Connection getConn() 
+	{
 		return conn;
 	}
-	public HashMap<String,String> searchUserInDB(Connection conn,String id) {
-		String finalId = id.trim();
-		serverUI.display("Seraching user" +id);
-		//Statement stmt;
-		HashMap<String,String> subscriber = new LinkedHashMap<>();
-		try {
-			//stmt = conn.createStatement();
-			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM subscriber WHERE (ID = ?);");
-			//ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM subscriber WHERE (ID = ?);",id));
-			stmt.setString(1,finalId);
+	
+	public ResponseObject makeQuery(RequestObjectClient query)
+	{
+		CreateOpreation(query);
+		
+		ResponseObject res = new ResponseObject(query.getTable());
+		res.setRequest(query.getRequestID());
+		
+		try 
+		{
+			PreparedStatement stmt = (conn.prepareStatement(CreateSqlStatement(query)));
+			
+			if(query.getSQLOpreation().equals("*"))
+				stmt = (conn.prepareStatement(query.getURL()));
+			
 			ResultSet rs = stmt.executeQuery();
 			
-			if(!rs.next())
-			{
-				return null;
-			}
-			// Print out the values
-			subscriber.putIfAbsent("First Name", rs.getString(1));
-			subscriber.putIfAbsent("Last Name", rs.getString(2));
-			subscriber.putIfAbsent("ID", rs.getString(3));
-			subscriber.putIfAbsent("Phone Number", rs.getString(4));
-			subscriber.putIfAbsent("Email Address", rs.getString(5));
-			subscriber.putIfAbsent("Credit Card Number", rs.getString(6));
-			subscriber.putIfAbsent("Subscriber Number", rs.getString(7));
+			ResultSetMetaData rsdm = rs.getMetaData();
+			int columnCount = rsdm.getColumnCount();
 			
-			rs.close();
+			while(rs.next())
+			{
+				Object[] values = new Object[columnCount];
+				for(int j = 1; j <= columnCount; j++)
+				{
+					values[j-1] = rs.getObject(j);
+				}
+				res.addObject(values);
+			}
+			return res;
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		serverUI.display("Found" +subscriber.toString());
-		return subscriber;
+		return res;
 	}
+
 }

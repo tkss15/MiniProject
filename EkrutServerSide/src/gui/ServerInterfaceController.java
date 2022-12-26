@@ -6,6 +6,9 @@ import java.util.ResourceBundle;
 
 import Server.ServerUI;
 import common.ClientConnection;
+import common.IController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,9 +22,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-public class ServerInterfaceController implements Initializable 
+public class ServerInterfaceController implements Initializable, IController 
 {
-		
+	ObservableList<ClientConnection> colums = FXCollections.<ClientConnection>observableArrayList();
 	@FXML
     private TableView<ClientConnection> connectedClientsTable = new TableView<ClientConnection>();
 	@FXML
@@ -172,5 +175,48 @@ public class ServerInterfaceController implements Initializable
 
 	public void setTextPasswordF(PasswordField textPasswordF) {
 		this.textPasswordF = textPasswordF;
+	}
+//	serverInterface.getConnectLogo().setVisible(!isConnected);
+//	serverInterface.getConnectButton().setDisable(isConnected);
+//	serverInterface.getDissconnectButton().setDisable(!isConnected);
+	@Override
+	public void updatedata(Object data) {
+		if(data instanceof ClientConnection)
+		{
+			ClientConnection clientConnectionMessage = (ClientConnection)data;
+			if(colums.contains(clientConnectionMessage))
+			{
+				colums.remove(clientConnectionMessage);
+			}
+			colums.add(clientConnectionMessage);
+			connectedClientsTable.setItems(colums);
+			connectedClientsTable.refresh();
+		}
+		else if (data instanceof String)
+		{
+			String message = (String)data;
+			switch(message)
+			{
+			case"#SetButtonsOff":
+			{
+				ConnectLogo.setVisible(true);
+				connectButton.setDisable(false);
+				dissconnectButton.setDisable(true);
+				break;
+			}
+			case"#SetButtonsOn":
+			{
+				ConnectLogo.setVisible(false);
+				connectButton.setDisable(true);
+				dissconnectButton.setDisable(false);
+				break;
+			}
+			default:
+				writeToConsole(message);
+				break;
+			}
+
+		}
+		
 	}
 }
