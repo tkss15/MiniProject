@@ -1,11 +1,16 @@
 package database;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,6 +68,7 @@ public class DBConnect
         {
             conn = DriverManager.getConnection(Constants.DB_URL,databaseDetails.get(3),databaseDetails.get(4));
             serverUI.display("SQL connection succeeded");
+            //AddPhotos();
      	} 
         catch (SQLException ex) 
      	{/* handle any errors*/
@@ -226,7 +232,6 @@ public class DBConnect
 		/*
 		 * /table=tablename?condition=condition?Values=set
 		 * */
-		
 	public Connection getConn() 
 	{
 		return conn;

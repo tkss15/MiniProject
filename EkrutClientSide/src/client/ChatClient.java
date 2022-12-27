@@ -71,9 +71,11 @@ public class ChatClient extends AbstractClient
 		{
 			if(message instanceof RequestObjectClient)
 			{
+				awaitResponse = true;
+				if(((RequestObjectClient)message).getRequestID().equals("#USER_LOGOUT"))
+					awaitResponse = false;
 				System.out.println("Sending object "+ ((RequestObjectClient)message).getRequestID());
 			}
-	       	awaitResponse = true;
 			openConnection();
 			sendToServer(message);
 			while (awaitResponse) {

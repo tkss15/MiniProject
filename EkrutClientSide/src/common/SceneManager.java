@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import client.ClientUI;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -25,7 +26,6 @@ public class SceneManager
 	
 	public SceneManager()
 	{
-		Stage stage = new Stage();
 	}
 	public void ShowScene(String urlResources)
 	{	
@@ -51,6 +51,11 @@ public class SceneManager
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public void ShowScene(String urlResources, Event event)
+	{
+		((Node) event.getSource()).getScene().getWindow().hide();
+		ShowScene(urlResources);
 	}
 	/***
 	 * 

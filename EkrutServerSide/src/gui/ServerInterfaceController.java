@@ -181,7 +181,8 @@ public class ServerInterfaceController implements Initializable, IController
 //	serverInterface.getConnectButton().setDisable(isConnected);
 //	serverInterface.getDissconnectButton().setDisable(!isConnected);
 	@Override
-	public void updatedata(Object data) {
+	public void updatedata(Object data) 
+	{
 		Platform.runLater(() -> {
 			if(data instanceof ClientConnection)
 			{
@@ -199,24 +200,24 @@ public class ServerInterfaceController implements Initializable, IController
 				String message = (String)data;
 				switch(message)
 				{
-				case"#SetButtonsOff":
-				{
-					ConnectLogo.setVisible(true);
-					connectButton.setDisable(false);
-					dissconnectButton.setDisable(true);
-					break;
-				}
-				case"#SetButtonsOn":
-				{
-					ConnectLogo.setVisible(false);
-					connectButton.setDisable(true);
-					dissconnectButton.setDisable(false);
-					break;
-				}
-				default:
-					writeToConsole(message);
-					break;
-				}
+					case"#SetButtonsOff":
+					{
+						ConnectLogo.setVisible(true);
+						connectButton.setDisable(false);
+						dissconnectButton.setDisable(true);
+						break;
+					}
+					case"#SetButtonsOn":
+					{
+						ConnectLogo.setVisible(false);
+						connectButton.setDisable(true);
+						dissconnectButton.setDisable(false);
+						break;
+					}
+					default:
+						writeToConsole(message);
+						break;
+					}
 
 			}
 		

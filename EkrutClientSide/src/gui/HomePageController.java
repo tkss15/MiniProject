@@ -17,6 +17,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -58,18 +59,20 @@ public class HomePageController implements Initializable, IController
     private Button CloseButton2, BtnCreateOrder;
 
     @FXML
-    void closeWindow(ActionEvent event) {
-    	System.out.println("Closed");
+    void closeWindow(ActionEvent event) 
+    {
+    	ClientUI.clientController.UserDissconnected();
+    	System.exit(0);
     }
     
     @FXML
     void openCatalogProduct(Event event) {
     	System.out.println("Closed");
-    	//((Node) event.getSource()).getScene().getWindow().hide();
+    	
     	RequestObjectClient request = new RequestObjectClient("#FACILITY_LIST",String.format("table=facilities"),"GET");    	
     	ClientUI.clientController.accept(request);
     	
-    	ClientUI.sceneManager.ShowScene("../views/ordersettings.fxml");
+    	ClientUI.sceneManager.ShowScene("../views/ordersettings.fxml", event);
     }
 
 	@Override
@@ -106,7 +109,6 @@ public class HomePageController implements Initializable, IController
 						String FacilityLocation = (String)values[1];
 						String FacilityName = (String)values[2];
 						Integer FacilityThresholder = (Integer)values[3];
-						System.out.println(FacilityID + " " + FacilityLocation + " "+ FacilityName+ " "+ FacilityThresholder + " ");
 						//ClientUI.clientController.(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
 						//System.out.println(arrFacility);
 						ClientUI.clientController.arrFacility.add(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));

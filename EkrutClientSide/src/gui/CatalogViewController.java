@@ -357,6 +357,12 @@ public class CatalogViewController implements Initializable, IController
 		// TODO Auto-generated method stub
 		
 	}
-
+/*
+ * 
+ * SELECT products.*, productsinfacility.ProductAmount
+FROM products
+LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode
+ORDER BY products.ProductCode;
+ * */
 }
 

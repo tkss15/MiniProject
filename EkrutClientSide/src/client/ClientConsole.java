@@ -8,6 +8,7 @@ import Entity.Order;
 import Entity.User;
 import common.ChatIF;
 import common.IController;
+import common.RequestObjectClient;
 import common.SceneManager;
 
 public class ClientConsole implements ChatIF 
@@ -51,6 +52,18 @@ public class ClientConsole implements ChatIF
 	public void setUser(User user)
 	{
 		clientUser = user;
+	}
+	public void UserDissconnected()
+	{
+		if(this.clientUser.getOnlineStatus() == null)
+		{
+			System.out.println("Not updated");
+		}
+		if(this.clientUser.getOnlineStatus().equals("Online"))
+		{
+	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"", this.clientUser.getUserName()),"PUT");    
+	    	accept(request);
+		}
 	}
 	public void setController(IController currentController) {
 		this.currentController = currentController;

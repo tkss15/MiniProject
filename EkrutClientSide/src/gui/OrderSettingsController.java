@@ -25,14 +25,16 @@ public class OrderSettingsController implements Initializable, IController {
 
 	ToggleGroup tg = new ToggleGroup();
 	ArrayList<Facility> arrFacility = new ArrayList<>();
+	ObservableList<Facility> list;
+	
 	@FXML
-	private ComboBox<String> ComboboxFacility;
+	private ComboBox<Facility> ComboboxFacility;
     @FXML
     private Button CloseButton;
-
     @FXML
     private ImageView Logo;
 
+  
     @FXML
     private Button CloseButton3;
 
@@ -42,10 +44,9 @@ public class OrderSettingsController implements Initializable, IController {
     @FXML
     private ImageView Logo221;
     
-    ObservableList<String> list;
     
     @FXML
-    private Button CloseButton11;
+    private Button BackButton;
 
     @FXML
     private ImageView Logo1;
@@ -70,21 +71,26 @@ public class OrderSettingsController implements Initializable, IController {
     @FXML
     void actionCreateOrder(ActionEvent event)
     {
-    	
+    	if(ComboboxFacility.getValue() != null)
+    	{
+        	ClientUI.clientController.getClientOrder().setFacilityType("EK");
+        	ClientUI.clientController.getClientOrder().setOrderFacility(ComboboxFacility.getValue());
+        	ClientUI.clientController.getClientOrder().setOrderType(((RadioButton)tg.getSelectedToggle()).getText());
+        	ClientUI.sceneManager.ShowScene("../views/CatalogViewer.fxml", event);
+    	}
     }
-
+    @FXML
+    void BackAction(ActionEvent event)
+    {
+    	ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);
+    }
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		radioDelivery.setToggleGroup(tg);
 		radioPickup.setToggleGroup(tg);
 
-		// TODO Auto-generated method stub
-    	ArrayList<String> facilityNames = new ArrayList<>();
-    	for(Facility c :  ClientUI.clientController.arrFacility)
-    		facilityNames.add(c.getFacilityName());
-
-		list = FXCollections.observableArrayList(facilityNames);
+		list = FXCollections.observableArrayList(ClientUI.clientController.arrFacility);
 		ComboboxFacility.setItems(list);
 	}
 

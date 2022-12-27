@@ -79,11 +79,16 @@ public class EchoServer extends AbstractServer
 			break;
 		}
 	}
-
+	protected void clientDisconnected(ConnectionToClient client) 
+	{
+		ClientConnection clientToShow = new ClientConnection(client,false);
+		serverUI.display("Client Disconnected "+ client.getInetAddress());
+		serverUI.display(clientToShow);
+	}
 	protected void clientConnected(ConnectionToClient client) 
 	{
 		ClientConnection clientToShow = new ClientConnection(client);
-		serverUI.display("Client Connected");
+		serverUI.display("Client Connected "+ client.getInetAddress());
 		serverUI.display(clientToShow);
 	}
 
@@ -95,7 +100,15 @@ public class EchoServer extends AbstractServer
 			RequestObjectClient clientRequest = (RequestObjectClient) msg;
 			try 
 			{
-				client.sendToClient(mySqlConnection.makeQuery(clientRequest));
+				if(clientRequest.getRequestID().equals("#USER_LOGOUT"))
+				{
+					clientDisconnected(client);
+					client.close();
+				}
+				else 
+				{
+					client.sendToClient(mySqlConnection.makeQuery(clientRequest));
+				}
 			} 
 			catch (IOException e) 
 			{

@@ -37,4 +37,9 @@ public class Facility
 	public void setFacilityThresholder(int facilityThresholder) {
 		FacilityThresholder = facilityThresholder;
 	}
+	
+	public String toString()
+	{
+		return this.FacilityName;
+	}
 }

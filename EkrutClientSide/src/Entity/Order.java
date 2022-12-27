@@ -6,6 +6,7 @@ public class Order
 {
 	private String FacilityType, orderType;
 	private Facility orderFacility;
+
 	protected ArrayList<Product> myCart = new ArrayList<>();
 	public Order(Facility orderFacility, String orderType, String FacilityType)
 	{
@@ -40,5 +41,23 @@ public class Order
 	{
 		if(myCart.contains(product))
 			myCart.remove(product);
+	}
+	public String getFacilityType() {
+		return FacilityType;
+	}
+	public void setFacilityType(String facilityType) {
+		FacilityType = facilityType;
+	}
+	public String getOrderType() {
+		return orderType;
+	}
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+	public Facility getOrderFacility() {
+		return orderFacility;
+	}
+	public void setOrderFacility(Facility orderFacility) {
+		this.orderFacility = orderFacility;
 	}
 }

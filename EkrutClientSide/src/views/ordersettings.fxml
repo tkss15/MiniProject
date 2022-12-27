@@ -80,7 +80,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="CloseButton11" layoutX="336.0" layoutY="245.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: fdb925;" text="Continue">
+            <Button fx:id="CloseButton11" layoutX="336.0" layoutY="245.0" mnemonicParsing="false" onAction="#actionCreateOrder" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: fdb925;" text="Continue">
                <font>
                   <Font name="Cambria Bold" size="12.0" />
                </font>
@@ -96,7 +96,7 @@
                </image>
             </ImageView>
          </children></Pane>
-      <Button fx:id="CloseButton1" layoutX="20.0" layoutY="466.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: fdb925;" text="Back">
+      <Button fx:id="BackButton" layoutX="20.0" layoutY="466.0" mnemonicParsing="false" onAction="#BackAction" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: fdb925;" text="Back">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
