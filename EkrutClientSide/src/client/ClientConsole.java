@@ -42,7 +42,6 @@ public class ClientConsole implements ChatIF
 	}
 	public void setController(IController currentController) {
 		this.currentController = currentController;
-		this.currentController.updatedata(null);
 	}
 	/***
 	 * @param msg

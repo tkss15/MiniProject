@@ -64,11 +64,11 @@ public class HomePageController implements Initializable, IController
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-//		textFirstName.setText(ClientUI.clientController.getUser().getFirstName());
-//		textLastName.setText(ClientUI.clientController.getUser().getLastName());
-//		textID.setText(ClientUI.clientController.getUser().getID());
-//		textTelephone.setText(ClientUI.clientController.getUser().getPhone());
-//		textEmail.setText(ClientUI.clientController.getUser().getEmail());
+		textFirstName.setText(ClientUI.clientController.getUser().getFirstName());
+		textLastName.setText(ClientUI.clientController.getUser().getLastName());
+		textID.setText(ClientUI.clientController.getUser().getID());
+		textTelephone.setText(ClientUI.clientController.getUser().getPhone());
+		textEmail.setText(ClientUI.clientController.getUser().getEmail());
 	}
 
 	@Override

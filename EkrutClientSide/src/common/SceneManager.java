@@ -19,17 +19,23 @@ public class SceneManager
 	private double offset_x;
 	private double offset_y;
 	private FXMLLoader loader;
+	private Stage stage;
+	private Scene scene;
 	private Map<String,Scene> BackList = new HashMap<>();
 	
+	public SceneManager()
+	{
+		Stage stage = new Stage();
+	}
 	public void ShowScene(String urlResources)
 	{	
-		Scene scene;
         loader = new FXMLLoader(getClass().getResource(urlResources));
         Parent root;
 		try {
 			root = loader.load();
 			ClientUI.clientController.setController(loader.getController());
-			Stage stage = new Stage();
+			stage = new Stage();
+			
 	        scene = new Scene(root);
 	        if(BackList.containsKey(urlResources))
 	        {
@@ -41,7 +47,6 @@ public class SceneManager
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setScene(scene);
 			stage.show();
-			stage.toFront();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

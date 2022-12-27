@@ -5,12 +5,15 @@ import java.util.HashMap;
 
 import Entity.User;
 import common.ChatIF;
+import common.RequestObjectClient;
 import common.ResponseObject;
 import common.SceneManager;
+import javafx.application.Platform;
 import ocsf.client.AbstractClient;
 
 public class ChatClient extends AbstractClient 
 {
+	public static boolean awaitResponse = false;
 	ChatIF clientConsole;
 	/***
 	 * s
@@ -37,46 +40,26 @@ public class ChatClient extends AbstractClient
 	@Override
 	protected void handleMessageFromServer(Object msg) 
 	{
-
-		if (msg == null) 
-		{
-			clientConsole.display("#errornoid");
-		} else if (msg instanceof Boolean) 
-		{
-			clientConsole.display((Boolean) msg ? "#SucssSubData have been updated sucssfully."
-					: "#ErrorSubCould not update Subscriber number. Subscriber number already taken.");
-		} 
-		else if(msg instanceof ResponseObject)
+		System.out.println("Message arrived");
+//		if (msg == null) 
+//		{
+//			clientConsole.display("#errornoid");
+//		} else if (msg instanceof Boolean) 
+//		{
+//			clientConsole.display((Boolean) msg ? "#SucssSubData have been updated sucssfully."
+//					: "#ErrorSubCould not update Subscriber number. Subscriber number already taken.");
+//		} 
+		if(msg instanceof ResponseObject)
 		{
 			clientConsole.display(msg);
-//			ResponseObject serverResponse = (ResponseObject) msg;
-//			switch(serverResponse.getTable())
-//			{
-//				case "users":
-//				{
-//					Object[] values =(Object[]) serverResponse.Responsedata.get(0);
-//
-//					String FirstName = (String)values[0];
-//					String LastName = (String)values[1];
-//					String Phone = (String)values[2];
-//					String Email = (String)values[3];
-//					String ID = (String)values[4];
-//					String userName = (String)values[5];
-//					String password = (String)values[6];
-//					
-//					User currentUser = new User(FirstName,LastName,Phone,Email,ID,userName,password);
-//					
-//					System.out.println(currentUser);
-//					clientUI.display(currentUser);
-//					break;
-//				}
-//			}
+		
 		}
 		else if (msg instanceof HashMap) 
 		{
 			HashMap<String, String> subscriberDetails = (HashMap<String, String>) msg;
 			clientConsole.display(subscriberDetails);
 		}
+		awaitResponse = false;
 	}
 	/***
 	 * @param message
@@ -86,8 +69,20 @@ public class ChatClient extends AbstractClient
 	{
 		try 
 		{
+			if(message instanceof RequestObjectClient)
+			{
+				System.out.println("Sending object "+ ((RequestObjectClient)message).getRequestID());
+			}
+	       	awaitResponse = true;
 			openConnection();
 			sendToServer(message);
+			while (awaitResponse) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 
 		} catch (IOException e) {
 

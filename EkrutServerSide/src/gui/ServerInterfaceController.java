@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import Server.ServerUI;
 import common.ClientConnection;
 import common.IController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -181,42 +182,44 @@ public class ServerInterfaceController implements Initializable, IController
 //	serverInterface.getDissconnectButton().setDisable(!isConnected);
 	@Override
 	public void updatedata(Object data) {
-		if(data instanceof ClientConnection)
-		{
-			ClientConnection clientConnectionMessage = (ClientConnection)data;
-			if(colums.contains(clientConnectionMessage))
+		Platform.runLater(() -> {
+			if(data instanceof ClientConnection)
 			{
-				colums.remove(clientConnectionMessage);
+				ClientConnection clientConnectionMessage = (ClientConnection)data;
+				if(colums.contains(clientConnectionMessage))
+				{
+					colums.remove(clientConnectionMessage);
+				}
+				colums.add(clientConnectionMessage);
+				connectedClientsTable.setItems(colums);
+				connectedClientsTable.refresh();
 			}
-			colums.add(clientConnectionMessage);
-			connectedClientsTable.setItems(colums);
-			connectedClientsTable.refresh();
-		}
-		else if (data instanceof String)
-		{
-			String message = (String)data;
-			switch(message)
+			else if (data instanceof String)
 			{
-			case"#SetButtonsOff":
-			{
-				ConnectLogo.setVisible(true);
-				connectButton.setDisable(false);
-				dissconnectButton.setDisable(true);
-				break;
-			}
-			case"#SetButtonsOn":
-			{
-				ConnectLogo.setVisible(false);
-				connectButton.setDisable(true);
-				dissconnectButton.setDisable(false);
-				break;
-			}
-			default:
-				writeToConsole(message);
-				break;
-			}
+				String message = (String)data;
+				switch(message)
+				{
+				case"#SetButtonsOff":
+				{
+					ConnectLogo.setVisible(true);
+					connectButton.setDisable(false);
+					dissconnectButton.setDisable(true);
+					break;
+				}
+				case"#SetButtonsOn":
+				{
+					ConnectLogo.setVisible(false);
+					connectButton.setDisable(true);
+					dissconnectButton.setDisable(false);
+					break;
+				}
+				default:
+					writeToConsole(message);
+					break;
+				}
 
-		}
+			}
 		
+		});
 	}
 }

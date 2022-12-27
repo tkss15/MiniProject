@@ -30,9 +30,7 @@ import javafx.scene.layout.VBox;
 
 public class ClientLoginPage implements Initializable, IController
 {
-	private boolean logPhase = false;
 	private boolean isLogged;
-	private final Object lock = new Object();
 
     @FXML
     private VBox vboxlogo;
@@ -54,36 +52,33 @@ public class ClientLoginPage implements Initializable, IController
     
     @FXML
     void ExitWindow(MouseEvent event) {
-    	//System.exit(0);
+    	System.exit(0);
     }
 
     @FXML
-    synchronized void actionLoggin(ActionEvent event) 
+    void actionLoggin(ActionEvent event) 
     {
     	if(userNameTextField.getText() == null || passwordTextField.getText() == null)
     		return;
     	String userName = userNameTextField.getText();
     	String password = passwordTextField.getText();
     	
-    	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s#values=userName=username&userPassword=password", userName, password),"GET");    	
+//    	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s#values=userName=username&userPassword=password", userName, password),"GET");    	
+    	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s", userName, password),"GET");    	
+
     	ClientUI.clientController.accept(request);
     	System.out.println("Hey" + Thread.currentThread().getName());
-    	synchronized (lock) 
-    	{
-    	    while (!logPhase) {
-    	        try {
-					lock.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-    	    }
-    	}
-		System.out.println("Hey 3" + Thread.currentThread().getName());
+
     	if(isLogged)
     	{
     		((Node) event.getSource()).getScene().getWindow().hide();
     		ClientUI.sceneManager.ShowScene("../views/Homepage.fxml");		
+    	}
+    	else
+    	{
+//    		System.out.println("Login failed");
+//			Alert alert = new Alert(AlertType.ERROR, "Laptop LG 2 hours");
+//			alert.showAndWait();
     	}
 
     }
@@ -101,7 +96,7 @@ public class ClientLoginPage implements Initializable, IController
 	@Override
 	public void updatedata(Object data) {
 		// TODO Auto-generated method stub
-		/*Platform.runLater(() -> {*/
+		//Platform.runLater(() -> {
 			System.out.println("ClientLoginPage");
 			if(data instanceof ResponseObject)
 			{
@@ -110,28 +105,23 @@ public class ClientLoginPage implements Initializable, IController
 				{	
 					case"#USER_LOGIN_DATA":
 					{
-						if(serverResponse.Responsedata.size() == 0)
-						{
-	//						Alert alert = new Alert(AlertType.INFORMATION, "Laptop LG 2 hours");
-	//						alert.showAndWait();
-							System.out.println("Laptop");
-						}
-						else
+						if(serverResponse.Responsedata.size() != 0)
 						{
 							isLogged = true;
-							Object[] values =(Object[]) serverResponse.Responsedata.get(0);
+							Object[] values =(Object[]) serverResponse.Responsedata.get(0);//Row 1 
 							
-							String userName = (String)values[0];
-							String userPassword = (String)values[1];
-							ClientUI.clientController.setUser(new User(userName, userPassword)); 
+							String firstName = (String)values[0];
+							String LastName = (String)values[1];
+							String Telephone = (String)values[2];
+							String Email = (String)values[3];
+							String ID = (String)values[4];
+							String userName = (String)values[5];
+							String userPassword = (String)values[6];
+							//	public User(String firstName, String lastName, String phone, String email, String ID, String UserName,
+							ClientUI.clientController.setUser(new User(firstName, LastName, Telephone, Email, ID, userName, userPassword)); 
 							System.out.println("Hey 2" + Thread.currentThread().getName());
 							
 						}
-				    	synchronized (lock) 
-				    	{
-				    		logPhase = true;
-				    		lock.notifyAll();
-				    	}
 						break;
 					}
 					
