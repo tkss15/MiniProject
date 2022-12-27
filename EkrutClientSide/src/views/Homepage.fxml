@@ -39,7 +39,7 @@
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <Text fx:id="textFirstName" strokeType="OUTSIDE" strokeWidth="0.0" text="User">
+                        <Text fx:id="textUserlogin" strokeType="OUTSIDE" strokeWidth="0.0" text="User">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -178,7 +178,7 @@
       </VBox>
       <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" text="Logout" />
       <Text layoutX="489.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut Homepage" wrappingWidth="333.0000191926956" />
-      <Button fx:id="BtnCreateOrder" layoutX="421.0" layoutY="246.0" mnemonicParsing="false" onAction="#openCatalogProduct" prefHeight="64.0" prefWidth="200.0" text="Create Order" />
+      <Button fx:id="BtnCreateOrder" layoutX="421.0" layoutY="246.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="200.0" text="Create Order" />
       <Button layoutX="691.0" layoutY="246.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="200.0" text="Catalog Viewer" />
       <Button layoutX="691.0" layoutY="366.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="200.0" text="Order Pick up" AnchorPane.leftAnchor="691.0" />
       <Button fx:id="ManageOrders" layoutX="421.0" layoutY="366.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="200.0" text="Manage Orders" />

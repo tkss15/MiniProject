@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import Entity.Facility;
 import Entity.User;
 import client.ChatClient;
 import client.ClientUI;
@@ -71,6 +72,11 @@ public class ClientLoginPage implements Initializable, IController
 
     	if(isLogged)
     	{
+        	request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("table=users#condition=userName=%s#values=userOnline=\"Online\"", userName),"PUT");    	
+        	ClientUI.clientController.accept(request);
+        	//UPDATE `ekrutdatabase`.`users` SET `userOnline` = 'Offline' WHERE (`userName` = 'tkss15');
+        	//UPDATE users SET userOnline = "Online" WHERE userName = tkss15
+
     		((Node) event.getSource()).getScene().getWindow().hide();
     		ClientUI.sceneManager.ShowScene("../views/Homepage.fxml");		
     	}
@@ -90,6 +96,7 @@ public class ClientLoginPage implements Initializable, IController
 			System.out.println("Hello");
 			event.consume();
 		});
+		
     }
 
 
@@ -101,6 +108,7 @@ public class ClientLoginPage implements Initializable, IController
 			if(data instanceof ResponseObject)
 			{
 				ResponseObject serverResponse = (ResponseObject) data;
+				
 				switch(serverResponse.getRequest())
 				{	
 					case"#USER_LOGIN_DATA":

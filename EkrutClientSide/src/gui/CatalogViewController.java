@@ -3,6 +3,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import Entity.Facility;
 import Entity.Order;
 import Entity.Product;
 import client.ClientUI;
@@ -36,7 +37,7 @@ public class CatalogViewController implements Initializable, IController
 	private final String PlusImage = "Plus.png";
 	private final String MinusImage = "Minus.png";
 	ArrayList<ProductUI> StockItems = new ArrayList<>();
-	ShoppingCartUI myShoppingCart = new ShoppingCartUI();
+	ShoppingCartUI myShoppingCart = new ShoppingCartUI(null,null,null);
     @FXML
     private VBox Item, ProductsVBox, ShoppingCart;
     @FXML
@@ -109,6 +110,10 @@ public class CatalogViewController implements Initializable, IController
 	}
 	class ShoppingCartUI extends Order
 	{
+		public ShoppingCartUI(Facility orderFacility, String orderType, String FacilityType) {
+			super(orderFacility, orderType, FacilityType);
+			// TODO Auto-generated constructor stub
+		}
 		@Override
 		public void addItem(Product product)
 		{

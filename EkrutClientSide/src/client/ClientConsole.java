@@ -1,7 +1,10 @@
 package client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import Entity.Facility;
+import Entity.Order;
 import Entity.User;
 import common.ChatIF;
 import common.IController;
@@ -11,7 +14,10 @@ public class ClientConsole implements ChatIF
 {
 	public static int DEFAULT_PORT = 5555;
 	ChatClient client;
+	public ArrayList<Facility> arrFacility = new ArrayList<>();
 	private User clientUser = new User(null,null);
+	private Order clientOrder = new Order(null,null,null);
+
 	SceneManager sceneManager = new SceneManager();
 	IController currentController;
 	/***
@@ -31,6 +37,12 @@ public class ClientConsole implements ChatIF
 			System.out.println("Error: Can't setup connection!Terminating client.");
 			System.exit(1);
 		}
+	}
+	public Order getClientOrder() {
+		return clientOrder;
+	}
+	public void setClientOrder(Order clientOrder) {
+		this.clientOrder = clientOrder;
 	}
 	public User getUser()
 	{

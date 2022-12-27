@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 public class Order 
 {
+	private String FacilityType, orderType;
+	private Facility orderFacility;
 	protected ArrayList<Product> myCart = new ArrayList<>();
-	public Order()
+	public Order(Facility orderFacility, String orderType, String FacilityType)
 	{
-		
+		this.orderType = orderType;
+		this.FacilityType = FacilityType;
+		this.orderFacility = orderFacility;
 	}
 	public void addItem(Product product)
 	{

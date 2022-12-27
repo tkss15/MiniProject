@@ -110,13 +110,14 @@ public class DBConnect
 				
 				if(!SQLCondition.isEmpty())
 				{
-					query.append(" WHERE " );
+					query.append(" WHERE (" );
 					for (Map.Entry<String,String> entry : SQLCondition.entrySet()) 
 					{
-						query.append(entry.getKey() + " = " + entry.getValue());
+						query.append(entry.getKey() + " = " +  String.format("\'%s\'", entry.getValue()) );
 						query.append(", ");
 					}
 					query.delete(query.length()-2, query.length());
+					query.append(")");
 				}
 				break;
 			}
@@ -163,16 +164,17 @@ public class DBConnect
 			       query.delete(query.length()-2, query.length());
 				}
 				query.append(" FROM " + Table);
-				
+
 				if(!SQLCondition.isEmpty())
 				{
-					query.append(" WHERE " );
+					query.append(" WHERE (" );
 					for (Map.Entry<String,String> entry : SQLCondition.entrySet()) 
 					{
 						query.append(entry.getKey() + " = " + String.format("\"%s\"", entry.getValue()));
 						query.append("AND ");
 					}
 					query.delete(query.length()-4, query.length());
+					query.append(")");
 				}
 				break;	
 			}
@@ -244,7 +246,15 @@ public class DBConnect
 			if(query.getSQLOpreation().equals("*"))
 				stmt = (conn.prepareStatement(query.getURL()));
 			
-			ResultSet rs = stmt.executeQuery();
+			ResultSet rs;
+			if(query.getSQLOpreation().equals("PUT"))
+			{
+				int result;
+				result = stmt.executeUpdate(CreateSqlStatement(query));
+				res.addObject(result);
+				return res;
+			}
+			rs = stmt.executeQuery();
 			
 			ResultSetMetaData rsdm = rs.getMetaData();
 			int columnCount = rsdm.getColumnCount();

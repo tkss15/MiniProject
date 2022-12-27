@@ -60,12 +60,12 @@
       <Pane layoutY="119.0" prefHeight="383.0" prefWidth="775.0" style="-fx-background-color: white;">
          <children>
             <ComboBox fx:id="ComboboxFacility" layoutX="225.0" layoutY="62.0" prefWidth="150.0" />
-            <RadioButton layoutX="249.0" layoutY="136.0" mnemonicParsing="false" text="Delivery">
+            <RadioButton fx:id="radioDelivery" layoutX="249.0" layoutY="136.0" mnemonicParsing="false" text="Delivery">
                <font>
                   <Font size="15.0" />
                </font>
             </RadioButton>
-            <RadioButton layoutX="249.0" layoutY="168.0" mnemonicParsing="false" text="PickUp">
+            <RadioButton fx:id="radioPickup" layoutX="249.0" layoutY="168.0" mnemonicParsing="false" text="PickUp">
                <font>
                   <Font size="15.0" />
                </font>
@@ -80,7 +80,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="CloseButton11" layoutX="336.0" layoutY="245.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: fdb925;" text="Continue">
+            <Button fx:id="CloseButton11" layoutX="336.0" layoutY="245.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: fdb925;" text="Continue">
                <font>
                   <Font name="Cambria Bold" size="12.0" />
                </font>

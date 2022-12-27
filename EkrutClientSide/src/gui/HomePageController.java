@@ -4,21 +4,28 @@ package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Entity.Facility;
 import client.ClientConsole;
 import client.ClientUI;
 import common.IController;
+import common.RequestObjectClient;
+import common.ResponseObject;
 import common.SceneManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class HomePageController implements Initializable, IController
 {
+	@FXML
+	private Text textUserlogin;
 
 	@FXML
     private Text textFirstName;
@@ -56,24 +63,59 @@ public class HomePageController implements Initializable, IController
     }
     
     @FXML
-    void openCatalogProduct(ActionEvent event) {
+    void openCatalogProduct(Event event) {
     	System.out.println("Closed");
     	//((Node) event.getSource()).getScene().getWindow().hide();
+    	RequestObjectClient request = new RequestObjectClient("#FACILITY_LIST",String.format("table=facilities"),"GET");    	
+    	ClientUI.clientController.accept(request);
+    	
     	ClientUI.sceneManager.ShowScene("../views/ordersettings.fxml");
     }
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		textUserlogin.setText(ClientUI.clientController.getUser().getFirstName());
 		textFirstName.setText(ClientUI.clientController.getUser().getFirstName());
 		textLastName.setText(ClientUI.clientController.getUser().getLastName());
 		textID.setText(ClientUI.clientController.getUser().getID());
 		textTelephone.setText(ClientUI.clientController.getUser().getPhone());
 		textEmail.setText(ClientUI.clientController.getUser().getEmail());
+		
+		BtnCreateOrder.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+			openCatalogProduct(event);
+		});
 	}
 
 	@Override
 	public void updatedata(Object data) {
 		System.out.println("HomePageController");
+		if(data instanceof ResponseObject)
+		{
+			ResponseObject serverResponse = (ResponseObject) data;
+			
+			switch(serverResponse.getRequest())
+			{	
+				case"#FACILITY_LIST":
+				{
+					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+					{
+						//	public Facility(int FacilityID, String FacilityLocation, String FacilityName, int FacilityThresholder)
+						
+						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
+						Integer FacilityID = (Integer)values[0];
+						String FacilityLocation = (String)values[1];
+						String FacilityName = (String)values[2];
+						Integer FacilityThresholder = (Integer)values[3];
+						System.out.println(FacilityID + " " + FacilityLocation + " "+ FacilityName+ " "+ FacilityThresholder + " ");
+						//ClientUI.clientController.(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
+						//System.out.println(arrFacility);
+						ClientUI.clientController.arrFacility.add(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
+					}
+					break;
+				}
+			
+			}
+		}
 		
 	}
 
