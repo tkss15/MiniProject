@@ -1,10 +1,14 @@
 package client;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
 import Entity.User;
 import common.ChatIF;
+import common.MyFile;
 import common.RequestObjectClient;
 import common.ResponseObject;
 import common.SceneManager;
@@ -49,6 +53,33 @@ public class ChatClient extends AbstractClient
 //			clientConsole.display((Boolean) msg ? "#SucssSubData have been updated sucssfully."
 //					: "#ErrorSubCould not update Subscriber number. Subscriber number already taken.");
 //		} 
+		if(msg instanceof MyFile)
+		{
+			  int fileSize =((MyFile)msg).getSize(); 
+			  System.out.println("Message received: " + msg + " from Server");
+			  System.out.println("length "+ fileSize);
+			  MyFile clientFile = (MyFile) msg;
+			  
+			  try 
+			  {
+				byte[] mybytearray = clientFile.getMybytearray();
+				File newDir = new File("C:\\EkrutApplication\\pictures");
+				newDir.mkdirs();
+				File newFile = new File("C:\\EkrutApplication\\pictures\\"+ clientFile.getFileName());
+				System.out.println(clientFile.getFileName());
+				FileOutputStream fos = new FileOutputStream(newFile); /* Create file output stream */
+				BufferedOutputStream bos = new BufferedOutputStream(fos); /* Create BufferedFileOutputStream */
+				bos.write(mybytearray, 0, clientFile.getSize()); /* Write byte array to output stream */
+				System.out.println(bos);
+			    bos.flush();
+			    fos.flush();
+			  }
+			  catch (Exception e) 
+			  {
+				System.out.println("Error uploading (Files)msg) to Server");
+				e.printStackTrace();
+			  }
+		}
 		if(msg instanceof ResponseObject)
 		{
 			clientConsole.display(msg);

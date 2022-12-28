@@ -1,5 +1,9 @@
 package gui;
 
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -7,6 +11,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import Entity.Facility;
+import Entity.Product;
 import Entity.User;
 import client.ChatClient;
 import client.ClientUI;
@@ -118,15 +123,33 @@ public class ClientLoginPage implements Initializable, IController
 				{	
 					case"#SIMPLE_REQUEST":
 					{
-						System.out.println("HELLO");
-						Object[] values =(Object[]) serverResponse.Responsedata.get(0);//Row 1 
-						Integer ProductCode = (Integer) values[0];
-						String ProductName = (String) values[1];
-						Double ProductPrice = (Double) values[2];
-						String ProductDesc = (String) values[3];
-						String ProductPicture = (String) values[4];
-
-						System.out.println(ProductCode + ProductName + ProductPrice + ProductDesc + ProductPicture);
+						for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+						{
+							Object[] values =(Object[]) serverResponse.Responsedata.get(i);//Row 1 
+							Integer ProductCode = (Integer) values[0];
+							String ProductName = (String) values[1];
+							Double ProductPrice = (Double) values[2];
+							String ProductDesc = (String) values[3];
+							String ProductSrc = (String) values[4];
+							
+							byte[] arrayByte = serverResponse.ResponsePicture.get(i);// Picture's
+							Product anotherProduct = new Product(ProductCode,ProductName,ProductDesc, ProductSrc, ProductPrice);
+							System.out.println();
+							FileOutputStream fos;
+							try {
+								fos = new FileOutputStream(anotherProduct.PicturePhoto);
+								BufferedOutputStream bos = new BufferedOutputStream(fos); /* Create BufferedFileOutputStream */
+								
+								bos.write(arrayByte, 0, arrayByte.length); /* Write byte array to output stream */
+							    bos.flush();
+							    fos.flush();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} /* Create file output stream */
+	
+							ClientUI.clientController.getClientOrder().addItem(anotherProduct);
+						}
 						break;
 					}
 

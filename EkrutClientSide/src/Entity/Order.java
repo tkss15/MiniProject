@@ -7,7 +7,7 @@ public class Order
 	private String FacilityType, orderType;
 	private Facility orderFacility;
 
-	protected ArrayList<Product> myCart = new ArrayList<>();
+	public ArrayList<Product> myCart = new ArrayList<>();
 	public Order(Facility orderFacility, String orderType, String FacilityType)
 	{
 		this.orderType = orderType;

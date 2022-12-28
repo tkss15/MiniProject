@@ -1,10 +1,14 @@
 package Server;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import common.ChatIF;
 import common.ClientConnection;
+import common.MyFile;
 import common.RequestObjectClient;
 import database.DBConnect;
 import ocsf.server.AbstractServer;
@@ -87,6 +91,7 @@ public class EchoServer extends AbstractServer
 	}
 	protected void clientConnected(ConnectionToClient client) 
 	{
+		//SendPhotosToClient(null,client);
 		ClientConnection clientToShow = new ClientConnection(client);
 		serverUI.display("Client Connected "+ client.getInetAddress());
 		serverUI.display(clientToShow);

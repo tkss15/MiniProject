@@ -1,5 +1,7 @@
 package Entity;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 public class Product 
@@ -8,6 +10,9 @@ public class Product
 	private Integer ProductCode;
 	private String ProductName, ProductDescription, ProductSrc;
 	private Double ProductPrice;
+	public File PicturePhoto;
+	
+	private final String dirPictures = "./EkrutAplication";
 	
 	public Product(Integer ProductCode,String ProductName,String ProductDescription,String ProductSrc,Double ProductPrice)
 	{
@@ -16,6 +21,13 @@ public class Product
 		this.ProductDescription = ProductDescription;
 		this.ProductSrc = ProductSrc;
 		this.ProductPrice = ProductPrice;
+		File newDir = new File(dirPictures);
+		newDir.mkdirs();
+		this.PicturePhoto = new File(dirPictures + "/" + this.ProductSrc);
+	}
+	public String getPathPicture()
+	{
+		return PicturePhoto.getAbsolutePath();
 	}
 	public Product(Product Oldproduct)
 	{
