@@ -74,13 +74,15 @@ public class CatalogViewController implements Initializable, IController
 		//ClientUI.clientController.setController(this);
 		ScrollPane = new ScrollPane();
 
-		ProductUI Cola = new ProductUI(new Product(1,"Coke Cola Zero","350 mill coke zero glass", "cola.png", 7.5));
-		ProductUI Bisli = new ProductUI(new Product(2,"Cruch Chips Original","Classic Potato Chips flavor", "chips.png", 12.90));
-		ProductUI Bisli2 = new ProductUI(new Product(3,"Cruch Chips Original2","Classic Potato Chips flavor", "chips.png", 12.90));
+//		ProductUI Cola = new ProductUI(new Product(1,"Coke Cola Zero","350 mill coke zero glass", "cola.png", 7.5));
+//		ProductUI Bisli = new ProductUI(new Product(2,"Cruch Chips Original","Classic Potato Chips flavor", "chips.png", 12.90));
+//		ProductUI Bisli2 = new ProductUI(new Product(3,"Cruch Chips Original2","Classic Potato Chips flavor", "chips.png", 12.90));
 		
-		StockItems.add(Cola);
-		StockItems.add(Bisli);
-		StockItems.add(Bisli2);
+		for(int i = 0; i < ClientUI.clientController.getClientOrder().myCart.size(); i ++)
+		{	
+			ProductUI productSample = new ProductUI(ClientUI.clientController.getClientOrder().myCart.get(i));
+			StockItems.add(productSample);
+		}
 		ShoppingCart.setSpacing(10.0);
 		ScrollPane.setVbarPolicy(ScrollPane.getVbarPolicy().ALWAYS);
 		
@@ -101,8 +103,8 @@ public class CatalogViewController implements Initializable, IController
 		if(i % 2 == 1)
 			ProductsVBox.getChildren().add(RowItems);
 		
-		HBox Items = new HBox(Cola.ProductVBox(),Item);
-		HBox.setMargin(Items, new Insets(30));
+		//HBox Items = new HBox(Cola.ProductVBox(),Item);
+		//HBox.setMargin(Items, new Insets(30));
 		ProductsVBox.setFillWidth(true);
 		ScrollPane.setContent(ProductsVBox);
 		ScrollPane.setFitToWidth(true);
@@ -150,7 +152,7 @@ public class CatalogViewController implements Initializable, IController
 			ItemPicture.setPreserveRatio(true);
 			VBox.setVgrow(ItemPicture, Priority.ALWAYS);
 			
-			Image image = new Image(product.getProductSrc());
+			Image image = new Image(product.getPathPicture());
 			ItemPicture.setImage(image);
 			
 			VBox ProductNameAndButtons =  new VBox();
@@ -318,7 +320,7 @@ public class CatalogViewController implements Initializable, IController
 			VBoxItemDescrption.setId("ItemDescription");
 			VBox.setVgrow(VBoxItemDescrption,Priority.ALWAYS);
 			
-			ImageView ItemPicture = CreateImage(Product.getProductSrc(),150.0,150.0,true,true, null);
+			ImageView ItemPicture = CreateImage(Product.getPathPicture(),150.0,150.0,true,true, null);
 			VBox.setVgrow(ItemPicture, Priority.NEVER);
 
 			Text ItemName = new Text(Product.getProductName());

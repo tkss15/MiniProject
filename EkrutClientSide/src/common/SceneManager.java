@@ -27,6 +27,7 @@ public class SceneManager
 	public SceneManager()
 	{
 	}
+	@SuppressWarnings("restriction")
 	public void ShowScene(String urlResources)
 	{	
         loader = new FXMLLoader(getClass().getResource(urlResources));

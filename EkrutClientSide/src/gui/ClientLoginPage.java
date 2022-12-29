@@ -6,12 +6,10 @@ import java.util.ResourceBundle;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import Entity.Facility;
 import Entity.User;
 import client.ChatClient;
 import client.ClientUI;
 import common.IController;
-import common.MyFile;
 import common.RequestObjectClient;
 import common.ResponseObject;
 import javafx.application.Platform;
@@ -33,6 +31,8 @@ import javafx.scene.layout.VBox;
 public class ClientLoginPage implements Initializable, IController
 {
 	private boolean isLogged;
+	private boolean isEmployee = false;
+	private String role;
 
     @FXML
     private VBox vboxlogo;
@@ -53,12 +53,6 @@ public class ClientLoginPage implements Initializable, IController
     private Button LoginApp;
     
     @FXML
-    void SimpleRequest(ActionEvent event)
-    {
-    	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",String.format("table=products"),"GET");    	
-    	ClientUI.clientController.accept(request);
-    }
-    @FXML
     void ExitWindow(MouseEvent event) {
     	System.exit(0);
     }
@@ -73,17 +67,26 @@ public class ClientLoginPage implements Initializable, IController
     	
 //    	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s#values=userName=username&userPassword=password", userName, password),"GET");    	
     	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s", userName, password),"GET");    	
-
+    	
     	ClientUI.clientController.accept(request);
+    	System.out.println("Hey" + Thread.currentThread().getName());
 
     	if(isLogged)
     	{
-        	request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("table=users#condition=userName=%s#values=userOnline=\"Online\"", userName),"PUT");    	
-        	ClientUI.clientController.accept(request);
-        	//UPDATE `ekrutdatabase`.`users` SET `userOnline` = 'Offline' WHERE (`userName` = 'tkss15');
-        	//UPDATE users SET userOnline = "Online" WHERE userName = tkss15
-        	
-    		ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);		
+    		((Node) event.getSource()).getScene().getWindow().hide();
+    		request = new RequestObjectClient("#USER_IS_EMPLOYEE",String.format("table=employees#condition=userName=%s", userName),"GET");
+    		ClientUI.clientController.accept(request);
+    		if(isEmployee)
+    		{
+    			System.out.println();
+    			String open= new String(); 
+    			open = String.format("../views/%sInterface.fxml",role);
+    			ClientUI.sceneManager.ShowScene(open);
+    			return;
+    		}
+    		
+    		
+    		ClientUI.sceneManager.ShowScene("../views/Homepage.fxml");		
     	}
     	else
     	{
@@ -101,7 +104,6 @@ public class ClientLoginPage implements Initializable, IController
 			System.out.println("Hello");
 			event.consume();
 		});
-		
     }
 
 
@@ -113,23 +115,8 @@ public class ClientLoginPage implements Initializable, IController
 			if(data instanceof ResponseObject)
 			{
 				ResponseObject serverResponse = (ResponseObject) data;
-				
 				switch(serverResponse.getRequest())
 				{	
-					case"#SIMPLE_REQUEST":
-					{
-						System.out.println("HELLO");
-						Object[] values =(Object[]) serverResponse.Responsedata.get(0);//Row 1 
-						Integer ProductCode = (Integer) values[0];
-						String ProductName = (String) values[1];
-						Double ProductPrice = (Double) values[2];
-						String ProductDesc = (String) values[3];
-						String ProductPicture = (String) values[4];
-
-						System.out.println(ProductCode + ProductName + ProductPrice + ProductDesc + ProductPicture);
-						break;
-					}
-
 					case"#USER_LOGIN_DATA":
 					{
 						if(serverResponse.Responsedata.size() != 0)
@@ -144,15 +131,26 @@ public class ClientLoginPage implements Initializable, IController
 							String ID = (String)values[4];
 							String userName = (String)values[5];
 							String userPassword = (String)values[6];
-							
 							//	public User(String firstName, String lastName, String phone, String email, String ID, String UserName,
 							ClientUI.clientController.setUser(new User(firstName, LastName, Telephone, Email, ID, userName, userPassword)); 
-							ClientUI.clientController.getUser().setOnlineStatus("Online");
 							System.out.println("Hey 2" + Thread.currentThread().getName());
 							
 						}
 						break;
+						
 					}
+					case "#USER_IS_EMPLOYEE":
+					{
+						if(serverResponse.Responsedata.size() != 0)
+						{
+							Object[] values =(Object[]) serverResponse.Responsedata.get(0);//Row 1 
+							role=(String)values[0];
+							String userName=(String)values[1];
+							String branch=(String)values[2];
+							isEmployee=true;
+						}
+					}
+					break;
 					
 				}
 			}

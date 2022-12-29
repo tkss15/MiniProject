@@ -102,7 +102,7 @@
                         <Insets left="50.0" top="10.0" />
                      </VBox.margin>
                   </Line>
-                  <Button fx:id="LoginApp" mnemonicParsing="false" onAction="#SimpleRequest" prefHeight="11.0" prefWidth="218.0" text="Sign-in with EKrut Touch" textAlignment="CENTER" textFill="#838888">
+                  <Button fx:id="LoginApp" mnemonicParsing="false" prefHeight="11.0" prefWidth="218.0" text="Sign-in with EKrut Touch" textAlignment="CENTER" textFill="#838888">
                      <font>
                         <Font size="14.0" />
                      </font>

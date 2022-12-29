@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UsersRegistrationController">
+   <children>
+      <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="213.0" minWidth="279.0" prefHeight="789.0" prefWidth="279.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
+         <children>
+            <ImageView fitHeight="112.0" fitWidth="204.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../gui/pictures/EKrut.png" />
+               </image>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="30.0" top="30.0" />
+               </VBox.margin>
+            </ImageView>
+            <TableView fx:id="infoTable" prefHeight="480.0" prefWidth="277.0">
+              <columns>
+                <TableColumn fx:id="emailCol" prefWidth="142.0" text="Email" />
+                <TableColumn fx:id="IDCol" prefWidth="124.0" text="ID" />
+              </columns>
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="10.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+      <Button fx:id="BackButton" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#Back" text="Back" />
+      <Text layoutX="452.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Registration Form" wrappingWidth="366.0000191926956" />
+      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X" textFill="#fdb925">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font>
+      </Button>
+      <TextField fx:id="firstNameText" layoutX="712.0" layoutY="183.0" />
+      <Text layoutX="647.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" wrappingWidth="65.13671875" />
+      <TextField fx:id="lastNameText" layoutX="712.0" layoutY="221.0" />
+      <Text layoutX="647.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" wrappingWidth="65.13671875" />
+      <TextField fx:id="telephoneText" layoutX="712.0" layoutY="261.0" />
+      <Text layoutX="647.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telephone:" wrappingWidth="65.13671875" />
+      <TextField fx:id="emailText" layoutX="712.0" layoutY="301.0" />
+      <Text layoutX="647.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" wrappingWidth="65.13671875" />
+      <TextField fx:id="IDText" layoutX="712.0" layoutY="344.0" />
+      <Text layoutX="647.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" wrappingWidth="65.13671875" />
+      <TextField fx:id="userNameText" layoutX="709.0" layoutY="382.0" />
+      <Text layoutX="644.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name:" wrappingWidth="65.13671875" />
+      <TextField fx:id="passwordText" layoutX="710.0" layoutY="423.0" />
+      <Text layoutX="644.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="65.13671875" />
+      <Text layoutX="647.0" layoutY="488.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Area:" wrappingWidth="33.13671875" />
+      <Text layoutX="644.0" layoutY="532.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Role:" wrappingWidth="33.13672471046448" />
+      <TextField fx:id="searchText" layoutX="289.0" layoutY="204.0" />
+      <Text layoutX="307.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search User by ID:" wrappingWidth="99.13671875" />
+      <Text fx:id="errorMessage" fill="RED" layoutX="307.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User does not exist!" wrappingWidth="112.13671875" />
+      <Button fx:id="searchButton" layoutX="452.0" layoutY="204.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
+      <Button fx:id="registerButton" layoutX="723.0" layoutY="565.0" mnemonicParsing="false" onAction="#register" prefHeight="36.0" prefWidth="134.0" text="Register">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <TextField fx:id="areaText" layoutX="708.0" layoutY="471.0" />
+      <TextField fx:id="roleText" layoutX="709.0" layoutY="517.0" />
+   </children>
+   <stylesheets>
+      <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
+      <URL value="@Homepage.css" />
+   </stylesheets>
+</AnchorPane>

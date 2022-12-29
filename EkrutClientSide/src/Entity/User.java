@@ -9,6 +9,7 @@ public class User
 				+ "]";
 	}
 	private String ID,UserName,FirstName,LastName,Password,Phone,Email,OnlineStatus;
+	private String area,userType;
 
 	public User(String userName, String password)
 	{
@@ -27,6 +28,9 @@ public class User
 		Phone = phone;
 		Email = email;
 	}
+	
+	public User() {} //Empty Constructor
+	
 	public String getID() {
 		return ID;
 	}
@@ -75,5 +79,4 @@ public class User
 	public void setOnlineStatus(String onlineStatus) {
 		OnlineStatus = onlineStatus;
 	}
-	
 }

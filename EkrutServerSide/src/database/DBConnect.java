@@ -3,6 +3,7 @@ package database;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -236,7 +237,8 @@ public class DBConnect
 	{
 		return conn;
 	}
-	
+
+
 	public ResponseObject makeQuery(RequestObjectClient query)
 	{
 		CreateOpreation(query);
@@ -268,8 +270,18 @@ public class DBConnect
 			{
 				Object[] values = new Object[columnCount];
 				for(int j = 1; j <= columnCount; j++)
-				{
-					values[j-1] = rs.getObject(j);
+				{		
+					if(rsdm.getColumnName(j).equals("ProductPicture"))
+					{
+						Blob blob = rs.getBlob(j);
+						if(blob == null)
+							continue;
+						
+						byte byteArray[] = blob.getBytes(1, (int)blob.length());
+						res.ResponsePicture.add(byteArray);
+					}
+					else
+						values[j-1] = rs.getObject(j);
 				}
 				res.addObject(values);
 			}

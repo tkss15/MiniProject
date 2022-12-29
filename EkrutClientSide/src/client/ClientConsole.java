@@ -7,9 +7,9 @@ import Entity.Facility;
 import Entity.Order;
 import Entity.User;
 import common.ChatIF;
-import common.Employee;
 import common.IController;
 import common.RequestObjectClient;
+import common.SceneManager;
 
 public class ClientConsole implements ChatIF 
 {
@@ -17,12 +17,9 @@ public class ClientConsole implements ChatIF
 	ChatClient client;
 	public ArrayList<Facility> arrFacility = new ArrayList<>();
 	private User clientUser = new User(null,null);
-	
-//	private Employee areaDeliveryOperator = new Employee();
-	
 	private Order clientOrder = new Order(null,null,null);
 
-//	SceneManager sceneManager = new SceneManager();
+	SceneManager sceneManager = new SceneManager();
 	IController currentController;
 	/***
 	 * ClientConsole is the Second layer of client. client console works with the ClientInterfaceController and with ChatClient.
