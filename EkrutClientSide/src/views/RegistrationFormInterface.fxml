@@ -9,7 +9,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -23,6 +25,133 @@
                </image>
                <VBox.margin>
                   <Insets bottom="5.0" left="30.0" top="30.0" />
+               </VBox.margin>
+            </ImageView>
+            <Text fx:id="welcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back Gal!" wrappingWidth="235.095703125">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="35.0" top="150.0" />
+               </VBox.margin>
+            </Text>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="333.0">
+               <children>
+                  <Line endX="149.5" startX="-100.0">
+                     <VBox.margin>
+                        <Insets left="15.0" top="10.0" />
+                     </VBox.margin>
+                  </Line>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="welcomeFirstName" strokeType="OUTSIDE" strokeWidth="0.0" text="Gal" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="welcomeLastNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Farfel" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID Number:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="welcomeIDText" strokeType="OUTSIDE" strokeWidth="0.0" text="206495872" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="35.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone number:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="welcomePhoneNumberText" strokeType="OUTSIDE" strokeWidth="0.0" text="0548975124" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="welcomeEmailText" strokeType="OUTSIDE" strokeWidth="0.0" text="GalFarfel@gmail.com" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="65.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="60.0" layoutY="163.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="60.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="70.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </VBox>
+            <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@User-removebg-preview.png" />
+               </image>
+               <VBox.margin>
+                  <Insets left="8.0" top="-225.0" />
                </VBox.margin>
             </ImageView>
          </children>

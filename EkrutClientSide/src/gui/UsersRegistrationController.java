@@ -39,6 +39,24 @@ public class UsersRegistrationController implements Initializable, IController {
 
 	@FXML
 	private TableColumn<User, String> IDCol;
+	
+	@FXML
+    private Text welcomeMessageText;
+
+    @FXML
+    private Text welcomeFirstName;
+
+    @FXML
+    private Text welcomeLastNameText;
+
+    @FXML
+    private Text welcomeIDText;
+
+    @FXML
+    private Text welcomePhoneNumberText;
+
+    @FXML
+    private Text welcomeEmailText;
 
 	@FXML
 	private Button BackButton;
@@ -229,7 +247,12 @@ public class UsersRegistrationController implements Initializable, IController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		welcomeFirstName.setText(ClientUI.clientController.getUser().getFirstName());
+		welcomeLastNameText.setText(ClientUI.clientController.getUser().getLastName());
+		welcomeIDText.setText(ClientUI.clientController.getUser().getID());
+		welcomePhoneNumberText.setText(ClientUI.clientController.getUser().getPhone());
+		welcomeEmailText.setText(ClientUI.clientController.getUser().getEmail());
+		welcomeMessageText.setText(String.format("Welcome Back %s",ClientUI.clientController.getUser().getFirstName()));
 		exists = false;
 		errorMessage.setVisible(false);
 		ClientUI.clientController.setController(this);
