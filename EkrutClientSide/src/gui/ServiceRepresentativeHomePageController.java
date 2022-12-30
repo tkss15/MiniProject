@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 
 public class ServiceRepresentativeHomePageController implements Initializable,IController{
 
@@ -21,6 +22,25 @@ public class ServiceRepresentativeHomePageController implements Initializable,IC
 
     @FXML
     private Button RegistrationFormButton;
+    
+    @FXML
+    private Text welcomeMessageText;
+
+    @FXML
+    private Text firstNameText;
+
+    @FXML
+    private Text lastNameText;
+
+    @FXML
+    private Text idText;
+
+    @FXML
+    private Text phoneNumberText;
+
+    @FXML
+    private Text emailText;
+
 
     @FXML
     void RegistrationForm(ActionEvent event) {
@@ -48,6 +68,12 @@ public class ServiceRepresentativeHomePageController implements Initializable,IC
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		System.out.println("ServiceRepresentativeInterface");
+		firstNameText.setText(ClientUI.clientController.getUser().getFirstName());
+		lastNameText.setText(ClientUI.clientController.getUser().getLastName());
+		idText.setText(ClientUI.clientController.getUser().getID());
+		phoneNumberText.setText(ClientUI.clientController.getUser().getPhone());
+		emailText.setText(ClientUI.clientController.getUser().getEmail());
+		welcomeMessageText.setText(String.format("Welcome Back %s",ClientUI.clientController.getUser().getFirstName()));
 	}
 
 }

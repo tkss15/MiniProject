@@ -25,9 +25,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
 public class UsersRegistrationController implements Initializable, IController {
-
+	ObservableList<ImportedUser> userInfo;
 	private ArrayList<ImportedUser> userRows;
 	private ImportedUser user;
+
+	private boolean exists;
 
 	@FXML
 	private TableView<ImportedUser> infoTable;
@@ -37,6 +39,24 @@ public class UsersRegistrationController implements Initializable, IController {
 
 	@FXML
 	private TableColumn<User, String> IDCol;
+	
+	@FXML
+    private Text welcomeMessageText;
+
+    @FXML
+    private Text welcomeFirstName;
+
+    @FXML
+    private Text welcomeLastNameText;
+
+    @FXML
+    private Text welcomeIDText;
+
+    @FXML
+    private Text welcomePhoneNumberText;
+
+    @FXML
+    private Text welcomeEmailText;
 
 	@FXML
 	private Button BackButton;
@@ -71,7 +91,6 @@ public class UsersRegistrationController implements Initializable, IController {
 	@FXML
 	private TextField passwordText;
 
-
 	@FXML
 	private ComboBox<String> roleCombo;
 
@@ -105,27 +124,70 @@ public class UsersRegistrationController implements Initializable, IController {
 
 	@FXML
 	void register(ActionEvent event) {
-
+		if(user.isSentToManager()) {
+			return;
+		}
+//		 * Update - PUT - 
+//		 * 		- URL: table=subscriber#condition=id=4#values=creditcardnumber=3&subscribernumber=4
+//		 * 		- UPDATE subscriber SET subscribernumber = 4, creditcardnumber = 3 WHERE id = 4;
+		
+		RequestObjectClient changeIsSentToManager = new RequestObjectClient("#UPDATE_REQUEST_TO_MANAGER",
+				String.format("table=importtable#condition=ID=%s#values=isSentToManager=1", user.getID()), "PUT");
+		ClientUI.clientController.accept(changeIsSentToManager);
+		RequestObjectClient getUsersAfterUpdate = new RequestObjectClient("#GET_USERS",
+				"table=importtable#condition=isSentToManager=0", "GET");
+		ClientUI.clientController.accept(getUsersAfterUpdate);
+		this.infoTable.getItems().clear();
+		userInfo = FXCollections.observableArrayList(userRows);
+		this.infoTable.setItems(userInfo);
+		this.infoTable.refresh();
+		
+		
+		
 	}
 
 	@FXML
 	void searchUser(ActionEvent event) {
+		errorMessage.setVisible(false);
 		String getUserText = searchText.getText();
+		if (getUserText.isEmpty()) {
+			errorMessage.setText("Please enter user ID");
+			errorMessage.setVisible(true);
+			return;
+		}
 		RequestObjectClient searchUserInDB = new RequestObjectClient("#SEARCH_USER",
-				String.format("table=importtable#condition=ID=%s", getUserText), "GET");
+				String.format("table=importtable#condition=ID=%s&isSentToManager=0", getUserText), "GET");
 		ClientUI.clientController.accept(searchUserInDB);
-		
-		firstNameText.setText(user.getFirstName());
-		lastNameText.setText(user.getLastName());
-		telephoneText.setText(user.getPhone());
-		emailText.setText(user.getEmail()); 
-		IDText.setText(user.getID());
-		userNameText.setText(user.getUserName());
-		passwordText.setText(user.getPassword());
-		
-		areaText.setText(user.getArea());
-		roleText.setText(user.getRoleType());
 
+		if (exists) {
+			firstNameText.setText(user.getFirstName());
+			lastNameText.setText(user.getLastName());
+			telephoneText.setText(user.getPhone());
+			emailText.setText(user.getEmail());
+			IDText.setText(user.getID());
+			userNameText.setText(user.getUserName());
+			passwordText.setText(user.getPassword());
+
+			areaText.setText(user.getArea());
+			roleText.setText(user.getRoleType());
+			exists = false;
+			return;
+		}
+		else {
+			firstNameText.setText(null);
+			lastNameText.setText(null);
+			telephoneText.setText(null);
+			emailText.setText(null);
+			IDText.setText(null);
+			userNameText.setText(null);
+			passwordText.setText(null);
+
+			areaText.setText(null);
+			roleText.setText(null);
+			
+			errorMessage.setText(String.format("user with ID: %s does not exist", getUserText));
+			errorMessage.setVisible(true);
+		}
 		// table=users#condition=userName=%s#values=userName=username&userPassword=password
 	}
 
@@ -150,15 +212,17 @@ public class UsersRegistrationController implements Initializable, IController {
 						String userPassword = (String) values[6];
 						String area = (String) values[7];
 						String userType = (String) values[8];
+						boolean isSentToUser = (Boolean)values[9];
 						User curr = new User(firstName, LastName, Telephone, Email, ID, userName, userPassword);
-						user = new ImportedUser(curr, area, userType);
+						user = new ImportedUser(curr, area, userType,isSentToUser);
 						userRows.add(user);
 					}
 				}
 				break;
 			case "#SEARCH_USER":
-
+				System.out.println(serverResponse.Responsedata.size());
 				if (serverResponse.Responsedata.size() != 0) {
+					exists = true;
 					for (int i = 0; i < serverResponse.Responsedata.size(); i++) {
 						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
 						String firstName = (String) values[0];
@@ -170,8 +234,10 @@ public class UsersRegistrationController implements Initializable, IController {
 						String userPassword = (String) values[6];
 						String area = (String) values[7];
 						String userType = (String) values[8];
+						boolean isSentToUser = (Boolean)values[9];
+						
 						User curr = new User(firstName, LastName, Telephone, Email, ID, userName, userPassword);
-						user = new ImportedUser(curr, area, userType);
+						user = new ImportedUser(curr, area, userType,isSentToUser);
 					}
 				}
 				break;
@@ -181,18 +247,24 @@ public class UsersRegistrationController implements Initializable, IController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		welcomeFirstName.setText(ClientUI.clientController.getUser().getFirstName());
+		welcomeLastNameText.setText(ClientUI.clientController.getUser().getLastName());
+		welcomeIDText.setText(ClientUI.clientController.getUser().getID());
+		welcomePhoneNumberText.setText(ClientUI.clientController.getUser().getPhone());
+		welcomeEmailText.setText(ClientUI.clientController.getUser().getEmail());
+		welcomeMessageText.setText(String.format("Welcome Back %s",ClientUI.clientController.getUser().getFirstName()));
+		exists = false;
 		errorMessage.setVisible(false);
 		ClientUI.clientController.setController(this);
 		emailCol.setCellValueFactory(new PropertyValueFactory<User, String>("Email"));
 		IDCol.setCellValueFactory(new PropertyValueFactory<User, String>("ID"));
-		RequestObjectClient getUsers = new RequestObjectClient("#GET_USERS", "table=importtable", "GET");
+		RequestObjectClient getUsers = new RequestObjectClient("#GET_USERS",
+				"table=importtable#condition=isSentToManager=0", "GET");
 		ClientUI.clientController.accept(getUsers);
-		
-		final ObservableList<ImportedUser> userInfo = FXCollections.observableArrayList(userRows);
+
+		userInfo = FXCollections.observableArrayList(userRows);
 		this.infoTable.setItems(userInfo);
 		this.infoTable.refresh();
-
 	}
 
 }

@@ -83,7 +83,7 @@ public class AreaManagerHomePageController implements Initializable, IController
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		ClientUI.clientController.setController(this);
+		
 		firstNameText.setText(ClientUI.clientController.getUser().getFirstName());
 		lastNameText.setText(ClientUI.clientController.getUser().getLastName());
 		IDText.setText(ClientUI.clientController.getUser().getID());
