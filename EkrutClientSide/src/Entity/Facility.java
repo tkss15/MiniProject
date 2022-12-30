@@ -2,16 +2,32 @@ package Entity;
 
 public class Facility 
 {
-	private int FacilityID;
-	private String FacilityLocation,FacilityName;
-	private int FacilityThresholder;
+	private Integer FacilityID;
+	private String FacilityArea, FacilityLocation,FacilityName;
+
+	private Integer FacilityThresholder;
+	private Boolean FacilityEK;
 	
-	public Facility(int FacilityID, String FacilityLocation, String FacilityName, int FacilityThresholder)
+	public Facility(Integer FacilityID, String FacilityArea, String FacilityLocation, String FacilityName, Integer FacilityThresholder, Boolean FacilityEK)
 	{
 		this.FacilityID = FacilityID;
+		this.FacilityArea = FacilityArea;
 		this.FacilityLocation = FacilityLocation;
 		this.FacilityName = FacilityName;
-		this.FacilityID = FacilityThresholder;
+		this.FacilityThresholder = FacilityThresholder;
+		this.FacilityEK = FacilityEK;
+	}
+	public String getFacilityArea() {
+		return FacilityArea;
+	}
+	public void setFacilityArea(String facilityArea) {
+		FacilityArea = facilityArea;
+	}
+	public boolean isFacilityEK() {
+		return FacilityEK;
+	}
+	public void setFacilityEK(boolean facilityEK) {
+		FacilityEK = facilityEK;
 	}
 	public int getFacilityID() {
 		return FacilityID;

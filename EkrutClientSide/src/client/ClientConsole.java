@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Entity.Facility;
 import Entity.Order;
+import Entity.Product;
 import Entity.User;
 import common.ChatIF;
 import common.IController;
@@ -15,9 +16,17 @@ public class ClientConsole implements ChatIF
 {
 	public static int DEFAULT_PORT = 5555;
 	ChatClient client;
-	public ArrayList<Facility> arrFacility = new ArrayList<>();
 	private User clientUser = new User(null,null);
 	private Order clientOrder = new Order(null,null,null);
+	private Facility EKFacility = new Facility(null, null, null, null, null, null);
+	
+
+	private String ApplicationType = null;
+	
+	public final String ApplicationConfig = "EkrutApplication/";
+	public ArrayList<Facility> arrFacility = new ArrayList<>();
+	private ArrayList<Product> arrProducts = new ArrayList<>();
+	
 
 	SceneManager sceneManager = new SceneManager();
 	IController currentController;
@@ -39,20 +48,6 @@ public class ClientConsole implements ChatIF
 			System.exit(1);
 		}
 	}
-	public Order getClientOrder() {
-		return clientOrder;
-	}
-	public void setClientOrder(Order clientOrder) {
-		this.clientOrder = clientOrder;
-	}
-	public User getUser()
-	{
-		return clientUser;
-	}
-	public void setUser(User user)
-	{
-		clientUser = user;
-	}
 	public void UserDissconnected()
 	{
 		if(this.clientUser.getOnlineStatus() == null)
@@ -63,9 +58,11 @@ public class ClientConsole implements ChatIF
 		{
 	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"", this.clientUser.getUserName()),"PUT");    
 	    	accept(request);
+	    	this.clientUser.setOnlineStatus("Offline");
 		}
 	}
 	public void setController(IController currentController) {
+		System.out.println("Changed Controller");
 		this.currentController = currentController;
 	}
 	/***
@@ -85,6 +82,44 @@ public class ClientConsole implements ChatIF
 	 * 
 	 * 
 	 */
+	public Facility getEKFacility() {
+		return EKFacility;
+	}
+	public void setEKFacility(Facility eKFacility) {
+		EKFacility = eKFacility;
+	}
+	public String getApplicationType() {
+		return ApplicationType;
+	}
+	public void setApplicationType(String applicationType) {
+		ApplicationType = applicationType;
+	}
+	public Order getClientOrder() {
+		return clientOrder;
+	}
+	public void setClientOrder(Order clientOrder) {
+		this.clientOrder = clientOrder;
+	}
+	public User getUser()
+	{
+		return clientUser;
+	}
+	public void setUser(User user)
+	{
+		clientUser = user;
+	}
+	public ArrayList<Facility> getArrFacility() {
+		return arrFacility;
+	}
+	public void setArrFacility(ArrayList<Facility> arrFacility) {
+		this.arrFacility = arrFacility;
+	}
+	public ArrayList<Product> getArrProducts() {
+		return arrProducts;
+	}
+	public void setArrProducts(ArrayList<Product> arrProducts) {
+		this.arrProducts = arrProducts;
+	}
 	@Override
 	public void display(Object message) 
 	{

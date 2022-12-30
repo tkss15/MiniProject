@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderInvoiceController">
+   <children>
+      <Pane layoutX="-1.0" prefHeight="173.0" prefWidth="1000.0" style="-fx-background-color: FDB926;">
+         <children>
+            <Text layoutX="391.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invoice number #31234" wrappingWidth="176.5546875">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="23.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../EkrutServerSide/src/gui/pictures/faf13193-4e2a-4556-b5af-87d639352dbb-removebg-preview.png" />
+               </image>
+            </ImageView>
+            <Text layoutX="391.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Invoice">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <ScrollPane layoutX="52.0" layoutY="247.0" prefHeight="434.0" prefWidth="890.0">
+        <content>
+          <AnchorPane>
+               <children>
+                  <VBox fx:id="VboxLayout" prefHeight="415.0" prefWidth="883.0">
+                     <children>
+                        <HBox maxWidth="1.7976931348623157E308" prefHeight="122.0" prefWidth="884.0" style="-fx-border-color: black;">
+                           <children>
+                              <HBox>
+                                 <children>
+                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../EkrutServerSide/src/gui/pictures/chips.png" />
+                                       </image>
+                                    </ImageView>
+                                    <VBox minWidth="220.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crunch Chips Original">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Classic Potato Chips flavor">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Text>
+                                          <HBox alignment="CENTER_LEFT">
+                                             <children>
+                                                <Label text="Qunatity" textFill="RED">
+                                                   <HBox.margin>
+                                                      <Insets right="10.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Button fx:id="MinusButton" maxWidth="27.0" minWidth="27.0" mnemonicParsing="false" prefWidth="27.0" style="-fx-border-color: #FDB926; -fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: transpernt;" text="-">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <TextField alignment="CENTER" prefHeight="25.0" prefWidth="58.0" text="1">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                                <Button fx:id="PlusButton" mnemonicParsing="false" style="-fx-border-color: #FDB926; -fx-background-color: transpernt; -fx-background-radius: 20; -fx-border-radius: 20;" text="+" textOverrun="CENTER_ELLIPSIS" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="628.0">
+                                 <children>
+                                    <HBox alignment="BOTTOM_RIGHT">
+                                       <children>
+                                          <Label text="Price per unit:">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="12.90₪" textAlignment="RIGHT">
+                                             <HBox.margin>
+                                                <Insets right="200.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <Label text="Total Price">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets right="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="12.90₪" textAlignment="RIGHT">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                        <HBox maxWidth="1.7976931348623157E308" prefHeight="122.0" prefWidth="884.0" style="-fx-border-color: black;">
+                           <children>
+                              <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="300.0">
+                                 <children>
+                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../EkrutServerSide/src/gui/pictures/bisli-removebg-preview.png" />
+                                       </image>
+                                    </ImageView>
+                                    <VBox minWidth="220.0" HBox.hgrow="NEVER">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bisli Grill">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="200g original Grill taste">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Text>
+                                          <HBox>
+                                             <children>
+                                                <Label text="Qunatity" textFill="RED">
+                                                   <HBox.margin>
+                                                      <Insets right="10.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Button fx:id="MinusButton1" maxWidth="27.0" minWidth="27.0" mnemonicParsing="false" prefWidth="27.0" style="-fx-border-color: #FDB926; -fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: transpernt;" text="-">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <TextField alignment="CENTER" prefHeight="25.0" prefWidth="58.0" text="1">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                                <Button fx:id="PlusButton1" mnemonicParsing="false" style="-fx-border-color: #FDB926; -fx-background-color: transpernt; -fx-background-radius: 20; -fx-border-radius: 20;" text="+" textOverrun="CENTER_ELLIPSIS" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="628.0">
+                                 <children>
+                                    <HBox alignment="BOTTOM_RIGHT">
+                                       <children>
+                                          <Label text="Price per unit:">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <VBox alignment="BOTTOM_CENTER">
+                                             <HBox.margin>
+                                                <Insets right="200.0" />
+                                             </HBox.margin>
+                                             <children>
+                                                <Text strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text="12.90₪" textAlignment="RIGHT">
+                                                   <font>
+                                                      <Font size="17.0" />
+                                                   </font>
+                                                </Text>
+                                                <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="8.90₪" textAlignment="RIGHT">
+                                                   <font>
+                                                      <Font size="17.0" />
+                                                   </font>
+                                                </Text>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <Label text="Total Price">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets right="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="26.70₪" textAlignment="RIGHT">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                        <HBox maxWidth="1.7976931348623157E308" prefHeight="122.0" prefWidth="884.0" style="-fx-border-color: black;">
+                           <children>
+                              <HBox HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../EkrutServerSide/src/gui/pictures/fanta-removebg-preview.png" />
+                                       </image>
+                                    </ImageView>
+                                    <VBox minWidth="220.0" prefWidth="220.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fanta ">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="330 mill Fanta small can ">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Text>
+                                          <HBox>
+                                             <children>
+                                                <Label text="Qunatity" textFill="RED">
+                                                   <HBox.margin>
+                                                      <Insets right="10.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Button fx:id="MinusButton11" maxWidth="27.0" minWidth="27.0" mnemonicParsing="false" prefWidth="27.0" style="-fx-border-color: #FDB926; -fx-border-radius: 20; -fx-background-radius: 20; -fx-background-color: transpernt;" text="-">
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <TextField alignment="CENTER" prefHeight="25.0" prefWidth="58.0" text="1">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                                <Button fx:id="PlusButton11" mnemonicParsing="false" style="-fx-border-color: #FDB926; -fx-background-color: transpernt; -fx-background-radius: 20; -fx-border-radius: 20;" text="+" textOverrun="CENTER_ELLIPSIS" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="628.0">
+                                 <children>
+                                    <HBox alignment="BOTTOM_RIGHT">
+                                       <children>
+                                          <Label text="Price per unit:">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets right="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5.70₪" textAlignment="RIGHT">
+                                             <HBox.margin>
+                                                <Insets right="200.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                    <Label text="Total Price">
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                       <padding>
+                                          <Insets right="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="17.10₪" textAlignment="RIGHT">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="17.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Button fx:id="CloseButton" layoutX="932.0" layoutY="11.0" minWidth="42.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="58.0" style="-fx-background-color: #fdb925; -fx-border-radius: 20; -fx-border-color: black;" text="X">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="CloseButton3" alignment="CENTER" layoutX="766.0" layoutY="12.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="28.0" style="-fx-border-color: black; -fx-background-color: transpernt; -fx-border-radius: 20;" text="-" textFill="WHITE">
+         <font>
+            <Font name="Cambria Bold" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="CloseButton2" layoutX="835.0" layoutY="12.0" mnemonicParsing="false" onAction="#closeWindow" style="-fx-background-color: #fdb925; -fx-border-color: black; -fx-border-radius: 20;" text="+" textFill="WHITE">
+         <font>
+            <Font name="Cambria Bold" size="15.0" />
+         </font>
+      </Button>
+      <Label layoutX="813.0" layoutY="15.0" prefHeight="24.0" prefWidth="13.0" text="/">
+         <font>
+            <Font name="Cambria Bold" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="30.0" fitWidth="36.0" layoutX="874.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../EkrutServerSide/src/gui/pictures/Search.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="734.0" layoutY="716.0" text="Total Price">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Text layoutX="859.0" layoutY="743.0" strokeType="OUTSIDE" strokeWidth="0.0" text="57.60₪">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Button layoutX="207.0" layoutY="716.0" mnemonicParsing="false" text="Cancel Invoice">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="387.0" layoutY="714.0" mnemonicParsing="false" text="Accept Invoice for 57.60₪">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button id="buttonFixed" layoutX="20.0" layoutY="753.0" mnemonicParsing="false" style="-fx-background-color: #FDB926; -fx-border-color: black; -fx-background-radius: 20; -fx-border-radius: 20;" text="Back">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../EkrutServerSide/src/gui/pictures/Back.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -4,6 +4,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -79,16 +80,17 @@
                               <Insets />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="passwordTextField" accessibleRole="PASSWORD_FIELD" promptText="Enter your password">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </TextField>
+                        <PasswordField fx:id="passwordTextField" promptText="Enter your password" />
                      </children>
                      <VBox.margin>
                         <Insets left="50.0" top="20.0" />
                      </VBox.margin>
                   </VBox>
+                  <Label fx:id="errorLabel" text="Error not vaild username or password" textFill="RED">
+                     <VBox.margin>
+                        <Insets left="50.0" top="10.0" />
+                     </VBox.margin>
+                  </Label>
                   <Button fx:id="LoginButton" mnemonicParsing="false" onAction="#actionLoggin" prefHeight="11.0" prefWidth="218.0" style="-fx-border-radius: 80;" text="Login" textFill="WHITE" VBox.vgrow="NEVER">
                      <VBox.margin>
                         <Insets bottom="20.0" left="100.0" top="30.0" />
@@ -102,7 +104,7 @@
                         <Insets left="50.0" top="10.0" />
                      </VBox.margin>
                   </Line>
-                  <Button fx:id="LoginApp" mnemonicParsing="false" onAction="#SimpleRequest" prefHeight="11.0" prefWidth="218.0" text="Sign-in with EKrut Touch" textAlignment="CENTER" textFill="#838888">
+                  <Button fx:id="LoginApp" mnemonicParsing="false" prefHeight="11.0" prefWidth="218.0" text="Sign-in with EKrut Touch" textAlignment="CENTER" textFill="#838888">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -110,6 +112,14 @@
                         <Insets left="100.0" top="20.0" />
                      </VBox.margin>
                   </Button>
+                  <ImageView fx:id="FastLogin" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/QRCode.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="130.0" />
+                     </VBox.margin>
+                  </ImageView>
                </children>
                <VBox.margin>
                   <Insets />

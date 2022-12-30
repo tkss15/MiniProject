@@ -1,36 +1,19 @@
 package gui;
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
-import Entity.Facility;
-import Entity.Product;
 import Entity.User;
-import client.ChatClient;
 import client.ClientUI;
 import common.IController;
-import common.MyFile;
 import common.RequestObjectClient;
 import common.ResponseObject;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -38,6 +21,7 @@ import javafx.scene.layout.VBox;
 public class ClientLoginPage implements Initializable, IController
 {
 	private boolean isLogged;
+	private boolean alreadyLogged = false;
 
     @FXML
     private VBox vboxlogo;
@@ -55,14 +39,13 @@ public class ClientLoginPage implements Initializable, IController
     private Button LoginButton;
 
     @FXML
+    private ImageView FastLogin;
+    @FXML
     private Button LoginApp;
     
     @FXML
-    void SimpleRequest(ActionEvent event)
-    {
-    	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",String.format("table=products"),"GET");    	
-    	ClientUI.clientController.accept(request);
-    }
+    private Label errorLabel;
+    
     @FXML
     void ExitWindow(MouseEvent event) {
     	System.exit(0);
@@ -71,30 +54,32 @@ public class ClientLoginPage implements Initializable, IController
     @FXML
     void actionLoggin(ActionEvent event) 
     {
-    	if(userNameTextField.getText() == null || passwordTextField.getText() == null)
+    	System.out.println("A "+ userNameTextField.getText());
+    	System.out.println("B "+ passwordTextField.getText());
+    	if(userNameTextField.getText().equals("")|| passwordTextField.getText().equals("") )
+    	{
+    		errorLabel.setText(null);
+    		errorLabel.setVisible(true);
     		return;
+    	}
     	String userName = userNameTextField.getText();
     	String password = passwordTextField.getText();
     	
-//    	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s#values=userName=username&userPassword=password", userName, password),"GET");    	
     	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s", userName, password),"GET");    	
 
     	ClientUI.clientController.accept(request);
 
-    	if(isLogged)
+    	if(isLogged && !alreadyLogged)
     	{
         	request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("table=users#condition=userName=%s#values=userOnline=\"Online\"", userName),"PUT");    	
         	ClientUI.clientController.accept(request);
-        	//UPDATE `ekrutdatabase`.`users` SET `userOnline` = 'Offline' WHERE (`userName` = 'tkss15');
-        	//UPDATE users SET userOnline = "Online" WHERE userName = tkss15
 
-    		ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);		
+    		ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);		
     	}
     	else
     	{
-//    		System.out.println("Login failed");
-//			Alert alert = new Alert(AlertType.ERROR, "Laptop LG 2 hours");
-//			alert.showAndWait();
+    		errorLabel.setText((alreadyLogged) ? "Error User already Logged-In" : "Error authentication failed, Try again.");
+    		errorLabel.setVisible(true);
     	}
 
     }
@@ -102,6 +87,17 @@ public class ClientLoginPage implements Initializable, IController
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
+		errorLabel.setVisible(false);
+		if(ClientUI.clientController.getEKFacility().isFacilityEK())
+		{
+			FastLogin.setVisible(true);
+			LoginApp.setVisible(false);
+		}
+		else
+		{
+			FastLogin.setVisible(false);
+			LoginApp.setVisible(true);
+		}
 		exitbutton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 			System.out.println("Hello");
 			event.consume();
@@ -121,38 +117,6 @@ public class ClientLoginPage implements Initializable, IController
 				
 				switch(serverResponse.getRequest())
 				{	
-					case"#SIMPLE_REQUEST":
-					{
-						for(int i = 0; i < serverResponse.Responsedata.size(); i++)
-						{
-							Object[] values =(Object[]) serverResponse.Responsedata.get(i);//Row 1 
-							Integer ProductCode = (Integer) values[0];
-							String ProductName = (String) values[1];
-							Double ProductPrice = (Double) values[2];
-							String ProductDesc = (String) values[3];
-							String ProductSrc = (String) values[4];
-							
-							byte[] arrayByte = serverResponse.ResponsePicture.get(i);// Picture's
-							Product anotherProduct = new Product(ProductCode,ProductName,ProductDesc, ProductSrc, ProductPrice);
-							System.out.println();
-							FileOutputStream fos;
-							try {
-								fos = new FileOutputStream(anotherProduct.PicturePhoto);
-								BufferedOutputStream bos = new BufferedOutputStream(fos); /* Create BufferedFileOutputStream */
-								
-								bos.write(arrayByte, 0, arrayByte.length); /* Write byte array to output stream */
-							    bos.flush();
-							    fos.flush();
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} /* Create file output stream */
-	
-							ClientUI.clientController.getClientOrder().addItem(anotherProduct);
-						}
-						break;
-					}
-
 					case"#USER_LOGIN_DATA":
 					{
 						if(serverResponse.Responsedata.size() != 0)
@@ -167,7 +131,15 @@ public class ClientLoginPage implements Initializable, IController
 							String ID = (String)values[4];
 							String userName = (String)values[5];
 							String userPassword = (String)values[6];
+							String OnlineUser = (String)values[7];
+							System.out.println(OnlineUser);
+							if(OnlineUser.equals("Online"))
+							{
+								alreadyLogged = true;
+								return;
+							}
 							
+							alreadyLogged = false;
 							//	public User(String firstName, String lastName, String phone, String email, String ID, String UserName,
 							ClientUI.clientController.setUser(new User(firstName, LastName, Telephone, Email, ID, userName, userPassword)); 
 							ClientUI.clientController.getUser().setOnlineStatus("Online");

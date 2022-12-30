@@ -27,6 +27,27 @@ public class SceneManager
 	public SceneManager()
 	{
 	}
+	public void ShowSceneNew(String urlResources)
+	{	
+        loader = new FXMLLoader(getClass().getResource(urlResources));
+        Parent root;
+		try {
+			root = loader.load();
+			ClientUI.clientController.setController(loader.getController());
+			stage = new Stage();
+			
+	        scene = new Scene(root);
+			SceneMovable(scene, stage);
+			
+			BackList.put(urlResources, scene);
+			stage.initStyle(StageStyle.UNDECORATED);
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void ShowScene(String urlResources)
 	{	
         loader = new FXMLLoader(getClass().getResource(urlResources));
@@ -56,6 +77,11 @@ public class SceneManager
 	{
 		((Node) event.getSource()).getScene().getWindow().hide();
 		ShowScene(urlResources);
+	}
+	public void ShowSceneNew(String urlResources, Event event)
+	{
+		((Node) event.getSource()).getScene().getWindow().hide();
+		ShowSceneNew(urlResources);
 	}
 	/***
 	 * 

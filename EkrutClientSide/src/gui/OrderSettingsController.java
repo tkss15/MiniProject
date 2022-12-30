@@ -1,10 +1,14 @@
 package gui;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Entity.Facility;
+import Entity.Product;
 import Entity.User;
 import client.ClientUI;
 import common.IController;
@@ -73,10 +77,14 @@ public class OrderSettingsController implements Initializable, IController {
     {
     	if(ComboboxFacility.getValue() != null)
     	{
-        	ClientUI.clientController.getClientOrder().setFacilityType("EK");
+        	
+        	ClientUI.clientController.getClientOrder().setFacilityType("OL");
         	ClientUI.clientController.getClientOrder().setOrderFacility(ComboboxFacility.getValue());
         	ClientUI.clientController.getClientOrder().setOrderType(((RadioButton)tg.getSelectedToggle()).getText());
-        	ClientUI.sceneManager.ShowScene("../views/CatalogViewer.fxml", event);
+        	String sql = "SELECT products.*, productsinfacility.ProductAmount FROM products LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode WHERE productsinfacility.FacilityID = " + ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() + " ORDER BY products.ProductCode";
+        	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",sql,"*");  
+        	ClientUI.clientController.accept(request);
+        	ClientUI.sceneManager.ShowSceneNew("../views/CatalogViewer.fxml", event);
     	}
     }
     @FXML
@@ -103,21 +111,44 @@ public class OrderSettingsController implements Initializable, IController {
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch(serverResponse.getRequest())
 			{	
-				case"#FACILITY_LIST":
+				case"#SIMPLE_REQUEST":
 				{
+					ClientUI.clientController.getArrProducts().clear();
 					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
 					{
-						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
-						Integer FacilityID = (Integer)values[0];
-						String FacilityLocation = (String)values[1];
-						String FacilityName = (String)values[2];
-						Integer FacilityThresholder = (Integer)values[3];
-						arrFacility.add(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
-						System.out.println(arrFacility);
+						Object[] values =(Object[]) serverResponse.Responsedata.get(i);//Row 1 
+						Integer ProductCode = (Integer) values[0];
+						String ProductName = (String) values[1];
+						Double ProductPrice = (Double) values[2];
+						String ProductDesc = (String) values[3];
+						String ProductSrc = (String) values[4];
+						Integer ProductAmount = (Integer) values[6];
+	
+						
+						byte[] arrayByte = serverResponse.ResponsePicture.get(i);// Picture's
+						Product anotherProduct = new Product(ProductCode,ProductName,ProductDesc, ProductSrc, ProductPrice, ProductAmount);
+						if(anotherProduct.PicturePhoto.exists())
+						{
+							(ClientUI.clientController.getArrProducts()).add(anotherProduct);
+							continue;
+						}
+						FileOutputStream fos;
+						try {
+							fos = new FileOutputStream(anotherProduct.PicturePhoto);
+							BufferedOutputStream bos = new BufferedOutputStream(fos); /* Create BufferedFileOutputStream */
+							
+							bos.write(arrayByte, 0, arrayByte.length); /* Write byte array to output stream */
+							System.out.println(anotherProduct.getPathPicture());
+						    bos.flush();
+						    fos.flush();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} /* Create file output stream */
+						(ClientUI.clientController.getArrProducts()).add(anotherProduct);
 					}
 					break;
 				}
-				
 			}
 		}
 	}

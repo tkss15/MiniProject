@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EKrutInstallController">
+   <children>
+      <Text layoutX="133.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ekrut First Installtion" wrappingWidth="333.58984375">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <VBox layoutX="133.0" layoutY="117.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Machine Type:" />
+            <RadioButton fx:id="EKRadio" mnemonicParsing="false" text="EK" />
+            <RadioButton fx:id="OLRadio" mnemonicParsing="false" text="OL" />
+         </children>
+      </VBox>
+      <HBox fx:id="EKOptions" layoutX="35.0" layoutY="230.0" prefHeight="66.0" prefWidth="530.0">
+         <children>
+            <VBox fx:id="EKArea" alignment="TOP_CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Facility Area" />
+                  <ComboBox fx:id="ComboBoxArea" onAction="#UpdatedArea" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </ComboBox>
+               </children>
+            </VBox>
+            <VBox fx:id="EKLocation" alignment="TOP_CENTER" prefHeight="199.0" prefWidth="190.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Facility Location">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <ComboBox fx:id="ComboBoxLocation" onAction="#UpdateMachine" prefWidth="150.0" />
+               </children>
+            </VBox>
+            <VBox fx:id="EKMachine" alignment="TOP_CENTER" prefHeight="199.0" prefWidth="190.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Machine ID">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <ComboBox fx:id="ComboBoxFacility11" prefWidth="150.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button fx:id="BtnInstall" layoutX="240.0" layoutY="319.0" mnemonicParsing="false" onAction="#buttonInstall" prefHeight="35.0" prefWidth="73.0" text="Install !" />
+      <Label fx:id="labelError" layoutX="263.0" layoutY="296.0" text="Error:" textFill="RED" />
+   </children>
+</AnchorPane>

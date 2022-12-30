@@ -176,7 +176,7 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" text="Logout" />
+      <Button fx:id="Logout" layoutX="18.0" layoutY="739.0" mnemonicParsing="false" onAction="#Logout" prefHeight="44.0" prefWidth="111.0" text="Logout" textAlignment="RIGHT" />
       <Text layoutX="489.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut Homepage" wrappingWidth="333.0000191926956" />
       <Button fx:id="BtnCreateOrder" layoutX="421.0" layoutY="246.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="200.0" text="Create Order" />
       <Button layoutX="691.0" layoutY="246.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="200.0" text="Catalog Viewer" />
@@ -227,6 +227,11 @@
       <ImageView fitHeight="30.0" fitWidth="36.0" layoutX="878.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@/Search.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="24.0" fitWidth="25.0" layoutX="28.0" layoutY="751.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../EkrutServerSide/pictures/Logout.png" />
          </image>
       </ImageView>
    </children>

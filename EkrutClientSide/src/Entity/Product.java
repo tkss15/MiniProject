@@ -6,28 +6,48 @@ import java.util.Objects;
 
 public class Product 
 {
+	@Override
+	public String toString() {
+		return "Product [ProductAmount=" + ProductAmount + ", MaxAmount=" + MaxAmount + ", ProductCode=" + ProductCode
+				+ ", ProductName=" + ProductName + ", ProductDescription=" + ProductDescription + ", ProductSrc="
+				+ ProductSrc + ", ProductPrice=" + ProductPrice + ", PicturePhoto=" + PicturePhoto + ", dirPictures="
+				+ dirPictures + "]";
+	}
 	private int ProductAmount = 1;
+	private int MaxAmount;
 	private Integer ProductCode;
 	private String ProductName, ProductDescription, ProductSrc;
 	private Double ProductPrice;
 	public File PicturePhoto;
 	
-	private final String dirPictures = "./EkrutAplication";
+	public int getMaxAmount() {
+		return MaxAmount;
+	}
+	public void setMaxAmount(int maxAmount) {
+		MaxAmount = maxAmount;
+	}
+	private final String dirPictures = "EkrutApplication";
 	
-	public Product(Integer ProductCode,String ProductName,String ProductDescription,String ProductSrc,Double ProductPrice)
+	public Product(Integer ProductCode,String ProductName,String ProductDescription,String ProductSrc,Double ProductPrice, int MaxAmount)
 	{
 		this.ProductCode = ProductCode;
 		this.ProductName = ProductName;
 		this.ProductDescription = ProductDescription;
 		this.ProductSrc = ProductSrc;
 		this.ProductPrice = ProductPrice;
+		this.MaxAmount = MaxAmount;
 		File newDir = new File(dirPictures);
 		newDir.mkdirs();
 		this.PicturePhoto = new File(dirPictures + "/" + this.ProductSrc);
 	}
+//	public String getPictureURL()
+//	{
+//		return 
+//	}
 	public String getPathPicture()
 	{
-		return PicturePhoto.getAbsolutePath();
+		System.out.println(PicturePhoto.getAbsolutePath());
+		return String.format("file:///%s", PicturePhoto.getAbsolutePath());
 	}
 	public Product(Product Oldproduct)
 	{
@@ -35,7 +55,8 @@ public class Product
 			Oldproduct.getProductName(),
 			Oldproduct.getProductDescription(),
 			Oldproduct.getProductSrc(),
-			Oldproduct.getProductPrice());
+			Oldproduct.getProductPrice(), 
+			Oldproduct.MaxAmount);
 		this.setAmount(Oldproduct.getProductAmount());
 	}
 	public int getProductAmount() {

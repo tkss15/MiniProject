@@ -37,7 +37,7 @@ public class CatalogViewController implements Initializable, IController
 	private final String PlusImage = "Plus.png";
 	private final String MinusImage = "Minus.png";
 	ArrayList<ProductUI> StockItems = new ArrayList<>();
-	ShoppingCartUI myShoppingCart = new ShoppingCartUI(null,null,null);
+	ShoppingCartUI myShoppingCart = new ShoppingCartUI();
     @FXML
     private VBox Item, ProductsVBox, ShoppingCart;
     @FXML
@@ -55,7 +55,15 @@ public class CatalogViewController implements Initializable, IController
     @FXML 
     void ShowPrevPage(ActionEvent event)
     {
-    	ClientUI.sceneManager.SceneBack(event, "/gui/Homepage.fxml");
+    	if(ClientUI.clientController.getEKFacility().isFacilityEK())
+    	{
+    		ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);
+    	}
+    	else
+    	{
+    		
+    		ClientUI.sceneManager.ShowScene("../views/ordersettings.fxml", event);	
+    	}
     }
     @FXML
     void closeWindow(ActionEvent event) {
@@ -65,22 +73,17 @@ public class CatalogViewController implements Initializable, IController
     @FXML
     void printElements(ActionEvent event) 
     {
-    	System.out.println("d");
+    	//System.out.println(ClientUI.clientController.getClientOrder().myCart);
+    	ClientUI.sceneManager.ShowScene("../views/OrderInvoice.fxml", event);
     }
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
-		//ClientUI.clientController.setController(this);
 		ScrollPane = new ScrollPane();
-
-//		ProductUI Cola = new ProductUI(new Product(1,"Coke Cola Zero","350 mill coke zero glass", "cola.png", 7.5));
-//		ProductUI Bisli = new ProductUI(new Product(2,"Cruch Chips Original","Classic Potato Chips flavor", "chips.png", 12.90));
-//		ProductUI Bisli2 = new ProductUI(new Product(3,"Cruch Chips Original2","Classic Potato Chips flavor", "chips.png", 12.90));
-		
-		for(int i = 0; i < ClientUI.clientController.getClientOrder().myCart.size(); i ++)
+		for(int i = 0; i < ClientUI.clientController.getArrProducts().size(); i ++)
 		{	
-			ProductUI productSample = new ProductUI(ClientUI.clientController.getClientOrder().myCart.get(i));
+			ProductUI productSample = new ProductUI(ClientUI.clientController.getArrProducts().get(i));
 			StockItems.add(productSample);
 		}
 		ShoppingCart.setSpacing(10.0);
@@ -88,44 +91,43 @@ public class CatalogViewController implements Initializable, IController
 		
 		ProductsVBox.getChildren().clear();
 		HBox RowItems = new HBox();
-		int i = 0;
-		for(i = 0; i < StockItems.size(); i++)
+		int i;
+		for(i = 0; i <= StockItems.size(); i++)
 		{
-			if( i % 2 == 0 )
+			if(i % 2 == 0)
 			{
 				RowItems.setSpacing(20);
 				ProductsVBox.getChildren().add(RowItems);
 				RowItems = new HBox();
 				VBox.setMargin(RowItems, new Insets(20,0,0,0));
 			}
-			RowItems.getChildren().add((StockItems.get(i)).ProductVBox());
+			if(i == StockItems.size())
+				break;
+			RowItems.getChildren().add(StockItems.get(i).ProductVBox());
 		}
 		if(i % 2 == 1)
 			ProductsVBox.getChildren().add(RowItems);
 		
-		//HBox Items = new HBox(Cola.ProductVBox(),Item);
-		//HBox.setMargin(Items, new Insets(30));
 		ProductsVBox.setFillWidth(true);
 		ScrollPane.setContent(ProductsVBox);
 		ScrollPane.setFitToWidth(true);
 		myShoppingCart.ShowCart();
 	}
-	class ShoppingCartUI extends Order
+	class ShoppingCartUI
 	{
-		public ShoppingCartUI(Facility orderFacility, String orderType, String FacilityType) {
-			super(orderFacility, orderType, FacilityType);
+		public ShoppingCartUI() {
 			// TODO Auto-generated constructor stub
 		}
-		@Override
+		
 		public void addItem(Product product)
 		{
-			super.addItem(product);
+			ClientUI.clientController.getClientOrder().addItem(product);
 			ShowCart();
 		}
-		@Override
+	
 		public void removeItem(Product product)
 		{
-			super.removeItem(product);
+			ClientUI.clientController.getClientOrder().removeItem(product);
 			ShowCart();
 		}
 		
@@ -133,7 +135,7 @@ public class CatalogViewController implements Initializable, IController
 		{
 			ShoppingCart.getChildren().clear();
 			VBox.setVgrow(ShoppingCart, Priority.ALWAYS);
-			for(Product product : myCart)
+			for(Product product : ClientUI.clientController.getClientOrder().myCart)
 			{
 				ShoppingCart.getChildren().add(ProductInCart(product));
 			}
@@ -171,6 +173,12 @@ public class CatalogViewController implements Initializable, IController
 			
 			ImageView PlusBtn = CreateImage(PlusImage,28.0,22.0,true,true, Cursor.HAND);
 			PlusBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+				if(product.getProductAmount() + 1 > product.getMaxAmount())
+				{
+					Alert alert = new Alert(AlertType.ERROR, "Error Currently Avaliable only" + product.getMaxAmount());
+					alert.showAndWait();
+					return;
+				}
 				product.setAmount(product.getProductAmount() + 1);
 				textFieldAmount.setText(Integer.toString(product.getProductAmount()));
 				event.consume();
@@ -292,6 +300,17 @@ public class CatalogViewController implements Initializable, IController
 					alert.showAndWait();
 					Amount.setText(oldV);
 					return;
+				}
+				Integer intAmount = Integer.valueOf(newV);
+				if(Product.getMaxAmount()  < intAmount)
+				{
+				    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				    alert.setTitle("Information");
+				    alert.setHeaderText("Updated cart!");
+				    alert.setContentText(String.format("Shopping cart updated with maximum amount of %s", Product.getProductName()));
+				    alert.showAndWait();
+				    Amount.setText(String.valueOf(Product.getMaxAmount()));
+				    return;
 				}
 				Product.setAmount(Integer.valueOf(newV));
 			});

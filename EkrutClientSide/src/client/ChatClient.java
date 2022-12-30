@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
+import Entity.Facility;
 import Entity.User;
 import common.ChatIF;
 import common.MyFile;
@@ -45,50 +46,38 @@ public class ChatClient extends AbstractClient
 	protected void handleMessageFromServer(Object msg) 
 	{
 		System.out.println("Message arrived");
-//		if (msg == null) 
-//		{
-//			clientConsole.display("#errornoid");
-//		} else if (msg instanceof Boolean) 
-//		{
-//			clientConsole.display((Boolean) msg ? "#SucssSubData have been updated sucssfully."
-//					: "#ErrorSubCould not update Subscriber number. Subscriber number already taken.");
-//		} 
-		if(msg instanceof MyFile)
-		{
-			  int fileSize =((MyFile)msg).getSize(); 
-			  System.out.println("Message received: " + msg + " from Server");
-			  System.out.println("length "+ fileSize);
-			  MyFile clientFile = (MyFile) msg;
-			  
-			  try 
-			  {
-				byte[] mybytearray = clientFile.getMybytearray();
-				File newDir = new File("C:\\EkrutApplication\\pictures");
-				newDir.mkdirs();
-				File newFile = new File("C:\\EkrutApplication\\pictures\\"+ clientFile.getFileName());
-				System.out.println(clientFile.getFileName());
-				FileOutputStream fos = new FileOutputStream(newFile); /* Create file output stream */
-				BufferedOutputStream bos = new BufferedOutputStream(fos); /* Create BufferedFileOutputStream */
-				bos.write(mybytearray, 0, clientFile.getSize()); /* Write byte array to output stream */
-				System.out.println(bos);
-			    bos.flush();
-			    fos.flush();
-			  }
-			  catch (Exception e) 
-			  {
-				System.out.println("Error uploading (Files)msg) to Server");
-				e.printStackTrace();
-			  }
-		}
 		if(msg instanceof ResponseObject)
 		{
-			clientConsole.display(msg);
-		
-		}
-		else if (msg instanceof HashMap) 
-		{
-			HashMap<String, String> subscriberDetails = (HashMap<String, String>) msg;
-			clientConsole.display(subscriberDetails);
+			System.out.println(((ResponseObject)msg).getRequest() + "Handled");
+			ResponseObject serverResponse = (ResponseObject) msg;
+			
+			// ClientUI dosent have IController and CANT implement it. so sadly it have to happen over here.
+			if(serverResponse.getRequest().equals("#FIRST_INSTALL"))
+			{	
+					System.out.println("First Install");
+					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+					{
+							//	public Facility(int FacilityID, String FacilityLocation, String FacilityName, int FacilityThresholder)
+							
+						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
+						Integer FacilityID = (Integer)values[0];
+						String FacilityArea = (String)values[1];
+						String FacilityLocation = (String)values[2];
+						String FacilityName = (String)values[3];
+						Integer FacilityThresholder = (Integer)values[4];
+						boolean FacilityEK = (boolean) values[5];
+							//ClientUI.clientController.(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
+							//System.out.println(arrFacility);
+						System.out.println(FacilityID + FacilityLocation + FacilityName + FacilityThresholder + FacilityEK);
+						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK));
+					}		
+					awaitResponse = false;
+			}
+			else
+			{// the Else here is must or we get into a dead end.
+				clientConsole.display(msg);
+			}
+			
 		}
 		awaitResponse = false;
 	}

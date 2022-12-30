@@ -241,6 +241,12 @@ public class DBConnect
 
 	public ResponseObject makeQuery(RequestObjectClient query)
 	{
+		String queryTable = "WildCard";
+		if(query.getSQLOpreation().equals("*"))
+		{
+			query.setTable(queryTable);
+		}
+		serverUI.display(query.getURL());
 		CreateOpreation(query);
 		
 		ResponseObject res = new ResponseObject(query.getTable());
@@ -248,10 +254,13 @@ public class DBConnect
 		
 		try 
 		{
-			PreparedStatement stmt = (conn.prepareStatement(CreateSqlStatement(query)));
+			PreparedStatement stmt;
 			
 			if(query.getSQLOpreation().equals("*"))
 				stmt = (conn.prepareStatement(query.getURL()));
+			else
+				stmt = (conn.prepareStatement(CreateSqlStatement(query)));
+			
 			
 			ResultSet rs;
 			if(query.getSQLOpreation().equals("PUT"))
