@@ -10,50 +10,46 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 
-public class ThresholdLevelController implements Initializable, IController {
+public class ThresholdLevelController implements Initializable, IController  {
 
-	@FXML
-	private Button backButton;
+    @FXML
+    private Button backButton;
 
-	@FXML
-	private Button CloseButton;
+    @FXML
+    private Button CloseButton;
 
-	@FXML
-	private SplitMenuButton selectFacilityButton;
+    @FXML
+    private Button approveButton;
 
-	@FXML
-	private SplitMenuButton SelectThresoldButton;
+    @FXML
+    private Slider thresholdSlider;
 
-	@FXML
-	private Button approveButton;
+    @FXML
+    private ComboBox<?> facilityCombo;
 
-	@FXML
-	void approve(ActionEvent event) {
+    @FXML
+    void approve(ActionEvent event) {
+    	
+    }
 
-	}
+    @FXML
+    void back(ActionEvent event) {
+    	((Node) event.getSource()).getScene().getWindow().hide();
+		ClientUI.sceneManager.ShowScene("../views/AreaManagerInterface.fxml");
+    }
 
-	@FXML
-	void back(ActionEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		ClientUI.sceneManager.ShowScene("../views/AreaManager.fxml");
-	}
+    @FXML
+    void close(ActionEvent event) {
+    	System.exit(0);
+    }
 
-	@FXML
-	void close(ActionEvent event) {
-		System.exit(0);
-	}
-
-	@FXML
-	void selectFacility(ActionEvent event) {
-
-	}
-
-	@FXML
-	void selectThreshold(ActionEvent event) {
-
-	}
+    @FXML
+    void selectFacility(ActionEvent event) {
+    	
+    }
 
 	@Override
 	public void updatedata(Object data) {
@@ -63,7 +59,7 @@ public class ThresholdLevelController implements Initializable, IController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

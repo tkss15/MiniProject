@@ -27,7 +27,7 @@ public class monthlyReportsController implements Initializable, IController {
 	private Text errorMessage;
 
 	@FXML
-	private ImageView Logo;
+	private ImageView EKrutLogo;
 
 	@FXML
 	private Button watchReportButton;
@@ -42,7 +42,7 @@ public class monthlyReportsController implements Initializable, IController {
 	private ComboBox<String> selectType;
 
 	@FXML
-	private ImageView Logo1;
+	private ImageView ReportLogo;
 
 	@FXML
 	private Button backButton;
@@ -50,7 +50,7 @@ public class monthlyReportsController implements Initializable, IController {
 	@FXML
 	void back(ActionEvent event) {
 		((Node) event.getSource()).getScene().getWindow().hide();
-		ClientUI.sceneManager.ShowScene("../views/AreaManager.fxml");
+		ClientUI.sceneManager.ShowScene("../views/AreaManagerInterface.fxml");
 	}
 
 	@FXML
@@ -86,8 +86,9 @@ public class monthlyReportsController implements Initializable, IController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.clientController.setController(this);
 		errorMessage.setVisible(false);
-		
+
 		String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 		ArrayList<String> months = new ArrayList<>();
