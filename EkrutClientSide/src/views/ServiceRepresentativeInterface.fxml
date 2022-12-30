@@ -32,7 +32,7 @@
                               <Image url="@User-removebg-preview.png" />
                            </image>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back Gal!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
+                        <Text fx:id="welcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back Gal!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -57,7 +57,7 @@
                               <Insets />
                            </HBox.margin>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gal" HBox.hgrow="ALWAYS">
+                        <Text fx:id="firstNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Gal" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="50.0" />
                            </HBox.margin>
@@ -74,7 +74,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Farfel" HBox.hgrow="ALWAYS">
+                        <Text fx:id="lastNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Farfel" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
@@ -91,7 +91,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="206495872" HBox.hgrow="ALWAYS">
+                        <Text fx:id="idText" strokeType="OUTSIDE" strokeWidth="0.0" text="206495872" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="35.0" />
                            </HBox.margin>
@@ -108,7 +108,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0548975124" HBox.hgrow="ALWAYS">
+                        <Text fx:id="phoneNumberText" strokeType="OUTSIDE" strokeWidth="0.0" text="0548975124" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="15.0" />
                            </HBox.margin>
@@ -125,7 +125,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="GalFarfel@gmail.com" HBox.hgrow="ALWAYS">
+                        <Text fx:id="emailText" strokeType="OUTSIDE" strokeWidth="0.0" text="GalFarfel@gmail.com" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="65.0" />
                            </HBox.margin>
@@ -142,16 +142,6 @@
                   </HBox>
                   <HBox layoutX="60.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:">
-                           <HBox.margin>
-                              <Insets left="50.0" right="10.0" />
-                           </HBox.margin>
-                        </Text>
-                        <Text layoutX="60.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Karmiel">
-                           <HBox.margin>
-                              <Insets left="50.0" right="10.0" />
-                           </HBox.margin>
-                        </Text>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="70.0" />

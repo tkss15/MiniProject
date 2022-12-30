@@ -25,15 +25,6 @@
                   <Insets bottom="5.0" left="30.0" top="30.0" />
                </VBox.margin>
             </ImageView>
-            <TableView fx:id="infoTable" prefHeight="480.0" prefWidth="277.0">
-              <columns>
-                <TableColumn fx:id="emailCol" prefWidth="142.0" text="Email" />
-                <TableColumn fx:id="IDCol" prefWidth="124.0" text="ID" />
-              </columns>
-               <VBox.margin>
-                  <Insets left="5.0" right="5.0" top="10.0" />
-               </VBox.margin>
-            </TableView>
          </children>
       </VBox>
       <Button fx:id="BackButton" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#Back" text="Back" />
@@ -70,6 +61,12 @@
       </Button>
       <TextField fx:id="areaText" layoutX="708.0" layoutY="471.0" />
       <TextField fx:id="roleText" layoutX="709.0" layoutY="517.0" />
+      <TableView fx:id="infoTable" layoutX="289.0" layoutY="265.0" prefHeight="480.0" prefWidth="267.0">
+        <columns>
+          <TableColumn fx:id="emailCol" prefWidth="142.0" text="Email" />
+          <TableColumn fx:id="IDCol" prefWidth="124.0" text="ID" />
+        </columns>
+      </TableView>
    </children>
    <stylesheets>
       <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
