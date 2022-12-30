@@ -3,6 +3,7 @@ package client;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Entity.Employee;
 import Entity.Facility;
 import Entity.Order;
 import Entity.User;
@@ -16,7 +17,7 @@ public class ClientConsole implements ChatIF
 	public static int DEFAULT_PORT = 5555;
 	ChatClient client;
 	public ArrayList<Facility> arrFacility = new ArrayList<>();
-	private User clientUser = new User(null,null);
+	private User clientUser = new User();
 	private Order clientOrder = new Order(null,null,null);
 
 	SceneManager sceneManager = new SceneManager();
@@ -51,7 +52,11 @@ public class ClientConsole implements ChatIF
 	}
 	public void setUser(User user)
 	{
-		clientUser = user;
+		if(user instanceof Employee) {
+			Employee employee = (Employee)user;
+			clientUser = new Employee(employee,employee.getBranch());
+		}
+		else clientUser = user; 
 	}
 	public void UserDissconnected()
 	{
