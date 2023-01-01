@@ -16,6 +16,7 @@ public class Product
 	private int ProductAmount = 1;
 	private int MaxAmount;
 	private Integer ProductCode;
+
 	private String ProductName, ProductDescription, ProductSrc;
 	private Double ProductPrice;
 	public File PicturePhoto;
@@ -70,6 +71,12 @@ public class Product
 	}
 	public String getProductSrc() {
 		return ProductSrc;
+	}
+	public Integer getProductCode() {
+		return ProductCode;
+	}
+	public void setProductCode(Integer productCode) {
+		ProductCode = productCode;
 	}
 	public Double getProductPrice() {
 		return ProductPrice;

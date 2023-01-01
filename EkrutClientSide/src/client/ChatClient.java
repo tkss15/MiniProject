@@ -14,6 +14,7 @@ import common.RequestObjectClient;
 import common.ResponseObject;
 import common.SceneManager;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import ocsf.client.AbstractClient;
 
 public class ChatClient extends AbstractClient 
@@ -96,6 +97,7 @@ public class ChatClient extends AbstractClient
 					awaitResponse = false;
 				System.out.println("Sending object "+ ((RequestObjectClient)message).getRequestID());
 			}
+			
 			openConnection();
 			sendToServer(message);
 			while (awaitResponse) {

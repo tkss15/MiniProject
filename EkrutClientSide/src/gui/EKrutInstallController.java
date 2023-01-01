@@ -84,9 +84,11 @@ public class EKrutInstallController implements Initializable,IController {
     	
     	if(((RadioButton)tg.getSelectedToggle()).equals(OLRadio))
     	{
-    		firstInstallDir.mkdir();
         	try {
+        		firstInstallDir.mkdir();
     			Iscreated = firstInstalltion.createNewFile();
+    			
+    			ClientUI.clientController.getEKFacility().setFacilityEK(false);
     			
     			if(Iscreated)
     			{
@@ -98,13 +100,19 @@ public class EKrutInstallController implements Initializable,IController {
     			}
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
-    			
+    			System.out.println("Here IOException ?");
     			e.printStackTrace();
     		}
+        	catch(Exception e)
+        	{
+    			System.out.println("Here Exception ?");
+    			e.printStackTrace();
+        	}
     		
     	}
     	else
     	{
+    		System.out.println("Here by mistake ?");
     		if(ComboBoxFacility11.getValue() == null || ComboBoxLocation.getValue() == null || ComboBoxArea.getValue() == null )
     			return;
     		
@@ -115,8 +123,10 @@ public class EKrutInstallController implements Initializable,IController {
     			if(Iscreated)
     			{
     				FileOutputStream fos = new FileOutputStream(firstInstalltion,false);
+    				
     				ClientUI.clientController.setEKFacility(ComboBoxFacility11.getValue());
     				ClientUI.clientController.getEKFacility().setFacilityEK(true);
+    				
     				Facility selectedFacility = ClientUI.clientController.getEKFacility();
     				StringBuilder configSettings = new StringBuilder();
     				if(((RadioButton)tg.getSelectedToggle()).equals(EKRadio))
@@ -135,18 +145,17 @@ public class EKrutInstallController implements Initializable,IController {
     				byte[] byteOutput = (configSettings.toString()).getBytes();
     				fos.write(byteOutput);
     				fos.close();
+    				
+    				RequestObjectClient request = new RequestObjectClient("#FACILITY_EKUPDATE",String.format("table=facilities#condition=FacilityID=%s#values=FacilityEK=\"1\"", ClientUI.clientController.getEKFacility().getFacilityID()),"PUT");    	
+    				ClientUI.clientController.accept(request);
     			}
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
     			
     			e.printStackTrace();
     		}
-    		
-    		RequestObjectClient request = new RequestObjectClient("#FACILITY_EKUPDATE",String.format("table=facilities#condition=FacilityID=%s#values=FacilityEK=\"1\"", ClientUI.clientController.getEKFacility().getFacilityID()),"PUT");    	
-        	ClientUI.clientController.accept(request);
-    		
     	}
-    	ClientUI.sceneManager.ShowScene("../views/LoginClientInterface.fxml");	
+    	ClientUI.sceneManager.ShowScene("../views/LoginClientInterface.fxml", event);	
     }
     
     @FXML
@@ -158,6 +167,7 @@ public class EKrutInstallController implements Initializable,IController {
 		Facilitylist = FXCollections.observableArrayList(ClientUI.clientController.arrFacility.stream()
 				.filter(fac -> (ComboBoxArea.getValue().equals(fac.getFacilityArea()) && ComboBoxLocation.getValue().equals(fac.getFacilityLocation()) && !fac.isFacilityEK() ) )
 				.collect(Collectors.toList()));
+		
 		if(Facilitylist.isEmpty())
 		{
 			ComboBoxFacility11.setVisible(false);

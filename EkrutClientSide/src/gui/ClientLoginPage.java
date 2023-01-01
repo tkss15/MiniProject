@@ -8,7 +8,10 @@ import client.ClientUI;
 import common.IController;
 import common.RequestObjectClient;
 import common.ResponseObject;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,7 +25,6 @@ public class ClientLoginPage implements Initializable, IController
 {
 	private boolean isLogged;
 	private boolean alreadyLogged = false;
-
     @FXML
     private VBox vboxlogo;
 
@@ -65,13 +67,13 @@ public class ClientLoginPage implements Initializable, IController
     	String userName = userNameTextField.getText();
     	String password = passwordTextField.getText();
     	
+    	
     	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s", userName, password),"GET");    	
-
     	ClientUI.clientController.accept(request);
 
     	if(isLogged && !alreadyLogged)
     	{
-        	request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("table=users#condition=userName=%s#values=userOnline=\"Online\"", userName),"PUT");    	
+    		request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("table=users#condition=userName=%s#values=userOnline=\"Online\"", userName),"PUT");    	
         	ClientUI.clientController.accept(request);
 
     		ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);		
@@ -88,7 +90,7 @@ public class ClientLoginPage implements Initializable, IController
 	public void initialize(URL location, ResourceBundle resources) 
 	{
 		errorLabel.setVisible(false);
-		if(ClientUI.clientController.getEKFacility().isFacilityEK())
+		if(ClientUI.clientController.getEKFacility() != null && ClientUI.clientController.getEKFacility().isFacilityEK())
 		{
 			FastLogin.setVisible(true);
 			LoginApp.setVisible(false);
@@ -105,11 +107,8 @@ public class ClientLoginPage implements Initializable, IController
 		
     }
 
-
 	@Override
 	public void updatedata(Object data) {
-		// TODO Auto-generated method stub
-		//Platform.runLater(() -> {
 			System.out.println("ClientLoginPage");
 			if(data instanceof ResponseObject)
 			{
@@ -151,7 +150,6 @@ public class ClientLoginPage implements Initializable, IController
 					
 				}
 			}
-		//});
 	}
 
 }

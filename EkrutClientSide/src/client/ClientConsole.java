@@ -11,6 +11,7 @@ import common.ChatIF;
 import common.IController;
 import common.RequestObjectClient;
 import common.SceneManager;
+import javafx.concurrent.Task;
 
 public class ClientConsole implements ChatIF 
 {
@@ -19,8 +20,6 @@ public class ClientConsole implements ChatIF
 	private User clientUser = new User(null,null);
 	private Order clientOrder = new Order(null,null,null);
 	private Facility EKFacility = new Facility(null, null, null, null, null, null);
-	
-
 	private String ApplicationType = null;
 	
 	public final String ApplicationConfig = "EkrutApplication/";
@@ -75,8 +74,8 @@ public class ClientConsole implements ChatIF
 	public void accept(Object msg) 
 	{
 		client.handleMessageFromClientUI(msg);
+
 	}
-	
 	/***
 	 * @param message
 	 * 

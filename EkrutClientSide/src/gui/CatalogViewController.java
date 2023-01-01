@@ -55,15 +55,7 @@ public class CatalogViewController implements Initializable, IController
     @FXML 
     void ShowPrevPage(ActionEvent event)
     {
-    	if(ClientUI.clientController.getEKFacility().isFacilityEK())
-    	{
-    		ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);
-    	}
-    	else
-    	{
-    		
-    		ClientUI.sceneManager.ShowScene("../views/ordersettings.fxml", event);	
-    	}
+    	ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);
     }
     @FXML
     void closeWindow(ActionEvent event) {
@@ -74,7 +66,7 @@ public class CatalogViewController implements Initializable, IController
     void printElements(ActionEvent event) 
     {
     	//System.out.println(ClientUI.clientController.getClientOrder().myCart);
-    	ClientUI.sceneManager.ShowScene("../views/OrderInvoice.fxml", event);
+    	ClientUI.sceneManager.ShowSceneNew("../views/OrderInvoice.fxml", event);
     }
     
 	@Override
@@ -179,7 +171,7 @@ public class CatalogViewController implements Initializable, IController
 					alert.showAndWait();
 					return;
 				}
-				product.setAmount(product.getProductAmount() + 1);
+				ClientUI.clientController.getClientOrder().UpdateItem(product, product.getProductAmount() + 1);
 				textFieldAmount.setText(Integer.toString(product.getProductAmount()));
 				event.consume();
 			});	
@@ -192,7 +184,7 @@ public class CatalogViewController implements Initializable, IController
 					removeItem(product);
 					return;					
 				}
-				product.setAmount(product.getProductAmount() - 1);
+				ClientUI.clientController.getClientOrder().UpdateItem(product, product.getProductAmount() - 1);
 				textFieldAmount.setText(Integer.toString(product.getProductAmount()));
 				event.consume();				
 			});

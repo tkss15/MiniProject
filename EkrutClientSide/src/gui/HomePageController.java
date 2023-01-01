@@ -90,8 +90,6 @@ public class HomePageController implements Initializable, IController
     void openCatalogProduct(Event event) {
     	System.out.println("Closed");
     	
-//    	RequestObjectClient request = new RequestObjectClient("#FACILITY_LIST",String.format("table=facilities"),"GET");    	
-//    	ClientUI.clientController.accept(request);
     	if(ClientUI.clientController.getEKFacility().isFacilityEK())
     	{
         	ClientUI.clientController.getClientOrder().setFacilityType("EK");
