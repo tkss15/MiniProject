@@ -113,10 +113,10 @@ public class DBConnect
 					query.append(" WHERE (" );
 					for (Map.Entry<String,String> entry : SQLCondition.entrySet()) 
 					{
-						query.append(entry.getKey() + " = " +  String.format("\'%s\'", entry.getValue()) );
-						query.append(", ");
+						query.append(entry.getKey() + " = " + String.format("\"%s\"", entry.getValue()));
+						query.append("AND ");
 					}
-					query.delete(query.length()-2, query.length());
+					query.delete(query.length()-4, query.length());
 					query.append(")");
 				}
 				break;

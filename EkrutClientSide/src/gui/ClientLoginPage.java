@@ -80,7 +80,7 @@ public class ClientLoginPage implements Initializable, IController
     	if(isLogged && !alreadyLogged)
     	{
     		
-    		request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("table=users#condition=userName=%s#values=userOnline=\"Online\"", userName),"PUT");    	
+    		request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("table=users#condition=userName=%s#values=userOnline=\"Online\"&Area=\"Kirat-Ata\"", userName),"PUT");    	
     		ClientUI.clientController.accept(request);
     		
     		request = new RequestObjectClient("#USER_IS_EMPLOYEE",String.format("table=Employees#condition=userName=%s", userName),"GET");
