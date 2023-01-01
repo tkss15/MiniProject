@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="453.0" stylesheets="@Homepage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox maxHeight="800.0" maxWidth="335.0" minHeight="400.0" minWidth="153.0" prefHeight="400.0" prefWidth="153.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
+         <children>
+            <ImageView fitHeight="176.0" fitWidth="192.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../שיטות%20הנדסיות/פרוייקט/project%20icons/ManageOrdersScreenLogם.png" />
+               </image>
+               <VBox.margin>
+                  <Insets left="-15.0" />
+               </VBox.margin>
+            </ImageView>
+            <Button fx:id="Logout" mnemonicParsing="false" stylesheets="@FXML/Homepage.css" text="Back">
+               <VBox.margin>
+                  <Insets left="4.0" top="210.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+      <Text layoutX="159.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Manage Orders" wrappingWidth="310.0000191926956" />
+      <Button fx:id="ManageOrders" layoutX="207.0" layoutY="277.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="160.0" text="View Order" />
+      <ImageView fitHeight="58.0" fitWidth="66.0" layoutX="207.0" layoutY="277.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../שיטות%20הנדסיות/פרוייקט/project%20icons/eyeCartLogo.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="CloseButton" layoutX="394.0" layoutY="8.0" minWidth="42.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" stylesheets="@FXML/Homepage.css" text="X" textFill="#fdb925">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="CloseButton3" alignment="CENTER" layoutX="236.0" layoutY="5.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="28.0" prefWidth="42.0" style="-fx-background-color: #fdb925;" text="-" textFill="WHITE">
+         <font>
+            <Font name="Cambria Bold" size="17.0" />
+         </font>
+      </Button>
+      <Button fx:id="CloseButton2" layoutX="296.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="38.0" prefWidth="43.0" style="-fx-background-color: #fdb925;" text="+" textFill="WHITE">
+         <font>
+            <Font name="Cambria Bold" size="15.0" />
+         </font>
+         <stylesheets>
+            <URL value="@FXML/Homepage.css" />
+            <URL value="@FXML/CatalogViewer.css" />
+            <URL value="@FXML/ServerInterface.css" />
+         </stylesheets>
+      </Button>
+      <Label layoutX="283.0" layoutY="12.0" prefHeight="24.0" prefWidth="13.0" text="/">
+         <font>
+            <Font name="Cambria Bold" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="30.0" fitWidth="36.0" layoutX="341.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../שיטות%20הנדסיות/פרוייקט/project%20icons/Search.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="230.0" layoutY="128.0" prefHeight="27.0" prefWidth="119.0" text="Choose Order:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <SplitMenuButton layoutX="230.0" layoutY="168.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="119.0" stylesheets="@FXML/Homepage.css" text="Order">
+         <items>
+            <MenuItem mnemonicParsing="false" text="karmiel1" />
+            <MenuItem mnemonicParsing="false" text="karmiel2" />
+            <MenuItem mnemonicParsing="false" text="karmiel3" />
+            <MenuItem mnemonicParsing="false" text="karmiel 4" />
+            <MenuItem mnemonicParsing="false" text="TLV1" />
+            <MenuItem mnemonicParsing="false" text="TLV2" />
+            <MenuItem mnemonicParsing="false" text="TLV3" />
+            <MenuItem mnemonicParsing="false" text="TLV4" />
+            <MenuItem mnemonicParsing="false" text="Krayot1" />
+            <MenuItem mnemonicParsing="false" text="Krayot2" />
+            <MenuItem mnemonicParsing="false" text="Krayot3" />
+            <MenuItem mnemonicParsing="false" text="Krayot4" />
+         </items>
+         <font>
+            <Font name="Cambria" size="10.0" />
+         </font>
+      </SplitMenuButton>
+   </children>
+</AnchorPane>
