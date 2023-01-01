@@ -69,6 +69,7 @@ public class ThresholdLevelController implements Initializable, IController {
     	if(ID.isEmpty()) {
     		errorMessageText.setVisible(true);
 			errorMessageText.setText("One or more fields are empty!");
+			return;
     	}
     	int intID = Integer.parseInt(ID);
     	String location = facilityLocation.getText(); 

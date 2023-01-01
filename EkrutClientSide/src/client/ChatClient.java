@@ -59,18 +59,18 @@ public class ChatClient extends AbstractClient
 					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
 					{
 							//	public Facility(int FacilityID, String FacilityLocation, String FacilityName, int FacilityThresholder)
-							
+						System.out.println("abc");
 						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
 						Integer FacilityID = (Integer)values[0];
 						String FacilityArea = (String)values[1];
 						String FacilityLocation = (String)values[2];
 						String FacilityName = (String)values[3];
 						Integer FacilityThresholder = (Integer)values[4];
-						boolean FacilityEK = (boolean) values[5];
+						Integer FacilityEK = (Integer) values[5];
 							//ClientUI.clientController.(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
 							//System.out.println(arrFacility);
 						System.out.println(FacilityID + FacilityLocation + FacilityName + FacilityThresholder + FacilityEK);
-						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK));
+						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK == 0 ? false : true));
 					}		
 					awaitResponse = false;
 			}
