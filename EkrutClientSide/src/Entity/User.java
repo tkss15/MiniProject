@@ -2,7 +2,14 @@ package Entity;
 
 public class User
 {
+	@Override
+	public String toString() {
+		return "User [ID=" + ID + ", UserName=" + UserName + ", FirstName=" + FirstName + ", LastName=" + LastName
+				+ ", Password=" + Password + ", Phone=" + Phone + ", Email=" + Email + ", OnlineStatus=" + OnlineStatus
+				+ "]";
+	}
 	private String ID,UserName,FirstName,LastName,Password,Phone,Email,OnlineStatus;
+	private String area;
 
 	public User(String userName, String password)
 	{
@@ -10,9 +17,8 @@ public class User
 		Password = password;
 	}
 	public User(String firstName, String lastName, String phone, String email, String ID, String UserName,
-			String Password) 
+			String Password, String area) 
 	{
-		super();
 		this.ID = ID;
 		this.UserName = UserName;
 		FirstName = firstName;
@@ -20,7 +26,11 @@ public class User
 		this.Password = Password;
 		Phone = phone;
 		Email = email;
+		this.area = area;
 	}
+	
+	public User() {} //Empty Constructor
+	
 	public String getID() {
 		return ID;
 	}
@@ -69,10 +79,12 @@ public class User
 	public void setOnlineStatus(String onlineStatus) {
 		OnlineStatus = onlineStatus;
 	}
-	@Override
-	public String toString() {
-		return "User [ID=" + ID + ", UserName=" + UserName + ", FirstName=" + FirstName + ", LastName=" + LastName
-				+ ", Password=" + Password + ", Phone=" + Phone + ", Email=" + Email + ", OnlineStatus=" + OnlineStatus
-				+ "]";
+	
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
 	}
 }
