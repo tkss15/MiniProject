@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ThresholdLevelController">
+   <children>
+      <Line endX="260.0" layoutX="545.0" layoutY="157.0" opacity="0.7" startX="-187.0" />
+      <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="395.0" minWidth="319.0" prefHeight="395.0" prefWidth="319.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../OneDrive/Desktop/Braude/סמסטר%205/שיטות%20הנדסיות%20לפיתוח%20מערכות%20תוכנה/פרוייקט/EKrut/src/gui/pictures/EKrutLogo.jpeg" />
+               </image>
+               <VBox.margin>
+                  <Insets left="70.0" top="50.0" />
+               </VBox.margin>
+            </ImageView>
+            <Text fx:id="facilityNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Area" wrappingWidth="177.00001180171967">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="20.0" top="50.0" />
+               </VBox.margin>
+            </Text>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Back">
+               <VBox.margin>
+                  <Insets left="7.0" top="72.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+      <Text layoutX="413.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Threshold Level" wrappingWidth="371.0000191926956" />
+      <Button fx:id="CloseButton" layoutX="766.0" layoutY="4.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="335.0" layoutY="276.0" prefHeight="27.0" prefWidth="200.0" text="Set Threshold Level:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Slider fx:id="thresholdSlider" blockIncrement="5.0" layoutX="506.0" layoutY="276.0" majorTickUnit="5.0" max="50.0" minorTickCount="1" prefHeight="53.0" prefWidth="287.0" showTickLabels="true" showTickMarks="true" />
+      <TextField fx:id="facilityLocation" layoutX="403.0" layoutY="202.0" prefHeight="25.0" prefWidth="91.0" />
+      <TextField fx:id="facilityID" layoutX="403.0" layoutY="168.0" prefHeight="25.0" prefWidth="91.0" />
+      <TextField fx:id="facilityName" layoutX="403.0" layoutY="242.0" prefHeight="25.0" prefWidth="91.0" />
+      <Text layoutX="319.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" wrappingWidth="76.13671875" />
+      <Text layoutX="319.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location:" wrappingWidth="76.13671875" />
+      <Text layoutX="319.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" wrappingWidth="76.13671875" />
+      <Text fx:id="errorMessageText" fill="RED" layoutX="493.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.00000715255737" />
+      <Button fx:id="approveButton" layoutX="683.0" layoutY="332.0" mnemonicParsing="false" onAction="#approve" prefHeight="53.0" prefWidth="101.0" text="Approve">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Button>
+      <Text fx:id="successMessageText" fill="#00a822e3" layoutX="493.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.00000715255737" />
+   </children>
+   <stylesheets>
+      <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
+      <URL value="@Homepage.css" />
+   </stylesheets>
+</AnchorPane>
