@@ -66,11 +66,10 @@ public class ChatClient extends AbstractClient
 						String FacilityLocation = (String)values[2];
 						String FacilityName = (String)values[3];
 						Integer FacilityThresholder = (Integer)values[4];
-						boolean FacilityEK = (boolean) values[5];
-							//ClientUI.clientController.(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
-							//System.out.println(arrFacility);
+						Integer FacilityEK = (Integer) values[5];
 						System.out.println(FacilityID + FacilityLocation + FacilityName + FacilityThresholder + FacilityEK);
-						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK));
+						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK == 0 ? false : true
+						));
 					}		
 					awaitResponse = false;
 			}

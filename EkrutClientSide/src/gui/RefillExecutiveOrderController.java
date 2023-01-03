@@ -3,7 +3,6 @@ package gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import Entity.Facility;
 import client.ClientUI;
@@ -15,109 +14,66 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ListView;
 import javafx.scene.text.Text;
 
-public class ThresholdLevelController implements Initializable, IController {
-
+public class RefillExecutiveOrderController implements Initializable, IController {
+	
 	String userAreaName;
 	private String ID;
 	private String Location;
 	boolean exists = false;
 	private ArrayList<Facility> Facilities;
-	private ArrayList<String> arrayId;
 	private ArrayList<String> arrayLocation;
 	private ArrayList<String> arrayName;
 	
 	ObservableList<String> IDList;
 	ObservableList<String> LocationList;
 	ObservableList<String> NameList;
-
-	@FXML
-	private Button backButton;
-
-	@FXML
-	private Button CloseButton;
-
-	@FXML
-	private Button approveButton;
-
-	@FXML
-	private Text facilityNameText;
-
-	@FXML
-	private Text errorMessageText;
-
-	@FXML
-	private Text successMessageText;
-
-	@FXML
-	private ComboBox<String> IDCombo;
-
-	@FXML
-	private ComboBox<String> LocationCombo;
-
-	@FXML
-	private ComboBox<String> NameCombo;
-
-	@FXML
-	private TextField SetThresholdTextField;
 	
-	
+    @FXML
+    private Text facilityNameText;
 
+    @FXML
+    private Button backButton;
 
-	@FXML
-	void approve(ActionEvent event) {
-		successMessageText.setVisible(false);
-		errorMessageText.setVisible(false);
-		
-		
-		String Location = LocationCombo.getValue();
-		
-		String Name = NameCombo.getValue();
-	
-		String ID = IDCombo.getValue();
-		
-		if(Location == null || Name == null || ID == null){
-			errorMessageText.setVisible(true);
-			errorMessageText.setText("All Selections must be filled!");
-			return;
-		}
-		
-		
-		String thresholdValueFieldString = SetThresholdTextField.getText();
-		
-		if (thresholdValueFieldString.isEmpty()) {
-			errorMessageText.setVisible(true);
-			errorMessageText.setText("Please Select Threshold Level Value!");
-			return;
-		}
-		
-		
-		int thresholdValueField = Integer.parseInt(SetThresholdTextField.getText());
-		RequestObjectClient updateFacility = new RequestObjectClient("#UPDATE_FACILITY",
-				String.format("table=facilities#condition=FacilityID=%s#values=FacilityThreshholdLevel=%s", ID,
-								thresholdValueField),"PUT");
-		ClientUI.clientController.accept(updateFacility);
-		successMessageText.setVisible(true);
-		successMessageText.setText("Facility Threshold Updated!");
-		return;
+    @FXML
+    private Button CloseButton;
 
-		
-	}
+    @FXML
+    private Text errorMessageText;
 
-	@FXML
-	void SelectedLocation(ActionEvent event) 
-	{
-		successMessageText.setVisible(false);
+    @FXML
+    private Button sendExecutiveOrderButton;
+
+    @FXML
+    private Text successMessageText;
+
+    @FXML
+    private ComboBox<String> LocationCombo;
+
+    @FXML
+    private ComboBox<String> NameCombo;
+    
+    @FXML
+    private ComboBox<String> ItemCombo;
+
+    @FXML
+    private ListView<String> itemsListView;
+
+    @FXML
+    void sendExecutiveOrder(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void selectLocation(ActionEvent event) {
+    	successMessageText.setVisible(false);
 		errorMessageText.setVisible(false);
 		ArrayList<String> names = new ArrayList<>();
 		NameCombo.getItems().clear();
-		IDCombo.getItems().clear();
 		for (int i = 0; i < Facilities.size(); i++) 
 		{
 			Facility currFac = Facilities.get(i);
@@ -134,35 +90,26 @@ public class ThresholdLevelController implements Initializable, IController {
 			}
 			NameCombo.getItems().addAll(namesList);
 			NameCombo.setVisible(true); //select Name
-	}
+    }
+    
+    @FXML
+    void selectItem(ActionEvent event) {
 
-	@FXML
-	void selectName(ActionEvent event) {
-		successMessageText.setVisible(false);
-		errorMessageText.setVisible(false);
-		IDCombo.getItems().clear();
-		ArrayList<String> IDs = new ArrayList<>();
-		for (int i = 0; i < Facilities.size(); i++) {
-			Facility currFac = Facilities.get(i);
-			if (currFac.getFacilityName().equals(NameCombo.getValue())) {
-				IDs.add(String.valueOf(currFac.getFacilityID()));
-			}
-			ObservableList<String> IDList = FXCollections.observableArrayList(IDs);
-			
-			IDCombo.setItems(IDList);
-			IDCombo.setVisible(true);
+    }
 
-		}
-	}
+    @FXML
+    void selectName(ActionEvent event) {
 
-	@FXML
-	void back(ActionEvent event) {
-		ClientUI.sceneManager.ShowSceneNew("../views/AreaManagerInterface.fxml", event);
-	}
+    }
 
-	@FXML
-	void close(ActionEvent event) {
-		if(ClientUI.clientController.getUser().getOnlineStatus() == null)
+    @FXML
+    void back(ActionEvent event) {
+    	ClientUI.sceneManager.ShowSceneNew("../views/AreaManagerInterface.fxml", event);
+    }
+
+    @FXML
+    void close(ActionEvent event) {
+    	if(ClientUI.clientController.getUser().getOnlineStatus() == null)
 		{
 			System.out.println("Not updated");
 		}
@@ -173,7 +120,7 @@ public class ThresholdLevelController implements Initializable, IController {
 	    	ClientUI.clientController.getUser().setOnlineStatus("Offline");
 		}
     	System.exit(0);
-	}
+    }
 
 	@Override
 	public void updatedata(Object data) {
@@ -197,24 +144,23 @@ public class ThresholdLevelController implements Initializable, IController {
 					}
 				}
 				break;
-			case "#UPDATE_FACILITY":
-				break;
-
 			}
 		}
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		ClientUI.clientController.setController(this);
-		
 		successMessageText.setVisible(false);
 		errorMessageText.setVisible(false);
 		
+		ClientUI.clientController.setController(this);
+		
 		Facilities = new ArrayList<>();
+		
 		userAreaName = ClientUI.clientController.getUser().getArea();
+		
 		facilityNameText.setText(String.format("%s Area", userAreaName));
+		
 		if(userAreaName.equals("All")) {
 			facilityNameText.setText("All Areas");
 			RequestObjectClient getFacilities = new RequestObjectClient("#GET_FACILITY",
@@ -227,7 +173,6 @@ public class ThresholdLevelController implements Initializable, IController {
 		}
 		
 
-		arrayId = new ArrayList<>();
 		arrayLocation = new ArrayList<>();
 		arrayName = new ArrayList<>();
 		
@@ -236,21 +181,16 @@ public class ThresholdLevelController implements Initializable, IController {
 		for (int i = 0; i < Facilities.size(); i++)
 		{
 			Facility currFac = Facilities.get(i);
-			arrayId.add(String.valueOf(currFac.getFacilityID()));
 			arrayLocation.add(currFac.getFacilityLocation());
 			arrayName.add(currFac.getFacilityName());
 		}
-		IDList = FXCollections.observableArrayList(arrayId);
 		LocationList = FXCollections.observableArrayList(arrayLocation);
 		NameList = FXCollections.observableArrayList(arrayName);
 		
-		IDCombo.setItems(IDList);
 		LocationCombo.setItems(LocationList);
 		NameCombo.setItems(NameList);
-		
-		IDCombo.setVisible(false);
-		NameCombo.setVisible(false);
-
+		LocationCombo.setVisible(true);
+		NameCombo.setVisible(true);
 	}
 
 }

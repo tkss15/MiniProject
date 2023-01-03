@@ -170,7 +170,8 @@
             <Image url="@../project%20icons/ceo-office-icon.png" />
          </image>
       </ImageView>
-      <Button fx:id="thresholdLevelButton" layoutX="556.0" layoutY="363.0" mnemonicParsing="false" onAction="#ThresholdLevelScreen" prefHeight="64.0" prefWidth="200.0" text="Threshold Level" AnchorPane.leftAnchor="556.0" />
+      <Button fx:id="thresholdLevelButton" layoutX="427.0" layoutY="363.0" mnemonicParsing="false" onAction="#ThresholdLevelScreen" prefHeight="64.0" prefWidth="200.0" text="Threshold Level" AnchorPane.leftAnchor="427.0" />
+      <Button fx:id="refillOrderButton" layoutX="691.0" layoutY="375.0" mnemonicParsing="false" onAction="#refillOrder" prefHeight="64.0" prefWidth="200.0" text="Refill Order" />
    </children>
    <stylesheets>
       <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
