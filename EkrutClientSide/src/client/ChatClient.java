@@ -61,17 +61,14 @@ public class ChatClient extends AbstractClient
 						String FacilityName = (String)values[3];
 						Integer FacilityThresholder = (Integer)values[4];
 						Integer FacilityEK = (Integer) values[5];
-<<<<<<< HEAD
 							//ClientUI.clientController.(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
 							//System.out.println(arrFacility);
 						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK == 0 ? false : true));
-					}						
-=======
+											
 						System.out.println(FacilityID + FacilityLocation + FacilityName + FacilityThresholder + FacilityEK);
 						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK == 0 ? false : true
 						));
 					}		
->>>>>>> branch 'ServerSide1.4' of https://github.com/tkss15/MiniProject.git
 					awaitResponse = false;
 					break;
 				}
