@@ -1,3 +1,26 @@
+
+
+
+#ContiuneButton:hover {
+	-fx-background-color: #f06236;
+	-fx-cursor: hand;
+}
+
+#ContiuneButton {
+	-fx-background-color: #FDB926;
+	-fx-cursor: hand;
+}
+
+#BackButtonCss {
+	-fx-background-color: #FDB926;
+	-fx-cursor: hand;
+}
+
+#BackButtonCss:hover {
+	-fx-background-color: #f06236;
+	-fx-cursor: hand;
+}
+
 .button {
     -fx-background-color: #FDB926;
     -fx-text-fill: black;

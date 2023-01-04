@@ -55,6 +55,7 @@ public class CatalogViewController implements Initializable, IController
     @FXML 
     void ShowPrevPage(ActionEvent event)
     {
+    	ClientUI.clientController.getClientOrder().myCart.clear();
     	ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);
     }
     @FXML

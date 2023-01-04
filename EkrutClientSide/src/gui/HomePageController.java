@@ -99,10 +99,10 @@ public class HomePageController implements Initializable, IController
         	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",sql,"*");  
         	ClientUI.clientController.accept(request);
         	
-    		ClientUI.sceneManager.ShowScene("../views/CatalogViewer.fxml", event);
+    		ClientUI.sceneManager.ShowSceneNew("../views/CatalogViewer.fxml", event);
     	}
     	else {
-    		ClientUI.sceneManager.ShowScene("../views/ordersettings.fxml", event);
+    		ClientUI.sceneManager.ShowSceneNew("../views/ordersettings.fxml", event);
     	}
     }
 
