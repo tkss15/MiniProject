@@ -253,7 +253,26 @@ public class CatalogViewController implements Initializable, IController
 			AddBtn = new Button("Add");
 			AddBtn.setId("AddButton");
 			AddBtn.setMnemonicParsing(false);
-			AddBtn.setOnAction(event -> myShoppingCart.addItem(new Product(Product)));
+			AddBtn.setOnAction(event -> {
+				if(Product.getProductAmount()  >= Product.getMaxAmount())
+				{
+					Alert alert = new Alert(AlertType.ERROR, "Error No enough quntity in the Facility");
+					alert.showAndWait();
+					return;
+				}
+				if(ClientUI.clientController.getClientOrder().myCart.contains(Product))
+				{
+					int IndeOfProduct = ClientUI.clientController.getClientOrder().myCart.indexOf(Product);
+					Product cartProduct = ClientUI.clientController.getClientOrder().myCart.get(IndeOfProduct);
+					if(cartProduct.getProductAmount() + Product.getProductAmount()  >= Product.getMaxAmount()) 
+					{
+						Alert alert = new Alert(AlertType.ERROR, "Error No enough quntity in the Facility");
+						alert.showAndWait();
+						return;
+					}
+				}
+				myShoppingCart.addItem(new Product(Product));
+			});
 			
 			HBox.setHgrow(AddBtn, Priority.ALWAYS);
 			HBox.setMargin(AddBtn, new Insets(0, 10.0, 0, 0));		

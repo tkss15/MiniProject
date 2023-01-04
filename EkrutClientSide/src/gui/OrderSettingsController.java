@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import Entity.Facility;
 import Entity.Product;
@@ -97,8 +98,15 @@ public class OrderSettingsController implements Initializable, IController {
 		
 		radioDelivery.setToggleGroup(tg);
 		radioPickup.setToggleGroup(tg);
-
-		list = FXCollections.observableArrayList(ClientUI.clientController.arrFacility);
+		for(Facility f : ClientUI.clientController.arrFacility)
+		{
+			System.out.println(f);
+		}
+		//System.out.println(ClientUI.clientController.getUser().getArea());
+		list = FXCollections.observableArrayList(ClientUI.clientController.arrFacility.stream()
+				.filter(fac -> (fac.getFacilityArea().equals(ClientUI.clientController.getUser().getArea())) )
+				.collect(Collectors.toList()));
+		//list = FXCollections.observableArrayList(ClientUI.clientController.arrFacility);
 		ComboboxFacility.setItems(list);
 	}
 
@@ -123,7 +131,9 @@ public class OrderSettingsController implements Initializable, IController {
 						String ProductDesc = (String) values[3];
 						String ProductSrc = (String) values[4];
 						Integer ProductAmount = (Integer) values[6];
-	
+						
+						if(ProductAmount == 0)
+							continue;
 						
 						byte[] arrayByte = serverResponse.ResponsePicture.get(i);// Picture's
 						Product anotherProduct = new Product(ProductCode,ProductName,ProductDesc, ProductSrc, ProductPrice, ProductAmount);

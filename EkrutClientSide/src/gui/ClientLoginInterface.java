@@ -44,6 +44,10 @@ public class ClientLoginInterface implements IController {
     	System.out.println("Here ?");
 		File firstInstalltion = new File(ClientUI.clientController.ApplicationConfig + "config.cfg");
 		System.out.println(firstInstalltion.getAbsolutePath());
+		
+		RequestObjectClient request = new RequestObjectClient("#FIRST_INSTALL",String.format("table=facilities"),"GET");    	
+		ClientUI.clientController.accept(request);
+		
 		if(firstInstalltion.exists())
 		{
 			FileReader reader = new FileReader(firstInstalltion);
@@ -69,8 +73,6 @@ public class ClientLoginInterface implements IController {
 	        ClientUI.sceneManager.ShowScene("../views/LoginClientInterface.fxml");		
 			return;
 		}
-    	RequestObjectClient request = new RequestObjectClient("#FIRST_INSTALL",String.format("table=facilities"),"GET");    	
-    	ClientUI.clientController.accept(request);
     	System.out.println("Here 2");
 		ClientUI.sceneManager.ShowScene("../views/EKrutInstall.fxml");
 		

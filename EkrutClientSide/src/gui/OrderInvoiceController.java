@@ -74,7 +74,7 @@ public class OrderInvoiceController implements Initializable,IController {
 
 	    @FXML
 	    void ClickAcceptInvoice(ActionEvent event) {
-
+	    	ClientUI.sceneManager.ShowSceneNew("../views/OrderDetails.fxml", event);
 	    }
 
 	    @FXML
