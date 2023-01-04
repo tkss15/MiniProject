@@ -13,6 +13,7 @@
     -fx-alignment: center;
 }
 
+
 #PlusButton {
     -fx-max-width: 34.0;
     -fx-min-width: 34.0;
@@ -27,6 +28,11 @@
     -fx-background-radius: 40;
     -fx-font-size: 14;
     -fx-font-weight: bold;
+}
+
+#PlusButton:hover {
+	-fx-border-color: #f06236;
+	-fx-cursor: hand;
 }
 
 #MinusButton {
@@ -44,6 +50,10 @@
     -fx-font-weight: bold;
 }
 
+#MinusButton:hover {
+	-fx-border-color: #f06236;
+	-fx-cursor: hand;
+}
 #AddToCartHBox {
     -fx-alignment: center;
     -fx-pref-width: 47.0;
@@ -128,6 +138,17 @@
     -fx-cursor: hand;
 }
 
+#buttonFixed:hover {
+	-fx-border-radius: 40;
+	-fx-background-radius: 40;
+	-fx-background-color: #f06236;
+	-fx-cursor: hand;	
+}
+
+#AddButton:hover {
+	-fx-background-color: #f06236;
+	-fx-cursor: hand;
+}
 
 #ShoppingCartHBox {
     -fx-background-color: #FDB926;

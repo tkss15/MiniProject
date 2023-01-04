@@ -5,6 +5,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import Entity.Product;
@@ -21,7 +22,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -78,6 +81,34 @@ public class OrderDetailsController implements Initializable, IController {
 //    	String sql = "SELECT products.*, productsinfacility.ProductAmount FROM products LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode WHERE productsinfacility.FacilityID = " + ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() + " ORDER BY products.ProductCode";
 //    	RequestObjectClient request = new RequestObjectClient("#REQUEST_AVAILABLE_PRODUCTS",sql,"*");  
 //    	ClientUI.clientController.accept(request);
+    }
+    
+    @FXML
+    void BackAction(ActionEvent event) {
+    	ClientUI.sceneManager.ShowSceneNew("../views/OrderInvoice.fxml",event);
+    }
+
+    @FXML
+    void CancelOrderAction(ActionEvent event) {
+    	Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    	alert.setTitle("Confirmation");
+    	alert.setHeaderText("Are you sure you want to cancel your Order?");
+    	alert.setContentText("This action cannot be undone. Please confirm your choice.");
+    	Optional<ButtonType> result = alert.showAndWait();
+    	if (result.get() == ButtonType.OK) 
+    	{
+    		ClientUI.sceneManager.ShowSceneNew("../views/CatalogViewer.fxml", event);	    	  
+    	} 
+    }
+
+    @FXML
+    void CloseWindow(ActionEvent event) {
+
+    }
+
+    @FXML
+    void PayNowAction(ActionEvent event) {
+
     }
 	
 	@FXML 
@@ -138,7 +169,6 @@ public class OrderDetailsController implements Initializable, IController {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		ClientUI.clientController.setController(this);
 		ProductName.setCellValueFactory(new PropertyValueFactory<ProudctTable, String>("ProductName"));
 		ProductAmount.setCellValueFactory(new PropertyValueFactory<ProudctTable, Integer>("ProductAmount"));
 		ProductPrice.setCellValueFactory(new PropertyValueFactory<ProudctTable, String>("ProductPrice"));

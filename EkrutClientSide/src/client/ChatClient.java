@@ -63,7 +63,6 @@ public class ChatClient extends AbstractClient
 						Integer FacilityEK = (Integer) values[5];
 							//ClientUI.clientController.(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
 							//System.out.println(arrFacility);
-						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK == 0 ? false : true));
 											
 						System.out.println(FacilityID + FacilityLocation + FacilityName + FacilityThresholder + FacilityEK);
 						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK == 0 ? false : true

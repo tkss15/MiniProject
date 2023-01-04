@@ -36,7 +36,7 @@
             </Text>
          </children>
       </Pane>
-      <Button fx:id="CloseButton" layoutX="932.0" layoutY="11.0" minWidth="42.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="58.0" style="-fx-background-color: #fdb925; -fx-border-radius: 20; -fx-border-color: black;" text="X">
+      <Button fx:id="CloseButton" layoutX="932.0" layoutY="11.0" minWidth="42.0" mnemonicParsing="false" onAction="#CloseWindow" prefHeight="34.0" prefWidth="58.0" style="-fx-background-color: #fdb925; -fx-border-radius: 20; -fx-border-color: black;" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
@@ -61,17 +61,17 @@
             <Image url="@../../../../../OneDrive/Desktop/Coding/Ekrut/EkrutServerSide/src/gui/pictures/Search.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnCancelInvoice" layoutX="207.0" layoutY="639.0" mnemonicParsing="false" text="Cancel Order">
+      <Button fx:id="btnCancelInvoice" layoutX="207.0" layoutY="639.0" mnemonicParsing="false" onAction="#CancelOrderAction" text="Cancel Order">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="btnAcceptInvoice" layoutX="453.0" layoutY="639.0" mnemonicParsing="false" text="Pay now">
+      <Button fx:id="btnAcceptInvoice" layoutX="453.0" layoutY="639.0" mnemonicParsing="false" onAction="#PayNowAction" text="Pay now">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button id="buttonFixed" fx:id="btnBack" layoutX="20.0" layoutY="753.0" mnemonicParsing="false" style="-fx-background-color: #FDB926; -fx-border-color: black; -fx-background-radius: 20; -fx-border-radius: 20;" text="Back">
+      <Button id="buttonFixed" fx:id="btnBack" layoutX="20.0" layoutY="753.0" mnemonicParsing="false" onAction="#BackAction" style="-fx-background-color: #FDB926; -fx-border-color: black; -fx-background-radius: 20; -fx-border-radius: 20;" text="Back">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
