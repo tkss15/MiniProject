@@ -50,13 +50,15 @@ CREATE TABLE `ekrutdatabase`.Facilities(
 
 CREATE TABLE `ekrutdatabase`.Orders (
 	orderCode int NOT NULL auto_increment PRIMARY KEY,
-    finalPrice int,
+    finalPrice double,
     isInvoiceConfirmed boolean,
     FacilityID int,
     userName varchar(20),
+    orderdate varchar(40),
     FOREIGN KEY (FacilityID) REFERENCES Facilities(FacilityID),
     FOREIGN KEY (userName) REFERENCES Users(userName)
 );
+
 
 CREATE TABLE `ekrutdatabase`.VirtualOrders (
 	orderCode int,
