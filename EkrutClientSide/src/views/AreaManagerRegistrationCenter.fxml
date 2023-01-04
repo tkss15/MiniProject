@@ -14,14 +14,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DeliveryOperatorInterfaceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AreaManagerApproveController">
    <children>
       <Line endX="260.0" layoutX="661.0" layoutY="157.0" opacity="0.7" startX="-250.0" />
       <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="789.0" minWidth="335.0" prefHeight="789.0" prefWidth="342.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/LogoEKRUT.png" />
+                  <Image url="@../../git/MiniProject/EkrutClientSide/src/gui/pictures/LogoEKRUT.png" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -33,10 +33,10 @@
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/User.png" />
+                              <Image url="@../../git/MiniProject/EkrutClientSide/src/gui/pictures/User.png" />
                            </image>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back" wrappingWidth="157.095703125" HBox.hgrow="ALWAYS">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back" wrappingWidth="162.095703125" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -59,7 +59,7 @@
                   </HBox>
                   <Line endX="149.5" startX="-100.0">
                      <VBox.margin>
-                        <Insets left="40.0" top="10.0" />
+                        <Insets left="40.0" top="20.0" />
                      </VBox.margin>
                   </Line>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
@@ -168,41 +168,26 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#logOut" text="Logout" />
-      <Text layoutX="410.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut Delivery Work Space" wrappingWidth="511.0" />
+      <Button fx:id="Back" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#Back" text="Back" />
+      <Text layoutX="396.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Manager Registration Center" wrappingWidth="553.0" />
       <Line endX="260.0" layoutX="660.0" layoutY="530.0" opacity="0.7" startX="-250.0" />
       <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
       </Button>
-      <ImageView fitHeight="30.0" fitWidth="36.0" layoutX="888.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../git/MiniProject/EkrutClientSide/src/gui/pictures/Logos/MagnifyingGlass.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="166.0" layoutX="599.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../gui/pictures/OrderPickup.png" />
-         </image>
-      </ImageView>
-      <TableView fx:id="DeliveryOrdersTable" layoutX="410.0" layoutY="173.0" prefHeight="342.0" prefWidth="511.0">
-        <columns>
-          <TableColumn fx:id="orderCodeColumn" prefWidth="72.0" style="-fx-alignment: CENTER;" text="Order Code" />
-            <TableColumn fx:id="customerApprovalStatusColumn" prefWidth="155.0" style="-fx-alignment: CENTER;" text="Costumer Approval Status" />
-          <TableColumn fx:id="deliveryStatusColumn" prefWidth="142.0" style="-fx-alignment: CENTER;" text="Delivery Status" />
-            <TableColumn fx:id="ProviderColumn" prefWidth="141.0" text="Provider" />
-        </columns>
+      <TableView fx:id="ApproveTable" layoutX="450.0" layoutY="165.0" prefHeight="342.0" prefWidth="511.0">
+         <columns>
+            <TableColumn fx:id="IDColumn" editable="false" prefWidth="72.0" style="-fx-alignment: CENTER;" text="ID" />
+            <TableColumn fx:id="NameColumn" editable="false" prefWidth="155.0" style="-fx-alignment: CENTER;" text="Name" />
+            <TableColumn fx:id="RegistrationTypeColumn" editable="false" prefWidth="142.0" style="-fx-alignment: CENTER;" text="Registration Type" />
+            <TableColumn fx:id="StatusColumn" editable="false" prefWidth="141.0" text="Status" />
+         </columns>
       </TableView>
-      <Text fx:id="DeliveryOperatorAreaText" layoutX="523.0" layoutY="583.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: bold;" text="Delivery Operator" wrappingWidth="353.0">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Text>
       <Button fx:id="changesBTN" layoutX="889.0" layoutY="723.0" mnemonicParsing="false" onAction="#applyChangesToTable" prefHeight="53.0" prefWidth="103.0" text="Apply Changes" />
    </children>
    <stylesheets>
-      <URL value="@../../../git/MiniProject/EkrutClientSide/Downloads/FXML%20pages/שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
-      <URL value="@../../../git/MiniProject/EkrutClientSide/Downloads/FXML%20pages/Homepage.css" />
+      <URL value="@../../git/MiniProject/git/MiniProject/EkrutClientSide/Downloads/FXML%20pages/שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
+      <URL value="@../../git/MiniProject/git/MiniProject/EkrutClientSide/Downloads/FXML%20pages/Homepage.css" />
    </stylesheets>
 </AnchorPane>

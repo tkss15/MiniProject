@@ -248,15 +248,24 @@ public class DBConnect
 		try 
 		{
 			PreparedStatement stmt;
+			ResultSet rs;
 			
 			if(query.getSQLOpreation().equals("*"))
+			{
 				stmt = (conn.prepareStatement(query.getURL()));
+				if(!query.getURL().startsWith("SELECT"))
+				{
+					int result;
+					result = stmt.executeUpdate();
+					res.addObject(result);
+					return res;
+				}
+			}
 			else
 				stmt = (conn.prepareStatement(CreateSqlStatement(query)));
 			
 			
-			ResultSet rs;
-			if(query.getSQLOpreation().equals("PUT"))
+			if(query.getSQLOpreation().equals("PUT") || query.getSQLOpreation().equals("DELETE") || query.getSQLOpreation().equals("POST"))
 			{
 				int result;
 				result = stmt.executeUpdate(CreateSqlStatement(query));

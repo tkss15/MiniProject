@@ -61,15 +61,15 @@
                   <Image url="@../project%20icons/report-icon.png" />
                </image>
             </ImageView>
-            <Button fx:id="backButton" layoutX="2.0" layoutY="309.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: fdb925;" text="Back">
+            <Button fx:id="backButton" layoutX="2.0" layoutY="304.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: fdb925;" text="Back">
                <font>
                   <Font name="Cambria Bold" size="12.0" />
                </font>
             </Button>
             <Text fx:id="errorMessage" fill="RED" layoutX="250.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="80.13671875" />
-            <ComboBox fx:id="selectYear" layoutX="126.0" layoutY="69.0" onAction="#selectYear" prefHeight="25.0" prefWidth="119.0" promptText="Year" />
-            <ComboBox fx:id="selectMonth" layoutX="353.0" layoutY="69.0" onAction="#selectMonth" prefHeight="25.0" prefWidth="119.0" promptText="Month" />
-            <ComboBox fx:id="selectType" layoutX="241.0" layoutY="158.0" onAction="#selectType" prefHeight="25.0" prefWidth="119.0" promptText="Type" />
+            <ComboBox fx:id="selectYear" layoutX="126.0" layoutY="69.0" prefHeight="25.0" prefWidth="119.0" promptText="Year" />
+            <ComboBox fx:id="selectMonth" layoutX="353.0" layoutY="69.0" prefHeight="25.0" prefWidth="119.0" promptText="Month" />
+            <ComboBox fx:id="selectType" layoutX="241.0" layoutY="158.0" prefHeight="25.0" prefWidth="119.0" promptText="Type" />
          </children></Pane>
    </children>
    <cursor>

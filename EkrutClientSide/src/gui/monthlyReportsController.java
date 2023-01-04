@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Entity.Facility;
+import Entity.Report;
 import client.ClientUI;
 import common.IController;
+import common.RequestObjectClient;
+import common.ResponseObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +22,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 public class monthlyReportsController implements Initializable, IController {
+
+	boolean exists = false;
+	private ArrayList<Report> reports;
 
 	@FXML
 	private Button CloseButton;
@@ -49,39 +55,73 @@ public class monthlyReportsController implements Initializable, IController {
 
 	@FXML
 	void back(ActionEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		ClientUI.sceneManager.ShowScene("../views/AreaManagerInterface.fxml");
+		ClientUI.sceneManager.ShowSceneNew("../views/AreaManagerInterface.fxml", event);
 	}
 
 	@FXML
 	void closeWindow(ActionEvent event) {
+		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
+			System.out.println("Not updated");
+		}
+		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
+			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
+					String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"",
+							ClientUI.clientController.getUser().getUserName()),
+					"PUT");
+			ClientUI.clientController.accept(request);
+			ClientUI.clientController.getUser().setOnlineStatus("Offline");
+		}
 		System.exit(0);
 	}
 
 	@FXML
 	void watchReport(ActionEvent event) {
+		errorMessage.setVisible(false);
+		String Year = selectYear.getValue();
+		String Month = selectMonth.getValue();
+		String Type = selectType.getValue();
+		if (Year == null || Month == null || Type == null) {
+			errorMessage.setText("Year, Month or Type has not been selected! ");
+			errorMessage.setVisible(true);
+			return;
+		}
+		RequestObjectClient request = new RequestObjectClient("#GET_REPORTS",
+				String.format("table=reports#condition=Area=%s", ClientUI.clientController.getUser().getArea()), "PUT");
+		ClientUI.clientController.accept(request);
+		String date = Year + "-" + Month;
+		if(exists) {
+			for(int i = 0; i< reports.size(); i++) {
+				Report currReport = reports.get(i);
+				if(currReport.getReportDate().equals(date)) {
+					///////////////////////////////////from here
+				}
+			}
+		}
+		
 
 	}
 
 	@Override
 	public void updatedata(Object data) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@FXML
-	void selectMonth(ActionEvent event) {
-		String selectedMonth = selectMonth.getValue();
-	}
-
-	@FXML
-	void selectType(ActionEvent event) {
-		String selectedYear = selectYear.getValue();
-	}
-
-	@FXML
-	void selectYear(ActionEvent event) {
-		String selectedType = selectType.getValue();
+		if (data instanceof ResponseObject) {
+			ResponseObject serverResponse = (ResponseObject) data;
+			switch (serverResponse.getRequest()) {
+			case "#GET_REPORTS":
+				reports = new ArrayList<>();
+				if (serverResponse.Responsedata.size() != 0) {
+					exists = true;
+					for (int i = 0; i < serverResponse.Responsedata.size(); i++) {
+						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
+						String reportType = (String) values[0];
+						String reportDate = (String) values[1];
+						String area = (String) values[2];
+						Report report = new Report(reportType, reportDate, area);
+						reports.add(report);
+					}
+				}
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -89,11 +129,12 @@ public class monthlyReportsController implements Initializable, IController {
 		ClientUI.clientController.setController(this);
 		errorMessage.setVisible(false);
 
-		String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+		String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
+				"October", "November", "December" };
 
 		ArrayList<String> months = new ArrayList<>();
 		for (int j = 0; j < 12; j++) {
-		    months.add(monthNames[j]);
+			months.add(monthNames[j]);
 		}
 		ArrayList<String> years = new ArrayList<>();
 		for (int i = 2010; i < 2024; i++)
@@ -112,5 +153,5 @@ public class monthlyReportsController implements Initializable, IController {
 
 		ObservableList<String> typesList = FXCollections.observableArrayList(types);
 		selectType.setItems(typesList);
-		}	
+	}
 }
