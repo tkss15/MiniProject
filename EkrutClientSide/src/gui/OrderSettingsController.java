@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import Entity.Facility;
 import Entity.Product;
-import Entity.User;
 import client.ClientUI;
 import common.IController;
 import common.RequestObjectClient;
@@ -22,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
@@ -69,6 +69,9 @@ public class OrderSettingsController implements Initializable, IController {
     private RadioButton radioPickup;
     
     @FXML
+    private Label errorLabel;
+    
+    @FXML
     void closeWindow(ActionEvent event) {
     	System.out.println("Closed");
     }
@@ -76,6 +79,18 @@ public class OrderSettingsController implements Initializable, IController {
     @FXML
     void actionCreateOrder(ActionEvent event)
     {
+    	if(ComboboxFacility.getValue() == null)
+    	{
+    		errorLabel.setVisible(true);
+    		errorLabel.setText("Error: You have to pick a Facility to order from.");
+    		return;
+    	}
+    	if(tg.getSelectedToggle() == null)
+    	{
+    		errorLabel.setVisible(true);
+    		errorLabel.setText("Error: You have to pick either Delivery or Pickup");
+    		return;
+    	}
     	if(ComboboxFacility.getValue() != null)
     	{
         	
@@ -96,6 +111,7 @@ public class OrderSettingsController implements Initializable, IController {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+   		errorLabel.setVisible(false);
 		radioDelivery.setToggleGroup(tg);
 		radioPickup.setToggleGroup(tg);
 		for(Facility f : ClientUI.clientController.arrFacility)

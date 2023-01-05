@@ -169,6 +169,29 @@
                         <Insets left="50.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="16.0" prefWidth="247.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Client Status:" wrappingWidth="110.677734375">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="textStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Pending" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
                </children>
                <VBox.margin>
                   <Insets top="70.0" />
@@ -231,7 +254,7 @@
       </ImageView>
       <ImageView fitHeight="24.0" fitWidth="25.0" layoutX="28.0" layoutY="751.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../EkrutServerSide/pictures/Logout.png" />
+            <Image url="@/Logout.png" />
          </image>
       </ImageView>
    </children>

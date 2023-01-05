@@ -208,7 +208,7 @@ public class CatalogViewController implements Initializable, IController
 			ProductDescription.getChildren().addAll(ItemPicture,ProductNameAndButtons);
 			HBox.setHgrow(ProductDescription, Priority.ALWAYS);
 			
-			Text price = new Text("12.90");
+			Text price = new Text(String.format("%.2f", product.getProductPrice()));
 			price.setId("ProductName");
 			VBox Prices = new VBox(price);
 			Prices.setAlignment(Pos.CENTER);

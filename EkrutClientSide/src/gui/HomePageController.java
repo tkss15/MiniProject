@@ -38,6 +38,9 @@ public class HomePageController implements Initializable, IController
 
     @FXML
     private Text textLastName;
+    
+    @FXML
+    private Text textStatus;
 
     @FXML
     private Text textID;
@@ -107,7 +110,9 @@ public class HomePageController implements Initializable, IController
     }
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
+		
 		textUserlogin.setText(ClientUI.clientController.getUser().getFirstName());
 		textFirstName.setText(ClientUI.clientController.getUser().getFirstName());
 		textLastName.setText(ClientUI.clientController.getUser().getLastName());
@@ -118,16 +123,40 @@ public class HomePageController implements Initializable, IController
 		BtnCreateOrder.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 			openCatalogProduct(event);
 		});
+		RequestObjectClient request = new RequestObjectClient("#CHECK_CLIENT_STATUS",String.format("table=registerclients#condition=userName=%s", ClientUI.clientController.getUser().getUserName()),"GET");
+		ClientUI.clientController.accept(request);
 	}
 
 	@Override
-	public void updatedata(Object data) {
+	public void updatedata(Object data) 
+	{
 		System.out.println("HomePageController");
 		if(data instanceof ResponseObject)
 		{
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch(serverResponse.getRequest())
 			{	
+				case"#CHECK_CLIENT_STATUS":
+				{
+					if(serverResponse.Responsedata.size() == 0)
+					{
+						textStatus.setText("Default User");
+						return;	
+					}
+					Object[] values =(Object[]) serverResponse.Responsedata.get(0);//Row 1 
+					String userName = (String) values[0];
+					String userStatus = (String) values[1];
+					String CardNumber = (String) values[2];
+					String CardDate = (String) values[3];
+					if(userStatus.equals("SUBSCRIBER"))
+					{
+						Integer ProductCode = (Integer) values[4];
+						Double ProductPrice = (Double) values[5];
+						boolean firstPurchase = (boolean) values[6];		
+					}
+					
+					break;
+				}
 				case"#SIMPLE_REQUEST":
 				{
 					ClientUI.clientController.getArrProducts().clear();

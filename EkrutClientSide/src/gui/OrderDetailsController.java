@@ -108,7 +108,7 @@ public class OrderDetailsController implements Initializable, IController {
 
     @FXML
     void PayNowAction(ActionEvent event) {
-
+    	ClientUI.sceneManager.ShowScene("../views/ClientPayment.fxml");
     }
 	
 	@FXML 
@@ -138,7 +138,11 @@ public class OrderDetailsController implements Initializable, IController {
 			    		}
 			    	}
 //			    	
-			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("table=orders#values=isInvoiceConfirmed=1&FacilityID=%d&userName=%s", ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID(), ClientUI.clientController.getUser().getUserName()),"POST");  
+			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("table=orders#values=finalPrice=%.2f&isInvoiceConfirmed=1&FacilityID=%d&userName=%s&orderdate=%s", 
+			    			ClientUI.clientController.getClientOrder().getFinalPrice(), 
+			    			ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID(), 
+			    			ClientUI.clientController.getUser().getUserName(),
+			    			OrderDate.getText()),"POST");  
 			    	ClientUI.clientController.accept(request);
 			    	
 			    	request = new RequestObjectClient("#GET_ORDER_NUMBER",String.format("SELECT orders.orderCode FROM orders WHERE userName = \"%s\" AND orderCode = (SELECT MAX(orderCode) FROM orders);", ClientUI.clientController.getUser().getUserName()),"*");  
@@ -159,6 +163,7 @@ public class OrderDetailsController implements Initializable, IController {
             public void handle(WorkerStateEvent workerStateEvent) {
             	ClientUI.sceneManager.SceneBack(event, "../views/LoadingScreen.fxml");
             	ClientUI.sceneManager.SceneBack(event, "../views/OrderDetails.fxml");
+            	ClientUI.clientController.getClientOrder().myCart.clear();
             	Platform.runLater(() -> ClientUI.sceneManager.ShowScene("../views/Homepage.fxml"));
                 System.out.println("Done");
             }
@@ -195,6 +200,7 @@ public class OrderDetailsController implements Initializable, IController {
 		DeliveryOption.setVisible(false);
 		String timeStamp = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
 		OrderDate.setText(timeStamp);
+		
 		OrderType.setText(ClientUI.clientController.getClientOrder().getOrderType());
 		OrderTotalPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().getFinalPrice()) + "₪"));
 		

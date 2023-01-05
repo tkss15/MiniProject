@@ -18,9 +18,11 @@ public class ClientConsole implements ChatIF
 {
 	public static int DEFAULT_PORT = 5555;
 	ChatClient client;
+	
 	private User clientUser = new User(null, null);
 	private Order clientOrder = new Order(null,null,null);
 	private Facility EKFacility = new Facility(null, null, null, null, null, null);
+	
 	private String ApplicationType = null;
 	
 	public final String ApplicationConfig = "EkrutApplication/";

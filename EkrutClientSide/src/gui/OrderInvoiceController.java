@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import Entity.Product;
 import client.ClientUI;
 import common.IController;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -192,12 +194,18 @@ public class OrderInvoiceController implements Initializable,IController {
 				MinusBtn.setGraphic(CreateImage("Minus.png", 15.0,15.0,true,true,Cursor.HAND));
 				MinusBtn.setMnemonicParsing(false);
 				MinusBtn.setEllipsisString("");
-				MinusBtn.setOnAction(event -> {
+				MinusBtn.setOnAction(event -> 
+				{
 					if(Product.getProductAmount() <= 1)
 					{
 						RemoveValue(Product);
 						ClientUI.clientController.getClientOrder().removeItem(Product);
-						return;					
+						updatePrice();		
+						if(ClientUI.clientController.getClientOrder().myCart.isEmpty())
+						{
+							ClientUI.sceneManager.SceneBack(event, "../views/OrderInvoice.fxml");
+							ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml");
+						}
 					}
 					ClientUI.clientController.getClientOrder().UpdateItem(Product, Product.getProductAmount() - 1);
 					textTotalPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItem(Product)) + "₪"));
