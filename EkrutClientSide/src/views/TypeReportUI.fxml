@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: fdb925;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TypeReportController">
+   <children>
+      <Button fx:id="CloseButton" layoutX="968.0" layoutY="10.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="20.0" style="-fx-background-color: white;" text="X" textFill="#fdb925">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="Logo" fitHeight="104.0" fitWidth="233.0" layoutX="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../git/MiniProject/EkrutClientSide/src/gui/pictures/EKrutLogo.jpeg" />
+         </image>
+      </ImageView>
+      <HBox layoutX="425.0" layoutY="14.0" prefHeight="31.0" prefWidth="99.0" />
+      <Pane layoutY="123.0" prefHeight="689.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@Homepage.css">
+         <children>
+            <Button fx:id="backButton" layoutX="9.0" layoutY="642.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: fdb925;" text="Back">
+               <font>
+                  <Font name="Cambria Bold" size="12.0" />
+               </font>
+            </Button>
+            <PieChart fx:id="pieChart" layoutX="205.0" layoutY="104.0" prefHeight="518.0" prefWidth="726.0" />
+            <Text fx:id="areaText" layoutX="5.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Area" wrappingWidth="210.8193039894104">
+               <font>
+                  <Font name="System Bold" size="35.0" />
+               </font>
+            </Text>
+            <Text fx:id="dateText" layoutX="4.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date" wrappingWidth="210.8193039894104">
+               <font>
+                  <Font name="System Bold" size="35.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Label fx:id="reportTypeText" layoutX="321.0" layoutY="11.0" prefHeight="114.0" prefWidth="406.0" text="Order Report" textFill="WHITE">
+         <font>
+            <Font name="Cambria Bold" size="50.0" />
+         </font>
+         <effect>
+            <DropShadow height="10.0" radius="4.5" width="10.0" />
+         </effect>
+      </Label>
+   </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+</AnchorPane>

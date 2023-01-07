@@ -16,6 +16,7 @@ public class Order
 		this.FacilityType = FacilityType;
 		this.orderFacility = orderFacility;
 	}
+	
 	public void addItem(Product product)
 	{
 		if(myCart.contains(product))

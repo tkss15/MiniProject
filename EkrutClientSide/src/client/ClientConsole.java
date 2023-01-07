@@ -2,6 +2,7 @@ package client;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Entity.Employee;
 import Entity.Facility;
@@ -12,7 +13,6 @@ import common.ChatIF;
 import common.IController;
 import common.RequestObjectClient;
 import common.SceneManager;
-import javafx.concurrent.Task;
 
 public class ClientConsole implements ChatIF 
 {
@@ -22,6 +22,43 @@ public class ClientConsole implements ChatIF
 	private Order clientOrder = new Order(null,null,null);
 	private Facility EKFacility = new Facility(null, null, null, null, null, null);
 	private String ApplicationType = null;
+	private HashMap<String,String> mapMonths = new HashMap<>();
+	
+	public void setHashMapMonths(HashMap<String,String> map) {
+		mapMonths = map;
+	}
+	public HashMap<String,String> getHashMapMonths() {
+		return mapMonths;
+	}
+	
+	ArrayList<String> monthlyReportParameters = new ArrayList<>(3);
+	//Report year = index 0;
+	//Report month = index 1;
+	//Report type = index 2;
+	
+	public void setReportYear(String year) {
+		monthlyReportParameters.add(0, year);
+	}
+	public void setReportMonth(String month) {
+		monthlyReportParameters.add(1, month);
+	}
+	public void setReportType(String type) {
+		monthlyReportParameters.add(2, type);
+	}
+	
+	public String getReportYear() {
+		return monthlyReportParameters.get(0);
+	}
+	
+	public String getReportMonth() {
+		return monthlyReportParameters.get(1);
+	}
+	
+	public String getReportType() {
+		return monthlyReportParameters.get(2);
+	}
+	
+	
 	
 	public final String ApplicationConfig = "EkrutApplication/";
 	public ArrayList<Facility> arrFacility = new ArrayList<>();

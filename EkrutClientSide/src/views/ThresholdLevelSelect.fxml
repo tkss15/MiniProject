@@ -63,10 +63,16 @@
          </font>
       </Button>
       <Text fx:id="successMessageText" fill="#00a822e3" layoutX="493.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.00000715255737" />
-      <ComboBox fx:id="IDCombo" layoutX="377.0" layoutY="239.0" prefHeight="25.0" prefWidth="168.0" promptText="Select facility ID" />
+      <ComboBox fx:id="IDCombo" layoutX="377.0" layoutY="239.0" onAction="#selectID" prefHeight="25.0" prefWidth="168.0" promptText="Select facility ID" />
       <ComboBox fx:id="LocationCombo" layoutX="378.0" layoutY="173.0" onAction="#SelectedLocation" prefHeight="25.0" prefWidth="168.0" promptText="Select Facility Location" />
       <ComboBox fx:id="NameCombo" layoutX="377.0" layoutY="206.0" onAction="#selectName" prefHeight="25.0" prefWidth="168.0" promptText="Select Facility Name" />
       <TextField fx:id="SetThresholdTextField" layoutX="505.0" layoutY="277.0" prefHeight="25.0" prefWidth="41.0" />
+      <Label layoutX="582.0" layoutY="181.0" prefHeight="27.0" prefWidth="212.0" text="Current Facility Threshold">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="setCurrentFacilityThreshold" layoutX="650.0" layoutY="215.0" prefHeight="25.0" prefWidth="41.0" />
    </children>
    <stylesheets>
       <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />

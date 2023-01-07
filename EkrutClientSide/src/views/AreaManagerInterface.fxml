@@ -158,7 +158,7 @@
       <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
       <Text layoutX="474.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut  Work Space" wrappingWidth="476.0000191926956" />
       <Button fx:id="monthlyReportsButton" layoutX="421.0" layoutY="246.0" mnemonicParsing="false" onAction="#MonthlyReportsScreen" prefHeight="64.0" prefWidth="200.0" text="Monthly Reports" AnchorPane.leftAnchor="427.0" />
-      <Button fx:id="approveCostumerButton" layoutX="691.0" layoutY="246.0" mnemonicParsing="false" onAction="#approveCostumerScreen" prefHeight="64.0" prefWidth="200.0" text="Approve Costumer" AnchorPane.leftAnchor="691.0" />
+      <Button fx:id="approveCostumerButton" layoutX="691.0" layoutY="246.0" mnemonicParsing="false" onAction="#approveCostumerScreen" prefHeight="64.0" prefWidth="200.0" text="Approve Customer" AnchorPane.leftAnchor="691.0" />
       <Line endX="260.0" layoutX="660.0" layoutY="530.0" opacity="0.7" startX="-250.0" />
       <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X" textFill="#fdb925">
          <font>

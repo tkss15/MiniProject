@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Entity.Facility;
+import Entity.ProductInFacility;
 import client.ClientUI;
 import common.IController;
 import common.RequestObjectClient;
@@ -25,13 +26,17 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	private String ID;
 	private String Location;
 	boolean exists = false;
+	boolean existsItems = false;
 	private ArrayList<Facility> Facilities;
+	private ArrayList<ProductInFacility> ItemsInFacility;
 	private ArrayList<String> arrayLocation;
 	private ArrayList<String> arrayName;
+	private ArrayList<String> items;
 	
 	ObservableList<String> IDList;
 	ObservableList<String> LocationList;
 	ObservableList<String> NameList;
+	ObservableList<String> ItemsList;
 	
     @FXML
     private Text facilityNameText;
@@ -77,7 +82,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		for (int i = 0; i < Facilities.size(); i++) 
 		{
 			Facility currFac = Facilities.get(i);
-			System.out.println(currFac.getFacilityName());
 			if (currFac.getFacilityLocation().equals(LocationCombo.getValue())) {
 				names.add(currFac.getFacilityName());
 			}
@@ -94,13 +98,25 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
     
     @FXML
     void selectItem(ActionEvent event) {
-
+    	
     }
-
+    
+    
     @FXML
     void selectName(ActionEvent event) {
-
+    	int facilityID = -1;
+    	for (int i = 0; i < Facilities.size(); i++) 
+		{
+			Facility currFac = Facilities.get(i);
+			if (currFac.getFacilityName().equals(NameCombo.getValue())) {
+				facilityID = currFac.getFacilityID();
+			}
+		}
+    	RequestObjectClient getItems = new RequestObjectClient("#GET_FACILITY",
+				String.format("table=productsinfacility#condition=FacilityID=%d", facilityID), "GET");
+		ClientUI.clientController.accept(getItems);
     }
+    
 
     @FXML
     void back(ActionEvent event) {
@@ -144,6 +160,20 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 					}
 				}
 				break;
+			case "#GET_ITEMS":
+				ItemsInFacility = new ArrayList<>();
+				if (serverResponse.Responsedata.size() != 0) {
+					existsItems = true;
+					for (int i = 0; i < serverResponse.Responsedata.size(); i++) {
+						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
+						Integer ProductCode = (Integer) values[0];
+						Integer ProductAmount = (Integer) values[1];
+						Integer FacilityID = (Integer) values[2];
+						ProductInFacility item = new ProductInFacility(ProductCode, ProductAmount, FacilityID);
+						ItemsInFacility.add(item);
+					}
+				}
+				break;
 			}
 		}
 	}
@@ -172,7 +202,7 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 			ClientUI.clientController.accept(getFacilities);
 		}
 		
-
+		
 		arrayLocation = new ArrayList<>();
 		arrayName = new ArrayList<>();
 		

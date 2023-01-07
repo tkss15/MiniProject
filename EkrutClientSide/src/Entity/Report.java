@@ -1,9 +1,9 @@
 package Entity;
 
 public class Report {
-	String reportType;
-	String reportDate;
-	String Area;
+	private String reportType;
+	private String reportDate;
+	private String Area;
 
 	public Report(String reportType, String reportDate, String area) {
 		this.reportType = reportType;
