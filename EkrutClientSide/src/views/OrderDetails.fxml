@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -19,66 +20,77 @@
    <children>
       <Pane layoutX="-1.0" prefHeight="173.0" prefWidth="1000.0" style="-fx-background-color: FDB926;">
          <children>
-            <Text layoutX="391.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invoice number #31234" wrappingWidth="176.5546875">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Text>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="23.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="26.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../OneDrive/Desktop/Coding/Ekrut/EkrutServerSide/src/gui/pictures/faf13193-4e2a-4556-b5af-87d639352dbb-removebg-preview.png" />
+                  <Image url="@/Ekrut.png" />
                </image>
             </ImageView>
-            <Text layoutX="391.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Details">
+            <Text layoutX="392.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Details">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Text>
+            <HBox layoutX="294.0" layoutY="12.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="66.0" prefWidth="66.0">
+                     <children>
+                        <ImageView fx:id="currentState" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../gui/pictures/Cart.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Shop" />
+                     </children>
+                  </VBox>
+                  <Line endX="-33.0" startX="-100.0" strokeMiterLimit="5.0">
+                     <HBox.margin>
+                        <Insets top="30.0" />
+                     </HBox.margin>
+                  </Line>
+                  <VBox alignment="CENTER" prefHeight="66.0" prefWidth="66.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../gui/pictures/Invoice.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Invoice" />
+                     </children>
+                  </VBox>
+                  <Line endX="-33.0" startX="-100.0" strokeMiterLimit="5.0">
+                     <HBox.margin>
+                        <Insets top="30.0" />
+                     </HBox.margin>
+                  </Line>
+                  <VBox id="currentState" alignment="CENTER" prefHeight="66.0" prefWidth="66.0">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../gui/pictures/card.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Payment" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <Button fx:id="CloseButton" layoutX="928.0" layoutY="12.0" minWidth="42.0" mnemonicParsing="false" onAction="#ClickCloseWindow" prefHeight="34.0" prefWidth="58.0" text="X">
+               <font>
+                  <Font name="Cambria Bold" size="12.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
-      <Button fx:id="CloseButton" layoutX="932.0" layoutY="11.0" minWidth="42.0" mnemonicParsing="false" onAction="#CloseWindow" prefHeight="34.0" prefWidth="58.0" style="-fx-background-color: #fdb925; -fx-border-radius: 20; -fx-border-color: black;" text="X">
-         <font>
-            <Font name="Cambria Bold" size="12.0" />
-         </font>
-      </Button>
-      <Button fx:id="CloseButton3" alignment="CENTER" layoutX="766.0" layoutY="12.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="28.0" style="-fx-border-color: black; -fx-background-color: transpernt; -fx-border-radius: 20;" text="-" textFill="WHITE">
-         <font>
-            <Font name="Cambria Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button fx:id="CloseButton2" layoutX="835.0" layoutY="12.0" mnemonicParsing="false" onAction="#closeWindow" style="-fx-background-color: #fdb925; -fx-border-color: black; -fx-border-radius: 20;" text="+" textFill="WHITE">
-         <font>
-            <Font name="Cambria Bold" size="15.0" />
-         </font>
-      </Button>
-      <Label layoutX="813.0" layoutY="15.0" prefHeight="24.0" prefWidth="13.0" text="/">
-         <font>
-            <Font name="Cambria Bold" size="15.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="30.0" fitWidth="36.0" layoutX="874.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../OneDrive/Desktop/Coding/Ekrut/EkrutServerSide/src/gui/pictures/Search.png" />
-         </image>
-      </ImageView>
       <Button fx:id="btnCancelInvoice" layoutX="207.0" layoutY="639.0" mnemonicParsing="false" onAction="#CancelOrderAction" text="Cancel Order">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
       <Button fx:id="btnAcceptInvoice" layoutX="453.0" layoutY="639.0" mnemonicParsing="false" onAction="#PayNowAction" text="Pay now">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button id="buttonFixed" fx:id="btnBack" layoutX="20.0" layoutY="753.0" mnemonicParsing="false" onAction="#BackAction" style="-fx-background-color: #FDB926; -fx-border-color: black; -fx-background-radius: 20; -fx-border-radius: 20;" text="Back">
-         <graphic>
-            <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../OneDrive/Desktop/Coding/Ekrut/EkrutServerSide/src/gui/pictures/Back.png" />
-               </image>
-            </ImageView>
-         </graphic>
          <font>
             <Font size="18.0" />
          </font>
@@ -174,22 +186,6 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="Postal Code:">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Label text="Reciver Phone Number:">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Label>
                      </children>
                      <HBox.margin>
                         <Insets right="5.0" />
@@ -197,17 +193,7 @@
                   </VBox>
                   <VBox HBox.hgrow="ALWAYS">
                      <children>
-                        <TextField>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <TextField>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <TextField>
+                        <TextField fx:id="textFieldLocation">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
@@ -230,5 +216,17 @@
             <TableColumn fx:id="ProductPrice" minWidth="0.0" prefWidth="133.0" text="Price" />
         </columns>
       </TableView>
+      <Button id="buttonFixed" fx:id="btnBack" layoutX="27.0" layoutY="747.0" mnemonicParsing="false" onAction="#ClickBack" text="Back">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/Back.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

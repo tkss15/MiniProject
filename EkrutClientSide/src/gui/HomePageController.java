@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import Entity.Facility;
 import Entity.Product;
+import Entity.RegisterClient;
 import client.ClientConsole;
 import client.ClientUI;
 import common.IController;
@@ -30,32 +31,15 @@ import javafx.scene.text.Text;
 
 public class HomePageController implements Initializable, IController
 {
+	boolean isDefaultUser = false;
 	@FXML
-	private Text textUserlogin;
-
-	@FXML
-    private Text textFirstName;
-
-    @FXML
-    private Text textLastName;
-    
-    @FXML
-    private Text textStatus;
-
-    @FXML
-    private Text textID;
-
-    @FXML
-    private Text textTelephone;
-
-    @FXML
-    private Text textEmail;
+	private Text textUserlogin,textFirstName, textLastName, textStatus, textID, textTelephone, textEmail;
     
     @FXML
     private Button Logout;
 
     @FXML
-    private Button ManageOrders;
+    private Button ManageOrders,viewCatalog,BtnCreateOrder,orderPickUp;
 
     @FXML
     private Button CloseButton;
@@ -64,8 +48,18 @@ public class HomePageController implements Initializable, IController
     private Button CloseButton3;
 
     @FXML
-    private Button CloseButton2, BtnCreateOrder;
+    private Button CloseButton2;
 
+    @FXML
+    void openOrderPickup(ActionEvent event)
+    {
+    	ClientUI.sceneManager.ShowScene("../views/OrderPickup.fxml");
+    }
+    @FXML
+    void actionViewCatlog(ActionEvent event)
+    {
+    	ClientUI.sceneManager.ShowScene("../views/CatalogViewerOnly.fxml",event);
+    }
     @FXML 
     void Logout(ActionEvent event)
     {
@@ -112,6 +106,7 @@ public class HomePageController implements Initializable, IController
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		ClientUI.clientController.setController(this);
 		
 		textUserlogin.setText(ClientUI.clientController.getUser().getFirstName());
 		textFirstName.setText(ClientUI.clientController.getUser().getFirstName());
@@ -125,6 +120,28 @@ public class HomePageController implements Initializable, IController
 		});
 		RequestObjectClient request = new RequestObjectClient("#CHECK_CLIENT_STATUS",String.format("table=registerclients#condition=userName=%s", ClientUI.clientController.getUser().getUserName()),"GET");
 		ClientUI.clientController.accept(request);
+		
+		if(isDefaultUser )
+		{
+			 ManageOrders.setDisable(true);
+			 viewCatalog.setDisable(true);
+			 BtnCreateOrder.setDisable(true);
+			 orderPickUp.setDisable(true);
+		}
+		else
+		{
+			RegisterClient temp = (RegisterClient)ClientUI.clientController.getUser();
+			if(temp.getClientStatus().equals(RegisterClient.ClientStatus.CLIENT_PENDING))
+			{
+				 BtnCreateOrder.setDisable(true);
+				 orderPickUp.setDisable(true);
+				 ManageOrders.setDisable(true);
+			}
+		}
+		if(!ClientUI.clientController.getEKFacility().isFacilityEK())
+		{
+			orderPickUp.setDisable(true);
+		}
 	}
 
 	@Override
@@ -140,20 +157,32 @@ public class HomePageController implements Initializable, IController
 				{
 					if(serverResponse.Responsedata.size() == 0)
 					{
+						isDefaultUser = true;
 						textStatus.setText("Default User");
 						return;	
 					}
 					Object[] values =(Object[]) serverResponse.Responsedata.get(0);//Row 1 
-					String userName = (String) values[0];
 					String userStatus = (String) values[1];
 					String CardNumber = (String) values[2];
 					String CardDate = (String) values[3];
+					
+					RegisterClient registerClient = new RegisterClient(ClientUI.clientController.getUser(), null, null, CardNumber, CardDate,null);
+					
+					registerClient.setClientStatus(userStatus);
 					if(userStatus.equals("SUBSCRIBER"))
 					{
-						Integer ProductCode = (Integer) values[4];
-						Double ProductPrice = (Double) values[5];
-						boolean firstPurchase = (boolean) values[6];		
+						Integer SubscriberNumber = (Integer) values[4];
+						Double MonthlyFee = (Double) values[5];
+						boolean firstPurchase = (boolean) values[6];	
+						
+						registerClient.setClientSubscriberNumber(SubscriberNumber);
+						registerClient.setClientFirstPurchase(firstPurchase);
+						registerClient.setClientMonthlyFee(MonthlyFee);
 					}
+					ClientUI.clientController.setUser(registerClient);
+					isDefaultUser = false;
+					System.out.println(registerClient);
+					textStatus.setText(userStatus);
 					
 					break;
 				}

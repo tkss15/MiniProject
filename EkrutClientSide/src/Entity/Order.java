@@ -7,8 +7,8 @@ public class Order
 	private String FacilityType, orderType;
 	private Facility orderFacility;
 	private Double finalPrice;
-
 	public ArrayList<Product> myCart = new ArrayList<>();
+	
 	public Order(Facility orderFacility, String orderType, String FacilityType)
 	{
 		finalPrice = 0.0;
@@ -26,8 +26,10 @@ public class Order
 			myCart.set(ProductIndex, ProductUpdate);
 		}
 		else
+		{
 			myCart.add(product);
-		finalPrice += PriceItem(product);
+		}
+		calcuatePrice();
 	}
 	public void UpdateItem(Product product, Integer Amount)
 	{
@@ -36,30 +38,41 @@ public class Order
 		
 		int index = myCart.indexOf(product);
 		Product UpdatedProduct = myCart.get(index);
-		
-		finalPrice -= PriceItem(UpdatedProduct);
-		
 		UpdatedProduct.setAmount(Amount);
-		finalPrice += PriceItem(UpdatedProduct);
+		calcuatePrice();
 		myCart.set(index, UpdatedProduct);
 	}
 	public void removeItem(Product product)
 	{
 		if(myCart.contains(product))
 		{
-			finalPrice -= PriceItem(product);
 			myCart.remove(product);
+		}
+		calcuatePrice();
+	}
+	private void calcuatePrice()
+	{
+		finalPrice = 0.0;
+		for(Product temp : myCart)
+		{
+			finalPrice += PriceItem(temp);
 		}
 	}
 	public Double getFinalPrice() {
 		return finalPrice;
 	}
+	
+	public Double PriceItemNoDiscount(Product product) {
+
+		return product.getProductPrice() * product.getProductAmount();
+	}
+	
 	public void setFinalPrice(Double finalPrice) {
 		this.finalPrice = finalPrice;
 	}
 	public Double PriceItem(Product product)
 	{
-		return product.getProductAmount() * product.getProductPrice();
+		return product.getPriceStategy().getPrice(product.getProductPrice(),product.getProductAmount());
 	}
 	public String getFacilityType() {
 		return FacilityType;

@@ -1,8 +1,3 @@
-
-* {
-    -fx-font-family: "Assistant";
-}
-
 /* VBox Products Description */
 
 #ItemDescription
@@ -13,6 +8,25 @@
     -fx-alignment: center;
 }
 
+#currentState {
+	-fx-background-color: #f06236;
+	-fx-background-radius:70;
+}
+
+#CloseButton {
+	-fx-font-size: 18;
+    -fx-border-color: black;
+    -fx-border-radius: 40;
+    -fx-background-color: #FDB926;
+    -fx-background-radius: 40;
+    -fx-cursor: hand;
+}
+
+#CloseButton:hover {
+	-fx-background-color: #f06236;
+	-fx-background-radius: 40;
+	-fx-cursor: hand;
+}
 
 #PlusButton {
     -fx-max-width: 34.0;
@@ -125,6 +139,18 @@
     -fx-border-color: black;
     -fx-border-radius: 40;
     -fx-background-color: transparent;
+}
+
+#SaleTitle {
+	-fx-fill: red;
+	-fx-font-size:16;
+}
+
+#OnSale
+{
+	-fx-text-fill: red;
+	-fx-font-size: 18;
+	-fx-rotate: -21.8;
 }
 
 .grid-pane > * {

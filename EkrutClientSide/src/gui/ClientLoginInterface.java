@@ -3,6 +3,7 @@ package gui;
 import java.io.File;
 import java.io.FileReader;
 
+import Entity.Facility;
 import client.ClientUI;
 import common.IController;
 import common.RequestObjectClient;
@@ -62,12 +63,13 @@ public class ClientLoginInterface implements IController {
 	        	ClientUI.clientController.getEKFacility().setFacilityEK(false);
 	        else
 	        {
-	        	ClientUI.clientController.getEKFacility().setFacilityEK(true);
-	        	ClientUI.clientController.getEKFacility().setFacilityID(Integer.valueOf(arraySettings[1]));
-	        	ClientUI.clientController.getEKFacility().setFacilityArea(arraySettings[2]);
-	        	ClientUI.clientController.getEKFacility().setFacilityLocation(arraySettings[3]);
-	        	ClientUI.clientController.getEKFacility().setFacilityName(arraySettings[4]);
-	        	ClientUI.clientController.getEKFacility().setFacilityThresholder(Integer.valueOf(arraySettings[5]));
+//	        	ClientUI.clientController.getEKFacility().setFacilityEK(true);
+//	        	ClientUI.clientController.getEKFacility().setFacilityID(Integer.valueOf(arraySettings[1]));
+//	        	ClientUI.clientController.getEKFacility().setFacilityArea(arraySettings[2]);
+//	        	ClientUI.clientController.getEKFacility().setFacilityLocation(arraySettings[3]);
+//	        	ClientUI.clientController.getEKFacility().setFacilityName(arraySettings[4]);
+//	        	ClientUI.clientController.getEKFacility().setFacilityThresholder(Integer.valueOf(arraySettings[5]));
+	        	ClientUI.clientController.setEKFacility(new Facility(Integer.valueOf(arraySettings[1]),arraySettings[2],arraySettings[3],arraySettings[4],Integer.valueOf(arraySettings[5]), true));
 	        }
 
 	        ClientUI.sceneManager.ShowScene("../views/LoginClientInterface.fxml");		

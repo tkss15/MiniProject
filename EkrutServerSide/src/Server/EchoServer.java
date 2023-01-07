@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import common.ChatIF;
 import common.ClientConnection;
 import common.RequestObjectClient;
+import common.ResponseObject;
 import database.DBConnect;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -92,7 +93,8 @@ public class EchoServer extends AbstractServer
 		serverUI.display("Client Connected "+ client.getInetAddress());
 		serverUI.display(clientToShow);
 	}
-
+	//#SEND_SMS
+	//#SEND_EMAIL
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) 
 	{
@@ -108,7 +110,17 @@ public class EchoServer extends AbstractServer
 				}
 				else 
 				{
-					client.sendToClient(mySqlConnection.makeQuery(clientRequest));
+					if(clientRequest.getRequestID().equals("#UPDATE_PRODUCTS_CLIENT"))
+					{
+						ResponseObject updateProductsClients = new ResponseObject("Empty");
+						updateProductsClients.setRequest("Empty");
+						sendToAllClients(mySqlConnection.makeQuery(clientRequest), client);
+						client.sendToClient(updateProductsClients);
+					}
+					else
+					{
+						client.sendToClient(mySqlConnection.makeQuery(clientRequest));
+					}
 				}
 			} 
 			catch (IOException e) 

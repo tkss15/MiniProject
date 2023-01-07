@@ -124,11 +124,16 @@ public class DBConnect
 			case "DELETE": 
 			{
 				query.append("DELETE FROM " + Table);
-				if(!SQLValues.isEmpty())
-				{					
-					query.append(" WHERE ");
-					for (Map.Entry<String,String> entry : SQLValues.entrySet()) 
-						query.append(entry.getKey() + "=" + entry.getValue());
+				if(!SQLCondition.isEmpty())
+				{
+					query.append(" WHERE (" );
+					for (Map.Entry<String,String> entry : SQLCondition.entrySet()) 
+					{
+						query.append(entry.getKey() + " = " + String.format("\"%s\"", entry.getValue()));
+						query.append("AND ");
+					}
+					query.delete(query.length()-4, query.length());
+					query.append(")");
 				}
 				break;
 			}

@@ -7,12 +7,47 @@
     -fx-background-color:  transparent;
 }
 
+
+#CloseButton {
+	-fx-font-size: 18;
+    -fx-border-color: black;
+    -fx-border-radius: 40;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+#FullPriceSale {
+	-fx-font-size:16;
+	-fx-strikethrough: true;
+}
+
+#DiscountPriceSale {
+	-fx-font-size:16;
+	-fx-fill: red;
+}
+
+#CloseButton:hover {
+	-fx-background-color: #f06236;
+	-fx-background-radius: 40;
+	-fx-cursor: hand;
+}
+
 #ProductName{
     -fx-font-size: 17;
 }
 
+#currentState {
+	-fx-background-color: #f06236;
+	-fx-background-radius:70;
+}
+
 #ProdcutDescription{
     -fx-font-size: 16;
+}
+
+#currentState {
+	-fx-background-color: #f06236;
+	-fx-background-radius:70;
 }
 
 #btnAcceptInvoice {
@@ -48,6 +83,21 @@
 	-fx-background-color:transparent;
 }
 
+#buttonFixed:hover {
+	-fx-background-color: #f06236;
+	-fx-background-radius: 40;
+	-fx-cursor: hand;
+}
+
+#buttonFixed {
+	-fx-font-size: 18;
+    -fx-border-color: black;
+    -fx-border-radius: 40;
+    -fx-background-radius:40;
+    -fx-background-color:  #FDB926;
+    
+}
+
 .ScrollPane {
 	-fx-background-color:transparent;
 }
@@ -56,5 +106,5 @@
 }
 
 #BorderBoxSizing {
-    -fx-border-color: black;
+    -fx-border-color: transparent transparent black transparent;
 }

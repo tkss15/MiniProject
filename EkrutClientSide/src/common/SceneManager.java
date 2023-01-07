@@ -108,7 +108,8 @@ public class SceneManager
 	 * @param event
 	 * @param urlResources
 	 */
-	public void SceneBack(ActionEvent event, String urlResources )
+	
+	public void SceneBack(Event event, String urlResources )
 	{
 		if(BackList.isEmpty())
 			return;
