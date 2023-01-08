@@ -4,6 +4,9 @@ Patch Notes:
 is a nice mechanic to not make Javafx wait forever. 
 - Changed CreateSqlTableUpdated.sql -> order table is new added order date 
 
+1.4.4 - Uploaded: Eldad:
+- Changed ServerInterface UI so it will fit new variables, added order termnation. 
+
 8.1.2023- uploaded: Liel:
 -finished myordercontrooler, my orderdetailscomtrooler , OrderRow and ORderRowDetails. i addaed JavaDoc and comments.
 Gal need to change the things that he wants.
