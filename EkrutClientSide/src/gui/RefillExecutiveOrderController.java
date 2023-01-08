@@ -2,10 +2,9 @@ package gui;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import Entity.Facility;
-import Entity.ProductInFacility;
 import Entity.ProductToRefill;
 import client.ClientUI;
 import common.IController;
@@ -16,6 +15,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -29,6 +30,7 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	boolean existsItems = false;
 	boolean existsProduct = false;
 	boolean existsThreshold = false;
+	boolean itemExistsInOrderTable = false;
 	private ArrayList<String> arrayLocation;
 	private ArrayList<String> arrayName;
 	private ArrayList<String> items;
@@ -39,7 +41,7 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	ObservableList<String> NameList;
 	ObservableList<String> ItemsList;
 	ObservableList<String> itemsToListView = FXCollections.observableArrayList();
-
+	private HashMap<String,String> productsOfFacility = new HashMap<>();
 	@FXML
 	private Text facilityNameText;
 
@@ -78,25 +80,57 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 
 	@FXML
 	void sendExecutiveOrder(ActionEvent event) {
+		errorMessageText.setVisible(false);
+		if(productsToRefill.isEmpty()) {
+			errorMessageText.setText("No items to send!");
+			errorMessageText.setVisible(true);
+			return;
+		}
+			
+		
 		for (int i = 0; i < productsToRefill.size(); i++) {
 			ProductToRefill curr = productsToRefill.get(i);
-			RequestObjectClient getFacilityThresholdLevel = new RequestObjectClient("#GET_THRESHOLD",
-					String.format("table=facilities#condition=FacilityLocation=%s&FacilityName=%s",
-							curr.getFacilityLocation(), curr.getFacilityName()),
-					"GET");
-			ClientUI.clientController.accept(getFacilityThresholdLevel);
-			productsToRefill.get(i).setFacilityThresholdLevel(String.valueOf(tempThreshold));
-			existsThreshold = false;
+			RequestObjectClient CheckItemInExec = new RequestObjectClient("#CHECK_EXEC_ORDER_ITEM",
+					String.format("table=executiveorders#condition=ProductName=%s&"
+							+ "ProductQuantity=%s&Area=%s&FacilityLocation=%s&"
+							+ "FacilityName=%s&FacilityThresholdLevel=%s",
+							curr.getProductName(),curr.getProductQuantity(),
+							curr.getArea(),curr.getFacilityLocation(),curr.getFacilityName(),
+							curr.getFacilityThresholdLevel()),"GET");
+			ClientUI.clientController.accept(CheckItemInExec);
+			
+			if(!itemExistsInOrderTable) {
+				RequestObjectClient putToExecOrder = new RequestObjectClient("#PUT_TO_EXEC_ORDER",
+						String.format("table=executiveorders#values=ProductName=%s&"
+								+ "ProductQuantity=%s&Area=%s&FacilityLocation=%s&"
+								+ "FacilityName=%s&FacilityThresholdLevel=%s",
+								curr.getProductName(),curr.getProductQuantity(),
+								curr.getArea(),curr.getFacilityLocation(),curr.getFacilityName(),
+								curr.getFacilityThresholdLevel()),"POST");
+				
+				ClientUI.clientController.accept(putToExecOrder);
+			}
+			itemExistsInOrderTable = false;
+			
 		}
-		System.out.println(productsToRefill);
+		productsToRefill.clear();
+		Alert info = new Alert(AlertType.INFORMATION);
+		info.setContentText("Executive order has been sent to the employee!");
+		info.showAndWait();
+		itemsListView.getItems().clear();itemsListView.refresh();
 	}
 
 	@FXML
 	void addToExecutiveOrder(ActionEvent event) {
+		errorMessageText.setVisible(false);
+		if(ItemCombo.getValue() == null)
+			return;
 		ArrayList<String> items = new ArrayList<>();
 		String toOrder = ItemCombo.getValue();
-		itemsToListView.add(toOrder);
+		String toOrderInList = toOrder + "-" +  NameCombo.getValue();
+		itemsToListView.add(toOrderInList);
 		itemsListView.setItems(itemsToListView);
+		productsOfFacility.put(toOrderInList, NameCombo.getValue());
 		String[] parts = itemQuantityText.getText().split(" ");
 		ProductToRefill product = new ProductToRefill(toOrder, parts[2], ClientUI.clientController.getUser().getArea(),
 				LocationCombo.getValue(), NameCombo.getValue(), null);
@@ -104,12 +138,20 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		productsToRefill.add(product);
 
 		ItemsList.clear();
-
+		for (int i = 0; i < productsToRefill.size(); i++) {
+			ProductToRefill curr = productsToRefill.get(i);
+			RequestObjectClient getFacilityThresholdLevel = new RequestObjectClient("#GET_THRESHOLD",
+					String.format("table=facilities#condition=FacilityLocation=%s&FacilityName=%s",
+							curr.getFacilityLocation(), curr.getFacilityName()),"GET");
+			ClientUI.clientController.accept(getFacilityThresholdLevel);
+			productsToRefill.get(i).setFacilityThresholdLevel(String.valueOf(tempThreshold));
+			existsThreshold = false;
+		}
 		for (int i = 0; i < productsBelowThreshold.size(); i++) {
 			ArrayList<String> curr = productsBelowThreshold.get(i);
 			if (curr.get(2).equals(NameCombo.getValue()) && curr.get(4).equals(LocationCombo.getValue())) {
 				if (!curr.get(0).equals(toOrder)) {
-					if (!itemsListView.getItems().contains(curr.get(0)))
+					if (!itemsListView.getItems().contains(curr.get(0) + "-" + NameCombo.getValue()))
 						items.add(curr.get(0));
 				}
 			}
@@ -117,21 +159,19 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		}
 		itemQuantityText.setVisible(false);
 		ItemCombo.getItems().addAll(items);
-		if (ItemCombo.getItems().isEmpty()) {
-			ItemCombo.setDisable(true);
-			AddToExecutiveOrderButton.setDisable(true);
-		}
+		
 
 	}
 
 	@FXML
 	void selectLocation(ActionEvent event) {
-
+		errorMessageText.setVisible(false);
 		itemQuantityText.setVisible(false);
 		successMessageText.setVisible(false);
 		errorMessageText.setVisible(false);
 		ArrayList<String> names = new ArrayList<>();
-
+		ItemCombo.setVisible(false);
+//		ItemCombo.getItems().clear();
 		NameCombo.getItems().clear();
 
 		for (int i = 0; i < productsBelowThreshold.size(); i++) {
@@ -157,31 +197,25 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		errorMessageText.setVisible(false);
 		ArrayList<String> items = new ArrayList<>();
 		ItemCombo.getItems().clear();
-
+		ItemCombo.setVisible(true);
 		for (int i = 0; i < productsBelowThreshold.size(); i++) {
 			ArrayList<String> curr = productsBelowThreshold.get(i);
 			if (curr.get(2).equals(NameCombo.getValue())) {
 				if (!items.contains(curr.get(0)))
-					items.add(curr.get(0));
+					if(!productsOfFacility.containsKey(curr.get(0) + "-" + NameCombo.getValue()))
+						items.add(curr.get(0));
 			}
 		}
 
 		ObservableList<String> itemsList = FXCollections.observableArrayList(items);
 
-		if (NameCombo.getValue() != null) {
-			if (itemsList.isEmpty()) {
-				errorMessageText.setText("No items below Threshold!");
-				errorMessageText.setVisible(true);
-				return;
-			}
-		}
 		ItemCombo.getItems().addAll(itemsList);
 	}
 
 	@FXML
 	void selectItem(ActionEvent event) {
 		itemQuantityText.setVisible(true);
-
+		errorMessageText.setVisible(false);
 		for (int i = 0; i < productsBelowThreshold.size(); i++) {
 			ArrayList<String> curr = productsBelowThreshold.get(i);
 			if (curr.get(2).equals(NameCombo.getValue()) && curr.get(4).equals(LocationCombo.getValue())
@@ -252,6 +286,12 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 					tempThreshold = (Integer) values[4];
 
 				}
+			case "#PUT_TO_EXEC_ORDER":
+				break;
+			case "#CHECK_EXEC_ORDER_ITEM":
+				if (serverResponse.Responsedata.size() != 0)
+					itemExistsInOrderTable = true;
+				break;
 			}
 		}
 	}
@@ -261,7 +301,7 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		successMessageText.setVisible(false);
 		errorMessageText.setVisible(false);
 		itemQuantityText.setVisible(false);
-
+		ItemCombo.setVisible(false);
 		ClientUI.clientController.setController(this);
 
 		userAreaName = ClientUI.clientController.getUser().getArea();

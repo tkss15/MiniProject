@@ -42,7 +42,7 @@ import javafx.stage.Stage;
 
 public class TypeReportController implements Initializable, IController {
 	boolean exists = false;
-	 private static final Random RANDOM = new Random();
+	private static final Random RANDOM = new Random();
 	ObservableList<PieChart.Data> pieChartData;
 	BarChart<String, Number> barChart;
 	String userAreaName;
@@ -61,9 +61,9 @@ public class TypeReportController implements Initializable, IController {
 
 	@FXML
 	private Button showBTN;
-	
+
 	@FXML
-    private Pane pane;
+	private Pane pane;
 
 	@FXML
 	private Button CloseButton;
@@ -303,8 +303,8 @@ public class TypeReportController implements Initializable, IController {
 		barChart.setAlternativeColumnFillVisible(true);
 		Node n;
 		int countColor = 0;
-		String[] colors = {"red", "orange", "yellow", "green", "blue", "purple", "pink", "brown",  "gray"};
-		 ArrayList<String> colorList = new ArrayList<>(Arrays.asList(colors));
+		String[] colors = { "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "gray" };
+		ArrayList<String> colorList = new ArrayList<>(Arrays.asList(colors));
 		for (String product : supplyMap.keySet()) {
 			n = barChart.lookup(String.format(".data%d.chart-bar", countColor));
 			countColor += 1;
@@ -313,7 +313,7 @@ public class TypeReportController implements Initializable, IController {
 			colorList.remove(random);
 			String style = String.format("-fx-bar-fill: %s", color);
 			n.setStyle(style);
-			
+
 		}
 		barChart.setLegendVisible(false);
 		VBox vbox = new VBox(barChart);
@@ -323,6 +323,5 @@ public class TypeReportController implements Initializable, IController {
 		vbox.setPrefHeight(650);
 		pane.getChildren().add(vbox);
 
-	
 	}
 }
