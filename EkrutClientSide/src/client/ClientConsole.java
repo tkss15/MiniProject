@@ -24,6 +24,15 @@ public class ClientConsole implements ChatIF
 	private String ApplicationType = null;
 	private HashMap<String,String> mapMonths = new HashMap<>();
 	
+//	private ArrayList<Facility> FacilitiesFor_TypesReportController_AND_monthlyReports = new ArrayList<>();
+//	
+//	public void setFacilites(ArrayList<Facility> arr) {
+//		FacilitiesFor_TypesReportController_AND_monthlyReports = arr;
+//	}
+//	public ArrayList<Facility> getFacilities(){
+//		return FacilitiesFor_TypesReportController_AND_monthlyReports;
+//	}
+//	
 	public void setHashMapMonths(HashMap<String,String> map) {
 		mapMonths = map;
 	}

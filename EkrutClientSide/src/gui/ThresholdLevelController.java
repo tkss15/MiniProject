@@ -257,7 +257,7 @@ public class ThresholdLevelController implements Initializable, IController {
 
 		successMessageText.setVisible(false);
 		errorMessageText.setVisible(false);
-
+		setCurrentFacilityThreshold.setDisable(true);
 		Facilities = new ArrayList<>();
 		userAreaName = ClientUI.clientController.getUser().getArea();
 		facilityNameText.setText(String.format("%s Area", userAreaName));
@@ -281,7 +281,8 @@ public class ThresholdLevelController implements Initializable, IController {
 		for (int i = 0; i < Facilities.size(); i++) {
 			Facility currFac = Facilities.get(i);
 			arrayId.add(String.valueOf(currFac.getFacilityID()));
-			arrayLocation.add(currFac.getFacilityLocation());
+			if(!arrayLocation.contains(currFac.getFacilityLocation()))
+				arrayLocation.add(currFac.getFacilityLocation());
 			arrayName.add(currFac.getFacilityName());
 		}
 		IDList = FXCollections.observableArrayList(arrayId);
