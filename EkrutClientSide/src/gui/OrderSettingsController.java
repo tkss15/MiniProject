@@ -15,6 +15,7 @@ import Entity.PriceStartegyOnePlusOne;
 import Entity.PriceStartegySecondHalfPrice;
 import Entity.Product;
 import client.ClientUI;
+import common.CountdownOrder;
 import common.IController;
 import common.RequestObjectClient;
 import common.ResponseObject;
@@ -102,7 +103,7 @@ public class OrderSettingsController implements Initializable, IController {
         	ClientUI.clientController.getClientOrder().setFacilityType("OL");
         	ClientUI.clientController.getClientOrder().setOrderFacility(ComboboxFacility.getValue());
         	ClientUI.clientController.getClientOrder().setOrderType(((RadioButton)tg.getSelectedToggle()).getText());
-
+        	ClientUI.clientController.setTaskCountdown(new CountdownOrder());
         	ClientUI.sceneManager.ShowSceneNew("../views/CatalogViewer.fxml", event);
     	}
     }

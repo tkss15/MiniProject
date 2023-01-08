@@ -1,5 +1,4 @@
 package gui;
-import java.awt.Color;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,7 +8,6 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import Entity.Facility;
 import Entity.Order;
 import Entity.PriceStartegyCustom;
 import Entity.PriceStartegyOnePlusOne;
@@ -18,10 +16,11 @@ import Entity.PriceStartegySecondHalfPrice;
 import Entity.Product;
 import Entity.RegisterClient;
 import client.ClientUI;
+import common.CountdownOrder;
 import common.IController;
 import common.RequestObjectClient;
 import common.ResponseObject;
-import common.SceneManager;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,76 +41,92 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class CatalogViewController implements Initializable, IController
 {
-	private final String TrashcanImage = "trashcan.png";
-	private final String PlusImage = "Plus.png";
-	private final String MinusImage = "Minus.png";
-	
-	private HashMap<Integer,String> SalesMap = new HashMap<>();
-	ArrayList<ProductUI> StockItems = new ArrayList<>();
-	ShoppingCartUI myShoppingCart = new ShoppingCartUI();
+	// Private fields for storing images and data about products and the shopping cart
+	private final String TrashcanImage = "trashcan.png"; // Image for deleting items from the shopping cart
+	private final String PlusImage = "Plus.png"; // Image for increasing the quantity of a product in the shopping cart
+	private final String MinusImage = "Minus.png"; // Image for decreasing the quantity of a product in the shopping cart
+
+	private HashMap<Integer,String> SalesMap; // Map to store active sales data
+	private ArrayList<ProductUI> StockItems; // List to store product data
+	private ShoppingCartUI myShoppingCart; // Object to store shopping cart data
     @FXML
-    private VBox Item, ProductsVBox, ShoppingCart;
-    @FXML
-    private VBox ItemSample;
-    @FXML
-    private ScrollPane ScrollPane, ScrollPaneCart;
-    @FXML
-    private HBox RowItems;
-    @FXML
-    private Button GetOrder;
+    private Label timerOrder;
     
-    @FXML
-    private Button BtnBack;
+	// JavaFX elements for the layout and UI of the scene
+	@FXML
+	private VBox Item, ProductsVBox, ShoppingCart, ItemSample;
+	@FXML
+	private ScrollPane ScrollPane, ScrollPaneCart;
+	@FXML
+	private HBox RowItems;
+	@FXML
+	private Button GetOrder, BtnBack;
 
   	
-  	@FXML 
-  	void CancelOrder(ActionEvent event)
-  	{
-    	Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-    	alert.setTitle("Confirmation");
-    	alert.setHeaderText("Are you sure you want to cancel your Order?");
-    	alert.setContentText("This action cannot be undone. Please confirm your choice.");
-    	Optional<ButtonType> result = alert.showAndWait();
-    	if (result.get() == ButtonType.OK) 
-    	{
-          	ClientUI.clientController.getClientOrder().myCart.clear();
-          	ClientUI.clientController.setClientOrder(new Order(null,null,null));
-    		ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);	    	  
-    	} 
-  	}
-    @FXML 
-    void ShowPrevPage(ActionEvent event)
-    {
-    	ClientUI.clientController.getClientOrder().myCart.clear();
-    	ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);
-    }
-    @FXML
-    void closeWindow(ActionEvent event) {
-    	ClientUI.clientController.UserDissconnected();
-    	System.exit(0);
-    }
-    
-    @FXML
-    void printElements(ActionEvent event) 
-    {
-    	if(ClientUI.clientController.getClientOrder().myCart.isEmpty())
-    	{
-			Alert alert = new Alert(AlertType.ERROR, "In order to continue you must insert 1 product");
-			alert.showAndWait();
-    		return;
-    	}
-    	ClientUI.sceneManager.ShowSceneNew("../views/OrderInvoice.fxml", event);
-    }
+	@FXML 
+	void CancelOrder(ActionEvent event) // Method called when the user clicks the "Cancel Order" button
+	{
+	    // Display a confirmation alert to the user
+	    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+	    alert.setTitle("Confirmation");
+	    alert.setHeaderText("Are you sure you want to cancel your Order?");
+	    alert.setContentText("This action cannot be undone. Please confirm your choice.");
+	    Optional<ButtonType> result = alert.showAndWait();
+	    // If the user confirms, clear the shopping cart and return to the homepage
+	    if (result.get() == ButtonType.OK) 
+	    {
+	    	ClientUI.clientController.getTaskCountdown().cancelTask();
+	        ClientUI.clientController.getClientOrder().myCart.clear();
+	        ClientUI.clientController.setClientOrder(new Order(null,null,null));
+	        ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);	    	  
+	    } 
+	}
+	@FXML 
+	void ShowPrevPage(ActionEvent event) // Method called when the user clicks the "Back" button
+	{
+	    // Return to the homepage without clearing the shopping cart
+		ClientUI.clientController.getTaskCountdown().cancelTask();
+	    ClientUI.clientController.getClientOrder().myCart.clear();
+	    ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);
+	}
+	@FXML
+	void closeWindow(ActionEvent event) // Method called when the user clicks the "Close" button
+	{
+	    // Close the application and inform the server that the user has disconnected
+		ClientUI.clientController.getTaskCountdown().cancelTask();
+	    ClientUI.clientController.UserDissconnected();
+	    System.exit(0);
+	}
+
+	@FXML
+	void printElements(ActionEvent event) // Method called when the user clicks the "Get Order" button
+	{
+	    // If the shopping cart is empty, display an error message and return
+	    if(ClientUI.clientController.getClientOrder().myCart.isEmpty())
+	    {
+	        Alert alert = new Alert(AlertType.ERROR, "In order to continue you must insert 1 product");
+	        alert.showAndWait();
+	        return;
+	    }
+	    ClientUI.clientController.getTaskCountdown().cancelTask();
+	    // Otherwise, go to the order invoice scene
+	    ClientUI.sceneManager.ShowSceneNew("../views/OrderInvoice.fxml", event);
+	}
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
 		ClientUI.clientController.setController(this);
+		
+		ClientUI.clientController.getTaskCountdown().initialize(timerOrder);
+		
+		SalesMap = new HashMap<>();
+		StockItems = new ArrayList<>();
+		myShoppingCart = new ShoppingCartUI();
 		
     	String sql = "SELECT products.*, productsinfacility.ProductAmount FROM products LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode WHERE productsinfacility.FacilityID = " + ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() + " ORDER BY products.ProductCode";
     	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",sql,"*");  
@@ -121,18 +136,21 @@ public class CatalogViewController implements Initializable, IController
     	{
 			request = new RequestObjectClient("#GET_ALL_SALES",String.format("table=sales#values=saleType=saleType&Item=Item#condition=area=%s&isActive=1", ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityArea()),"GET");  
 	    	ClientUI.clientController.accept(request);
+	    	
 	    	for(int i = 0; i < ClientUI.clientController.getArrProducts().size(); i++)
 	    	{
 	    		if(SalesMap.containsKey(ClientUI.clientController.getArrProducts().get(i).getProductCode()))
 	    		{
 	    			switch(SalesMap.get(ClientUI.clientController.getArrProducts().get(i).getProductCode()))
 	    			{
-	    			case"1 + 1":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegyOnePlusOne());
-	    			break;
-	    			case"Custom Discount":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegyCustom(0.25));
-	    			break;
-	    			case"Second Item In Half Price":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegySecondHalfPrice());
-	    			break;
+		    			case"1 + 1":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegyOnePlusOne());
+		    			break;
+		    			
+		    			case"Custom Discount":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegyCustom(0.25));
+		    			break;
+		    			
+		    			case"Second Item In Half Price":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegySecondHalfPrice());
+		    			break;
 	    			}
 	    		}
 	    	}

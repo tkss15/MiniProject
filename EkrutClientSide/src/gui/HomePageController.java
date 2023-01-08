@@ -12,6 +12,7 @@ import Entity.Product;
 import Entity.RegisterClient;
 import client.ClientConsole;
 import client.ClientUI;
+import common.CountdownOrder;
 import common.IController;
 import common.RequestObjectClient;
 import common.ResponseObject;
@@ -96,6 +97,7 @@ public class HomePageController implements Initializable, IController
         	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",sql,"*");  
         	ClientUI.clientController.accept(request);
         	
+        	ClientUI.clientController.setTaskCountdown(new CountdownOrder());
     		ClientUI.sceneManager.ShowSceneNew("../views/CatalogViewer.fxml", event);
     	}
     	else {

@@ -10,6 +10,7 @@ import Entity.Product;
 import Entity.RegisterClient;
 import Entity.User;
 import common.ChatIF;
+import common.CountdownOrder;
 import common.IController;
 import common.RequestObjectClient;
 import common.SceneManager;
@@ -23,7 +24,8 @@ public class ClientConsole implements ChatIF
 	private User clientUser = new User(null, null);
 	private Order clientOrder = new Order(null,null,null);
 	private Facility EKFacility = new Facility(null, null, null, null, null, null);
-	
+	private CountdownOrder taskCountdown = new CountdownOrder();
+
 	private String ApplicationType = null;
 	
 	public final String ApplicationConfig = "EkrutApplication/";
@@ -65,7 +67,6 @@ public class ClientConsole implements ChatIF
 		}
 	}
 	public void setController(IController currentController) {
-		System.out.println("Changed Controller");
 		this.currentController = currentController;
 	}
 	/***
@@ -85,6 +86,12 @@ public class ClientConsole implements ChatIF
 	 * 
 	 * 
 	 */
+	public CountdownOrder getTaskCountdown() {
+		return taskCountdown;
+	}
+	public void setTaskCountdown(CountdownOrder taskCountdown) {
+		this.taskCountdown = taskCountdown;
+	}
 	public Facility getEKFacility() {
 		return EKFacility;
 	}
@@ -135,11 +142,6 @@ public class ClientConsole implements ChatIF
 	public void display(Object message) 
 	{
 		currentController.updatedata(message);
-	}
-
-	@Override
-	public void setButtons(boolean isConnected) {
-		//clientInterface.setPanesAfterSearch(isConnected);
 	}
 
 }

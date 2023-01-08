@@ -1,8 +1,5 @@
 package Server;
 
-import java.util.ArrayList;
-
-import common.SceneManager;
 import gui.ServerInterfaceController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

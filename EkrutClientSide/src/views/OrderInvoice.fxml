@@ -446,5 +446,15 @@
             <Font size="18.0" />
          </font>
       </Button>
+      <Label layoutX="777.0" layoutY="154.0" text="Time Reamining:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="timerOrder" layoutX="885.0" layoutY="154.0" text="Time">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

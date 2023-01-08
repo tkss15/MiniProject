@@ -76,14 +76,19 @@ public class OrderInvoiceController implements Initializable,IController {
 	    
 	    @FXML
 	    private Text textFullPrice;
+	    
+	    @FXML
+	    private Label timerOrder;
 
 	    @FXML
 	    void ClickAcceptInvoice(ActionEvent event) {
+	    	ClientUI.clientController.getTaskCountdown().cancelTask();
 	    	ClientUI.sceneManager.ShowSceneNew("../views/OrderDetails.fxml", event);
 	    }
 
 	    @FXML
 	    void ClickBack(ActionEvent event) {
+	    	ClientUI.clientController.getTaskCountdown().cancelTask();
 	    	ClientUI.sceneManager.ShowSceneNew("../views/CatalogViewer.fxml", event);
 	    }
 	    private void updatePrice()
@@ -101,18 +106,21 @@ public class OrderInvoiceController implements Initializable,IController {
 	    	Optional<ButtonType> result = alert.showAndWait();
 	    	if (result.get() == ButtonType.OK) 
 	    	{
+	    		ClientUI.clientController.getTaskCountdown().cancelTask();
 	    		ClientUI.sceneManager.ShowSceneNew("../views/CatalogViewer.fxml", event);	    	  
 	    	} 
 	    }
 
 	    @FXML
 	    void ClickCloseWindow(ActionEvent event) {
-
+	    	ClientUI.clientController.getTaskCountdown().cancelTask();
 	    }
 	    
 		@Override
 		public void initialize(URL location, ResourceBundle resources) 
 		{
+			ClientUI.clientController.getTaskCountdown().initialize(timerOrder);
+			
 			AnchorPane AnchorPaneAble = new AnchorPane();
 			AnchorPaneAble.getChildren().clear();
 			VboxLayout.getChildren().clear();

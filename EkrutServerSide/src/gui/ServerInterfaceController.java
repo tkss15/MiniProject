@@ -177,9 +177,7 @@ public class ServerInterfaceController implements Initializable, IController
 	public void setTextPasswordF(PasswordField textPasswordF) {
 		this.textPasswordF = textPasswordF;
 	}
-//	serverInterface.getConnectLogo().setVisible(!isConnected);
-//	serverInterface.getConnectButton().setDisable(isConnected);
-//	serverInterface.getDissconnectButton().setDisable(!isConnected);
+
 	@Override
 	public void updatedata(Object data) 
 	{
@@ -217,7 +215,7 @@ public class ServerInterfaceController implements Initializable, IController
 					default:
 						writeToConsole(message);
 						break;
-					}
+				}
 
 			}
 		

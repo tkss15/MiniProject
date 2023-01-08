@@ -15,6 +15,7 @@ public class EchoServer extends AbstractServer
 {
 	ChatIF serverUI;
 	DBConnect mySqlConnection;
+	
 	private ArrayList<String> serverConfing;
 	
 	public EchoServer(int port) 
@@ -114,6 +115,7 @@ public class EchoServer extends AbstractServer
 					{
 						ResponseObject updateProductsClients = new ResponseObject("Empty");
 						updateProductsClients.setRequest("Empty");
+						
 						sendToAllClients(mySqlConnection.makeQuery(clientRequest), client);
 						client.sendToClient(updateProductsClients);
 					}

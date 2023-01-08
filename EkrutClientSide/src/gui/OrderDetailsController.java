@@ -12,6 +12,7 @@ import Entity.Order;
 import Entity.Product;
 import Entity.RegisterClient;
 import client.ClientUI;
+import common.CountdownOrder;
 import common.IController;
 import common.RequestObjectClient;
 import common.ResponseObject;
@@ -27,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -35,9 +37,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class OrderDetailsController implements Initializable, IController {
-
-	ArrayList<Product> RequestedProducts = new ArrayList<>();
-	Integer orderCode;
+	
+	private boolean isFirstPurchase = false;
+	private ArrayList<Product> RequestedProducts = new ArrayList<>();
+	private Integer orderCode;
     @FXML
     private Button CloseButton;
 
@@ -75,13 +78,19 @@ public class OrderDetailsController implements Initializable, IController {
     private TextField textFieldLocation;
     
     @FXML
+    private Label timerOrder;
+    
+    
+    @FXML
     void ClickCloseWindow(ActionEvent event) {
+    	ClientUI.clientController.getTaskCountdown().cancelTask();
     	ClientUI.clientController.UserDissconnected();
     	System.exit(0);
     }
     
     @FXML
     void ClickBack(ActionEvent event) {
+    	ClientUI.clientController.getTaskCountdown().cancelTask();
     	ClientUI.sceneManager.ShowSceneNew("../views/OrderInvoice.fxml",event);
     }
 
@@ -94,6 +103,7 @@ public class OrderDetailsController implements Initializable, IController {
     	Optional<ButtonType> result = alert.showAndWait();
     	if (result.get() == ButtonType.OK) 
     	{
+    		ClientUI.clientController.getTaskCountdown().cancelTask();
           	ClientUI.clientController.getClientOrder().myCart.clear();
           	ClientUI.clientController.setClientOrder(new Order(null,null,null));
     		ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);	    	  
@@ -102,11 +112,25 @@ public class OrderDetailsController implements Initializable, IController {
 
     @FXML
     void CloseWindow(ActionEvent event) {
-
+    	ClientUI.clientController.getTaskCountdown().cancelTask();
     }
     
     void PayAction(ActionEvent event, boolean buynow)
     {
+    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
+    	{
+    		for(Product facilityProduct : ClientUI.clientController.getArrProducts())
+    		{
+    			if(myProduct.equals(facilityProduct))
+    			{
+    				if(myProduct.getProductAmount() > facilityProduct.getMaxAmount())
+    				{
+    					System.out.println("Well you got fucked no enough for ya");
+    					return;
+    				}
+    			}
+    		}
+    	}
 		Task<Void> task = new Task<Void>() 
 		{
 			  @Override
@@ -115,20 +139,6 @@ public class OrderDetailsController implements Initializable, IController {
 				  	int myFacility = ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID();
 					RequestObjectClient request;
 
-			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
-			    	{
-			    		for(Product facilityProduct : ClientUI.clientController.getArrProducts())
-			    		{
-			    			if(myProduct.equals(facilityProduct))
-			    			{
-			    				if(myProduct.getProductAmount() > facilityProduct.getMaxAmount())
-			    				{
-			    					System.out.println("Well you got fucked no enough for ya");
-			    					return null;
-			    				}
-			    			}
-			    		}
-			    	}
 			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
 			    	{
 			    		int IndexOfProductfacility = ClientUI.clientController.getArrProducts().indexOf(myProduct);
@@ -141,7 +151,7 @@ public class OrderDetailsController implements Initializable, IController {
 			    	}
 
 			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("table=orders#values=finalPrice=%.2f&isInvoiceConfirmed=1&FacilityID=%d&userName=%s&orderdate=%s", 
-			    			ClientUI.clientController.getClientOrder().getFinalPrice(), 
+			    			isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice(), 
 			    			ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID(), 
 			    			ClientUI.clientController.getUser().getUserName(),
 			    			OrderDate.getText()),"POST");  
@@ -150,7 +160,6 @@ public class OrderDetailsController implements Initializable, IController {
 			    	request = new RequestObjectClient("#GET_ORDER_NUMBER",String.format("SELECT orders.orderCode FROM orders WHERE userName = \"%s\" AND orderCode = (SELECT MAX(orderCode) FROM orders);", 
 			    			ClientUI.clientController.getUser().getUserName()),"*");  
 			    	ClientUI.clientController.accept(request);
-//			    	
 
 			    	if(!ClientUI.clientController.getClientOrder().getOrderType().equals("Instant Pickup"))
 			    	{
@@ -195,11 +204,11 @@ public class OrderDetailsController implements Initializable, IController {
           	if(ClientUI.clientController.getClientOrder().getOrderType().equals("PickUp"))
               	alert.setHeaderText(String.format("Your order code is %d", orderCode));
           	RegisterClient clientUser = (RegisterClient) ClientUI.clientController.getUser();
-          	String payment = String.format("Your paied %.2f shekels with credit card %s", ClientUI.clientController.getClientOrder().getFinalPrice()
+          	String payment = String.format("Your paied %.2f shekels with credit card %s", isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice()
           			, clientUser.getClientCardNumber().substring((clientUser.getClientCardNumber()).length()-4));
           	if(buynow)
           	{
-          		payment = String.format("Your'e account was fined with %.2f", ClientUI.clientController.getClientOrder().getFinalPrice());
+          		payment = String.format("Your'e account was fined with %.2f", isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice());
           	}
           	alert.setContentText(payment);
 
@@ -223,23 +232,30 @@ public class OrderDetailsController implements Initializable, IController {
     }
     @FXML
     void PayNowAction(ActionEvent event) {
+    	ClientUI.clientController.getTaskCountdown().cancelTask();
     	PayAction(event,false);
     }
 	
 	@FXML 
 	void PayLaterAction(ActionEvent event)
 	{
+		ClientUI.clientController.getTaskCountdown().cancelTask();
 		PayAction(event,true);
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		//ClientUI.clientController.getTaskCountdown().setLabel(timerOrder);
+		ClientUI.clientController.getTaskCountdown().initialize(timerOrder);
+		
 		ProductName.setCellValueFactory(new PropertyValueFactory<ProudctTable, String>("ProductName"));
 		ProductAmount.setCellValueFactory(new PropertyValueFactory<ProudctTable, Integer>("ProductAmount"));
 		ProductPrice.setCellValueFactory(new PropertyValueFactory<ProudctTable, String>("ProductPrice"));
 		
 		Integer TotalAmount = 0;
 		ObservableList<ProudctTable> colums = FXCollections.observableArrayList();
+		
 		for(Product tempProduct : ClientUI.clientController.getClientOrder().myCart)
 		{
 			TotalAmount += tempProduct.getProductAmount();
@@ -248,10 +264,16 @@ public class OrderDetailsController implements Initializable, IController {
 			colums.add(tempRow);
 			ProductsTable.getItems().add(tempRow);
 		}
+		if(((RegisterClient)ClientUI.clientController.getUser()).getClientStatus() == RegisterClient.ClientStatus.CLIENT_SUBSCRIBER)
+		{
+			isFirstPurchase = true;
+			ProudctTable firstPurchaseRow = new ProudctTable("First Purchase Discount", 1, "20.0%");
+			ProductsTable.getItems().add(firstPurchaseRow);
+		}
 		if(TotalAmount > 0)
 		{
 			ProudctTable tempRow = new ProudctTable("Total Products", TotalAmount, null);
-			tempRow.setProductPrice( ClientUI.clientController.getClientOrder().getFinalPrice());			
+			tempRow.setProductPrice( isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice());			
 			ProductsTable.getItems().add(tempRow);
 		}
 		//ProductsTable.setItems(colums);
@@ -262,7 +284,7 @@ public class OrderDetailsController implements Initializable, IController {
 		OrderDate.setText(timeStamp);
 		
 		OrderType.setText(ClientUI.clientController.getClientOrder().getOrderType());
-		OrderTotalPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().getFinalPrice()) + "₪"));
+		OrderTotalPrice.setText((String.format("%.2f",isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice()) + "₪"));
 		RegisterClient clientUser = (RegisterClient) ClientUI.clientController.getUser();
 		if(clientUser.getClientStatus().equals(RegisterClient.ClientStatus.CLIENT_APRROVED))
 		{
@@ -276,7 +298,6 @@ public class OrderDetailsController implements Initializable, IController {
 	@Override
 	public void updatedata(Object data) 
 	{
-		System.out.println("Currently in OrderDeatilsUpdate");
 		if(data instanceof ResponseObject)
 		{
 			ResponseObject serverResponse = (ResponseObject) data;
@@ -315,6 +336,11 @@ public class OrderDetailsController implements Initializable, IController {
 			}
 		}
 	}
+	/**
+	 * Private Methods.
+	 * 
+	 * 
+	 * */
 	public class ProudctTable
 	{
 		private String ProductName;

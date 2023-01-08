@@ -1,23 +1,15 @@
 package client;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Optional;
 
 import Entity.Facility;
-import Entity.Order;
 import Entity.Product;
-import Entity.RegisterClient;
 import common.ChatIF;
 import common.RequestObjectClient;
 import common.ResponseObject;
-import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import ocsf.client.AbstractClient;
 
 public class ChatClient extends AbstractClient 
@@ -25,7 +17,6 @@ public class ChatClient extends AbstractClient
 	public static boolean awaitResponse = false;
 	ChatIF clientConsole;
 	/***
-	 * s
 	 * @param host - saves the data of the ip-address the client entered in order to connect to the server.
 	 * @param port - saves the data of the port the client entered in order to connect to the server.
 	 * @param clientUI - interface that allows the upper layer of client to communicate with lower layers.
@@ -49,10 +40,8 @@ public class ChatClient extends AbstractClient
 	@Override
 	protected void handleMessageFromServer(Object msg) 
 	{
-		System.out.println("Message arrived");
 		if(msg instanceof ResponseObject)
 		{
-			System.out.println(((ResponseObject)msg).getRequest() + "Handled");
 			ResponseObject serverResponse = (ResponseObject) msg;
 			
 			switch(serverResponse.getRequest())
@@ -64,10 +53,8 @@ public class ChatClient extends AbstractClient
 				}
 				case"#FIRST_INSTALL":
 				{
-					System.out.println("First Install");
 					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
 					{
-							//	public Facility(int FacilityID, String FacilityLocation, String FacilityName, int FacilityThresholder)
 						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
 						Integer FacilityID = (Integer)values[0];
 						String FacilityArea = (String)values[1];
@@ -75,10 +62,7 @@ public class ChatClient extends AbstractClient
 						String FacilityName = (String)values[3];
 						Integer FacilityThresholder = (Integer)values[4];
 						Integer FacilityEK = (Integer) values[5];
-							//ClientUI.clientController.(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
-							//System.out.println(arrFacility);
-											
-						System.out.println(FacilityID + FacilityLocation + FacilityName + FacilityThresholder + FacilityEK);
+
 						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK == 0 ? false : true
 						));
 					}		
@@ -88,6 +72,7 @@ public class ChatClient extends AbstractClient
 				// When A Client buys server updates the amount of available items.
 				case"#UPDATE_PRODUCTS_CLIENT":
 				{
+					System.out.println("Hello is Update Products");
 					Task<Void> task = new Task<Void>() 
 					{
 						  @Override
@@ -159,14 +144,13 @@ public class ChatClient extends AbstractClient
 				awaitResponse = true;
 				if(((RequestObjectClient)message).getRequestID().equals("#USER_LOGOUT"))
 					awaitResponse = false;
-				System.out.println("Sending object "+ ((RequestObjectClient)message).getRequestID());
 			}
 			
 			openConnection();
 			sendToServer(message);
 			while (awaitResponse) {
 				try {
-					Thread.sleep(500);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
