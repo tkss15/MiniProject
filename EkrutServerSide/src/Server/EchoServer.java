@@ -3,10 +3,14 @@ package Server;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+
 import common.ChatIF;
 import common.ClientConnection;
 import common.RequestObjectClient;
 import common.ResponseObject;
+import common.SMSNotifiction;
 import database.DBConnect;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -52,6 +56,20 @@ public class EchoServer extends AbstractServer
 		if(message instanceof ArrayList)
 		{
 			serverConfing = (ArrayList<String>)message;
+			serverUI.display("DASDASDAS" + serverConfing.size());
+			if(serverConfing.size() == 7)
+			{
+				try 
+				{
+					Twilio.init(serverConfing.get(5), serverConfing.get(6));
+					//SMSNotifiction sendExample = new SMSNotifiction("0547443546");
+					//sendExample.SendNotification("הדגמה");
+				}
+				catch(Exception error)
+				{
+					serverUI.display(error.getMessage());
+				}
+			}
 			mySqlConnection = new DBConnect(serverUI, serverConfing);
 			mySqlConnection.connectToDB();
 		}

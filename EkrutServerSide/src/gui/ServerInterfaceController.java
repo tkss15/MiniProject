@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class ServerInterfaceController implements Initializable, IController 
@@ -35,9 +37,13 @@ public class ServerInterfaceController implements Initializable, IController
 	@FXML
 	private Text missingTxt;
 	@FXML
-	private TextField textboxPort,textboxDBUserName, textboxDBName, textboxIP;
+	private TextField textboxPort,textboxDBUserName, textboxDBName, textboxIP, textboxSmsAuth, textBoxSmsKey;
 	@FXML
 	private TextArea textConsole;
+    @FXML
+    private CheckBox SMSCheckbox;
+    @FXML
+    private VBox SMSArea;
 	@FXML
 	private PasswordField textPasswordF;
 	@FXML
@@ -55,9 +61,22 @@ public class ServerInterfaceController implements Initializable, IController
 		dissconnectButton.setDisable(true);
 		
 		missingTxt.setVisible(false);
+		SMSArea.setVisible(false);
 		
 		textConsole.setEditable(false);
 		connectedClientsTable.setEditable(false);
+		
+		SMSCheckbox.setOnAction(event -> {
+			if(SMSCheckbox.isSelected())
+			{
+				SMSArea.setVisible(true);
+			}
+			else
+			{
+				SMSArea.setVisible(false);
+			}
+			
+		});
 
 	}
 	
@@ -79,7 +98,11 @@ public class ServerInterfaceController implements Initializable, IController
 		serverConfing.add(textboxDBName.getText());//2
 		serverConfing.add(textboxDBUserName.getText());//3
 		serverConfing.add(textPasswordF.getText());//4
-		
+		if(SMSCheckbox.isSelected())	
+		{
+			serverConfing.add(textboxSmsAuth.getText());//5
+			serverConfing.add(textBoxSmsKey.getText());//6
+		}
 		boolean MissingText = false;
 		for(String setting : serverConfing)
 		{

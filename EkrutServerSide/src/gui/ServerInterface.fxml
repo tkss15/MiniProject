@@ -73,19 +73,19 @@
                </font>
             </Label>
             <PasswordField fx:id="textPasswordF" prefHeight="25.0" prefWidth="262.0" promptText="Enter your DB password" text="nset1234!@#$" />
-            <CheckBox mnemonicParsing="false" text="SMS notifiction sender">
+            <CheckBox fx:id="SMSCheckbox" mnemonicParsing="false" text="SMS notifiction sender">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
             </CheckBox>
-            <VBox>
+            <VBox fx:id="SMSArea">
                <children>
                   <Label prefHeight="31.0" text="SMS AUTH:">
                      <font>
                         <Font name="Cambria Bold" size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textboxIP1" prefHeight="24.0" prefWidth="262.0" promptText="Enter your IP " text="SMS_AUTH">
+                  <TextField fx:id="textboxSmsAuth" prefHeight="24.0" prefWidth="262.0" promptText="Enter your IP " text="SMS_AUTH">
                      <font>
                         <Font name="Cambria" size="12.0" />
                      </font>
@@ -95,7 +95,7 @@
                         <Font name="Cambria Bold" size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="textboxIP2" prefHeight="24.0" prefWidth="262.0" promptText="Enter your IP " text="SMS_KEY">
+                  <TextField fx:id="textBoxSmsKey" prefHeight="24.0" prefWidth="262.0" promptText="Enter your IP " text="SMS_KEY">
                      <font>
                         <Font name="Cambria" size="12.0" />
                      </font>
