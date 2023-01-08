@@ -27,6 +27,26 @@ public class SceneManager
 	public SceneManager()
 	{
 	}
+	public void ShowPopup(String urlResources)
+	{	
+        loader = new FXMLLoader(getClass().getResource(urlResources));
+        Parent root;
+		try {
+			root = loader.load();
+			stage = new Stage();
+			
+	        scene = new Scene(root);
+			SceneMovable(scene, stage);
+			
+			BackList.put(urlResources, scene);
+			stage.initStyle(StageStyle.UNDECORATED);
+			stage.setScene(scene);
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void ShowSceneNew(String urlResources)
 	{	
         loader = new FXMLLoader(getClass().getResource(urlResources));
@@ -88,12 +108,15 @@ public class SceneManager
 	 * @param event
 	 * @param urlResources
 	 */
-	public void SceneBack(ActionEvent event, String urlResources )
+	
+	public void SceneBack(Event event, String urlResources )
 	{
 		if(BackList.isEmpty())
 			return;
-		((Node) event.getSource()).getScene().getWindow().hide();
-		ShowScene(urlResources);
+		Scene scene = BackList.get(urlResources);
+		scene.getWindow().hide();
+//		((Node) event.getSource()).getScene().getWindow().hide();
+//		ShowScene(urlResources);
 	}
 	public FXMLLoader getLoader()
 	{

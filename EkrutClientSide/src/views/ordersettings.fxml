@@ -5,100 +5,76 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="775.0" style="-fx-background-color: fdb925;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderSettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="775.0" style="-fx-background-color: fdb925;" stylesheets="@CatalogViewer.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.OrderSettingsController">
    <children>
-      <Button fx:id="CloseButton" layoutX="736.0" layoutY="25.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="24.0" prefWidth="20.0" style="-fx-background-color: white;" text="X" textFill="#fdb925">
-         <font>
-            <Font name="Cambria Bold" size="12.0" />
-         </font>
-      </Button>
       <ImageView fx:id="Logo" fitHeight="74.0" fitWidth="150.0" layoutX="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../Downloads/WhatsApp%20Image%202022-12-02%20at%2015.19.24.jpeg" />
+            <Image url="@/Ekrut.png" />
          </image>
       </ImageView>
-      <Label layoutX="280.0" layoutY="53.0" prefHeight="62.0" prefWidth="214.0" text="Order settings" textFill="WHITE">
+      <Label layoutX="280.0" layoutY="53.0" prefHeight="62.0" prefWidth="214.0" text="Order settings">
          <font>
-            <Font name="Cambria Bold" size="30.0" />
+            <Font name="Arial Bold" size="30.0" />
          </font>
-         <effect>
-            <DropShadow height="10.0" radius="4.5" width="10.0" />
-         </effect>
       </Label>
-      <HBox layoutX="622.0" layoutY="21.0" prefHeight="31.0" prefWidth="99.0">
-         <children>
-            <Button fx:id="CloseButton3" alignment="CENTER" mnemonicParsing="false" onAction="#closeWindow" prefHeight="24.0" prefWidth="20.0" style="-fx-background-color: white;" text="-" textFill="#fdb925">
-               <font>
-                  <Font name="Cambria Bold" size="17.0" />
-               </font>
-            </Button>
-            <Label prefHeight="24.0" prefWidth="13.0" text="/" textFill="WHITE">
-               <font>
-                  <Font name="Cambria Bold" size="15.0" />
-               </font>
-            </Label>
-            <Button fx:id="CloseButton2" mnemonicParsing="false" onAction="#closeWindow" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: white;" text="+" textFill="#fdb925">
-               <font>
-                  <Font name="Cambria Bold" size="15.0" />
-               </font>
-            </Button>
-            <ImageView fx:id="Logo221" fitHeight="26.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@photos%20for%20payment/zoom_in_out_icon.jpeg" />
-               </image>
-            </ImageView>
-         </children>
-      </HBox>
       <Pane layoutY="119.0" prefHeight="383.0" prefWidth="775.0" style="-fx-background-color: white;">
          <children>
-            <ComboBox fx:id="ComboboxFacility" layoutX="225.0" layoutY="62.0" prefWidth="150.0" />
-            <RadioButton fx:id="radioDelivery" layoutX="249.0" layoutY="136.0" mnemonicParsing="false" text="Delivery">
+            <ComboBox fx:id="ComboboxFacility" layoutX="225.0" layoutY="79.0" prefWidth="150.0" />
+            <RadioButton fx:id="radioDelivery" layoutX="231.0" layoutY="179.0" mnemonicParsing="false" text="Delivery">
                <font>
                   <Font size="15.0" />
                </font>
             </RadioButton>
-            <RadioButton fx:id="radioPickup" layoutX="249.0" layoutY="168.0" mnemonicParsing="false" text="PickUp">
+            <RadioButton fx:id="radioPickup" layoutX="232.0" layoutY="210.0" mnemonicParsing="false" text="PickUp">
                <font>
                   <Font size="15.0" />
                </font>
             </RadioButton>
-            <Label layoutX="225.0" layoutY="24.0" prefHeight="27.0" prefWidth="348.0" text="choose the facility you want to order from:">
+            <Label layoutX="225.0" layoutY="52.0" prefHeight="27.0" prefWidth="348.0" text="choose the facility you want to order from:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="225.0" layoutY="109.0" prefHeight="17.0" prefWidth="244.0" text="choose the order type:">
+            <Label layoutX="229.0" layoutY="139.0" prefHeight="17.0" prefWidth="244.0" text="choose the order type:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="CloseButton11" layoutX="336.0" layoutY="245.0" mnemonicParsing="false" onAction="#actionCreateOrder" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: fdb925;" text="Continue">
+            <Button id="buttonFixed" fx:id="CloseButton11" layoutX="300.0" layoutY="295.0" mnemonicParsing="false" onAction="#actionCreateOrder" prefHeight="31.0" prefWidth="99.0" text="Continue">
                <font>
                   <Font name="Cambria Bold" size="12.0" />
                </font>
             </Button>
-            <ImageView fx:id="Logo1" fitHeight="22.0" fitWidth="29.0" layoutX="332.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="Logo1" fitHeight="22.0" fitWidth="29.0" layoutX="315.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@photos%20for%20payment/delivery_icon.PNG" />
+                  <Image url="@/Delivery.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="Logo11" fitHeight="22.0" fitWidth="29.0" layoutX="335.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="Logo11" fitHeight="22.0" fitWidth="29.0" layoutX="308.0" layoutY="213.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@photos%20for%20payment/pickup_icon.png" />
+                  <Image url="@/PickUp.png" />
                </image>
             </ImageView>
+            <Label fx:id="errorLabel" layoutX="308.0" layoutY="260.0" text="Error Label: 404" textFill="RED" />
+            <Button id="buttonFixed" fx:id="BtnBack" layoutX="32.0" layoutY="336.0" mnemonicParsing="false" onAction="#ShowPrevPage" text="Back">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/Back.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children></Pane>
-      <Button fx:id="BackButton" layoutX="20.0" layoutY="466.0" mnemonicParsing="false" onAction="#BackAction" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: fdb925;" text="Back">
+      <Button id="CloseButton" fx:id="CloseButton" layoutX="705.0" layoutY="22.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" text="X">
          <font>
-            <Font name="Cambria Bold" size="12.0" />
+            <Font name="Arial Bold" size="12.0" />
          </font>
       </Button>
    </children>

@@ -1,14 +1,26 @@
 package gui;
+import java.awt.Color;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import Entity.Facility;
 import Entity.Order;
+import Entity.PriceStartegyCustom;
+import Entity.PriceStartegyOnePlusOne;
+import Entity.PriceStartegyRegular;
+import Entity.PriceStartegySecondHalfPrice;
 import Entity.Product;
+import Entity.RegisterClient;
 import client.ClientUI;
 import common.IController;
 import common.RequestObjectClient;
+import common.ResponseObject;
 import common.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +32,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -29,6 +42,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class CatalogViewController implements Initializable, IController
@@ -36,6 +50,8 @@ public class CatalogViewController implements Initializable, IController
 	private final String TrashcanImage = "trashcan.png";
 	private final String PlusImage = "Plus.png";
 	private final String MinusImage = "Minus.png";
+	
+	private HashMap<Integer,String> SalesMap = new HashMap<>();
 	ArrayList<ProductUI> StockItems = new ArrayList<>();
 	ShoppingCartUI myShoppingCart = new ShoppingCartUI();
     @FXML
@@ -52,26 +68,77 @@ public class CatalogViewController implements Initializable, IController
     @FXML
     private Button BtnBack;
 
+  	
+  	@FXML 
+  	void CancelOrder(ActionEvent event)
+  	{
+    	Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    	alert.setTitle("Confirmation");
+    	alert.setHeaderText("Are you sure you want to cancel your Order?");
+    	alert.setContentText("This action cannot be undone. Please confirm your choice.");
+    	Optional<ButtonType> result = alert.showAndWait();
+    	if (result.get() == ButtonType.OK) 
+    	{
+          	ClientUI.clientController.getClientOrder().myCart.clear();
+          	ClientUI.clientController.setClientOrder(new Order(null,null,null));
+    		ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);	    	  
+    	} 
+  	}
     @FXML 
     void ShowPrevPage(ActionEvent event)
     {
+    	ClientUI.clientController.getClientOrder().myCart.clear();
     	ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);
     }
     @FXML
     void closeWindow(ActionEvent event) {
+    	ClientUI.clientController.UserDissconnected();
     	System.exit(0);
     }
     
     @FXML
     void printElements(ActionEvent event) 
     {
-    	//System.out.println(ClientUI.clientController.getClientOrder().myCart);
+    	if(ClientUI.clientController.getClientOrder().myCart.isEmpty())
+    	{
+			Alert alert = new Alert(AlertType.ERROR, "In order to continue you must insert 1 product");
+			alert.showAndWait();
+    		return;
+    	}
     	ClientUI.sceneManager.ShowSceneNew("../views/OrderInvoice.fxml", event);
     }
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
+		ClientUI.clientController.setController(this);
+		
+    	String sql = "SELECT products.*, productsinfacility.ProductAmount FROM products LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode WHERE productsinfacility.FacilityID = " + ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() + " ORDER BY products.ProductCode";
+    	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",sql,"*");  
+    	ClientUI.clientController.accept(request);
+    	
+    	if(((RegisterClient)ClientUI.clientController.getUser()).getClientStatus() == RegisterClient.ClientStatus.CLIENT_SUBSCRIBER)
+    	{
+			request = new RequestObjectClient("#GET_ALL_SALES",String.format("table=sales#values=saleType=saleType&Item=Item#condition=area=%s&isActive=1", ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityArea()),"GET");  
+	    	ClientUI.clientController.accept(request);
+	    	for(int i = 0; i < ClientUI.clientController.getArrProducts().size(); i++)
+	    	{
+	    		if(SalesMap.containsKey(ClientUI.clientController.getArrProducts().get(i).getProductCode()))
+	    		{
+	    			switch(SalesMap.get(ClientUI.clientController.getArrProducts().get(i).getProductCode()))
+	    			{
+	    			case"1 + 1":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegyOnePlusOne());
+	    			break;
+	    			case"Custom Discount":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegyCustom(0.25));
+	    			break;
+	    			case"Second Item In Half Price":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegySecondHalfPrice());
+	    			break;
+	    			}
+	    		}
+	    	}
+    	}
+    	
+		
 		ScrollPane = new ScrollPane();
 		for(int i = 0; i < ClientUI.clientController.getArrProducts().size(); i ++)
 		{	
@@ -91,14 +158,17 @@ public class CatalogViewController implements Initializable, IController
 				RowItems.setSpacing(20);
 				ProductsVBox.getChildren().add(RowItems);
 				RowItems = new HBox();
-				VBox.setMargin(RowItems, new Insets(20,0,0,0));
+				VBox.setMargin(RowItems, new Insets(20,30,0,10));
 			}
 			if(i == StockItems.size())
 				break;
 			RowItems.getChildren().add(StockItems.get(i).ProductVBox());
 		}
 		if(i % 2 == 1)
+		{
+			VBox.setMargin(RowItems, new Insets(20,0,50,0));			
 			ProductsVBox.getChildren().add(RowItems);
+		}
 		
 		ProductsVBox.setFillWidth(true);
 		ScrollPane.setContent(ProductsVBox);
@@ -207,7 +277,7 @@ public class CatalogViewController implements Initializable, IController
 			ProductDescription.getChildren().addAll(ItemPicture,ProductNameAndButtons);
 			HBox.setHgrow(ProductDescription, Priority.ALWAYS);
 			
-			Text price = new Text("12.90");
+			Text price = new Text(String.format("%.2f", product.getProductPrice()));
 			price.setId("ProductName");
 			VBox Prices = new VBox(price);
 			Prices.setAlignment(Pos.CENTER);
@@ -236,6 +306,14 @@ public class CatalogViewController implements Initializable, IController
 			VBox VBoxItemDescrption = ProductDescription();
 			HBox AddToCartHBox = ProductButtons();
 			
+			if(!(Product.getPriceStategy() instanceof PriceStartegyRegular))
+			{
+				System.out.println("Hey this is on Sale");
+				Label onSale = new Label("On Sale");
+				onSale.setId("OnSale");
+				gridAnchor.getChildren().add(onSale);
+			}
+			
 			gridAnchor.getChildren().addAll(VBoxItemDescrption, AddToCartHBox);
 			return gridAnchor;
 		}
@@ -253,7 +331,26 @@ public class CatalogViewController implements Initializable, IController
 			AddBtn = new Button("Add");
 			AddBtn.setId("AddButton");
 			AddBtn.setMnemonicParsing(false);
-			AddBtn.setOnAction(event -> myShoppingCart.addItem(new Product(Product)));
+			AddBtn.setOnAction(event -> {
+				if(Product.getProductAmount()  > Product.getMaxAmount())
+				{
+					Alert alert = new Alert(AlertType.ERROR, "Error No enough quntity in the Facility");
+					alert.showAndWait();
+					return;
+				}
+				if(ClientUI.clientController.getClientOrder().myCart.contains(Product))
+				{
+					int IndeOfProduct = ClientUI.clientController.getClientOrder().myCart.indexOf(Product);
+					Product cartProduct = ClientUI.clientController.getClientOrder().myCart.get(IndeOfProduct);
+					if(cartProduct.getProductAmount() + Product.getProductAmount()  > Product.getMaxAmount()) 
+					{
+						Alert alert = new Alert(AlertType.ERROR, "Error No enough quntity in the Facility");
+						alert.showAndWait();
+						return;
+					}
+				}
+				myShoppingCart.addItem(new Product(Product));
+			});
 			
 			HBox.setHgrow(AddBtn, Priority.ALWAYS);
 			HBox.setMargin(AddBtn, new Insets(0, 10.0, 0, 0));		
@@ -344,7 +441,15 @@ public class CatalogViewController implements Initializable, IController
 			Text ItemPrice = new Text((Product.getProductPrice() + "₪")); 
 			ItemPrice.setId("ProductName");
 			
-			VBoxItemDescrption.getChildren().addAll(ItemPicture,ItemName,ItemDescription,ItemPrice);
+			VBoxItemDescrption.getChildren().addAll(ItemPicture,ItemName,ItemDescription);
+			if(!(Product.getPriceStategy() instanceof PriceStartegyRegular))
+			{	
+				Text ItemSale = new Text(Product.getPriceStategy().toString()); 
+				ItemSale.setId("SaleTitle");
+				VBoxItemDescrption.getChildren().add(ItemSale);
+			}
+			
+			VBoxItemDescrption.getChildren().add(ItemPrice);
 			return VBoxItemDescrption;
 		}
 	}
@@ -365,17 +470,72 @@ public class CatalogViewController implements Initializable, IController
 		
 		return ItemPicture;
 	}
-	@Override
 	public void updatedata(Object data) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("OrderSettingsController");
+		if(data instanceof ResponseObject)
+		{
+			ResponseObject serverResponse = (ResponseObject) data;
+			switch(serverResponse.getRequest())
+			{
+				case"#GET_ALL_SALES":
+				{
+					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+					{
+						Object[] values = (Object[])serverResponse.Responsedata.get(i);
+						String SaleType = (String) values[1];
+						Integer ProductSale = (Integer)values[0];
+						System.out.println(ProductSale + " " + SaleType);
+						SalesMap.put(ProductSale, SaleType);
+					}
+					break;
+				}
+				case"#SIMPLE_REQUEST":
+				{
+					ClientUI.clientController.getArrProducts().clear();
+					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+					{
+						Object[] values =(Object[]) serverResponse.Responsedata.get(i);//Row 1 
+						Integer ProductCode = (Integer) values[0];
+						String ProductName = (String) values[1];
+						Double ProductPrice = (Double) values[2];
+						String ProductDesc = (String) values[3];
+						String ProductSrc = (String) values[4];
+						Integer ProductAmount = (Integer) values[6];
+						
+						if(ProductAmount == 0)
+							continue;
+						
+						byte[] arrayByte = serverResponse.ResponsePicture.get(i);// Picture's
+						Product anotherProduct = new Product(ProductCode,ProductName,ProductDesc, ProductSrc, ProductPrice, ProductAmount);
+						if(anotherProduct.PicturePhoto.exists())
+						{
+							(ClientUI.clientController.getArrProducts()).add(anotherProduct);
+							continue;
+						}
+						FileOutputStream fos;
+						try {
+							fos = new FileOutputStream(anotherProduct.PicturePhoto);
+							BufferedOutputStream bos = new BufferedOutputStream(fos); /* Create BufferedFileOutputStream */
+							
+							bos.write(arrayByte, 0, arrayByte.length); /* Write byte array to output stream */
+							System.out.println(anotherProduct.getPathPicture());
+						    bos.flush();
+						    fos.flush();
+						    
+						    fos.close();
+						    bos.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} /* Create file output stream */
+						(ClientUI.clientController.getArrProducts()).add(anotherProduct);
+					}
+					break;
+				}
+			}
+		}
 	}
-/*
- * 
- * SELECT products.*, productsinfacility.ProductAmount
-FROM products
-LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode
-ORDER BY products.ProductCode;
- * */
+
 }
 

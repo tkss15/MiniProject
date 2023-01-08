@@ -2,12 +2,6 @@ package Entity;
 
 public class User
 {
-	@Override
-	public String toString() {
-		return "User [ID=" + ID + ", UserName=" + UserName + ", FirstName=" + FirstName + ", LastName=" + LastName
-				+ ", Password=" + Password + ", Phone=" + Phone + ", Email=" + Email + ", OnlineStatus=" + OnlineStatus
-				+ "]";
-	}
 	private String ID,UserName,FirstName,LastName,Password,Phone,Email,OnlineStatus;
 	private String area;
 
@@ -79,7 +73,12 @@ public class User
 	public void setOnlineStatus(String onlineStatus) {
 		OnlineStatus = onlineStatus;
 	}
-	
+	@Override
+	public String toString() {
+		return "User [ID=" + ID + ", UserName=" + UserName + ", FirstName=" + FirstName + ", LastName=" + LastName
+				+ ", Password=" + Password + ", Phone=" + Phone + ", Email=" + Email + ", OnlineStatus=" + OnlineStatus
+				+ "]";
+	}
 	public String getArea() {
 		return area;
 	}

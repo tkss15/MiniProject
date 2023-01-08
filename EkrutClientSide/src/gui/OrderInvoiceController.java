@@ -3,9 +3,12 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import Entity.PriceStartegyRegular;
 import Entity.Product;
 import client.ClientUI;
 import common.IController;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,7 +26,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class OrderInvoiceController implements Initializable,IController {
@@ -74,7 +79,7 @@ public class OrderInvoiceController implements Initializable,IController {
 
 	    @FXML
 	    void ClickAcceptInvoice(ActionEvent event) {
-
+	    	ClientUI.sceneManager.ShowSceneNew("../views/OrderDetails.fxml", event);
 	    }
 
 	    @FXML
@@ -151,9 +156,10 @@ public class OrderInvoiceController implements Initializable,IController {
 	    	
 			public HBox CreateProductSection()
 			{
-				Text textTotalPrice, textPrice;
+				Text textTotalPrice,textTotalPriceNoDis, textPrice;
 				
 				textTotalPrice = new Text((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItem(Product)) + "₪"));
+				textTotalPriceNoDis = new Text((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItemNoDiscount(Product)) + "₪"));
 				textPrice = new Text((Product.getProductPrice() + "₪"));
 				
 				HBox ProductSection = new HBox();
@@ -162,7 +168,6 @@ public class OrderInvoiceController implements Initializable,IController {
 				// Product Description
 				// *****************************************************
 				HBox ProductDescrition = new HBox();
-				ProductDescrition.setId("BorderBoxSizing");
 				ProductDescrition.setPrefWidth(310);
 				ProductDescrition.setMinWidth(310);
 				ImageView ProductPicture = CreateImage(Product.getPathPicture(), 100.0, 100.0, true, true, null);
@@ -180,6 +185,7 @@ public class OrderInvoiceController implements Initializable,IController {
 				
 				Label ProductQuntity = new Label("Qunatity");
 				ProductQuntity.setId("Quantity");
+				HBox.setHgrow(ProductQuntity, Priority.ALWAYS);
 				HBox.setMargin(ProductQuntity, new Insets(10,0,0,0));
 				
 				TextField Amount  = new TextField(String.valueOf(Product.getProductAmount()));
@@ -192,14 +198,21 @@ public class OrderInvoiceController implements Initializable,IController {
 				MinusBtn.setGraphic(CreateImage("Minus.png", 15.0,15.0,true,true,Cursor.HAND));
 				MinusBtn.setMnemonicParsing(false);
 				MinusBtn.setEllipsisString("");
-				MinusBtn.setOnAction(event -> {
+				MinusBtn.setOnAction(event -> 
+				{
 					if(Product.getProductAmount() <= 1)
 					{
 						RemoveValue(Product);
 						ClientUI.clientController.getClientOrder().removeItem(Product);
-						return;					
+						updatePrice();		
+						if(ClientUI.clientController.getClientOrder().myCart.isEmpty())
+						{
+							ClientUI.sceneManager.SceneBack(event, "../views/OrderInvoice.fxml");
+							ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml");
+						}
 					}
 					ClientUI.clientController.getClientOrder().UpdateItem(Product, Product.getProductAmount() - 1);
+					textTotalPriceNoDis.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItemNoDiscount(Product)) + "₪"));
 					textTotalPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItem(Product)) + "₪"));
 					textPrice.setText((Product.getProductPrice() + "₪"));
 					updatePrice();					
@@ -224,6 +237,7 @@ public class OrderInvoiceController implements Initializable,IController {
 						return;
 					}
 					ClientUI.clientController.getClientOrder().UpdateItem(Product, Product.getProductAmount() + 1);
+					textTotalPriceNoDis.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItemNoDiscount(Product)) + "₪"));
 					textTotalPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItem(Product)) + "₪"));
 					textPrice.setText((Product.getProductPrice() + "₪"));
 					updatePrice();
@@ -236,12 +250,12 @@ public class OrderInvoiceController implements Initializable,IController {
 				ButtonsProduct.getChildren().addAll(ProductQuntity,MinusBtn,Amount,PlusButton);
 				ProductDetails.getChildren().addAll(ProductName,ProductDescription,ButtonsProduct);
 				ProductDescrition.getChildren().addAll(ProductPicture,ProductDetails);
+				ProductDescrition.setId("BorderBoxSizing");
 
 				// Product Price
 				// *****************************************************
 				
 				HBox ProductPrice = new HBox();
-				ProductPrice.setId("BorderBoxSizing");
 				ProductPrice.setPrefHeight(100);
 				ProductPrice.setPrefWidth(550);
 				HBox ProductPricePerUnit =  new HBox();
@@ -260,8 +274,24 @@ public class OrderInvoiceController implements Initializable,IController {
 				Label LabelTotalPrice = new Label("Total Price:");
 				LabelTotalPrice.setId("ProductName");
 				
-				textTotalPrice.setId("ProductName");
-				ProductPrice.getChildren().addAll(ProductPricePerUnit,LabelTotalPrice,textTotalPrice);
+				VBox OptionalPrices = new VBox();
+				if(!(Product.getPriceStategy() instanceof PriceStartegyRegular))
+				{
+					OptionalPrices.getChildren().add(textTotalPriceNoDis);
+					textTotalPriceNoDis.setId("FullPriceSale");
+					textTotalPrice.setId("DiscountPriceSale");
+				}
+				else
+				{
+					textTotalPrice.setFont(new Font(16));
+				}
+				VBox.setMargin(textTotalPrice, new Insets(0,0,5,0));
+				
+				OptionalPrices.getChildren().add(textTotalPrice);
+				OptionalPrices.setAlignment(Pos.BOTTOM_RIGHT);
+
+				ProductPrice.getChildren().addAll(ProductPricePerUnit,LabelTotalPrice,OptionalPrices);
+				ProductPrice.setId("BorderBoxSizing");
 				
 				ProductSection.getChildren().addAll(ProductDescrition, ProductPrice);
 				return ProductSection;

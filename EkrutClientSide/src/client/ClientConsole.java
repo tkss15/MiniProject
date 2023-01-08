@@ -8,6 +8,7 @@ import Entity.Employee;
 import Entity.Facility;
 import Entity.Order;
 import Entity.Product;
+import Entity.RegisterClient;
 import Entity.User;
 import common.ChatIF;
 import common.IController;
@@ -18,9 +19,11 @@ public class ClientConsole implements ChatIF
 {
 	public static int DEFAULT_PORT = 5555;
 	ChatClient client;
+	
 	private User clientUser = new User(null, null);
 	private Order clientOrder = new Order(null,null,null);
 	private Facility EKFacility = new Facility(null, null, null, null, null, null);
+	
 	private String ApplicationType = null;
 	private HashMap<String,String> mapMonths = new HashMap<>();
 	
@@ -156,6 +159,10 @@ public class ClientConsole implements ChatIF
 			Employee employee = (Employee)user;
 			clientUser = new Employee(employee,employee.getBranch());
 		}
+//		else if(user instanceof RegisterClient) {
+//			RegisterClient client = (RegisterClient)user;
+//			clientUser = new RegisterClient(employee,employee.getBranch());
+//		}
 		else clientUser = user; 
 	}
 	public ArrayList<Facility> getArrFacility() {

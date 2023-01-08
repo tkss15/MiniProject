@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Ellipse?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -29,14 +28,57 @@
                   <Insets left="40.0" top="20.0" />
                </VBox.margin>
             </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Order #3253123">
-               <font>
-                  <Font size="24.0" />
-               </font>
+            <HBox>
+               <children>
+                  <VBox id="currentState" alignment="CENTER" prefHeight="66.0" prefWidth="66.0">
+                     <children>
+                        <ImageView fx:id="currentState" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../gui/pictures/Cart.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Shop" />
+                     </children>
+                  </VBox>
+                  <Line endX="-33.0" startX="-100.0" strokeMiterLimit="5.0">
+                     <HBox.margin>
+                        <Insets top="30.0" />
+                     </HBox.margin>
+                  </Line>
+                  <VBox alignment="CENTER" prefHeight="66.0" prefWidth="66.0">
+                     <children>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../gui/pictures/Invoice.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Invoice" />
+                     </children>
+                  </VBox>
+                  <Line endX="-33.0" startX="-100.0" strokeMiterLimit="5.0">
+                     <HBox.margin>
+                        <Insets top="30.0" />
+                     </HBox.margin>
+                  </Line>
+                  <VBox alignment="CENTER" prefHeight="66.0" prefWidth="66.0">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../gui/pictures/card.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Payment" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
                <VBox.margin>
-                  <Insets left="40.0" top="10.0" />
+                  <Insets top="5.0" />
                </VBox.margin>
-            </Text>
+            </HBox>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="My Shopping Cart" underline="true">
                <font>
                   <Font size="18.0" />
@@ -355,7 +397,7 @@
             </ScrollPane>
             <HBox>
                <children>
-                  <Button id="CancelOrder" mnemonicParsing="false" text="Cancel">
+                  <Button id="CancelOrder" mnemonicParsing="false" onAction="#CancelOrder" text="Cancel">
                      <HBox.margin>
                         <Insets left="40.0" />
                      </HBox.margin>
@@ -384,49 +426,6 @@
             </Button>
          </children>
       </VBox>
-      <HBox layoutX="382.0" layoutY="8.0">
-         <children>
-            <VBox alignment="CENTER">
-               <children>
-                  <Ellipse fill="#1f93ff" radiusX="30.0" radiusY="30.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Shop" />
-               </children>
-            </VBox>
-            <Line endX="-20.0" startX="-100.0" strokeMiterLimit="5.0">
-               <HBox.margin>
-                  <Insets top="30.0" />
-               </HBox.margin>
-            </Line>
-            <VBox alignment="CENTER">
-               <children>
-                  <Ellipse fill="#2197ff00" radiusX="30.0" radiusY="30.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Invoice" />
-               </children>
-            </VBox>
-            <Line endX="-20.0" startX="-100.0" strokeMiterLimit="5.0">
-               <HBox.margin>
-                  <Insets top="30.0" />
-               </HBox.margin>
-            </Line>
-            <VBox alignment="CENTER">
-               <children>
-                  <Ellipse fill="#2197ff00" radiusX="30.0" radiusY="30.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Payment" />
-               </children>
-            </VBox>
-            <Line endX="-20.0" startX="-100.0" strokeMiterLimit="5.0">
-               <HBox.margin>
-                  <Insets top="30.0" />
-               </HBox.margin>
-            </Line>
-            <VBox alignment="CENTER">
-               <children>
-                  <Ellipse fill="#2197ff00" radiusX="30.0" radiusY="30.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
       <HBox layoutX="349.0" layoutY="36.0" maxWidth="1.7976931348623157E308" />
       <ScrollPane fitToWidth="true" focusTraversable="false" layoutX="376.0" layoutY="143.0" prefHeight="651.0" prefWidth="621.0">
          <content>
@@ -893,31 +892,11 @@
             </VBox>
          </content>
       </ScrollPane>
-      <Button fx:id="CloseButton" layoutX="937.0" layoutY="17.0" minWidth="42.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="58.0" style="-fx-background-radius: 20; -fx-background-color: FDB926; -fx-border-color: black; -fx-border-radius: 20;" text="X">
+      <Button id="CloseButton" fx:id="CloseButton" layoutX="937.0" layoutY="17.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="34.0" prefWidth="58.0" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="CloseButton3" alignment="TOP_CENTER" layoutX="856.0" layoutY="84.0" minHeight="33.0" minWidth="33.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="33.0" prefWidth="33.0" style="-fx-background-radius: 20; -fx-background-color: FDB926; -fx-border-color: black; -fx-border-radius: 20;" text="-">
-         <font>
-            <Font name="Cambria Bold" size="17.0" />
-         </font>
-      </Button>
-      <Button fx:id="CloseButton2" layoutX="920.0" layoutY="87.0" mnemonicParsing="false" onAction="#closeWindow" prefWidth="27.0" style="-fx-background-radius: 20; -fx-background-color: FDB926; -fx-border-color: black; -fx-border-radius: 20;" text="+">
-         <font>
-            <Font name="Cambria Bold" size="15.0" />
-         </font>
-      </Button>
-      <Label layoutX="902.0" layoutY="89.0" prefHeight="24.0" prefWidth="13.0" text="/">
-         <font>
-            <Font name="Cambria Bold" size="15.0" />
-         </font>
-      </Label>
-      <ImageView fitHeight="30.0" fitWidth="36.0" layoutX="964.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../AppData/Local/Temp/Rar$DIa11360.47785/pictures/Search.png" />
-         </image>
-      </ImageView>
       <Text layoutX="527.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 32;" text="Products Catalog" wrappingWidth="279.6015625">
          <font>
             <Font size="36.0" />

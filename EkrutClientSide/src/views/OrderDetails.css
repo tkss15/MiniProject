@@ -13,6 +13,41 @@
     -fx-text-fill: white;
 }
 
+
+#CloseButton {
+	-fx-font-size: 18;
+    -fx-border-color: black;
+    -fx-border-radius: 40;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+#CloseButton:hover {
+	-fx-background-color: #f06236;
+	-fx-background-radius: 40;
+	-fx-cursor: hand;
+}
+
+
+#buttonFixed:hover {
+	-fx-background-color: #f06236;
+	-fx-background-radius: 40;
+	-fx-cursor: hand;
+}
+
+#buttonFixed {
+	-fx-font-size: 18;
+    -fx-border-color: black;
+    -fx-border-radius: 40;
+    -fx-background-radius:40;
+    -fx-background-color:  #FDB926;
+    
+}
+#currentState {
+	-fx-background-color: #f06236;
+	-fx-background-radius:70;
+}
+
 #btnCancelInvoice {
 	-fx-border-color: red;
 	-fx-border-radius: 20;

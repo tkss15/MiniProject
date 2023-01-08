@@ -3,6 +3,7 @@ package gui;
 import java.io.File;
 import java.io.FileReader;
 
+import Entity.Facility;
 import client.ClientUI;
 import common.IController;
 import common.RequestObjectClient;
@@ -44,6 +45,10 @@ public class ClientLoginInterface implements IController {
     	System.out.println("Here ?");
 		File firstInstalltion = new File(ClientUI.clientController.ApplicationConfig + "config.cfg");
 		System.out.println(firstInstalltion.getAbsolutePath());
+		
+		RequestObjectClient request = new RequestObjectClient("#FIRST_INSTALL",String.format("table=facilities"),"GET");    	
+		ClientUI.clientController.accept(request);
+		
 		if(firstInstalltion.exists())
 		{
 			FileReader reader = new FileReader(firstInstalltion);
@@ -58,19 +63,18 @@ public class ClientLoginInterface implements IController {
 	        	ClientUI.clientController.getEKFacility().setFacilityEK(false);
 	        else
 	        {
-	        	ClientUI.clientController.getEKFacility().setFacilityEK(true);
-	        	ClientUI.clientController.getEKFacility().setFacilityID(Integer.valueOf(arraySettings[1]));
-	        	ClientUI.clientController.getEKFacility().setFacilityArea(arraySettings[2]);
-	        	ClientUI.clientController.getEKFacility().setFacilityLocation(arraySettings[3]);
-	        	ClientUI.clientController.getEKFacility().setFacilityName(arraySettings[4]);
-	        	ClientUI.clientController.getEKFacility().setFacilityThresholder(Integer.valueOf(arraySettings[5]));
+//	        	ClientUI.clientController.getEKFacility().setFacilityEK(true);
+//	        	ClientUI.clientController.getEKFacility().setFacilityID(Integer.valueOf(arraySettings[1]));
+//	        	ClientUI.clientController.getEKFacility().setFacilityArea(arraySettings[2]);
+//	        	ClientUI.clientController.getEKFacility().setFacilityLocation(arraySettings[3]);
+//	        	ClientUI.clientController.getEKFacility().setFacilityName(arraySettings[4]);
+//	        	ClientUI.clientController.getEKFacility().setFacilityThresholder(Integer.valueOf(arraySettings[5]));
+	        	ClientUI.clientController.setEKFacility(new Facility(Integer.valueOf(arraySettings[1]),arraySettings[2],arraySettings[3],arraySettings[4],Integer.valueOf(arraySettings[5]), true));
 	        }
 
 	        ClientUI.sceneManager.ShowScene("../views/LoginClientInterface.fxml");		
 			return;
 		}
-    	RequestObjectClient request = new RequestObjectClient("#FIRST_INSTALL",String.format("table=facilities"),"GET");    	
-    	ClientUI.clientController.accept(request);
     	System.out.println("Here 2");
 		ClientUI.sceneManager.ShowScene("../views/EKrutInstall.fxml");
 		

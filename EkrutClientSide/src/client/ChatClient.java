@@ -1,20 +1,23 @@
 package client;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Optional;
 
 import Entity.Facility;
-import Entity.User;
+import Entity.Order;
+import Entity.Product;
+import Entity.RegisterClient;
 import common.ChatIF;
-import common.MyFile;
 import common.RequestObjectClient;
 import common.ResponseObject;
-import common.SceneManager;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import ocsf.client.AbstractClient;
 
 public class ChatClient extends AbstractClient 
@@ -52,14 +55,19 @@ public class ChatClient extends AbstractClient
 			System.out.println(((ResponseObject)msg).getRequest() + "Handled");
 			ResponseObject serverResponse = (ResponseObject) msg;
 			
-			// ClientUI dosent have IController and CANT implement it. so sadly it have to happen over here.
-			if(serverResponse.getRequest().equals("#FIRST_INSTALL"))
-			{	
+			switch(serverResponse.getRequest())
+			{
+				case"Empty":
+				{
+					awaitResponse = false;
+					break;
+				}
+				case"#FIRST_INSTALL":
+				{
 					System.out.println("First Install");
 					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
 					{
 							//	public Facility(int FacilityID, String FacilityLocation, String FacilityName, int FacilityThresholder)
-							
 						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
 						Integer FacilityID = (Integer)values[0];
 						String FacilityArea = (String)values[1];
@@ -67,15 +75,72 @@ public class ChatClient extends AbstractClient
 						String FacilityName = (String)values[3];
 						Integer FacilityThresholder = (Integer)values[4];
 						Integer FacilityEK = (Integer) values[5];
+							//ClientUI.clientController.(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
+							//System.out.println(arrFacility);
+											
 						System.out.println(FacilityID + FacilityLocation + FacilityName + FacilityThresholder + FacilityEK);
 						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK == 0 ? false : true
 						));
 					}		
 					awaitResponse = false;
-			}
-			else
-			{// the Else here is must or we get into a dead end.
-				clientConsole.display(msg);
+					break;
+				}
+				// When A Client buys server updates the amount of available items.
+				case"#UPDATE_PRODUCTS_CLIENT":
+				{
+					Task<Void> task = new Task<Void>() 
+					{
+						  @Override
+						  public Void call() throws Exception 
+						  {
+								// If is empty then no need to change anything.
+								for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+								{
+									Object[] values =(Object[]) serverResponse.Responsedata.get(i);//Row 1 
+									Integer FacilityCode = (Integer) values[0];
+									Integer ProductCode = (Integer) values[1];
+									Integer ProductAmount = (Integer) values[2];
+									
+									if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != FacilityCode)
+									{
+										return null;
+									}
+									for(Product facilityProduct : ClientUI.clientController.getArrProducts())
+									{
+										if(facilityProduct.getProductCode() == ProductCode)
+										{
+											int indexOfProduct = ClientUI.clientController.getArrProducts().indexOf(facilityProduct);
+											facilityProduct.setMaxAmount(ProductAmount);
+											ClientUI.clientController.getArrProducts().set(indexOfProduct, facilityProduct);
+										}
+									}
+								}	 
+							return null;
+						  }
+					};
+					new Thread(task).start();
+					ClientUI.sceneManager.ShowPopup("../views/ServerSendsUpdate.fxml");
+					task.setOnFailed(new EventHandler<WorkerStateEvent>() 
+					{
+						public void handle(WorkerStateEvent workerStateEvent) {
+							task.getException().printStackTrace();
+						}
+					});
+					task.setOnSucceeded(new EventHandler<WorkerStateEvent>() 
+					{
+			          @Override
+			          public void handle(WorkerStateEvent workerStateEvent) {
+			          	
+			        	  ClientUI.sceneManager.SceneBack(workerStateEvent, "../views/ServerSendsUpdate.fxml");
+			          }
+					});
+					break;
+				}
+				default:
+				{
+					clientConsole.display(msg);
+					break;
+				}
 			}
 			
 		}

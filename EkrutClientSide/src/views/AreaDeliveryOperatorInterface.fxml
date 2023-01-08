@@ -16,7 +16,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DeliveryOperatorInterfaceController">
    <children>
-      <Line endX="260.0" layoutX="661.0" layoutY="157.0" opacity="0.7" startX="-250.0" />
+      <Line endX="305.0" layoutX="661.0" layoutY="157.0" opacity="0.7" startX="-250.0" />
       <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="789.0" minWidth="335.0" prefHeight="789.0" prefWidth="342.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -170,7 +170,7 @@
       </VBox>
       <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#logOut" text="Logout" />
       <Text layoutX="410.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut Delivery Work Space" wrappingWidth="511.0" />
-      <Line endX="260.0" layoutX="660.0" layoutY="530.0" opacity="0.7" startX="-250.0" />
+      <Line endX="309.0" layoutX="660.0" layoutY="530.0" opacity="0.7" startX="-250.0" />
       <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
@@ -186,15 +186,14 @@
             <Image url="@../gui/pictures/OrderPickup.png" />
          </image>
       </ImageView>
-      <TableView fx:id="DeliveryOrdersTable" layoutX="410.0" layoutY="173.0" prefHeight="342.0" prefWidth="511.0">
+      <TableView fx:id="DeliveryOrdersTable" layoutX="410.0" layoutY="173.0" prefHeight="342.0" prefWidth="556.0">
         <columns>
-          <TableColumn fx:id="orderCodeColumn" prefWidth="72.0" style="-fx-alignment: CENTER;" text="Order Code" />
-            <TableColumn fx:id="customerApprovalStatusColumn" prefWidth="155.0" style="-fx-alignment: CENTER;" text="Costumer Approval Status" />
-          <TableColumn fx:id="deliveryStatusColumn" prefWidth="142.0" style="-fx-alignment: CENTER;" text="Delivery Status" />
-            <TableColumn fx:id="ProviderColumn" prefWidth="141.0" text="Provider" />
+          <TableColumn fx:id="orderCodeColumn" prefWidth="161.0" style="-fx-alignment: CENTER;" text="Order Code" />
+            <TableColumn fx:id="customerApprovalStatusColumn" prefWidth="182.0" style="-fx-alignment: CENTER;" text="Costumer Approval Status" />
+          <TableColumn fx:id="deliveryStatusColumn" prefWidth="212.0" style="-fx-alignment: CENTER;" text="Delivery Status" />
         </columns>
       </TableView>
-      <Text fx:id="DeliveryOperatorAreaText" layoutX="523.0" layoutY="583.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: bold;" text="Delivery Operator" wrappingWidth="353.0">
+      <Text fx:id="DeliveryOperatorAreaText" layoutX="410.0" layoutY="590.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: bold;" text="Delivery Operator" wrappingWidth="511.0">
          <font>
             <Font size="15.0" />
          </font>

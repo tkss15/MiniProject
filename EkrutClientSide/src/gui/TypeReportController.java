@@ -178,6 +178,7 @@ public class TypeReportController implements Initializable, IController {
 //		Facilities = ClientUI.clientController.getFacilities();
 		switch (type) {
 		case "Orders":
+			showBTN.setVisible(false);
 			pieChart.setVisible(true);
 			RequestObjectClient request = new RequestObjectClient("#GET_COUNT",
 					String.format(
