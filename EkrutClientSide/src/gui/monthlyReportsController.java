@@ -52,11 +52,21 @@ public class monthlyReportsController implements Initializable, IController {
 	@FXML
 	private Button backButton;
 
+	/**
+	 * Navigate to the Area Manager Interface screen
+	 * @author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void back(ActionEvent event) {
 		ClientUI.sceneManager.ShowSceneNew("../views/AreaManagerInterface.fxml", event);
 	}
-
+	
+	/**
+	 * method that triggers when the "X" button has been pressed
+	 *@author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void closeWindow(ActionEvent event) {
 		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
@@ -72,30 +82,38 @@ public class monthlyReportsController implements Initializable, IController {
 		}
 		System.exit(0);
 	}
-
+	/**
+	 * method that triggers when the Watch Report button has been pressed
+	 * this will trigger another window if the selected report exists in the system
+	 *@author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void watchReport(ActionEvent event) {
 		errorMessage.setVisible(false);
 		String Year = selectYear.getValue();
 		String Month = selectMonth.getValue();
 		String Type = selectType.getValue();
+		//check if all comboBoxes have been selected with a value
 		if (Year == null || Month == null || Type == null) {
 			errorMessage.setText("Year, Month or Type has not been selected! ");
 			errorMessage.setVisible(true);
 			return;
 		}
+		//send a request toget all the reports from the table reports
 		RequestObjectClient request = new RequestObjectClient("#GET_REPORTS",
 				String.format("table=reports#condition=Area=%s", ClientUI.clientController.getUser().getArea()), "GET");
 		ClientUI.clientController.accept(request);
 		String date = Year + "-" + Month;
 		if(exists) {
 			for(int i = 0; i< reports.size(); i++) {
+				//iterate through reports and search for the selected report
 				Report currReport = reports.get(i);
 				if(currReport.getReportDate().equals(date) && currReport.getReportType().equals(Type)) {
 					ClientUI.clientController.setReportYear(Year);
 					ClientUI.clientController.setReportMonth(ClientUI.clientController.getHashMapMonths().get(Month));
 					ClientUI.clientController.setReportType(Type);
-					
+					//show the relevent report window if the report exists
 					ClientUI.sceneManager.ShowSceneNew("../views/TypeReportUI.fxml", event);
 				}
 			}
@@ -103,16 +121,22 @@ public class monthlyReportsController implements Initializable, IController {
 	
 	}
 
-	
+	/**
+	 * retrieves the query data from the server to this method
+	 *@author David
+	 * @param data that returns from the server
+	 * 
+	 */
 	@Override
 	public void updatedata(Object data) {
+		//get all the information from the server about the query
 		if (data instanceof ResponseObject) {
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch (serverResponse.getRequest()) {
-			case "#GET_REPORTS":
+			case "#GET_REPORTS": //the tag that the query recieved
 				reports = new ArrayList<>();
 				if (serverResponse.Responsedata.size() != 0) {
-					exists = true;
+					exists = true; //mark that the report exists
 					for (int i = 0; i < serverResponse.Responsedata.size(); i++) {
 						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
 						String reportType = (String) values[0];
@@ -126,16 +150,21 @@ public class monthlyReportsController implements Initializable, IController {
 			}
 		}
 	}
-
+	/**
+	 * Initialize the fields of the view with data from the client's user.
+	 *@author David
+	 * @param location the location of the FXML file that loaded this controller
+	 * @param resources the resources used to load the FXML file
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.clientController.setController(this);
 		monthToStrMap = new HashMap<>();
 		errorMessage.setVisible(false);
-
+		
 		String[] monthNames = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
 				"October", "November", "December" };
-		
+		//set each month with its equivalent month number 
 		monthToStrMap.put("January", "01");
 		monthToStrMap.put("February", "02");
 		monthToStrMap.put("March", "03");
@@ -151,7 +180,7 @@ public class monthlyReportsController implements Initializable, IController {
 		
 		ClientUI.clientController.setHashMapMonths(monthToStrMap);
 		
-
+		//set all of the combo boxes
 		ArrayList<String> months = new ArrayList<>();
 		for (int j = 0; j < 12; j++) {
 			months.add(monthNames[j]);

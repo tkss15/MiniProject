@@ -280,14 +280,14 @@ public class TypeReportController implements Initializable, IController {
 			error.showAndWait();
 			return;
 		}
+		
 		RequestObjectClient supplyRequest = new RequestObjectClient("#GET_SUPPLY",
 				String.format(("SELECT products.ProductName,productsinfacility.ProductAmount " + "FROM products "
 						+ "INNER JOIN facilities " + "INNER JOIN productsinfacility "
 						+ "ON productsinfacility.ProductCode = products.ProductCode AND productsinfacility.FacilityID = facilities.FacilityID "
 						+ "WHERE FacilityArea = '%s' AND facilities.FacilityLocation = '%s' AND facilities.FacilityName = '%s' "
 						+ "GROUP BY products.ProductName"), ClientUI.clientController.getUser().getArea(),
-						locationComboBox.getValue(), nameComboBox.getValue()),
-				"*");
+						locationComboBox.getValue(), nameComboBox.getValue()),"*");
 		ClientUI.clientController.accept(supplyRequest);
 		xAxis.setLabel("Products");
 		yAxis.setLabel("Supply");

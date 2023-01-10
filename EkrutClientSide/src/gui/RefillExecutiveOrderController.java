@@ -41,7 +41,7 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	ObservableList<String> NameList;
 	ObservableList<String> ItemsList;
 	ObservableList<String> itemsToListView = FXCollections.observableArrayList();
-	private HashMap<String,String> productsOfFacility = new HashMap<>();
+	private HashMap<String, String> productsOfFacility = new HashMap<>();
 	@FXML
 	private Text facilityNameText;
 
@@ -79,55 +79,112 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	private ListView<String> itemsListView;
 
 	@FXML
+	private Button RemoveItemButton;
+	
+	/**
+	 * Initialize the controller, so that all of the initial settings will be as we wish
+	 * this method actives as the controller activates
+	 * @author David
+	 * @param location  the location of the FXML file that loaded this controller
+	 * @param resources the resources used to load the FXML file
+	 */
+	@FXML
+	void RemoveItem(ActionEvent event) {
+		ArrayList<String> items = new ArrayList<>();
+		if(itemsListView.getSelectionModel().getSelectedItem() == null)
+			return;
+		String itemToRemove = itemsListView.getSelectionModel().getSelectedItem();
+		String[] parts = itemToRemove.split("-");
+		for(int i = 0; i < productsToRefill.size(); i++) {
+			//get the relevent item and remove it from the productsToRefill ArrayList
+			ProductToRefill curr = productsToRefill.get(i);
+			if(curr.getProductName().equals(parts[0]) && curr.getFacilityName().equals(parts[1])) {
+				productsToRefill.remove(i);
+				break;
+			}
+		}
+		productsOfFacility.remove(itemToRemove, parts[1]);
+		itemsToListView.remove(itemToRemove);
+		itemsListView.setItems(itemsToListView);
+		itemsListView.refresh();
+		
+		ItemCombo.getItems().add(parts[0]); //add removed item from ListView back to its relevent ItemCombo ComboBox
+		
+		
+	}
+	
+	/**
+	 * sends all of the items in the ListView - itemsListView , to the executive order table
+	 * where the facility operation employee will refill the stock of the selected item
+	 * productsToRefill contains all of the data needed to add the product to the executiveorder table.
+	 * 
+	 * @author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
+	@FXML
 	void sendExecutiveOrder(ActionEvent event) {
 		errorMessageText.setVisible(false);
-		if(productsToRefill.isEmpty()) {
+		if (productsToRefill.isEmpty()) {
 			errorMessageText.setText("No items to send!");
 			errorMessageText.setVisible(true);
 			return;
 		}
-			
-		
+		//iterate through the productsToRefill and put the executive order in the table.
 		for (int i = 0; i < productsToRefill.size(); i++) {
+			//check if the order is already in the table
 			ProductToRefill curr = productsToRefill.get(i);
 			RequestObjectClient CheckItemInExec = new RequestObjectClient("#CHECK_EXEC_ORDER_ITEM",
-					String.format("table=executiveorders#condition=ProductName=%s&"
-							+ "ProductQuantity=%s&Area=%s&FacilityLocation=%s&"
-							+ "FacilityName=%s&FacilityThresholdLevel=%s",
-							curr.getProductName(),curr.getProductQuantity(),
-							curr.getArea(),curr.getFacilityLocation(),curr.getFacilityName(),
-							curr.getFacilityThresholdLevel()),"GET");
+					String.format(
+							"table=executiveorders#condition=ProductName=%s&"
+									+ "ProductQuantity=%s&Area=%s&FacilityLocation=%s&"
+									+ "FacilityName=%s&FacilityThresholdLevel=%s",
+							curr.getProductName(), curr.getProductQuantity(), curr.getArea(),
+							curr.getFacilityLocation(), curr.getFacilityName(), curr.getFacilityThresholdLevel()),
+					"GET");
 			ClientUI.clientController.accept(CheckItemInExec);
-			
-			if(!itemExistsInOrderTable) {
+
+			if (!itemExistsInOrderTable) {
+				//if the order isn't in the table, add it
 				RequestObjectClient putToExecOrder = new RequestObjectClient("#PUT_TO_EXEC_ORDER",
-						String.format("table=executiveorders#values=ProductName=%s&"
-								+ "ProductQuantity=%s&Area=%s&FacilityLocation=%s&"
-								+ "FacilityName=%s&FacilityThresholdLevel=%s",
-								curr.getProductName(),curr.getProductQuantity(),
-								curr.getArea(),curr.getFacilityLocation(),curr.getFacilityName(),
-								curr.getFacilityThresholdLevel()),"POST");
-				
+						String.format(
+								"table=executiveorders#values=ProductName=%s&"
+										+ "ProductQuantity=%s&Area=%s&FacilityLocation=%s&"
+										+ "FacilityName=%s&FacilityThresholdLevel=%s",
+								curr.getProductName(), curr.getProductQuantity(), curr.getArea(),
+								curr.getFacilityLocation(), curr.getFacilityName(), curr.getFacilityThresholdLevel()),
+						"POST");
+
 				ClientUI.clientController.accept(putToExecOrder);
 			}
-			itemExistsInOrderTable = false;
-			
+			itemExistsInOrderTable = false; //reset the flag
+
 		}
 		productsToRefill.clear();
-		Alert info = new Alert(AlertType.INFORMATION);
+		Alert info = new Alert(AlertType.INFORMATION); //make an alert about completion of the executive orders
 		info.setContentText("Executive order has been sent to the employee!");
 		info.showAndWait();
-		itemsListView.getItems().clear();itemsListView.refresh();
+		itemsListView.getItems().clear();
+		itemsListView.refresh();
 	}
 
+	
+	/**
+	 * add the selected item from the comboBox to a ListView
+	 * and make a ProductToRefill object with all of the stored data about the product and its quantity
+	 * and location, and name, and facility name etc.
+	 * add the product to productsToRefill ArrayList of ProductToRefill type.
+	 * 
+	 * @author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void addToExecutiveOrder(ActionEvent event) {
 		errorMessageText.setVisible(false);
-		if(ItemCombo.getValue() == null)
+		if (ItemCombo.getValue() == null)
 			return;
 		ArrayList<String> items = new ArrayList<>();
 		String toOrder = ItemCombo.getValue();
-		String toOrderInList = toOrder + "-" +  NameCombo.getValue();
+		String toOrderInList = toOrder + "-" + NameCombo.getValue();
 		itemsToListView.add(toOrderInList);
 		itemsListView.setItems(itemsToListView);
 		productsOfFacility.put(toOrderInList, NameCombo.getValue());
@@ -138,15 +195,18 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		productsToRefill.add(product);
 
 		ItemsList.clear();
+		//get the threshold level of each facility that has the product.
 		for (int i = 0; i < productsToRefill.size(); i++) {
 			ProductToRefill curr = productsToRefill.get(i);
 			RequestObjectClient getFacilityThresholdLevel = new RequestObjectClient("#GET_THRESHOLD",
 					String.format("table=facilities#condition=FacilityLocation=%s&FacilityName=%s",
-							curr.getFacilityLocation(), curr.getFacilityName()),"GET");
+							curr.getFacilityLocation(), curr.getFacilityName()),
+					"GET");
 			ClientUI.clientController.accept(getFacilityThresholdLevel);
 			productsToRefill.get(i).setFacilityThresholdLevel(String.valueOf(tempThreshold));
 			existsThreshold = false;
 		}
+		//rearrange the Item ComboBox.
 		for (int i = 0; i < productsBelowThreshold.size(); i++) {
 			ArrayList<String> curr = productsBelowThreshold.get(i);
 			if (curr.get(2).equals(NameCombo.getValue()) && curr.get(4).equals(LocationCombo.getValue())) {
@@ -159,10 +219,15 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		}
 		itemQuantityText.setVisible(false);
 		ItemCombo.getItems().addAll(items);
-		
 
 	}
-
+	
+	/**
+	 * select the Location name and set the Facility Names below its threshold
+	 * 
+	 * @author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void selectLocation(ActionEvent event) {
 		errorMessageText.setVisible(false);
@@ -171,9 +236,9 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		errorMessageText.setVisible(false);
 		ArrayList<String> names = new ArrayList<>();
 		ItemCombo.setVisible(false);
-//		ItemCombo.getItems().clear();
+//		ItemCombo.getItems().clear(); don't need to clear it here, but it is possible
 		NameCombo.getItems().clear();
-
+		//add the Facility Names of the location the an arrayList called names
 		for (int i = 0; i < productsBelowThreshold.size(); i++) {
 			ArrayList<String> curr = productsBelowThreshold.get(i);
 			if (curr.get(4).equals(LocationCombo.getValue())) {
@@ -181,7 +246,7 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 					names.add(curr.get(2));
 			}
 		}
-
+		//make an observableList from the names ArrayList
 		ObservableList<String> namesList = FXCollections.observableArrayList(names);
 
 		NameCombo.getItems().addAll(namesList);
@@ -190,19 +255,27 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 
 	}
 
+	/**
+	 * select the facility name and set the items below its threshold
+	 * 
+	 * @author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void selectName(ActionEvent event) {
 		itemQuantityText.setVisible(false);
 		successMessageText.setVisible(false);
 		errorMessageText.setVisible(false);
 		ArrayList<String> items = new ArrayList<>();
-		ItemCombo.getItems().clear();
+		ItemCombo.getItems().clear(); //clear the ItemCombo comoboBox, because we will change it
 		ItemCombo.setVisible(true);
+		//rearrange the ItemCombo comboBox
 		for (int i = 0; i < productsBelowThreshold.size(); i++) {
 			ArrayList<String> curr = productsBelowThreshold.get(i);
 			if (curr.get(2).equals(NameCombo.getValue())) {
 				if (!items.contains(curr.get(0)))
-					if(!productsOfFacility.containsKey(curr.get(0) + "-" + NameCombo.getValue()))
+					//make sure the item is not in the executive order list
+					if (!productsOfFacility.containsKey(curr.get(0) + "-" + NameCombo.getValue()))
 						items.add(curr.get(0));
 			}
 		}
@@ -212,25 +285,53 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		ItemCombo.getItems().addAll(itemsList);
 	}
 
+	/**
+	 * select an item from the comboBox, this item will not appear in the comboBox after selection
+	 * 
+	 * @author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void selectItem(ActionEvent event) {
+		if (ItemCombo.getValue() == null)
+			itemQuantityText.setVisible(false);
 		itemQuantityText.setVisible(true);
 		errorMessageText.setVisible(false);
 		for (int i = 0; i < productsBelowThreshold.size(); i++) {
+			//rearrange the ItemCombo
 			ArrayList<String> curr = productsBelowThreshold.get(i);
 			if (curr.get(2).equals(NameCombo.getValue()) && curr.get(4).equals(LocationCombo.getValue())
 					&& curr.get(0).equals(ItemCombo.getValue())) {
+				//display current quantity of the selected item
 				itemQuantityText.setText(String.format("Item Quantity: %s", curr.get(1)));
 			}
 		}
 
 	}
 
+	
+
+	/**
+	 * method that triggers when the "Back" button has been pressed
+	 * 
+	 * @author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void back(ActionEvent event) {
+		//goes back to the Area Manager interface window
 		ClientUI.sceneManager.ShowSceneNew("../views/AreaManagerInterface.fxml", event);
 	}
+	
+	
+	
 
+	/**
+	 * method that triggers when the "X" button has been pressed
+	 * 
+	 * @author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void close(ActionEvent event) {
 		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
@@ -246,7 +347,15 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		}
 		System.exit(0);
 	}
-
+	
+	
+	/**
+	 * retrieves the query data from the server to this method, where the query result set is distributed 
+	 * between all of the cases.
+	 * @author David
+	 * @param data that returns from the server
+	 * 
+	 */
 	@Override
 	public void updatedata(Object data) {
 		if (data instanceof ResponseObject) {
@@ -295,7 +404,13 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 			}
 		}
 	}
-
+	/**
+	 * Initialize the controller, so that all of the initial settings will be as we wish.
+	 * This method actives as the controller activates
+	 * @author David
+	 * @param location  the location of the FXML file that loaded this controller
+	 * @param resources the resources used to load the FXML file
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		successMessageText.setVisible(false);
@@ -307,7 +422,9 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		userAreaName = ClientUI.clientController.getUser().getArea();
 
 		facilityNameText.setText(String.format("%s Area", userAreaName));
-
+		//initially the query will execute based on the employee that tries to use it, but as the ceo will watch reports,
+		//the else statement will activate, but this is a preparation to the second phase, with this set it will
+		//be easier to implement the CEO's part
 		if (userAreaName.equals("All")) {
 			facilityNameText.setText("All Areas");
 			RequestObjectClient getItemsBelowThreshold = new RequestObjectClient("#GET_PRODUCTS", String.format(
@@ -329,7 +446,7 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 		arrayLocation = new ArrayList<>();
 		arrayName = new ArrayList<>();
 		items = new ArrayList<>();
-
+		//sets the comboBoxes
 		for (int i = 0; i < productsBelowThreshold.size(); i++) {
 			ArrayList<String> curr = productsBelowThreshold.get(i);
 			if (!arrayLocation.contains(curr.get(4)))

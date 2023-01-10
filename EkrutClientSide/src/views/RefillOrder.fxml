@@ -63,6 +63,11 @@
       <ComboBox fx:id="ItemCombo" layoutX="488.0" layoutY="236.0" onAction="#selectItem" prefHeight="25.0" prefWidth="152.0" promptText="Item" />
       <Text fx:id="itemQuantityText" layoutX="494.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item Quantity: " wrappingWidth="97.45312406122684" />
       <Button fx:id="AddToExecutiveOrderButton" layoutX="480.0" layoutY="305.0" mnemonicParsing="false" onAction="#addToExecutiveOrder" prefHeight="36.0" prefWidth="152.0" text="Add To Executive Order" />
+      <Button fx:id="RemoveItemButton" layoutX="512.0" layoutY="394.0" mnemonicParsing="false" onAction="#RemoveItem" prefHeight="36.0" prefWidth="137.0" text="Remove Item">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Button>
    </children>
    <stylesheets>
       <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
