@@ -1,5 +1,7 @@
 package Server;
 
+import java.net.URL;
+
 import gui.ServerInterfaceController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +30,10 @@ public class ServerUI extends Application
 //		  SceneManager sceneManager = new SceneManager();
 //		  sceneManager.ShowScene("/gui/LoginInterface.fxml");
 //		  sercv
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ServerInterface.fxml"));
+	    URL url = this.getClass().getResource("/src/gui/ServerInterface.fxml"); 
+		System.out.println(url);
+		System.out.println(ServerUI.class.getResource("../src/gui/ServerInterface.fxml"));
+        FXMLLoader loader = new FXMLLoader(ServerUI.class.getResource("/src/gui/ServerInterface.fxml"));
         Parent root = loader.load();
         serverInterface = (ServerInterfaceController) loader.getController();
         Scene scene = new Scene(root);
@@ -48,11 +53,6 @@ public class ServerUI extends Application
 
 	}
 	
-	private void setAppIcon(Stage primaryStage) 
-	{
-		primaryStage.setTitle("EKrut System");
-        primaryStage.getIcons().add(new Image("\\gui\\pictures\\serverIcon.png"));
-	}
 	
 	public static void runServer(String strPort)
 	{

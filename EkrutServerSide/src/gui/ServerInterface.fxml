@@ -108,7 +108,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="23.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@/Ekrut.png" />
+                  <Image url="@EKrut.png" />
                </image>
             </ImageView>
             <Text layoutX="374.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ekrut Server Config">
