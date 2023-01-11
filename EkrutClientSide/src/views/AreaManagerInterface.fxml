@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../project%20icons/EKrutLogo.jpeg" />
+                  <Image url="@../gui/pictures/EKrutLogo.jpeg" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -31,7 +31,7 @@
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../project%20icons/User.png" />
+                              <Image url="@../gui/pictures/User.png" />
                            </image>
                         </ImageView>
                         <Text fx:id="WelcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back Gal!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
@@ -167,14 +167,14 @@
       </Button>
       <ImageView fitHeight="213.0" fitWidth="210.0" layoutX="551.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../project%20icons/ceo-office-icon.png" />
+            <Image url="@../gui/pictures/ceo-office-icon.png" />
          </image>
       </ImageView>
       <Button fx:id="thresholdLevelButton" layoutX="427.0" layoutY="363.0" mnemonicParsing="false" onAction="#ThresholdLevelScreen" prefHeight="64.0" prefWidth="200.0" text="Threshold Level" AnchorPane.leftAnchor="427.0" />
       <Button fx:id="refillOrderButton" layoutX="691.0" layoutY="375.0" mnemonicParsing="false" onAction="#refillOrder" prefHeight="64.0" prefWidth="200.0" text="Refill Order" />
    </children>
    <stylesheets>
-      <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
       <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
    </stylesheets>
 </AnchorPane>

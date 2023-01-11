@@ -17,9 +17,9 @@
       <Line endX="260.0" layoutX="655.0" layoutY="157.0" opacity="0.7" startX="-250.0" />
       <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="789.0" minWidth="335.0" prefHeight="789.0" prefWidth="342.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="154.0" fitWidth="248.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../project%20icons/EKrutLogo.jpeg" />
+                  <Image url="@../gui/pictures/LogoEKRUT.png" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -31,7 +31,7 @@
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../project%20icons/User.png" />
+                              <Image url="@../gui/pictures/User.png" />
                            </image>
                         </ImageView>
                         <Text fx:id="WelcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back Liel!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
@@ -169,12 +169,12 @@
       </Button>
       <ImageView fitHeight="163.0" fitWidth="200.0" layoutX="586.0" layoutY="541.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../project%20icons/DivisionCEO.png" />
+            <Image url="@../gui/pictures/DivisionCEO.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="617.0" layoutY="711.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../project%20icons/CEOicon.png" />
+            <Image url="@../gui/pictures/CEOicon.png" />
          </image>
       </ImageView>
    </children>

@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DeliveryOperatorInterfaceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DeliveryOperatorInterfaceController">
    <children>
       <Line endX="305.0" layoutX="661.0" layoutY="157.0" opacity="0.7" startX="-250.0" />
       <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="789.0" minWidth="335.0" prefHeight="789.0" prefWidth="342.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
@@ -176,11 +176,6 @@
             <Font name="Cambria Bold" size="12.0" />
          </font>
       </Button>
-      <ImageView fitHeight="30.0" fitWidth="36.0" layoutX="888.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../git/MiniProject/EkrutClientSide/src/gui/pictures/Logos/MagnifyingGlass.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="150.0" fitWidth="166.0" layoutX="599.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../gui/pictures/OrderPickup.png" />
@@ -201,7 +196,7 @@
       <Button fx:id="changesBTN" layoutX="889.0" layoutY="723.0" mnemonicParsing="false" onAction="#applyChangesToTable" prefHeight="53.0" prefWidth="103.0" text="Apply Changes" />
    </children>
    <stylesheets>
-      <URL value="@../../../git/MiniProject/EkrutClientSide/Downloads/FXML%20pages/שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
-      <URL value="@../../../git/MiniProject/EkrutClientSide/Downloads/FXML%20pages/Homepage.css" />
+      <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
    </stylesheets>
 </AnchorPane>

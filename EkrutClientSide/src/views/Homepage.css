@@ -11,7 +11,7 @@
 	-fx-cursor: hand;
 }
 
-#BackButtonCss {
+#BackButtonCss,#backButton {
 	-fx-background-color: #FDB926;
 	-fx-cursor: hand;
 }
