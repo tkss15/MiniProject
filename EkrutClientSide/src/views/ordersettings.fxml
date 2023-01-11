@@ -15,7 +15,7 @@
    <children>
       <ImageView fx:id="Logo" fitHeight="74.0" fitWidth="150.0" layoutX="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@/Ekrut.png" />
+            <Image url="@/LogoEKRUT.png" />
          </image>
       </ImageView>
       <Label layoutX="280.0" layoutY="53.0" prefHeight="62.0" prefWidth="214.0" text="Order settings">

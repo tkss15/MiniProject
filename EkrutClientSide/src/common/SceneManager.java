@@ -29,7 +29,9 @@ public class SceneManager
 	}
 	public void ShowPopup(String urlResources)
 	{	
-        loader = new FXMLLoader(getClass().getResource(urlResources));
+		String res = urlResources.substring(8);
+		System.out.println(res);
+        loader = new FXMLLoader(getClass().getResource(res));
         Parent root;
 		try {
 			root = loader.load();
@@ -49,7 +51,9 @@ public class SceneManager
 	}
 	public void ShowSceneNew(String urlResources)
 	{	
-        loader = new FXMLLoader(getClass().getResource(urlResources));
+		String res = urlResources.substring(8);
+		System.out.println(res);
+        loader = new FXMLLoader(getClass().getResource(res));
         Parent root;
 		try {
 			root = loader.load();
@@ -70,7 +74,9 @@ public class SceneManager
 	}
 	public void ShowScene(String urlResources)
 	{	
-        loader = new FXMLLoader(getClass().getResource(urlResources));
+		String res = urlResources.substring(8);
+		System.out.println(res);
+        loader = new FXMLLoader(getClass().getResource(res));
         Parent root;
 		try {
 			root = loader.load();

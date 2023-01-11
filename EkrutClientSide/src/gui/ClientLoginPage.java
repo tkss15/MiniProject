@@ -58,8 +58,6 @@ public class ClientLoginPage implements Initializable, IController
     @FXML
     void actionLoggin(ActionEvent event) 
     {
-    	System.out.println("A "+ userNameTextField.getText());
-    	System.out.println("B "+ passwordTextField.getText());
     	if(userNameTextField.getText().equals("")|| passwordTextField.getText().equals("") )
     	{
     		errorLabel.setText(null);
@@ -69,8 +67,10 @@ public class ClientLoginPage implements Initializable, IController
     	String userName = userNameTextField.getText();
     	String password = passwordTextField.getText();
     	
-    	
-    	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s", userName, password),"GET");    	
+    	RequestObjectClient request = new RequestObjectClient("#LOGIN_LOCK","","GET");
+    	ClientUI.clientController.accept(request);
+
+    	request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s&userOnline=Offline", userName, password),"GET");    	
     	ClientUI.clientController.accept(request);
 
     	if(isLogged && !alreadyLogged)
@@ -99,7 +99,8 @@ public class ClientLoginPage implements Initializable, IController
     		errorLabel.setText((alreadyLogged) ? "Error User already Logged-In" : "Error authentication failed, Try again.");
     		errorLabel.setVisible(true);
     	}
-
+    	request = new RequestObjectClient("#LOGIN_UNLOCK","","GET");
+    	ClientUI.clientController.accept(request);
     }
     
 	@Override

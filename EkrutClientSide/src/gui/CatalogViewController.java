@@ -140,6 +140,7 @@ public class CatalogViewController implements Initializable, IController
     	String sql = "SELECT products.*, productsinfacility.ProductAmount FROM products LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode WHERE productsinfacility.FacilityID = " + ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() + " ORDER BY products.ProductCode";
     	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",sql,"*");  
     	ClientUI.clientController.accept(request);
+    	// 
     	
     	if(((RegisterClient)ClientUI.clientController.getUser()).getClientStatus() == RegisterClient.ClientStatus.CLIENT_SUBSCRIBER)
     	{

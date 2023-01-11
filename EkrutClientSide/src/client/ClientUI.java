@@ -25,7 +25,7 @@ public class ClientUI extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
-		ShowScence(primaryStage, "../views/LogInServer.fxml");		
+		ShowScence(primaryStage, "/LogInServer.fxml");		
 	}
 	
 	public static void ConnectToServer(String p)
@@ -36,7 +36,7 @@ public class ClientUI extends Application
 	
 	public void ShowScence(Stage primaryStage, String URL) throws Exception
 	{
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(URL));
+		FXMLLoader loader = new FXMLLoader(this.getClass().getResource(URL));
 	    Parent root = loader.load();
 			
 	    Scene scene = new Scene(root);
@@ -55,9 +55,6 @@ public class ClientUI extends Application
 	    primaryStage.setScene(scene);
 	    primaryStage.show(); 
 	}
-	private void setAppIcon(Stage primaryStage) {
-		primaryStage.setTitle("EKrut System");
-        primaryStage.getIcons().add(new Image("\\gui\\pictures\\LogoEKRUT.png"));
-	}
+
 	
 }
