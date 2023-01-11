@@ -11,7 +11,7 @@ public class CountdownOrder
 	private Task<Void> countdownTask;
 	private int countdownOrder;
 	
-	private final int TIME_FIVE_MINUTES = 15*5;
+	private final int TIME_FIVE_MINUTES = 60*5;
 	
 	public CountdownOrder()
 	{

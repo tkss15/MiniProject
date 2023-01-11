@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -105,7 +106,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <VBox layoutX="145.0" layoutY="255.0" prefHeight="200.0">
+      <VBox layoutX="137.0" layoutY="400.0" prefHeight="129.0" prefWidth="170.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Order Summary" underline="true">
                <font>
@@ -177,7 +178,7 @@
             </HBox>
          </children>
       </VBox>
-      <VBox fx:id="DeliveryOption" layoutX="144.0" layoutY="412.0">
+      <VBox fx:id="DeliveryOption" layoutX="134.0" layoutY="529.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Delivery Details" underline="true">
                <font>
@@ -199,6 +200,11 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
+                        <Label text="Delivery Date:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
                      </children>
                      <HBox.margin>
                         <Insets right="5.0" />
@@ -211,6 +217,11 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </TextField>
+                        <Label fx:id="estimatedTime" text="text">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
                      </children>
                   </VBox>
                </children>
@@ -241,7 +252,80 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Label fx:id="labelError" layoutX="323.0" layoutY="482.0" text="errorlabel" textFill="RED">
+      <Label fx:id="labelError" layoutX="433.0" layoutY="571.0" text="errorlabel" textFill="RED">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <VBox layoutX="137.0" layoutY="259.0" prefHeight="129.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Information" underline="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <HBox>
+               <children>
+                  <VBox prefHeight="200.0" spacing="10.0" HBox.hgrow="NEVER">
+                     <children>
+                        <Label text="Credit Card:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="CardDate" text="Card Date:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="CVC:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="110.0" prefWidth="154.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Text fx:id="creditcardNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="0000-1111-2222-4444">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="7.0" />
+                           </VBox.margin>
+                        </Text>
+                        <HBox>
+                           <children>
+                              <ComboBox fx:id="ComboBoxMonth" prefHeight="25.0" prefWidth="96.0" />
+                              <ComboBox fx:id="ComboBoxYear" prefHeight="25.0" prefWidth="97.0" />
+                           </children>
+                        </HBox>
+                        <TextField fx:id="CVCtextField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="38.0" promptText="000" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Label fx:id="labelErrorCVC" layoutX="387.0" layoutY="366.0" text="errorlabel" textFill="RED">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="labelErrorDate" layoutX="387.0" layoutY="331.0" text="errorlabel" textFill="RED">
          <font>
             <Font size="14.0" />
          </font>

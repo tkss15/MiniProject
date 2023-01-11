@@ -61,6 +61,11 @@ public class HomePageController implements Initializable, IController
     {
     	ClientUI.sceneManager.ShowScene("../views/CatalogViewerOnly.fxml",event);
     }
+    @FXML
+    void openManageOrders(ActionEvent event)
+    {
+    	ClientUI.sceneManager.ShowSceneNew("../views/myOrders.fxml",event);
+    }
     @FXML 
     void Logout(ActionEvent event)
     {

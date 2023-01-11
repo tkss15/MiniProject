@@ -1,15 +1,21 @@
 package client;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import Entity.Facility;
+import Entity.Order;
 import Entity.Product;
 import common.ChatIF;
 import common.RequestObjectClient;
 import common.ResponseObject;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import ocsf.client.AbstractClient;
 
 public class ChatClient extends AbstractClient 
@@ -69,56 +75,10 @@ public class ChatClient extends AbstractClient
 					awaitResponse = false;
 					break;
 				}
-				// When A Client buys server updates the amount of available items.
 				case"#UPDATE_PRODUCTS_CLIENT":
 				{
-					System.out.println("Hello is Update Products");
-					Task<Void> task = new Task<Void>() 
-					{
-						  @Override
-						  public Void call() throws Exception 
-						  {
-								// If is empty then no need to change anything.
-								for(int i = 0; i < serverResponse.Responsedata.size(); i++)
-								{
-									Object[] values =(Object[]) serverResponse.Responsedata.get(i);//Row 1 
-									Integer FacilityCode = (Integer) values[0];
-									Integer ProductCode = (Integer) values[1];
-									Integer ProductAmount = (Integer) values[2];
-									
-									if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != FacilityCode)
-									{
-										return null;
-									}
-									for(Product facilityProduct : ClientUI.clientController.getArrProducts())
-									{
-										if(facilityProduct.getProductCode() == ProductCode)
-										{
-											int indexOfProduct = ClientUI.clientController.getArrProducts().indexOf(facilityProduct);
-											facilityProduct.setMaxAmount(ProductAmount);
-											ClientUI.clientController.getArrProducts().set(indexOfProduct, facilityProduct);
-										}
-									}
-								}	 
-							return null;
-						  }
-					};
-					new Thread(task).start();
-					ClientUI.sceneManager.ShowPopup("../views/ServerSendsUpdate.fxml");
-					task.setOnFailed(new EventHandler<WorkerStateEvent>() 
-					{
-						public void handle(WorkerStateEvent workerStateEvent) {
-							task.getException().printStackTrace();
-						}
-					});
-					task.setOnSucceeded(new EventHandler<WorkerStateEvent>() 
-					{
-			          @Override
-			          public void handle(WorkerStateEvent workerStateEvent) {
-			          	
-			        	  ClientUI.sceneManager.SceneBack(workerStateEvent, "../views/ServerSendsUpdate.fxml");
-			          }
-					});
+					showAlert("Facility Quantity updated!");
+					clientConsole.display(msg);
 					break;
 				}
 				default:
@@ -130,6 +90,14 @@ public class ChatClient extends AbstractClient
 			
 		}
 		awaitResponse = false;
+	}
+	public void showAlert(String message) 
+	{
+	    Platform.runLater(() -> {
+	        Alert alert = new Alert(AlertType.INFORMATION);
+	        alert.setContentText(message);
+	        alert.showAndWait();
+	    });
 	}
 	/***
 	 * @param message

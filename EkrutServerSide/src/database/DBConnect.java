@@ -7,9 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import common.ChatIF;
 import common.RequestObjectClient;
@@ -21,6 +24,7 @@ public class DBConnect
 	Connection conn;
 	private Map<String,String> SQLCondition = new HashMap<>();
 	private Map<String,String> SQLValues = new HashMap<>();
+	private final Lock queueLock = new ReentrantLock();
 
 	//jdbc:mysql://127.0.0.1:3306/?user=root
 	class Constants 
@@ -231,7 +235,24 @@ public class DBConnect
 		return conn;
 	}
 
-
+	public ResponseObject SafeQuery(RequestObjectClient query)
+	{
+		ResponseObject serverResponse = null;
+		queueLock.lock();
+		try 
+		{
+			serverResponse = makeQuery(query);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			queueLock.unlock();
+		}
+		return serverResponse;
+	}
 	public ResponseObject makeQuery(RequestObjectClient query)
 	{
 		String queryTable = "WildCard";
@@ -268,8 +289,16 @@ public class DBConnect
 			if(query.getSQLOpreation().equals("PUT") || query.getSQLOpreation().equals("DELETE") || query.getSQLOpreation().equals("POST"))
 			{
 				int result;
-				result = stmt.executeUpdate(CreateSqlStatement(query));
-				res.addObject(result);
+				try 
+				{
+					result = stmt.executeUpdate(CreateSqlStatement(query));
+					res.addObject(result);
+				
+				}
+				catch(SQLIntegrityConstraintViolationException e) 
+				{
+					result = -1;
+				}
 				return res;
 			}
 			rs = stmt.executeQuery();

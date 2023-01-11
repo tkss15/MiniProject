@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
 
 import common.ChatIF;
 import common.ClientConnection;
 import common.RequestObjectClient;
 import common.ResponseObject;
-import common.SMSNotifiction;
 import database.DBConnect;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -19,7 +17,6 @@ public class EchoServer extends AbstractServer
 {
 	ChatIF serverUI;
 	DBConnect mySqlConnection;
-	
 	private ArrayList<String> serverConfing;
 	
 	public EchoServer(int port) 
@@ -114,6 +111,7 @@ public class EchoServer extends AbstractServer
 	}
 	//#SEND_SMS
 	//#SEND_EMAIL
+	
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) 
 	{
@@ -122,6 +120,30 @@ public class EchoServer extends AbstractServer
 			RequestObjectClient clientRequest = (RequestObjectClient) msg;
 			try 
 			{
+				
+				/*
+				 * Explantion:
+				 * 
+				 * - Client Request ends with SEND_ALL it will update all users.
+				 * - Client Request ends with SEND_NOT_ME it will update all users BUT the sender. ( it will send empty response ).
+				 * - Other.
+				 * */
+				if(clientRequest.getRequestID().endsWith("#SEND_NOT_ME"))
+				{
+					clientRequest.setRequestID(clientRequest.getRequestID().replace("#SEND_NOT_ME", ""));
+					ResponseObject ResponseEmpty = new ResponseObject("Empty");
+					ResponseEmpty.setRequest("Empty");
+					
+					sendToAllClients(mySqlConnection.SafeQuery(clientRequest), client);
+					client.sendToClient(ResponseEmpty);
+				}
+				if(clientRequest.getRequestID().endsWith("#SEND_ALL"))
+				{
+					clientRequest.setRequestID(clientRequest.getRequestID().replace("#SEND_ALL", ""));
+					sendToAllClients(mySqlConnection.SafeQuery(clientRequest));
+				}
+				
+				
 				if(clientRequest.getRequestID().equals("#USER_LOGOUT"))
 				{
 					clientDisconnected(client);
@@ -129,18 +151,7 @@ public class EchoServer extends AbstractServer
 				}
 				else 
 				{
-					if(clientRequest.getRequestID().equals("#UPDATE_PRODUCTS_CLIENT"))
-					{
-						ResponseObject updateProductsClients = new ResponseObject("Empty");
-						updateProductsClients.setRequest("Empty");
-						
-						sendToAllClients(mySqlConnection.makeQuery(clientRequest), client);
-						client.sendToClient(updateProductsClients);
-					}
-					else
-					{
-						client.sendToClient(mySqlConnection.makeQuery(clientRequest));
-					}
+					client.sendToClient(mySqlConnection.SafeQuery(clientRequest));
 				}
 			} 
 			catch (IOException e) 
@@ -150,5 +161,6 @@ public class EchoServer extends AbstractServer
 			}
 		}
 	}
+
 
 }

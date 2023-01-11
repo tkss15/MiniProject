@@ -3,6 +3,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -20,14 +21,20 @@ import common.CountdownOrder;
 import common.IController;
 import common.RequestObjectClient;
 import common.ResponseObject;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -50,6 +57,8 @@ public class CatalogViewController implements Initializable, IController
 	private final String PlusImage = "Plus.png"; // Image for increasing the quantity of a product in the shopping cart
 	private final String MinusImage = "Minus.png"; // Image for decreasing the quantity of a product in the shopping cart
 
+	private final String ShekelCode = new String("\u20AA".getBytes(), StandardCharsets.UTF_8);
+	
 	private HashMap<Integer,String> SalesMap; // Map to store active sales data
 	private ArrayList<ProductUI> StockItems; // List to store product data
 	private ShoppingCartUI myShoppingCart; // Object to store shopping cart data
@@ -155,7 +164,7 @@ public class CatalogViewController implements Initializable, IController
 	    		}
 	    	}
     	}
-    	
+    	// 
 		
 		ScrollPane = new ScrollPane();
 		for(int i = 0; i < ClientUI.clientController.getArrProducts().size(); i ++)
@@ -308,6 +317,7 @@ public class CatalogViewController implements Initializable, IController
 	{
 		Product Product;
 		Button AddBtn, PlusButton, MinusBtn;
+		StringProperty AvailableAmount = new SimpleStringProperty();
 		
 		public ProductUI(Product product) 
 		{
@@ -341,7 +351,6 @@ public class CatalogViewController implements Initializable, IController
 		private HBox ProductButtons()
 		{
 			HBox AddToCartHBox = new HBox();
-			Label AmountDesc = new Label();
 			TextField Amount  = new TextField(String.valueOf(Product.getProductAmount()));
 		    
 			AddToCartHBox.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
@@ -423,10 +432,7 @@ public class CatalogViewController implements Initializable, IController
 			});
 			HBox.setMargin(Amount, new Insets(5.0, 5.0, 5.0, 5.0));
 			
-			AmountDesc.setText("יח'");
-			HBox.setMargin(AmountDesc, new Insets(5.0, 5.0, 5.0, 5.0));
-			
-			AddToCartHBox.getChildren().addAll(AddBtn, MinusBtn, AmountDesc, Amount, PlusButton);
+			AddToCartHBox.getChildren().addAll(AddBtn, MinusBtn, Amount, PlusButton);
 			HBox.setMargin(AddToCartHBox, new Insets(0, 5.0, 5.0, 5.0));
 			return AddToCartHBox;
 		}
@@ -448,25 +454,40 @@ public class CatalogViewController implements Initializable, IController
 			
 			ImageView ItemPicture = CreateImage(Product.getPathPicture(),150.0,150.0,true,true, null);
 			VBox.setVgrow(ItemPicture, Priority.NEVER);
-
+			
+			
 			Text ItemName = new Text(Product.getProductName());
+			
 			ItemName.setId("ProductName");
 			VBox.setVgrow(ItemName, Priority.ALWAYS);
 			
+			
 			Text ItemDescription = new Text(Product.getProductDescription());
 			ItemDescription.setId("ProductName");
-			
-			Text ItemPrice = new Text((Product.getProductPrice() + "₪")); 
+
+		    
+			Text ItemPrice = new Text((Product.getProductPrice() + ShekelCode)); 
 			ItemPrice.setId("ProductName");
 			
-			VBoxItemDescrption.getChildren().addAll(ItemPicture,ItemName,ItemDescription);
+			Text AmountAvailable = new Text();
+			AvailableAmount.setValue("("+ Product.getMaxAmount() + " Available)");
+			AmountAvailable.textProperty().bind(AvailableAmount);
+			AmountAvailable.textProperty().addListener((ob, oldValue,newValue) -> {
+				if(ClientUI.clientController.getClientOrder().myCart.contains(Product))
+				{
+					myShoppingCart.removeItem(Product);
+				}
+			});
+			ItemPrice.setId("ProductName");
+			
+			VBoxItemDescrption.getChildren().addAll(ItemPicture,ItemName,AmountAvailable,ItemDescription);
 			if(!(Product.getPriceStategy() instanceof PriceStartegyRegular))
 			{	
 				Text ItemSale = new Text(Product.getPriceStategy().toString()); 
 				ItemSale.setId("SaleTitle");
 				VBoxItemDescrption.getChildren().add(ItemSale);
 			}
-			
+			VBoxItemDescrption.setAlignment(Pos.CENTER);
 			VBoxItemDescrption.getChildren().add(ItemPrice);
 			return VBoxItemDescrption;
 		}
@@ -506,6 +527,37 @@ public class CatalogViewController implements Initializable, IController
 						System.out.println(ProductSale + " " + SaleType);
 						SalesMap.put(ProductSale, SaleType);
 					}
+					break;
+				}
+				case"#UPDATE_PRODUCTS_CLIENT":
+				{
+					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+					{
+						Object[] values = (Object[])serverResponse.Responsedata.get(i);
+						Integer FacilityID = (Integer)values[0];
+						Integer ProductCode = (Integer)values[1];
+						Integer ProductAmount = (Integer)values[2];
+						
+						if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != FacilityID)
+							return;
+						
+						for(Product tempProduct : ClientUI.clientController.getArrProducts())
+						{
+							if(tempProduct.getProductCode() != ProductCode)
+								continue;
+							
+							Integer ProductIndex = ClientUI.clientController.getArrProducts().indexOf(tempProduct);
+							tempProduct.setMaxAmount(ProductAmount);
+							
+							ClientUI.clientController.getArrProducts().set(ProductIndex, tempProduct);
+						}
+					}
+					Platform.runLater(() -> {
+						for(ProductUI productTemp : StockItems)
+						{							
+							productTemp.AvailableAmount.setValue("("+ productTemp.Product.getMaxAmount() + " Available)");
+						}
+					});
 					break;
 				}
 				case"#SIMPLE_REQUEST":

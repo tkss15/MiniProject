@@ -25,6 +25,7 @@ public class ClientConsole implements ChatIF
 	private Order clientOrder = new Order(null,null,null);
 	private Facility EKFacility = new Facility(null, null, null, null, null, null);
 	private CountdownOrder taskCountdown = new CountdownOrder();
+	private Integer managerOrderdeatils;
 
 	private String ApplicationType = null;
 	
@@ -114,16 +115,18 @@ public class ClientConsole implements ChatIF
 	{
 		return clientUser;
 	}
+	public Integer getManagerOrderdeatils() {
+		return managerOrderdeatils;
+	}
+	public void setManagerOrderdeatils(Integer managerOrderdeatils) {
+		this.managerOrderdeatils = managerOrderdeatils;
+	}
 	public void setUser(User user)
 	{
 		if(user instanceof Employee) {
 			Employee employee = (Employee)user;
 			clientUser = new Employee(employee,employee.getBranch());
 		}
-//		else if(user instanceof RegisterClient) {
-//			RegisterClient client = (RegisterClient)user;
-//			clientUser = new RegisterClient(employee,employee.getBranch());
-//		}
 		else clientUser = user; 
 	}
 	public ArrayList<Facility> getArrFacility() {

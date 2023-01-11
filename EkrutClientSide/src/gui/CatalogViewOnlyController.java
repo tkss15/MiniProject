@@ -3,6 +3,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -37,6 +38,8 @@ import javafx.scene.text.Text;
 
 public class CatalogViewOnlyController implements Initializable, IController
 {
+	private final String ShekelCode = new String("\u20AA".getBytes(), StandardCharsets.UTF_8);
+
 	ArrayList<ProductUI> StockItems = new ArrayList<>();
     @FXML
     private VBox Item, ProductsVBox, ShoppingCart;
@@ -137,7 +140,7 @@ public class CatalogViewOnlyController implements Initializable, IController
 			Text ItemDescription = new Text(Product.getProductDescription());
 			ItemDescription.setId("ProductName");
 			
-			Text ItemPrice = new Text((Product.getProductPrice() + "₪")); 
+			Text ItemPrice = new Text((Product.getProductPrice() + ShekelCode)); 
 			ItemPrice.setId("ProductName");
 			
 			VBoxItemDescrption.getChildren().addAll(ItemPicture,ItemName,ItemDescription,ItemPrice);
