@@ -281,6 +281,7 @@ public class AreaManagerApproveController implements Initializable, IController 
 		ClientUI.clientController.accept(requestUsersFromImportTable);
 		for (UserRow ur : userRows) {
 			ComboBox<String> combo = new ComboBox<>();
+			combo.getStylesheets().add("views/ComboBox.css");
 			combo.setPromptText("Choose Accept / Reject");
 			ObservableList<String> info = FXCollections.observableArrayList("Approve", "Reject");
 			combo.setItems(info);

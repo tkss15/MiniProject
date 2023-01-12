@@ -28,6 +28,12 @@
     -fx-border-radius: 20;
     -fx-background-radius: 20;
 }
+#Back {
+   -fx-font-size: 12;
+    -fx-border-color: black;
+    -fx-border-radius: 40;
+    -fx-background-color: transparent;
+}
 
 .button:hover {
 	-fx-background-color: #f06236;
@@ -44,4 +50,13 @@
 #Logout:hover {
 	-fx-background-color: #f06236;
 	-fx-cursor: hand;
+	
+}
+
+#ColorAnchor {
+    -fx-background-color: #F2EFEA;
+}
+
+*{
+	-fx-font-family: "Arial";
 }

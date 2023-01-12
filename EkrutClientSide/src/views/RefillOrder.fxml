@@ -20,7 +20,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../OneDrive/Desktop/Braude/סמסטר%205/שיטות%20הנדסיות%20לפיתוח%20מערכות%20תוכנה/פרוייקט/EKrut/src/gui/pictures/EKrutLogo.jpeg" />
+                  <Image url="@../gui/pictures/LogoEKRUT.png" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -31,12 +31,12 @@
                   <Font size="27.0" />
                </font>
                <VBox.margin>
-                  <Insets left="20.0" top="150.0" />
+                  <Insets left="20.0" top="280.0" />
                </VBox.margin>
             </Text>
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#back" text="Back">
                <VBox.margin>
-                  <Insets left="7.0" top="130.0" />
+                  <Insets left="7.0" top="50.0" />
                </VBox.margin>
             </Button>
          </children>
@@ -54,14 +54,26 @@
          </font>
       </Button>
       <Text fx:id="successMessageText" fill="#00a822e3" layoutX="542.0" layoutY="507.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.00000715255737" />
-      <Text layoutX="329.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Location:" />
+      <Text layoutX="329.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Location:">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></Text>
       <ComboBox fx:id="LocationCombo" layoutX="488.0" layoutY="154.0" onAction="#selectLocation" prefHeight="25.0" prefWidth="152.0" promptText="Location" />
-      <Text layoutX="328.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Name:" />
+      <Text layoutX="328.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Name:">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></Text>
       <ComboBox fx:id="NameCombo" layoutX="488.0" layoutY="195.0" onAction="#selectName" prefHeight="25.0" prefWidth="152.0" promptText="Name" />
-      <ListView fx:id="itemsListView" layoutX="652.0" layoutY="158.0" prefHeight="275.0" prefWidth="234.0" />
-      <Text layoutX="328.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Item Below Threshold:" />
+      <ListView fx:id="itemsListView" layoutX="652.0" layoutY="158.0" prefHeight="295.0" prefWidth="273.0" />
+      <Text layoutX="328.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Item Below Threshold:">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></Text>
       <ComboBox fx:id="ItemCombo" layoutX="488.0" layoutY="236.0" onAction="#selectItem" prefHeight="25.0" prefWidth="152.0" promptText="Item" />
-      <Text fx:id="itemQuantityText" layoutX="494.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item Quantity: " wrappingWidth="97.45312406122684" />
+      <Text fx:id="itemQuantityText" layoutX="494.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Item Quantity: " wrappingWidth="97.45312406122684">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font></Text>
       <Button fx:id="AddToExecutiveOrderButton" layoutX="480.0" layoutY="305.0" mnemonicParsing="false" onAction="#addToExecutiveOrder" prefHeight="36.0" prefWidth="152.0" text="Add To Executive Order" />
       <Button fx:id="RemoveItemButton" layoutX="512.0" layoutY="394.0" mnemonicParsing="false" onAction="#RemoveItem" prefHeight="36.0" prefWidth="137.0" text="Remove Item">
          <font>
@@ -70,7 +82,9 @@
       </Button>
    </children>
    <stylesheets>
-      <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
       <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
+      <URL value="@ComboBox.css" />
+      <URL value="@TextFieldAndListView.css" />
    </stylesheets>
 </AnchorPane>
