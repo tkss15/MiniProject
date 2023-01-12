@@ -1,14 +1,11 @@
 package client;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 
 import Entity.Facility;
 import Entity.Order;
 import Entity.Product;
-import Entity.RegisterClient;
 import common.ChatIF;
 import common.RequestObjectClient;
 import common.ResponseObject;
@@ -17,6 +14,7 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import ocsf.client.AbstractClient;
 
@@ -25,7 +23,6 @@ public class ChatClient extends AbstractClient
 	public static boolean awaitResponse = false;
 	ChatIF clientConsole;
 	/***
-	 * s
 	 * @param host - saves the data of the ip-address the client entered in order to connect to the server.
 	 * @param port - saves the data of the port the client entered in order to connect to the server.
 	 * @param clientUI - interface that allows the upper layer of client to communicate with lower layers.
@@ -49,10 +46,8 @@ public class ChatClient extends AbstractClient
 	@Override
 	protected void handleMessageFromServer(Object msg) 
 	{
-		System.out.println("Message arrived");
 		if(msg instanceof ResponseObject)
 		{
-			System.out.println(((ResponseObject)msg).getRequest() + "Handled");
 			ResponseObject serverResponse = (ResponseObject) msg;
 			
 			switch(serverResponse.getRequest())
@@ -64,10 +59,8 @@ public class ChatClient extends AbstractClient
 				}
 				case"#FIRST_INSTALL":
 				{
-					System.out.println("First Install");
 					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
 					{
-							//	public Facility(int FacilityID, String FacilityLocation, String FacilityName, int FacilityThresholder)
 						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
 						Integer FacilityID = (Integer)values[0];
 						String FacilityArea = (String)values[1];
@@ -75,65 +68,35 @@ public class ChatClient extends AbstractClient
 						String FacilityName = (String)values[3];
 						Integer FacilityThresholder = (Integer)values[4];
 						Integer FacilityEK = (Integer) values[5];
-							//ClientUI.clientController.(new Facility(FacilityID, FacilityLocation, FacilityName, FacilityThresholder));
-							//System.out.println(arrFacility);
-											
-						System.out.println(FacilityID + FacilityLocation + FacilityName + FacilityThresholder + FacilityEK);
+
 						ClientUI.clientController.arrFacility.add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK == 0 ? false : true
 						));
 					}		
 					awaitResponse = false;
 					break;
 				}
-				// When A Client buys server updates the amount of available items.
+				case"#UPDATE_AREAMANAGER":
+				{
+					System.out.println("Hey`1234");
+					StringBuilder fullMessage = new StringBuilder();
+					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+					{
+						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
+						String userName = (String)values[0];
+						if(!userName.equals(ClientUI.clientController.getUser().getUserName()))
+							continue;
+						
+						Integer FacilityID = (Integer) values[2];
+						
+						fullMessage.append(FacilityID + " ");
+					}
+					if(fullMessage.length() > 0)
+						showAlert(String.format("Facilitys %s are under the Threshold level", fullMessage.toString()));
+				}
 				case"#UPDATE_PRODUCTS_CLIENT":
 				{
-					Task<Void> task = new Task<Void>() 
-					{
-						  @Override
-						  public Void call() throws Exception 
-						  {
-								// If is empty then no need to change anything.
-								for(int i = 0; i < serverResponse.Responsedata.size(); i++)
-								{
-									Object[] values =(Object[]) serverResponse.Responsedata.get(i);//Row 1 
-									Integer FacilityCode = (Integer) values[0];
-									Integer ProductCode = (Integer) values[1];
-									Integer ProductAmount = (Integer) values[2];
-									
-									if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != FacilityCode)
-									{
-										return null;
-									}
-									for(Product facilityProduct : ClientUI.clientController.getArrProducts())
-									{
-										if(facilityProduct.getProductCode() == ProductCode)
-										{
-											int indexOfProduct = ClientUI.clientController.getArrProducts().indexOf(facilityProduct);
-											facilityProduct.setMaxAmount(ProductAmount);
-											ClientUI.clientController.getArrProducts().set(indexOfProduct, facilityProduct);
-										}
-									}
-								}	 
-							return null;
-						  }
-					};
-					new Thread(task).start();
-					ClientUI.sceneManager.ShowPopup("../views/ServerSendsUpdate.fxml");
-					task.setOnFailed(new EventHandler<WorkerStateEvent>() 
-					{
-						public void handle(WorkerStateEvent workerStateEvent) {
-							task.getException().printStackTrace();
-						}
-					});
-					task.setOnSucceeded(new EventHandler<WorkerStateEvent>() 
-					{
-			          @Override
-			          public void handle(WorkerStateEvent workerStateEvent) {
-			          	
-			        	  ClientUI.sceneManager.SceneBack(workerStateEvent, "../views/ServerSendsUpdate.fxml");
-			          }
-					});
+					clientConsole.display(msg);
+					showAlert("Facility Quantity updated!");
 					break;
 				}
 				default:
@@ -145,6 +108,14 @@ public class ChatClient extends AbstractClient
 			
 		}
 		awaitResponse = false;
+	}
+	public void showAlert(String message) 
+	{
+	    Platform.runLater(() -> {
+	        Alert alert = new Alert(AlertType.INFORMATION);
+	        alert.setContentText(message);
+	        alert.showAndWait();
+	    });
 	}
 	/***
 	 * @param message
@@ -159,14 +130,13 @@ public class ChatClient extends AbstractClient
 				awaitResponse = true;
 				if(((RequestObjectClient)message).getRequestID().equals("#USER_LOGOUT"))
 					awaitResponse = false;
-				System.out.println("Sending object "+ ((RequestObjectClient)message).getRequestID());
+				System.out.println("Sends " + ((RequestObjectClient)message).getRequestID());
 			}
-			
 			openConnection();
 			sendToServer(message);
 			while (awaitResponse) {
 				try {
-					Thread.sleep(500);
+					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

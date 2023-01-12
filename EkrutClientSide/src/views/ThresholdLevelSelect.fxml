@@ -42,7 +42,7 @@
             </Button>
          </children>
       </VBox>
-      <Text layoutX="413.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Threshold Level" wrappingWidth="371.0000191926956" />
+      <Text layoutX="396.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Threshold Level" wrappingWidth="371.0000191926956" />
       <Button fx:id="CloseButton" layoutX="766.0" layoutY="4.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
@@ -69,13 +69,13 @@
       <ComboBox fx:id="IDCombo" layoutX="377.0" layoutY="239.0" onAction="#selectID" prefHeight="25.0" prefWidth="168.0" promptText="Select facility ID" />
       <ComboBox fx:id="LocationCombo" layoutX="378.0" layoutY="173.0" onAction="#SelectedLocation" prefHeight="25.0" prefWidth="168.0" promptText="Select Facility Location" />
       <ComboBox fx:id="NameCombo" layoutX="377.0" layoutY="206.0" onAction="#selectName" prefHeight="25.0" prefWidth="168.0" promptText="Select Facility Name" />
-      <TextField fx:id="SetThresholdTextField" layoutX="505.0" layoutY="277.0" prefHeight="25.0" prefWidth="41.0" />
+      <TextField fx:id="SetThresholdTextField" layoutX="505.0" layoutY="277.0" prefHeight="25.0" prefWidth="41.0" style="-fx-alignment: CENTER;" />
       <Label layoutX="582.0" layoutY="181.0" prefHeight="27.0" prefWidth="212.0" text="Current Facility Threshold:">
          <font>
             <Font name="Arial" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="setCurrentFacilityThreshold" layoutX="650.0" layoutY="215.0" prefHeight="25.0" prefWidth="41.0" />
+      <TextField fx:id="setCurrentFacilityThreshold" layoutX="650.0" layoutY="215.0" prefHeight="25.0" prefWidth="41.0" style="-fx-alignment: CENTER;" />
    </children>
    <stylesheets>
       <URL value="@Homepage.css" />

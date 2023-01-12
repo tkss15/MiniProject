@@ -31,7 +31,7 @@
                <children>
                   <HBox prefHeight="35.0" prefWidth="326.0">
                      <children>
-                        <Text fx:id="textUserlogin" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="89.095703125">
+                        <Text fx:id="textUserlogin" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="263.095703125">
                            <font>
                               <Font size="24.0" />
                            </font>

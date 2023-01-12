@@ -37,16 +37,11 @@ public class ClientLoginInterface implements IController {
 
 		((Node) event.getSource()).getScene().getWindow().hide();
 		ClientUI.ConnectToServer(ipaddress);
-		
-//		request = new RequestObjectClient("USER_RETURN_DATA","table=users#condition=userName=tkss15","GET");    	
-//		ClientUI.clientController.accept(request);
-		
     	
-    	System.out.println("Here ?");
 		File firstInstalltion = new File(ClientUI.clientController.ApplicationConfig + "config.cfg");
 		System.out.println(firstInstalltion.getAbsolutePath());
 		
-		RequestObjectClient request = new RequestObjectClient("#FIRST_INSTALL",String.format("table=facilities"),"GET");    	
+		RequestObjectClient request = new RequestObjectClient("#FIRST_INSTALL","","GET");    	
 		ClientUI.clientController.accept(request);
 		
 		if(firstInstalltion.exists())
@@ -63,12 +58,6 @@ public class ClientLoginInterface implements IController {
 	        	ClientUI.clientController.getEKFacility().setFacilityEK(false);
 	        else
 	        {
-//	        	ClientUI.clientController.getEKFacility().setFacilityEK(true);
-//	        	ClientUI.clientController.getEKFacility().setFacilityID(Integer.valueOf(arraySettings[1]));
-//	        	ClientUI.clientController.getEKFacility().setFacilityArea(arraySettings[2]);
-//	        	ClientUI.clientController.getEKFacility().setFacilityLocation(arraySettings[3]);
-//	        	ClientUI.clientController.getEKFacility().setFacilityName(arraySettings[4]);
-//	        	ClientUI.clientController.getEKFacility().setFacilityThresholder(Integer.valueOf(arraySettings[5]));
 	        	ClientUI.clientController.setEKFacility(new Facility(Integer.valueOf(arraySettings[1]),arraySettings[2],arraySettings[3],arraySettings[4],Integer.valueOf(arraySettings[5]), true));
 	        }
 

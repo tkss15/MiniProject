@@ -7,25 +7,16 @@ public class Employee extends User {
 	};
 
 	private EmployeeRole employeeRole;
-	private String branch;
 	
-	public String getBranch() {
-		return branch;
-	}
-
-	public void setBranch(String branch) {
-		this.branch = branch;
-	}
 
 	public Employee() {super();}
 	
-	public Employee(User user,String branch) {
+	public Employee(User user) {
 		//String firstName, String lastName, String phone, String email, String ID, String UserName,
 		//String Password)
 		super(user.getFirstName(),user.getLastName(),user.getPhone(),user.getEmail(),user.getID(),user.getUserName(),
 				user.getPassword(),user.getArea());
 		this.setOnlineStatus(user.getOnlineStatus());
-		this.branch = branch;
 	}
 	public Employee(EmployeeRole employeeRole, String userName) {
 		super();

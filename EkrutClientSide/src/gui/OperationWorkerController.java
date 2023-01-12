@@ -132,7 +132,6 @@ public class OperationWorkerController implements Initializable, IController {
 	@FXML
 	private TableColumn<RefillRow, String> ProductNameCol;
 
-
 	@FXML
 	private Button RefillButton;
 
@@ -184,15 +183,9 @@ public class OperationWorkerController implements Initializable, IController {
 				// the replenishment process, which getting the row to refill, update it with
 				// the current textbox value, and then delete the exeutive order from the DB
 				if (!flagChecking) {
-					RequestObjectClient getRefillRows = new RequestObjectClient("#REFILL_ROWS",
-							String.format(
-									"SELECT facilities.FacilityID, products.ProductCode" + " FROM facilities"
-											+ " INNER JOIN products" + " INNER JOIN productsinfacility"
-											+ " ON productsinfacility.FacilityID = facilities.FacilityID"
-											+ " WHERE FacilityName = '%s' AND FacilityLocation = '%s'"
-											+ " AND ProductName = '%s'" + " GROUP BY facilities.FacilityID",
-									refillRows.get(i).getFacilityName(), refillRows.get(i).getFacilityLocation(),
-									refillRows.get(i).getProductName()),
+					RequestObjectClient getRefillRows = new RequestObjectClient("#OPERATION_REFILL_ROWS",
+							String.format("'%s'#'%s'#'%s'#", refillRows.get(i).getFacilityName(),
+									refillRows.get(i).getFacilityLocation(), refillRows.get(i).getProductName()),
 							"*");
 
 					ClientUI.clientController.accept(getRefillRows);
@@ -216,19 +209,16 @@ public class OperationWorkerController implements Initializable, IController {
 		// the tableView
 		for (int i = 0; i < productCodeAndFacilityID.size(); i++) {
 			ArrayList<Integer> curr = productCodeAndFacilityID.get(i);
-			RequestObjectClient updateQuantity = new RequestObjectClient("#UPDATE_QUANTITY",
-					String.format(
-							"table=productsinfacility#condition=FacilityID=%d&ProductCode=%d#values=ProductAmount=%d",
-							curr.get(0), curr.get(1),
+			RequestObjectClient updateQuantity = new RequestObjectClient("#OPERATION_UPDATE_QUANTITY",
+					String.format("%d#%d#%d#", curr.get(0), curr.get(1),
 							Integer.parseInt(refillRows.get(indexes.get(i)).getQuantityToRefill().getText())),
 					"PUT");
 			ClientUI.clientController.accept(updateQuantity);
 		}
 		// delete the correct row after replenishment, also uses indexes ArrayList
 		for (int i = 0; i < productCodeAndFacilityID.size(); i++) {
-			RequestObjectClient deleteFromExecutiveOrder = new RequestObjectClient("#DELETE_ORDER",
-					String.format("table=executiveorders#condition=FacilityName=%s&ProductName=%s",
-							refillRows.get(indexes.get(i)).getFacilityName(),
+			RequestObjectClient deleteFromExecutiveOrder = new RequestObjectClient("#OPERATION_DELETE_ORDER",
+					String.format("%s#%s#", refillRows.get(indexes.get(i)).getFacilityName(),
 							refillRows.get(indexes.get(i)).getProductName()),
 					"DELETE");
 			ClientUI.clientController.accept(deleteFromExecutiveOrder);
@@ -274,16 +264,13 @@ public class OperationWorkerController implements Initializable, IController {
 		}
 		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
 			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"",
-							ClientUI.clientController.getUser().getUserName()),
-					"PUT");
+					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
 			ClientUI.clientController.accept(request);
 			ClientUI.clientController.getUser().setOnlineStatus("Offline");
 		}
 		System.exit(0);
 	}
 
-	
 	/**
 	 * method that triggers when the Logout button has been pressed
 	 * 
@@ -298,19 +285,17 @@ public class OperationWorkerController implements Initializable, IController {
 		}
 		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
 			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"",
-							ClientUI.clientController.getUser().getUserName()),
-					"PUT");
+					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
 			ClientUI.clientController.accept(request);
 			ClientUI.clientController.getUser().setOnlineStatus("Offline");
 		}
 		ClientUI.sceneManager.ShowSceneNew("../views/LoginClientInterface.fxml", event);
 	}
 
-	
 	/**
-	 * retrieves the query data from the server to this method, where the query result set is distributed 
-	 * between all of the cases.
+	 * retrieves the query data from the server to this method, where the query
+	 * result set is distributed between all of the cases.
+	 * 
 	 * @author David
 	 * @param data that returns from the server
 	 * 
@@ -320,9 +305,9 @@ public class OperationWorkerController implements Initializable, IController {
 		if (data instanceof ResponseObject) {
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch (serverResponse.getRequest()) {
-			//get the information from the correct case
-			//each case is a different query
-			case "GET_EXECUTIVE_ORDERS":
+			// get the information from the correct case
+			// each case is a different query
+			case "#OPERATION_GET_EXECUTIVE_ORDERS":
 				if (serverResponse.Responsedata.size() != 0) {
 					int i = 0;
 					while (i < serverResponse.Responsedata.size()) {
@@ -340,8 +325,8 @@ public class OperationWorkerController implements Initializable, IController {
 					}
 					break;
 				}
-			case "#REFILL_ROWS":
-				
+			case "#OPERATION_REFILL_ROWS":
+
 				if (serverResponse.Responsedata.size() != 0) {
 					int i = 0;
 					while (i < serverResponse.Responsedata.size()) {
@@ -359,10 +344,11 @@ public class OperationWorkerController implements Initializable, IController {
 			}
 		}
 	}
-	
+
 	/**
-	 * Initialize the controller, so that all of the initial settings will be as we wish
-	 * this method actives as the controller activates
+	 * Initialize the controller, so that all of the initial settings will be as we
+	 * wish this method actives as the controller activates
+	 * 
 	 * @author David
 	 * @param location  the location of the FXML file that loaded this controller
 	 * @param resources the resources used to load the FXML file
@@ -375,12 +361,11 @@ public class OperationWorkerController implements Initializable, IController {
 		refillRows = new ArrayList<>();
 		areaText.setText(ClientUI.clientController.getUser().getArea() + " Area");
 
-		RequestObjectClient request = new RequestObjectClient("GET_EXECUTIVE_ORDERS",
-				String.format("table=executiveorders#condition=Area=%s", ClientUI.clientController.getUser().getArea()),
-				"GET");
+		RequestObjectClient request = new RequestObjectClient("#OPERATION_GET_EXECUTIVE_ORDERS",
+				String.format("%s#", ClientUI.clientController.getUser().getArea()), "GET");
 		ClientUI.clientController.accept(request);
-		
-		//set all of the rows
+
+		// set all of the rows
 		for (RefillRow rr : refillRows) {
 			TextField QuantityInput = new TextField();
 			rr.setQuantityToRefill(QuantityInput);

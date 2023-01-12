@@ -1,5 +1,6 @@
 package gui;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -32,6 +33,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class OrderInvoiceController implements Initializable,IController {
+
+		private final String ShekelCode = new String("\u20AA".getBytes(), StandardCharsets.UTF_8);
 
 		@FXML
 		private VBox VboxLayout;
@@ -76,19 +79,24 @@ public class OrderInvoiceController implements Initializable,IController {
 	    
 	    @FXML
 	    private Text textFullPrice;
+	    
+	    @FXML
+	    private Label timerOrder;
 
 	    @FXML
 	    void ClickAcceptInvoice(ActionEvent event) {
+	    	ClientUI.clientController.getTaskCountdown().cancelTask();
 	    	ClientUI.sceneManager.ShowSceneNew("../views/OrderDetails.fxml", event);
 	    }
 
 	    @FXML
 	    void ClickBack(ActionEvent event) {
+	    	ClientUI.clientController.getTaskCountdown().cancelTask();
 	    	ClientUI.sceneManager.ShowSceneNew("../views/CatalogViewer.fxml", event);
 	    }
 	    private void updatePrice()
 	    {
-			textFullPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().getFinalPrice()) + "₪"));
+			textFullPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().getFinalPrice()) + ShekelCode));
 			btnAcceptInvoice.setText("Accept Invoice for " + textFullPrice.getText());
 	    }
 	    @FXML
@@ -101,18 +109,21 @@ public class OrderInvoiceController implements Initializable,IController {
 	    	Optional<ButtonType> result = alert.showAndWait();
 	    	if (result.get() == ButtonType.OK) 
 	    	{
+	    		ClientUI.clientController.getTaskCountdown().cancelTask();
 	    		ClientUI.sceneManager.ShowSceneNew("../views/CatalogViewer.fxml", event);	    	  
 	    	} 
 	    }
 
 	    @FXML
 	    void ClickCloseWindow(ActionEvent event) {
-
+	    	ClientUI.clientController.getTaskCountdown().cancelTask();
 	    }
 	    
 		@Override
 		public void initialize(URL location, ResourceBundle resources) 
 		{
+			ClientUI.clientController.getTaskCountdown().initialize(timerOrder);
+			
 			AnchorPane AnchorPaneAble = new AnchorPane();
 			AnchorPaneAble.getChildren().clear();
 			VboxLayout.getChildren().clear();
@@ -158,9 +169,9 @@ public class OrderInvoiceController implements Initializable,IController {
 			{
 				Text textTotalPrice,textTotalPriceNoDis, textPrice;
 				
-				textTotalPrice = new Text((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItem(Product)) + "₪"));
-				textTotalPriceNoDis = new Text((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItemNoDiscount(Product)) + "₪"));
-				textPrice = new Text((Product.getProductPrice() + "₪"));
+				textTotalPrice = new Text((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItem(Product)) + ShekelCode));
+				textTotalPriceNoDis = new Text((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItemNoDiscount(Product)) + ShekelCode));
+				textPrice = new Text((Product.getProductPrice() + ShekelCode));
 				
 				HBox ProductSection = new HBox();
 				ProductSection.setPadding(new Insets(10));
@@ -168,7 +179,6 @@ public class OrderInvoiceController implements Initializable,IController {
 				// Product Description
 				// *****************************************************
 				HBox ProductDescrition = new HBox();
-				ProductDescrition.setPrefWidth(310);
 				ProductDescrition.setMinWidth(310);
 				ImageView ProductPicture = CreateImage(Product.getPathPicture(), 100.0, 100.0, true, true, null);
 				
@@ -183,8 +193,11 @@ public class OrderInvoiceController implements Initializable,IController {
 				
 				HBox ButtonsProduct = new HBox();
 				
-				Label ProductQuntity = new Label("Qunatity");
+				Label ProductQuntity = new Label("Quantity");
 				ProductQuntity.setId("Quantity");
+				ProductQuntity.setWrapText(true);
+				ProductQuntity.setEllipsisString("");
+				ProductQuntity.setPrefWidth(50);
 				HBox.setHgrow(ProductQuntity, Priority.ALWAYS);
 				HBox.setMargin(ProductQuntity, new Insets(10,0,0,0));
 				
@@ -212,9 +225,9 @@ public class OrderInvoiceController implements Initializable,IController {
 						}
 					}
 					ClientUI.clientController.getClientOrder().UpdateItem(Product, Product.getProductAmount() - 1);
-					textTotalPriceNoDis.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItemNoDiscount(Product)) + "₪"));
-					textTotalPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItem(Product)) + "₪"));
-					textPrice.setText((Product.getProductPrice() + "₪"));
+					textTotalPriceNoDis.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItemNoDiscount(Product)) + ShekelCode));
+					textTotalPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItem(Product)) + ShekelCode));
+					textPrice.setText((Product.getProductPrice() + ShekelCode));
 					updatePrice();					
 					Amount.setText(Integer.toString(Product.getProductAmount()));
 					event.consume();				
@@ -228,7 +241,7 @@ public class OrderInvoiceController implements Initializable,IController {
 				PlusButton = new Button();
 				PlusButton.setGraphic(CreateImage("Plus.png", 15.0,15.0,true,true,Cursor.HAND));
 				PlusButton.setMnemonicParsing(false);
-				PlusButton.setEllipsisString("");
+				PlusButton.setEllipsisString("y");
 				PlusButton.setOnAction(event -> {
 					if(Product.getProductAmount() + 1 > Product.getMaxAmount())
 					{
@@ -237,9 +250,9 @@ public class OrderInvoiceController implements Initializable,IController {
 						return;
 					}
 					ClientUI.clientController.getClientOrder().UpdateItem(Product, Product.getProductAmount() + 1);
-					textTotalPriceNoDis.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItemNoDiscount(Product)) + "₪"));
-					textTotalPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItem(Product)) + "₪"));
-					textPrice.setText((Product.getProductPrice() + "₪"));
+					textTotalPriceNoDis.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItemNoDiscount(Product)) + ShekelCode));
+					textTotalPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().PriceItem(Product)) + ShekelCode));
+					textPrice.setText((Product.getProductPrice() + ShekelCode));
 					updatePrice();
 					Amount.setText(Integer.toString(Product.getProductAmount()));
 					event.consume();

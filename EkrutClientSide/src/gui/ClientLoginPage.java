@@ -1,6 +1,7 @@
 package gui;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import Entity.Employee;
@@ -12,7 +13,10 @@ import common.ResponseObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -58,9 +62,13 @@ public class ClientLoginPage implements Initializable, IController
     @FXML
     void actionLoggin(ActionEvent event) 
     {
-    	System.out.println("A "+ userNameTextField.getText());
-    	System.out.println("B "+ passwordTextField.getText());
-    	if(userNameTextField.getText().equals("")|| passwordTextField.getText().equals("") )
+    	if(userNameTextField.getText() == null || userNameTextField.getText().trim().isEmpty())
+    	{
+    		errorLabel.setText(null);
+    		errorLabel.setVisible(true);
+    		return;
+    	}
+    	if(passwordTextField.getText() == null || passwordTextField.getText().trim().isEmpty())
     	{
     		errorLabel.setText(null);
     		errorLabel.setVisible(true);
@@ -68,25 +76,43 @@ public class ClientLoginPage implements Initializable, IController
     	}
     	String userName = userNameTextField.getText();
     	String password = passwordTextField.getText();
-    	
-    	
-    	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s", userName, password),"GET");    	
-    	ClientUI.clientController.accept(request);
 
+
+    	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("%s#%s#", userName, password),"GET");    	
+    	ClientUI.clientController.accept(request);
+    	
     	if(isLogged && !alreadyLogged)
     	{
-    		
-    		request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("table=users#condition=userName=%s#values=userOnline=\"Online\"", userName),"PUT");    	
+    		request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("%s#", userName),"PUT");    	
     		ClientUI.clientController.accept(request);
     		
-    		request = new RequestObjectClient("#USER_IS_EMPLOYEE",String.format("table=Employees#condition=userName=%s", userName),"GET");
+    		request = new RequestObjectClient("#USER_IS_EMPLOYEE",String.format("%s#", userName),"GET");
     		ClientUI.clientController.accept(request);
     		if(isEmployee)
     		{
-    			String open= new String(); 
-    			open=String.format("../views/%sInterface.fxml",role);
-    			ClientUI.sceneManager.ShowSceneNew(open, event);
-    			return;
+        		Alert alert = new Alert(AlertType.CONFIRMATION);
+        		alert.setTitle("Login");
+        		alert.setHeaderText("Choose Your login destention");
+        		alert.setContentText("Choose your option.");
+
+        		ButtonType clientHompage = new ButtonType("Client Homepage");
+        		ButtonType employeeHomepage = new ButtonType("Employee Homepage");
+
+        		alert.getButtonTypes().setAll(clientHompage, employeeHomepage);
+    			Optional<ButtonType> result = alert.showAndWait();
+    			
+        		if (result.get() == clientHompage)
+        		{
+        			ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);
+        			return;
+        		} 
+        		else if (result.get() == employeeHomepage) 
+        		{
+        			String open= new String(); 
+        			open=String.format("../views/%sInterface.fxml",role);
+        			ClientUI.sceneManager.ShowSceneNew(open, event);
+        			return;
+        		}
     		}
 
     		ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);	
@@ -185,11 +211,9 @@ public class ClientLoginPage implements Initializable, IController
 						{
 							Object[] values =(Object[]) serverResponse.Responsedata.get(0);//Row 1 
 							role=(String)values[0];
-//							String userName=(String)values[1];
-							String branch=(String)values[2];
 							isEmployee=true;
 							System.out.println("Employee");
-							Employee employee = new Employee(ClientUI.clientController.getUser(),branch);
+							Employee employee = new Employee(ClientUI.clientController.getUser());
 							ClientUI.clientController.setUser(employee); 
 						}
 						else

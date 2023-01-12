@@ -2,6 +2,7 @@ package gui;
 
 
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,6 +13,7 @@ import Entity.Order;
 import Entity.Product;
 import Entity.RegisterClient;
 import client.ClientUI;
+import common.CountdownOrder;
 import common.IController;
 import common.RequestObjectClient;
 import common.ResponseObject;
@@ -27,25 +29,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class OrderDetailsController implements Initializable, IController {
-
-	ArrayList<Product> RequestedProducts = new ArrayList<>();
-	Integer orderCode;
+	
+	private boolean isFirstPurchase = false;
+	private Integer orderCode;
+	private String estimatedDelivery;
     @FXML
-    private Button CloseButton;
-
-    @FXML
-    private Button CloseButton3;
-
-    @FXML
-    private Button CloseButton2;
+    private Button CloseButton, CloseButton3, CloseButton2;
 
     @FXML
     private Button btnCancelInvoice, btnAcceptInvoice, btnPayLater;
@@ -72,16 +72,37 @@ public class OrderDetailsController implements Initializable, IController {
     private Button btnBack;
     
     @FXML
-    private TextField textFieldLocation;
+    private TextField textFieldLocation, CVCtextField;
     
     @FXML
-    void ClickCloseWindow(ActionEvent event) {
+    private ComboBox<String> ComboBoxMonth;
+
+    @FXML
+    private ComboBox<String> ComboBoxYear;
+    
+    @FXML
+    private Label timerOrder;
+    
+    @FXML
+    private Label labelError, labelErrorCVC, labelErrorDate;
+    
+    @FXML
+    private Label estimatedTime;  
+
+    @FXML
+    private Text creditcardNumber;
+
+    @FXML
+    void ClickCloseWindow(ActionEvent event) 
+    {
+    	ClientUI.clientController.getTaskCountdown().cancelTask();
     	ClientUI.clientController.UserDissconnected();
     	System.exit(0);
     }
     
     @FXML
     void ClickBack(ActionEvent event) {
+    	ClientUI.clientController.getTaskCountdown().cancelTask();
     	ClientUI.sceneManager.ShowSceneNew("../views/OrderInvoice.fxml",event);
     }
 
@@ -94,6 +115,7 @@ public class OrderDetailsController implements Initializable, IController {
     	Optional<ButtonType> result = alert.showAndWait();
     	if (result.get() == ButtonType.OK) 
     	{
+    		ClientUI.clientController.getTaskCountdown().cancelTask();
           	ClientUI.clientController.getClientOrder().myCart.clear();
           	ClientUI.clientController.setClientOrder(new Order(null,null,null));
     		ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);	    	  
@@ -102,11 +124,14 @@ public class OrderDetailsController implements Initializable, IController {
 
     @FXML
     void CloseWindow(ActionEvent event) {
-
+    	ClientUI.clientController.getTaskCountdown().cancelTask();
     }
     
     void PayAction(ActionEvent event, boolean buynow)
     {
+    	if(!isDataFilled())
+    		return;
+    	
 		Task<Void> task = new Task<Void>() 
 		{
 			  @Override
@@ -117,62 +142,70 @@ public class OrderDetailsController implements Initializable, IController {
 
 			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
 			    	{
-			    		for(Product facilityProduct : ClientUI.clientController.getArrProducts())
-			    		{
-			    			if(myProduct.equals(facilityProduct))
-			    			{
-			    				if(myProduct.getProductAmount() > facilityProduct.getMaxAmount())
-			    				{
-			    					System.out.println("Well you got fucked no enough for ya");
-			    					return null;
-			    				}
-			    			}
-			    		}
-			    	}
-			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
-			    	{
 			    		int IndexOfProductfacility = ClientUI.clientController.getArrProducts().indexOf(myProduct);
 			    		int CurrentAmount = ClientUI.clientController.getArrProducts().get(IndexOfProductfacility).getMaxAmount() - myProduct.getProductAmount();
 			    		
-			    		request = new RequestObjectClient("#REMOVE_ITEMS_FACILITY",String.format("table=productsinfacility#condition=FacilityID=%d&ProductCode=%d#values=ProductAmount=%d", 
+			    		request = new RequestObjectClient("#REMOVE_ITEMS_FACILITY",String.format("%d#%d#%d#", 
 			    				myFacility, 
-			    				myProduct.getProductCode(),CurrentAmount),"PUT");  
+			    				myProduct.getProductCode(),
+			    				CurrentAmount),"PUT");  
 			    		ClientUI.clientController.accept(request);
 			    	}
-
-			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("table=orders#values=finalPrice=%.2f&isInvoiceConfirmed=1&FacilityID=%d&userName=%s&orderdate=%s", 
-			    			ClientUI.clientController.getClientOrder().getFinalPrice(), 
+		    		request = new RequestObjectClient("#UPDATE_AREAMANAGER#SEND_NOT_ME","","*");
+			    	ClientUI.clientController.accept(request);
+		    		
+			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("%.2f#%d#%s#%s#", 
+			    			isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice(), 
 			    			ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID(), 
 			    			ClientUI.clientController.getUser().getUserName(),
 			    			OrderDate.getText()),"POST");  
 			    	ClientUI.clientController.accept(request);
 			    	
-			    	request = new RequestObjectClient("#GET_ORDER_NUMBER",String.format("SELECT orders.orderCode FROM orders WHERE userName = \"%s\" AND orderCode = (SELECT MAX(orderCode) FROM orders);", 
+			    	request = new RequestObjectClient("#GET_ORDER_NUMBER",String.format("\"%s\"#", 
 			    			ClientUI.clientController.getUser().getUserName()),"*");  
 			    	ClientUI.clientController.accept(request);
-//			    	
 
 			    	if(!ClientUI.clientController.getClientOrder().getOrderType().equals("Instant Pickup"))
-			    	{
-			    		request = new RequestObjectClient("#CREATE_NEW_VIRTUALORDER",String.format("table=virtualorders#values=orderCode=%d&HasDelivery=%d&DeliveryLocation=%s&DeliveryStatus=SentToProvider&customerApproval=0&estimatedDateAndTime=0&HasPickup=%d", 
+			    	{	
+			    		request = new RequestObjectClient("#CREATE_NEW_VIRTUALORDER",String.format("%d#%d#%s#%s#%d#", 
 			    				orderCode, 
 			    				(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery") ? 1 : 0), 
 			    				(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery") ? textFieldLocation.getText() : "None"),
-			    				(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery") ? 0 : 1)),"POST"); 
+			    				estimatedTime.getText(),
+			    				(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery") ? 0 : 1)),
+			    				"POST"); 
 			    		ClientUI.clientController.accept(request);
 			    	}
 			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
 			    	{
-			        	request = new RequestObjectClient("#ADD_ITEMS_TO_ORDER",String.format("table=productsinorder#values=orderCode=%d&ProductCode=%d&FacilityID=%d&ProductAmount=%d&ProductFinalPrice=%.2f", 
-			        			orderCode, 
-			        			myProduct.getProductCode(), 
-			        			myFacility, 
-			        			myProduct.getProductAmount(), 
-			        			ClientUI.clientController.getClientOrder().PriceItem(myProduct)),"POST");  
-			        	ClientUI.clientController.accept(request);
+			    		request = new RequestObjectClient("#ADD_ITEMS_TO_ORDER",String.format("%d#%d#%d#%d#%.2f#", 
+			    				orderCode, 
+			    				myProduct.getProductCode(), 
+			    				myFacility, 
+			    				myProduct.getProductAmount(), 
+			    				ClientUI.clientController.getClientOrder().PriceItem(myProduct)),"POST");  
+			    		ClientUI.clientController.accept(request);
 			    	}
-		        	String sql = "SELECT productsinfacility.FacilityID,productsinfacility.ProductCode, productsinfacility.ProductAmount FROM products LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode WHERE productsinfacility.FacilityID = " + myFacility + " ORDER BY products.ProductCode";
-		        	request = new RequestObjectClient("#UPDATE_PRODUCTS_CLIENT",sql,"*");  
+			    	
+			    	if(buynow)
+			    	{
+			    		request = new RequestObjectClient("#CREATE_NEW_DELYEDPAYMENT",String.format("%d#%s#", 
+			    				orderCode,
+			    				OrderDate.getText()),
+			    				"POST"); 
+			    		ClientUI.clientController.accept(request);
+			    		
+			    		if(isFirstPurchase)
+			    		{
+			    			request = new RequestObjectClient("#UPDATE_FIRST_PURCHASE",String.format("%s#%b#", 
+			    					ClientUI.clientController.getUser().getUserName(),
+			    					false),"PUT");
+			    			ClientUI.clientController.accept(request);
+			    			
+			    			((RegisterClient)ClientUI.clientController.getUser()).setClientFirstPurchase(false);
+			    		}
+			    	}
+		        	request = new RequestObjectClient("#UPDATE_PRODUCTS_CLIENT",String.format("%d#", myFacility),"*");  
 		        	ClientUI.clientController.accept(request);
 			    return null;
 			  }
@@ -195,11 +228,11 @@ public class OrderDetailsController implements Initializable, IController {
           	if(ClientUI.clientController.getClientOrder().getOrderType().equals("PickUp"))
               	alert.setHeaderText(String.format("Your order code is %d", orderCode));
           	RegisterClient clientUser = (RegisterClient) ClientUI.clientController.getUser();
-          	String payment = String.format("Your paied %.2f shekels with credit card %s", ClientUI.clientController.getClientOrder().getFinalPrice()
+          	String payment = String.format("Your paied %.2f shekels with credit card %s", isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice()
           			, clientUser.getClientCardNumber().substring((clientUser.getClientCardNumber()).length()-4));
           	if(buynow)
           	{
-          		payment = String.format("Your'e account was fined with %.2f", ClientUI.clientController.getClientOrder().getFinalPrice());
+          		payment = String.format("Your'e account was fined with %.2f", isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice());
           	}
           	alert.setContentText(payment);
 
@@ -223,23 +256,74 @@ public class OrderDetailsController implements Initializable, IController {
     }
     @FXML
     void PayNowAction(ActionEvent event) {
+    	ClientUI.clientController.getTaskCountdown().cancelTask();
     	PayAction(event,false);
     }
 	
 	@FXML 
 	void PayLaterAction(ActionEvent event)
 	{
+		ClientUI.clientController.getTaskCountdown().cancelTask();
 		PayAction(event,true);
 	}
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
+		labelErrorDate.setVisible(false);
+		labelErrorCVC.setVisible(false);
+		labelError.setVisible(false);
+		
+		Calendar CalenderTime = Calendar.getInstance();
+		SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String timeStamp = simpleFormat.format(CalenderTime.getTime());
+		try 
+		{
+			CalenderTime.setTime(simpleFormat.parse(timeStamp));
+			CalenderTime.add(Calendar.DATE, 7);
+		} 
+		catch (ParseException e) 
+		{
+			e.printStackTrace();
+		}
+		String[] arrTime = timeStamp.split("/");
+		
+		ComboBoxMonth.getItems().addAll("01","02","03","04","05","06","07","08","09","10","11","12");
+		
+		String Year = arrTime[2];
+		for(int i = 0; i < 10; i++)
+		{
+			ComboBoxYear.getItems().add((Integer.valueOf(Year) + i) + "");
+		}
+		CVCtextField.textProperty().addListener((obv, oldValue, newValue) -> 
+		{
+			if(newValue.length() > 3)
+			{
+				CVCtextField.setText("000");
+				Alert alert = new Alert(AlertType.ERROR, "CVC must be 3 integers only");
+				alert.showAndWait();
+				return;
+			}
+			if(!newValue.matches("^(?:[0-9]|\\d\\d\\d*)$"))
+			{
+				CVCtextField.setText("000");
+				Alert alert = new Alert(AlertType.ERROR, "CVC must be 3 integers only");
+				alert.showAndWait();
+				return;
+			}
+		});
+		estimatedDelivery = simpleFormat.format(CalenderTime.getTime());
+		estimatedTime.setText(estimatedDelivery);
+		
+		ClientUI.clientController.getTaskCountdown().initialize(timerOrder);
+		
 		ProductName.setCellValueFactory(new PropertyValueFactory<ProudctTable, String>("ProductName"));
 		ProductAmount.setCellValueFactory(new PropertyValueFactory<ProudctTable, Integer>("ProductAmount"));
 		ProductPrice.setCellValueFactory(new PropertyValueFactory<ProudctTable, String>("ProductPrice"));
 		
 		Integer TotalAmount = 0;
 		ObservableList<ProudctTable> colums = FXCollections.observableArrayList();
+		
 		for(Product tempProduct : ClientUI.clientController.getClientOrder().myCart)
 		{
 			TotalAmount += tempProduct.getProductAmount();
@@ -248,22 +332,42 @@ public class OrderDetailsController implements Initializable, IController {
 			colums.add(tempRow);
 			ProductsTable.getItems().add(tempRow);
 		}
+		if(((RegisterClient)ClientUI.clientController.getUser()).getClientStatus() == RegisterClient.ClientStatus.CLIENT_SUBSCRIBER)
+		{
+			if(((RegisterClient)ClientUI.clientController.getUser()).getClientFirstPurchase())
+			{		
+				isFirstPurchase = true;
+				ProudctTable firstPurchaseRow = new ProudctTable("First Purchase Discount", 1, "20.0%");
+				ProductsTable.getItems().add(firstPurchaseRow);
+			}
+		}
 		if(TotalAmount > 0)
 		{
 			ProudctTable tempRow = new ProudctTable("Total Products", TotalAmount, null);
-			tempRow.setProductPrice( ClientUI.clientController.getClientOrder().getFinalPrice());			
+			tempRow.setProductPrice( isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice());			
 			ProductsTable.getItems().add(tempRow);
 		}
-		//ProductsTable.setItems(colums);
+		
 		ProductsTable.refresh();
-		// TODO Auto-generated method stub
 		DeliveryOption.setVisible(false);
-		String timeStamp = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
 		OrderDate.setText(timeStamp);
 		
 		OrderType.setText(ClientUI.clientController.getClientOrder().getOrderType());
-		OrderTotalPrice.setText((String.format("%.2f",ClientUI.clientController.getClientOrder().getFinalPrice()) + "₪"));
+		OrderTotalPrice.setText((String.format("%.2f",isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice()) + "₪"));
 		RegisterClient clientUser = (RegisterClient) ClientUI.clientController.getUser();
+		if(clientUser.getClientCardNumber() != null)
+		{
+			StringBuilder cardNumber = new StringBuilder();
+			for(int i = 1; i < clientUser.getClientCardNumber().length(); i++)
+			{
+				cardNumber.append(clientUser.getClientCardNumber().charAt(i-1));
+				if(i % 4 == 0)
+				{
+					cardNumber.append('-');
+				}
+			}
+			creditcardNumber.setText(cardNumber.toString());
+		}
 		if(clientUser.getClientStatus().equals(RegisterClient.ClientStatus.CLIENT_APRROVED))
 		{
 			btnPayLater.setDisable(true);
@@ -276,7 +380,6 @@ public class OrderDetailsController implements Initializable, IController {
 	@Override
 	public void updatedata(Object data) 
 	{
-		System.out.println("Currently in OrderDeatilsUpdate");
 		if(data instanceof ResponseObject)
 		{
 			ResponseObject serverResponse = (ResponseObject) data;
@@ -306,7 +409,6 @@ public class OrderDetailsController implements Initializable, IController {
 				}
 				case "#GET_ORDER_NUMBER":
 				{
-					System.out.println("Hello");
 					Object[] values =(Object[]) serverResponse.Responsedata.get(0);
 					orderCode = (Integer) values[0];
 					System.out.println(orderCode);
@@ -315,6 +417,11 @@ public class OrderDetailsController implements Initializable, IController {
 			}
 		}
 	}
+	/**
+	 * Private Methods.
+	 * 
+	 * 
+	 * */
 	public class ProudctTable
 	{
 		private String ProductName;
@@ -347,5 +454,51 @@ public class OrderDetailsController implements Initializable, IController {
 		}
 		
 	}
+	
+    private boolean isDataFilled()
+    {
+    	if(ComboBoxMonth.getValue() == null || ComboBoxYear.getValue() == null)
+    	{
+    		labelErrorDate.setVisible(true);
+    		labelErrorCVC.setVisible(false);
+    		labelError.setVisible(false);
+    		labelErrorDate.setText("Please fill the valid values.");
+    		return false;
+    	}
+    	if(CVCtextField.getText() == null || CVCtextField.getText().trim().isEmpty())
+    	{
+    		labelErrorDate.setVisible(false);
+    		labelErrorCVC.setVisible(true);
+    		labelError.setVisible(false);
+    		labelErrorCVC.setText("Please fill the CVC.");
+    		return false;
+    	}
+    	if(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery"))
+    	{		
+    		if(textFieldLocation.getText() == null || textFieldLocation.getText().trim().isEmpty())
+    		{
+    			labelErrorDate.setVisible(false);
+    			labelErrorCVC.setVisible(false);
+    			labelError.setVisible(true);
+    			labelError.setText("Please fill the Delivery Location.");
+    			return false;
+    		}
+    	}
+    	
+    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
+    	{
+    		for(Product facilityProduct : ClientUI.clientController.getArrProducts())
+    		{
+    			if(myProduct.equals(facilityProduct))
+    			{
+    				if(myProduct.getProductAmount() > facilityProduct.getMaxAmount())
+    				{
+    					return false;
+    				}
+    			}
+    		}
+    	}
+    	return true;
+    }
 
 }

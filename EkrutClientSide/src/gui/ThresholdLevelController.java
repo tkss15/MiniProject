@@ -105,11 +105,11 @@ public class ThresholdLevelController implements Initializable, IController {
 		}
 		// update the threshold level in the facilities table
 		int thresholdValueField = Integer.parseInt(SetThresholdTextField.getText());
-		RequestObjectClient updateFacility = new RequestObjectClient("#UPDATE_FACILITY",
-				String.format("table=facilities#condition=FacilityID=%s#values=FacilityThreshholdLevel=%s", ID,
-						thresholdValueField),
-				"PUT");
+		RequestObjectClient updateFacility = new RequestObjectClient("#THRESHOLD_UPDATE_FACILITY",
+				String.format("%s#%s#", ID, thresholdValueField), "PUT");
+
 		ClientUI.clientController.accept(updateFacility);
+
 		successMessageText.setVisible(true);
 		successMessageText.setText("Facility Threshold Updated!");
 		// update the faciliy threshold text
@@ -246,10 +246,9 @@ public class ThresholdLevelController implements Initializable, IController {
 		}
 		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
 			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"",
-							ClientUI.clientController.getUser().getUserName()),
-					"PUT");
+					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
 			ClientUI.clientController.accept(request);
+			
 			ClientUI.clientController.getUser().setOnlineStatus("Offline");
 		}
 		System.exit(0);
@@ -268,7 +267,7 @@ public class ThresholdLevelController implements Initializable, IController {
 		if (data instanceof ResponseObject) {
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch (serverResponse.getRequest()) {
-			case "#GET_FACILITY":
+			case "#THRESHOLD_GET_FACILITY":
 				Facilities = new ArrayList<>();
 				if (serverResponse.Responsedata.size() != 0) {
 					exists = true;
@@ -285,7 +284,7 @@ public class ThresholdLevelController implements Initializable, IController {
 					}
 				}
 				break;
-			case "#UPDATE_FACILITY":
+			case "#THRESHOLD_UPDATE_FACILITY":
 				break;
 
 			}
@@ -293,8 +292,8 @@ public class ThresholdLevelController implements Initializable, IController {
 	}
 
 	/**
-	 * Initialize the controller, so that all of the initial settings will be as we wish. 
-	 * This method actives as the controller activates
+	 * Initialize the controller, so that all of the initial settings will be as we
+	 * wish. This method actives as the controller activates
 	 * 
 	 * @author David
 	 * @param location  the location of the FXML file that loaded this controller
@@ -311,15 +310,16 @@ public class ThresholdLevelController implements Initializable, IController {
 		Facilities = new ArrayList<>();
 		userAreaName = ClientUI.clientController.getUser().getArea();
 		facilityNameText.setText(String.format("%s Area", userAreaName));
-		if (userAreaName.equals("All")) { //this part is implemented so it will be easier to continue to the second
-										  //phase, it is not neccessary yet.
+		if (userAreaName.equals("All")) { // this part is implemented so it will be easier to continue to the second
+											// phase, it is not neccessary yet.
 			facilityNameText.setText("All Areas");
 			RequestObjectClient getFacilities = new RequestObjectClient("#GET_FACILITY",
-					String.format("table=facilities", userAreaName), "GET");
+					String.format("table=facilities", userAreaName), "GET");//unused
 			ClientUI.clientController.accept(getFacilities);
-		} else {//in our implementation, the else statement will be activated, but the if statement is implemented well
-			RequestObjectClient getFacilities = new RequestObjectClient("#GET_FACILITY",
-					String.format("table=facilities#condition=FacilityArea=%s", userAreaName), "GET");
+		} else {// in our implementation, the else statement will be activated, but the if
+				// statement is implemented well
+			RequestObjectClient getFacilities = new RequestObjectClient("#THRESHOLD_GET_FACILITY",
+					String.format("%s#", userAreaName), "GET");
 			ClientUI.clientController.accept(getFacilities);
 		}
 
@@ -327,9 +327,9 @@ public class ThresholdLevelController implements Initializable, IController {
 		arrayLocation = new ArrayList<>();
 		arrayName = new ArrayList<>();
 
-		//System.out.println(Facilities);// check the facilities
-		
-		//set the combo boxes
+		// System.out.println(Facilities);// check the facilities
+
+		// set the combo boxes
 		for (int i = 0; i < Facilities.size(); i++) {
 			Facility currFac = Facilities.get(i);
 			arrayId.add(String.valueOf(currFac.getFacilityID()));

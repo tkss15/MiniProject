@@ -146,7 +146,7 @@ public class EKrutInstallController implements Initializable,IController {
     				fos.write(byteOutput);
     				fos.close();
     				
-    				RequestObjectClient request = new RequestObjectClient("#FACILITY_EKUPDATE",String.format("table=facilities#condition=FacilityID=%s#values=FacilityEK=\"1\"", ClientUI.clientController.getEKFacility().getFacilityID()),"PUT");    	
+    				RequestObjectClient request = new RequestObjectClient("#FACILITY_EKUPDATE",String.format("%s#", ClientUI.clientController.getEKFacility().getFacilityID()),"PUT");    	
     				ClientUI.clientController.accept(request);
     			}
     		} catch (IOException e) {

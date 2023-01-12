@@ -11,9 +11,11 @@ import Entity.Product;
 import Entity.RegisterClient;
 import Entity.User;
 import common.ChatIF;
+import common.CountdownOrder;
 import common.IController;
 import common.RequestObjectClient;
 import common.SceneManager;
+import javafx.concurrent.Task;
 
 public class ClientConsole implements ChatIF 
 {
@@ -23,56 +25,16 @@ public class ClientConsole implements ChatIF
 	private User clientUser = new User(null, null);
 	private Order clientOrder = new Order(null,null,null);
 	private Facility EKFacility = new Facility(null, null, null, null, null, null);
-	
+	private CountdownOrder taskCountdown = new CountdownOrder();
+	private Integer managerOrderdeatils;
+
 	private String ApplicationType = null;
-	private HashMap<String,String> mapMonths = new HashMap<>();
-	
-//	private ArrayList<Facility> FacilitiesFor_TypesReportController_AND_monthlyReports = new ArrayList<>();
-//	
-//	public void setFacilites(ArrayList<Facility> arr) {
-//		FacilitiesFor_TypesReportController_AND_monthlyReports = arr;
-//	}
-//	public ArrayList<Facility> getFacilities(){
-//		return FacilitiesFor_TypesReportController_AND_monthlyReports;
-//	}
-//	
-	public void setHashMapMonths(HashMap<String,String> map) {
-		mapMonths = map;
-	}
-	public HashMap<String,String> getHashMapMonths() {
-		return mapMonths;
-	}
-	
-	ArrayList<String> monthlyReportParameters = new ArrayList<>(3);
-	//Report year = index 0;
-	//Report month = index 1;
-	//Report type = index 2;
-	
-	public void setReportYear(String year) {
-		monthlyReportParameters.add(0, year);
-	}
-	public void setReportMonth(String month) {
-		monthlyReportParameters.add(1, month);
-	}
-	public void setReportType(String type) {
-		monthlyReportParameters.add(2, type);
-	}
-	
-	public String getReportYear() {
-		return monthlyReportParameters.get(0);
-	}
-	
-	public String getReportMonth() {
-		return monthlyReportParameters.get(1);
-	}
-	
-	public String getReportType() {
-		return monthlyReportParameters.get(2);
-	}
-	
-	
 	
 	public final String ApplicationConfig = "EkrutApplication/";
+	
+	private HashMap<String,String> mapMonths = new HashMap<>();
+	
+	private ArrayList<String> monthlyReportParameters = new ArrayList<>(3);
 	public ArrayList<Facility> arrFacility = new ArrayList<>();
 	private ArrayList<Product> arrProducts = new ArrayList<>();
 	
@@ -99,19 +61,24 @@ public class ClientConsole implements ChatIF
 	}
 	public void UserDissconnected()
 	{
-		if(this.clientUser.getOnlineStatus() == null)
+		if(this.clientUser.getOnlineStatus() != null && this.clientUser.getOnlineStatus().equals("Online"))
 		{
-			System.out.println("Not updated");
-		}
-		if(this.clientUser.getOnlineStatus().equals("Online"))
-		{
-	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"", this.clientUser.getUserName()),"PUT");    
+	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("%s#", this.clientUser.getUserName()),"PUT");    
 	    	accept(request);
 	    	this.clientUser.setOnlineStatus("Offline");
 		}
 	}
+	public void UserDissconnected(boolean forceExit)
+	{
+		if(this.clientUser.getOnlineStatus() != null && this.clientUser.getOnlineStatus().equals("Online"))
+		{
+	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("%s#", this.clientUser.getUserName()),"PUT");    
+	    	accept(request);
+	    	this.clientUser.setOnlineStatus("Offline");
+	    	System.exit(0);
+		}
+	}
 	public void setController(IController currentController) {
-		System.out.println("Changed Controller");
 		this.currentController = currentController;
 	}
 	/***
@@ -131,6 +98,18 @@ public class ClientConsole implements ChatIF
 	 * 
 	 * 
 	 */
+	public void setHashMapMonths(HashMap<String,String> map) {
+		mapMonths = map;
+	}
+	public HashMap<String,String> getHashMapMonths() {
+		return mapMonths;
+	}
+	public CountdownOrder getTaskCountdown() {
+		return taskCountdown;
+	}
+	public void setTaskCountdown(CountdownOrder taskCountdown) {
+		this.taskCountdown = taskCountdown;
+	}
 	public Facility getEKFacility() {
 		return EKFacility;
 	}
@@ -153,16 +132,18 @@ public class ClientConsole implements ChatIF
 	{
 		return clientUser;
 	}
+	public Integer getManagerOrderdeatils() {
+		return managerOrderdeatils;
+	}
+	public void setManagerOrderdeatils(Integer managerOrderdeatils) {
+		this.managerOrderdeatils = managerOrderdeatils;
+	}
 	public void setUser(User user)
 	{
 		if(user instanceof Employee) {
 			Employee employee = (Employee)user;
-			clientUser = new Employee(employee,employee.getBranch());
+			clientUser = new Employee(employee);
 		}
-//		else if(user instanceof RegisterClient) {
-//			RegisterClient client = (RegisterClient)user;
-//			clientUser = new RegisterClient(employee,employee.getBranch());
-//		}
 		else clientUser = user; 
 	}
 	public ArrayList<Facility> getArrFacility() {
@@ -177,15 +158,33 @@ public class ClientConsole implements ChatIF
 	public void setArrProducts(ArrayList<Product> arrProducts) {
 		this.arrProducts = arrProducts;
 	}
+	public void setReportYear(String year) 
+	{
+		monthlyReportParameters.add(0, year);
+	}
+	public void setReportMonth(String month) 
+	{
+		monthlyReportParameters.add(1, month);
+	}
+	public void setReportType(String type) 
+	{
+		monthlyReportParameters.add(2, type);
+	}
+	public String getReportYear() {
+		return monthlyReportParameters.get(0);
+	}
+	
+	public String getReportMonth() {
+		return monthlyReportParameters.get(1);
+	}
+	
+	public String getReportType() {
+		return monthlyReportParameters.get(2);
+	}
 	@Override
 	public void display(Object message) 
 	{
 		currentController.updatedata(message);
-	}
-
-	@Override
-	public void setButtons(boolean isConnected) {
-		//clientInterface.setPanesAfterSearch(isConnected);
 	}
 
 }
