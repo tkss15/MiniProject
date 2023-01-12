@@ -1,8 +1,5 @@
 package gui;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,15 +7,9 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import Entity.Facility;
-import Entity.PriceStartegyCustom;
-import Entity.PriceStartegyOnePlusOne;
-import Entity.PriceStartegySecondHalfPrice;
-import Entity.Product;
 import client.ClientUI;
 import common.CountdownOrder;
 import common.IController;
-import common.RequestObjectClient;
-import common.ResponseObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,7 +25,6 @@ import javafx.scene.image.ImageView;
 public class OrderSettingsController implements Initializable, IController {
 
 	ToggleGroup tg = new ToggleGroup();
-	private HashMap<Integer,String> SalesMap = new HashMap<>();
 	ArrayList<Facility> arrFacility = new ArrayList<>();
 	ObservableList<Facility> list;
 	

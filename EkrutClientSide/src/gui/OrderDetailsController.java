@@ -41,7 +41,6 @@ import javafx.scene.text.Text;
 public class OrderDetailsController implements Initializable, IController {
 	
 	private boolean isFirstPurchase = false;
-	private ArrayList<Product> RequestedProducts = new ArrayList<>();
 	private Integer orderCode;
 	private String estimatedDelivery;
     @FXML
@@ -145,26 +144,27 @@ public class OrderDetailsController implements Initializable, IController {
 			    		int IndexOfProductfacility = ClientUI.clientController.getArrProducts().indexOf(myProduct);
 			    		int CurrentAmount = ClientUI.clientController.getArrProducts().get(IndexOfProductfacility).getMaxAmount() - myProduct.getProductAmount();
 			    		
-			    		request = new RequestObjectClient("#REMOVE_ITEMS_FACILITY",String.format("table=productsinfacility#condition=FacilityID=%d&ProductCode=%d#values=ProductAmount=%d", 
+			    		request = new RequestObjectClient("#REMOVE_ITEMS_FACILITY",String.format("%d#%d#%d#", 
 			    				myFacility, 
-			    				myProduct.getProductCode(),CurrentAmount),"PUT");  
+			    				myProduct.getProductCode(),
+			    				CurrentAmount),"PUT");  
 			    		ClientUI.clientController.accept(request);
 			    	}
 		    		
-			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("table=orders#values=finalPrice=%.2f&isInvoiceConfirmed=1&FacilityID=%d&userName=%s&orderdate=%s", 
+			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("%.2f#%d#%s#%s#", 
 			    			isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice(), 
 			    			ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID(), 
 			    			ClientUI.clientController.getUser().getUserName(),
 			    			OrderDate.getText()),"POST");  
 			    	ClientUI.clientController.accept(request);
 			    	
-			    	request = new RequestObjectClient("#GET_ORDER_NUMBER",String.format("SELECT orders.orderCode FROM orders WHERE userName = \"%s\" AND orderCode = (SELECT MAX(orderCode) FROM orders);", 
+			    	request = new RequestObjectClient("#GET_ORDER_NUMBER",String.format("\"%s\"#", 
 			    			ClientUI.clientController.getUser().getUserName()),"*");  
 			    	ClientUI.clientController.accept(request);
 
 			    	if(!ClientUI.clientController.getClientOrder().getOrderType().equals("Instant Pickup"))
 			    	{	
-			    		request = new RequestObjectClient("#CREATE_NEW_VIRTUALORDER",String.format("table=virtualorders#values=orderCode=%d&HasDelivery=%d&DeliveryLocation=%s&DeliveryStatus=SentToProvider&customerApproval=0&estimatedDateAndTime=%s&HasPickup=%d", 
+			    		request = new RequestObjectClient("#CREATE_NEW_VIRTUALORDER",String.format("%d#%d#%s#%s#%d#", 
 			    				orderCode, 
 			    				(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery") ? 1 : 0), 
 			    				(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery") ? textFieldLocation.getText() : "None"),
@@ -176,7 +176,7 @@ public class OrderDetailsController implements Initializable, IController {
 			    	
 			    	if(buynow)
 			    	{
-			    		request = new RequestObjectClient("#CREATE_NEW_DELYEDPAYMENT",String.format("table=delayedpayments#values=orderCode=%d&orderDate=%s", 
+			    		request = new RequestObjectClient("#CREATE_NEW_DELYEDPAYMENT",String.format("%d#%s#", 
 			    				orderCode,
 			    				OrderDate.getText()),
 			    				"POST"); 
@@ -184,7 +184,7 @@ public class OrderDetailsController implements Initializable, IController {
 			    		
 			    		if(isFirstPurchase)
 			    		{
-			    			request = new RequestObjectClient("#UPDATE_FIRST_PURCHASE",String.format("table=registerclients#condition=userName=%s#values=firstPurchase=%b", 
+			    			request = new RequestObjectClient("#UPDATE_FIRST_PURCHASE",String.format("%s#%b#", 
 			    					ClientUI.clientController.getUser().getUserName(),
 			    					false),"PUT");
 			    			ClientUI.clientController.accept(request);
@@ -194,7 +194,7 @@ public class OrderDetailsController implements Initializable, IController {
 			    	}
 			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
 			    	{
-			        	request = new RequestObjectClient("#ADD_ITEMS_TO_ORDER",String.format("table=productsinorder#values=orderCode=%d&ProductCode=%d&FacilityID=%d&ProductAmount=%d&ProductFinalPrice=%.2f", 
+			        	request = new RequestObjectClient("#ADD_ITEMS_TO_ORDER",String.format("%d#%d#%d#%d#%.2f#", 
 			        			orderCode, 
 			        			myProduct.getProductCode(), 
 			        			myFacility, 
@@ -202,8 +202,7 @@ public class OrderDetailsController implements Initializable, IController {
 			        			ClientUI.clientController.getClientOrder().PriceItem(myProduct)),"POST");  
 			        	ClientUI.clientController.accept(request);
 			    	}
-		        	String sql = "SELECT productsinfacility.FacilityID,productsinfacility.ProductCode, productsinfacility.ProductAmount FROM products LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode WHERE productsinfacility.FacilityID = " + myFacility + " ORDER BY products.ProductCode";
-		        	request = new RequestObjectClient("#UPDATE_PRODUCTS_CLIENT#SEND_NOT_ME",sql,"*");  
+		        	request = new RequestObjectClient("#UPDATE_PRODUCTS_CLIENT",String.format("%d#", myFacility),"*");  
 		        	ClientUI.clientController.accept(request);
 			    return null;
 			  }

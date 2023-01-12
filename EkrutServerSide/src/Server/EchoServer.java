@@ -2,6 +2,8 @@ package Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.twilio.Twilio;
 
@@ -10,6 +12,7 @@ import common.ClientConnection;
 import common.RequestObjectClient;
 import common.ResponseObject;
 import database.DBConnect;
+import database.DistributedLock;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 
@@ -18,7 +21,8 @@ public class EchoServer extends AbstractServer
 	ChatIF serverUI;
 	DBConnect mySqlConnection;
 	private ArrayList<String> serverConfing;
-	
+    private DistributedLock lock;
+	private Map<String,String> SqlQuerys = new HashMap<>();
 	public EchoServer(int port) 
 	{
 		super(port);
@@ -28,6 +32,7 @@ public class EchoServer extends AbstractServer
 	{
 		this(port);
 		this.serverUI = serverUI;
+		
 	}
 
 	boolean isServerClosed;
@@ -53,7 +58,7 @@ public class EchoServer extends AbstractServer
 		if(message instanceof ArrayList)
 		{
 			serverConfing = (ArrayList<String>)message;
-			serverUI.display("DASDASDAS" + serverConfing.size());
+			
 			if(serverConfing.size() == 7)
 			{
 				try 
@@ -67,6 +72,9 @@ public class EchoServer extends AbstractServer
 					serverUI.display(error.getMessage());
 				}
 			}
+			
+			InitiliazeQuerys();
+			
 			mySqlConnection = new DBConnect(serverUI, serverConfing);
 			mySqlConnection.connectToDB();
 		}
@@ -112,6 +120,85 @@ public class EchoServer extends AbstractServer
 	//#SEND_SMS
 	//#SEND_EMAIL
 	
+	/*
+	 * 
+SELECT c.userName, c.telephone 
+FROM users as s, users as c 
+INNER JOIN employees ON c.userName = employees.userName
+WHERE employees.Employeerole = "AreaManager" AND s.userName ="delop2" AND c.Area = s.Area
+	 * */
+	
+	private void InitiliazeQuerys()
+	{
+		SqlQuerys.put("#FIRST_INSTALL", "table=facilities");
+		SqlQuerys.put("#USER_LOGOUT", "table=users#condition=userName=@#values=userOnline=\"Offline\"");
+		
+		/*ClientLoginPage*/
+		SqlQuerys.put("#USER_LOGIN_DATA", "table=users#condition=userName=@&userPassword=@");
+		SqlQuerys.put("#USER_UPDATELOGIN", "table=users#condition=userName=@#values=userOnline=\"Online\"");
+		SqlQuerys.put("#USER_IS_EMPLOYEE", "table=Employees#condition=userName=@");
+
+		/*EKrutInstallController*/
+		SqlQuerys.put("#FACILITY_EKUPDATE", "table=facilities#condition=FacilityID=@#values=FacilityEK=\"1\"");
+		
+		/*HomepageController*/
+		SqlQuerys.put("#USER_UPDATE_STATUS", "table=users#condition=userName=@#values=userOnline=\"Offline\"");
+		SqlQuerys.put("#CHECK_CLIENT_STATUS", "table=registerclients#condition=userName=@");
+		SqlQuerys.put("#SIMPLE_REQUEST", 
+				"SELECT products.*, productsinfacility.ProductAmount FROM products"
+				+ " LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode "
+				+ "WHERE productsinfacility.FacilityID =@"
+				+ " ORDER BY products.ProductCode");
+		SqlQuerys.put("#GET_MONTHLY_FEE", "SELECT SUM(prices) "
+				+ "from "
+				+ "(SELECT orders.finalPrice AS prices "
+				+ "FROM ekrutdatabase.delayedpayments "
+				+ "LEFT JOIN orders ON delayedpayments.orderCode = orders.orderCode  "
+				+ "WHERE SUBSTRING(delayedpayments.orderDate, 4, 2) = @ AND orders.userName=@) orders;");
+		SqlQuerys.put("#UPDATE_MONTHLY_FEE","table=registerclients#condition=userName=@#values=MonthlyFeeCharge=@");
+		
+		/*CatalogViewerController*/
+		SqlQuerys.put("#GET_ALL_SALES", "table=sales#values=saleType=saleType&Item=Item#condition=area=@&isActive=1");
+		
+		/*OrderDetails*/
+		SqlQuerys.put("#REMOVE_ITEMS_FACILITY", "table=productsinfacility#condition=FacilityID=@&ProductCode=@#values=ProductAmount=@");
+		SqlQuerys.put("#CREATE_NEW_ORDER", "table=orders#values=finalPrice=@&isInvoiceConfirmed=1&FacilityID=@&userName=@&orderdate=@");
+		SqlQuerys.put("#GET_ORDER_NUMBER", "SELECT orders.orderCode FROM orders WHERE userName = @ AND orderCode = (SELECT MAX(orderCode) FROM orders);");
+		SqlQuerys.put("#CREATE_NEW_VIRTUALORDER", "table=virtualorders#values=orderCode=@&HasDelivery=@&"
+				+ "DeliveryLocation=@&DeliveryStatus=SentToProvider&customerApproval=0&estimatedDateAndTime=@&HasPickup=@");
+		SqlQuerys.put("#CREATE_NEW_DELYEDPAYMENT", "table=delayedpayments#values=orderCode=@&orderDate=@");
+		SqlQuerys.put("#UPDATE_FIRST_PURCHASE", "table=registerclients#condition=userName=@#values=firstPurchase=@");
+		SqlQuerys.put("#ADD_ITEMS_TO_ORDER", "table=productsinorder#values=orderCode=@&ProductCode=@&FacilityID=@&ProductAmount=@&ProductFinalPrice=@");
+		SqlQuerys.put("#UPDATE_PRODUCTS_CLIENT", "SELECT productsinfacility.FacilityID,productsinfacility.ProductCode, productsinfacility.ProductAmount "
+				+ "FROM products "
+				+ "LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode "
+				+ "WHERE productsinfacility.FacilityID = @ "
+				+ "ORDER BY products.ProductCode");
+		
+		/*OrderPickupController*/
+		SqlQuerys.put("#GET_ORDER_PICKUP", "SELECT orders.FacilityID,virtualorders.DeliveryStatus "
+				+ "FROM virtualorders "
+				+ "inner join orders on orders.orderCode = virtualorders.ordercode "
+				+ "WHERE virtualorders.orderCode=@ AND virtualorders.HasPickup = 1;");
+		SqlQuerys.put("#UPDATE_ORDER_PICKUP", "table=virtualorders#condition=orderCode=@#values=DeliveryStatus=\"Done\"");
+		
+		/*CatalogViewerOnly*/
+		SqlQuerys.put("#GET_ALL_PRODUCTS", "table=products");
+
+		/*MyOrdersController */ 
+		SqlQuerys.put("#GET_MY_ORDERS", "table=orders#condition=userName=@");
+		SqlQuerys.put("#GET_MY_DELIVERYS", "table=virtualorders#HasDelivery=1");
+		SqlQuerys.put("#SET_APPROVED_BY_CUSTOMER", "table=virtualorders#condition=orderCode=@#values=customerApproval=@");
+		SqlQuerys.put("#GET_MY_ORDERS", "table=orders#condition=userName=@");
+		SqlQuerys.put("#GET_ORDER_DETAILS", "SELECT products.productname, products.productcode,productsinorder.productamount, products.productprice, productsInOrder.ProductFinalPrice "
+				+ "FROM productsinorder " + "INNER JOIN products ON products.ProductCode = productsinorder.productcode "
+				+ "WHERE productsinorder.ordercode = @");
+		SqlQuerys.put("#GET_ORDER_DATE", "table=orders#condition=orderCode=@#values=orderdate=orderdate");
+		SqlQuerys.put("#GET_ORDER_FINALPRICE", "table=orders#condition=orderCode=@#values=finalprice=finalprice");
+
+
+
+	}
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) 
 	{
@@ -120,7 +207,25 @@ public class EchoServer extends AbstractServer
 			RequestObjectClient clientRequest = (RequestObjectClient) msg;
 			try 
 			{
+				String Key = SqlQuerys.get(clientRequest.getRequestID());
+				String[] dataInjector = (clientRequest.getURL()).split("#");
+				StringBuilder FinalQuery = new StringBuilder();
 				
+				int currentData = 0;
+				for(char currentChar : Key.toCharArray())
+				{
+					if(currentChar == '@')
+					{
+						FinalQuery.append(dataInjector[currentData++]);
+					}
+					else
+					{
+						FinalQuery.append(currentChar);
+					}
+				}
+				System.out.println(FinalQuery);
+				
+				clientRequest.setURL(FinalQuery.toString());
 				/*
 				 * Explantion:
 				 * 
@@ -128,6 +233,20 @@ public class EchoServer extends AbstractServer
 				 * - Client Request ends with SEND_NOT_ME it will update all users BUT the sender. ( it will send empty response ).
 				 * - Other.
 				 * */
+				if(clientRequest.getRequestID().equals("#USER_LOGIN_DATA"))
+				{
+					DistributedLock lock = new DistributedLock(mySqlConnection.getConn(), "LogginLock");
+					lock.setOwner("tkss15");
+					if(!lock.isLocked())
+					{		
+						lock.acquire();
+						client.sendToClient(mySqlConnection.SafeQuery(clientRequest));
+					}
+					else
+					{
+						serverUI.display("Lock");
+					}
+				}
 				if(clientRequest.getRequestID().endsWith("#SEND_NOT_ME"))
 				{
 					clientRequest.setRequestID(clientRequest.getRequestID().replace("#SEND_NOT_ME", ""));

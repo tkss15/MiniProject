@@ -77,8 +77,8 @@ public class ChatClient extends AbstractClient
 				}
 				case"#UPDATE_PRODUCTS_CLIENT":
 				{
-					showAlert("Facility Quantity updated!");
 					clientConsole.display(msg);
+					showAlert("Facility Quantity updated!");
 					break;
 				}
 				default:

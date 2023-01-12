@@ -137,13 +137,12 @@ public class CatalogViewController implements Initializable, IController
 		StockItems = new ArrayList<>();
 		myShoppingCart = new ShoppingCartUI();
 		
-    	String sql = "SELECT products.*, productsinfacility.ProductAmount FROM products LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode WHERE productsinfacility.FacilityID = " + ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() + " ORDER BY products.ProductCode";
-    	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",sql,"*");  
+    	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",String.format("%d#", ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID()),"*");  
     	ClientUI.clientController.accept(request);
     	
     	if(((RegisterClient)ClientUI.clientController.getUser()).getClientStatus() == RegisterClient.ClientStatus.CLIENT_SUBSCRIBER)
     	{
-			request = new RequestObjectClient("#GET_ALL_SALES",String.format("table=sales#values=saleType=saleType&Item=Item#condition=area=%s&isActive=1", ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityArea()),"GET");  
+			request = new RequestObjectClient("#GET_ALL_SALES",String.format("%s#", ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityArea()),"GET");  
 	    	ClientUI.clientController.accept(request);
 	    	
 	    	for(int i = 0; i < ClientUI.clientController.getArrProducts().size(); i++)

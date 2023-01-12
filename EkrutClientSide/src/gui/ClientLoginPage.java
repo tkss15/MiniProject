@@ -58,9 +58,13 @@ public class ClientLoginPage implements Initializable, IController
     @FXML
     void actionLoggin(ActionEvent event) 
     {
-    	System.out.println("A "+ userNameTextField.getText());
-    	System.out.println("B "+ passwordTextField.getText());
-    	if(userNameTextField.getText().equals("")|| passwordTextField.getText().equals("") )
+    	if(userNameTextField.getText() == null || userNameTextField.getText().trim().isEmpty())
+    	{
+    		errorLabel.setText(null);
+    		errorLabel.setVisible(true);
+    		return;
+    	}
+    	if(passwordTextField.getText() == null || passwordTextField.getText().trim().isEmpty())
     	{
     		errorLabel.setText(null);
     		errorLabel.setVisible(true);
@@ -68,18 +72,18 @@ public class ClientLoginPage implements Initializable, IController
     	}
     	String userName = userNameTextField.getText();
     	String password = passwordTextField.getText();
-    	
-    	
-    	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("table=users#condition=userName=%s&userPassword=%s", userName, password),"GET");    	
-    	ClientUI.clientController.accept(request);
 
+
+    	RequestObjectClient request = new RequestObjectClient("#USER_LOGIN_DATA",String.format("%s#%s#", userName, password),"GET");    	
+    	ClientUI.clientController.accept(request);
+    	
     	if(isLogged && !alreadyLogged)
     	{
     		
-    		request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("table=users#condition=userName=%s#values=userOnline=\"Online\"", userName),"PUT");    	
+    		request = new RequestObjectClient("#USER_UPDATELOGIN",String.format("%s#", userName),"PUT");    	
     		ClientUI.clientController.accept(request);
     		
-    		request = new RequestObjectClient("#USER_IS_EMPLOYEE",String.format("table=Employees#condition=userName=%s", userName),"GET");
+    		request = new RequestObjectClient("#USER_IS_EMPLOYEE",String.format("%s#", userName),"GET");
     		ClientUI.clientController.accept(request);
     		if(isEmployee)
     		{

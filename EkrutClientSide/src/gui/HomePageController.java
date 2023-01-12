@@ -5,6 +5,8 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 
 import Entity.Facility;
@@ -28,13 +30,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class HomePageController implements Initializable, IController
 {
 	boolean isDefaultUser = false;
 	@FXML
-	private Text textUserlogin,textFirstName, textLastName, textStatus, textID, textTelephone, textEmail;
+	private Text textUserlogin,textSubscriberNumber, textMonthlyFee,textFirstName, textLastName, textStatus, textID, textTelephone, textEmail;
+    
+    @FXML
+    private VBox subscriberVBox,SubscriberAd;
     
     @FXML
     private Button Logout;
@@ -66,6 +72,10 @@ public class HomePageController implements Initializable, IController
     {
     	ClientUI.sceneManager.ShowSceneNew("../views/myOrders.fxml",event);
     }
+    @FXML
+    void ShowSubscriberRequest(ActionEvent event) {
+
+    }
     @FXML 
     void Logout(ActionEvent event)
     {
@@ -75,7 +85,8 @@ public class HomePageController implements Initializable, IController
 		}
 		if(ClientUI.clientController.getUser().getOnlineStatus().equals("Online"))
 		{
-	    	RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"", ClientUI.clientController.getUser().getUserName()),"PUT");    
+			
+	    	RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",String.format("%s#", ClientUI.clientController.getUser().getUserName()),"PUT");    
 	    	ClientUI.clientController.accept(request);
 	    	ClientUI.clientController.getUser().setOnlineStatus("Offline");
 		}
@@ -98,8 +109,8 @@ public class HomePageController implements Initializable, IController
         	ClientUI.clientController.getClientOrder().setFacilityType("EK");
         	ClientUI.clientController.getClientOrder().setOrderFacility(ClientUI.clientController.getEKFacility());
         	ClientUI.clientController.getClientOrder().setOrderType("Instant Pickup");
-        	String sql = "SELECT products.*, productsinfacility.ProductAmount FROM products LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode WHERE productsinfacility.FacilityID = " + ClientUI.clientController.getEKFacility().getFacilityID() + " ORDER BY products.ProductCode";
-        	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",sql,"*");  
+        	//String sql = "SELECT products.*, productsinfacility.ProductAmount FROM products LEFT JOIN productsinfacility ON products.ProductCode = productsinfacility.ProductCode WHERE productsinfacility.FacilityID = " + ClientUI.clientController.getEKFacility().getFacilityID() + " ORDER BY products.ProductCode";
+        	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",String.format("%d#", ClientUI.clientController.getEKFacility().getFacilityID()),"*");  
         	ClientUI.clientController.accept(request);
         	
         	ClientUI.clientController.setTaskCountdown(new CountdownOrder());
@@ -114,6 +125,9 @@ public class HomePageController implements Initializable, IController
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		ClientUI.clientController.setController(this);
+		Calendar CalenderTime = Calendar.getInstance();
+		SimpleDateFormat simpleFormat = new SimpleDateFormat("MM");
+		String timeStamp = simpleFormat.format(CalenderTime.getTime());
 		
 		textUserlogin.setText(ClientUI.clientController.getUser().getFirstName());
 		textFirstName.setText(ClientUI.clientController.getUser().getFirstName());
@@ -125,10 +139,11 @@ public class HomePageController implements Initializable, IController
 		BtnCreateOrder.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 			openCatalogProduct(event);
 		});
-		RequestObjectClient request = new RequestObjectClient("#CHECK_CLIENT_STATUS",String.format("table=registerclients#condition=userName=%s", ClientUI.clientController.getUser().getUserName()),"GET");
+		RequestObjectClient request = new RequestObjectClient("#CHECK_CLIENT_STATUS",String.format("%s#", ClientUI.clientController.getUser().getUserName()),"GET");
 		ClientUI.clientController.accept(request);
 		
-		if(isDefaultUser )
+		subscriberVBox.setVisible(false);
+		if(isDefaultUser)
 		{
 			 ManageOrders.setDisable(true);
 			 viewCatalog.setDisable(true);
@@ -138,6 +153,19 @@ public class HomePageController implements Initializable, IController
 		else
 		{
 			RegisterClient temp = (RegisterClient)ClientUI.clientController.getUser();
+			if(temp.getClientStatus().equals(RegisterClient.ClientStatus.CLIENT_SUBSCRIBER))
+			{
+				request = new RequestObjectClient("#GET_MONTHLY_FEE",String.format("\"%s\"#\"%s\"#",timeStamp,temp.getUserName()),"*");
+				ClientUI.clientController.accept(request);
+				
+//				request = new RequestObjectClient("#UPDATE_MONTHLY_FEE",String.format("%s#%.2f#",temp.getUserName(), temp.getClientMonthlyFee()),"PUT");
+//				ClientUI.clientController.accept(request);
+				
+				textSubscriberNumber.setText(temp.getClientSubscriberNumber()+"");
+				textMonthlyFee.setText(String.format("%.2f", temp.getClientMonthlyFee()));
+				subscriberVBox.setVisible(true);
+				SubscriberAd.setVisible(false);
+			}
 			if(temp.getClientStatus().equals(RegisterClient.ClientStatus.CLIENT_PENDING))
 			{
 				 BtnCreateOrder.setDisable(true);
@@ -160,6 +188,14 @@ public class HomePageController implements Initializable, IController
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch(serverResponse.getRequest())
 			{	
+				case"#GET_MONTHLY_FEE":
+				{
+					Object[] values =(Object[]) serverResponse.Responsedata.get(0);
+					Double MonthlyFee = (Double)values[0];
+					RegisterClient temp = (RegisterClient)ClientUI.clientController.getUser();
+					temp.setClientMonthlyFee(MonthlyFee);
+					break;
+				}
 				case"#CHECK_CLIENT_STATUS":
 				{
 					if(serverResponse.Responsedata.size() == 0)

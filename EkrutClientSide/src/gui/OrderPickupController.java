@@ -58,11 +58,7 @@ public class OrderPickupController implements Initializable, IController {
 			alert.showAndWait();
 			return;
 		}
-		String sql = "SELECT orders.FacilityID,virtualorders.DeliveryStatus "
-				+ "FROM virtualorders "
-				+ "inner join orders on orders.orderCode = virtualorders.ordercode "
-				+ "WHERE virtualorders.orderCode="+ orderCode + " AND virtualorders.HasPickup = 1;";
-    	RequestObjectClient request = new RequestObjectClient("#GET_ORDER_PICKUP", sql ,"*");    
+    	RequestObjectClient request = new RequestObjectClient("#GET_ORDER_PICKUP", String.format("%d#", orderCode) ,"*");    
     	ClientUI.clientController.accept(request);
     	
     	
@@ -81,7 +77,7 @@ public class OrderPickupController implements Initializable, IController {
 			return;
     	}
     	
-    	request = new RequestObjectClient("#UPDATE_ORDER_PICKUP",String.format("table=virtualorders#condition=orderCode=%s#values=DeliveryStatus=\"Done\"",orderCode),"PUT");    
+    	request = new RequestObjectClient("#UPDATE_ORDER_PICKUP",String.format("%s#",orderCode),"PUT");    
     	ClientUI.clientController.accept(request);
   
     	Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -105,13 +105,13 @@ public class MyOrdersController implements Initializable, IController {
 		orderRows = new ArrayList<>();
 
 		// Make a query to the database to show the orders for the current user.
-		RequestObjectClient request = new RequestObjectClient("#ShowOrders",
-				String.format("table=orders#condition=userName=%s", ClientUI.clientController.getUser().getUserName()),
+		RequestObjectClient request = new RequestObjectClient("#GET_MY_ORDERS",
+				String.format("%s#", ClientUI.clientController.getUser().getUserName()),
 				"GET");
 		ClientUI.clientController.accept(request);
 
-		RequestObjectClient requestDelivery = new RequestObjectClient("#ShowDeliveries",
-				String.format("table=virtualorders#condition=HasDelivery=1",
+		RequestObjectClient requestDelivery = new RequestObjectClient("#GET_MY_DELIVERYS",
+				String.format("%s#",
 						ClientUI.clientController.getUser().getUserName()),
 				"GET");
 		ClientUI.clientController.accept(requestDelivery);
@@ -148,7 +148,7 @@ public class MyOrdersController implements Initializable, IController {
 				checkBox.setOnAction((event) -> {
 					
 					RequestObjectClient setReceived = new RequestObjectClient("SET_APPROVED_BY_CUSTOMER",
-							String.format("table=virtualorders#condition=orderCode=%d#values=customerApproval=%b",
+							String.format("%d#%b#",
 							temp.getOrderCode(),checkBox.isSelected()),"PUT");
 					ClientUI.clientController.accept(setReceived);
 					
@@ -316,7 +316,7 @@ public class MyOrdersController implements Initializable, IController {
 			ResponseObject serverResponse = (ResponseObject) data;
 
 			switch (serverResponse.getRequest()) {
-			case "#ShowOrders": {
+			case "#GET_MY_ORDERS": {
 
 				// Iterate through the rows of server response data
 
@@ -336,7 +336,7 @@ public class MyOrdersController implements Initializable, IController {
 
 				break;
 			}
-			case "#ShowDeliveries":
+			case "#GET_MY_DELIVERYS":
 				for (int i = 0; i < serverResponse.Responsedata.size(); i++) {
 					Object[] values = (Object[]) serverResponse.Responsedata.get(i);
 					int isReceiverdByCustomer = (Integer)values[4];

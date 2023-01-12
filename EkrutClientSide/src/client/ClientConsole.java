@@ -62,7 +62,7 @@ public class ClientConsole implements ChatIF
 		}
 		if(this.clientUser.getOnlineStatus().equals("Online"))
 		{
-	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"", this.clientUser.getUserName()),"PUT");    
+	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("%s#", this.clientUser.getUserName()),"PUT");    
 	    	accept(request);
 	    	this.clientUser.setOnlineStatus("Offline");
 		}

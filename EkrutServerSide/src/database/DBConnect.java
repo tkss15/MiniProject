@@ -25,7 +25,6 @@ public class DBConnect
 	private Map<String,String> SQLCondition = new HashMap<>();
 	private Map<String,String> SQLValues = new HashMap<>();
 	private final Lock queueLock = new ReentrantLock();
-
 	//jdbc:mysql://127.0.0.1:3306/?user=root
 	class Constants 
 	{
@@ -227,6 +226,8 @@ public class DBConnect
 			}
 		}
 	}
+	
+	
 		/*
 		 * /table=tablename?condition=condition?Values=set
 		 * */

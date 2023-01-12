@@ -70,7 +70,7 @@ public class CatalogViewOnlyController implements Initializable, IController
 	{
 		ClientUI.clientController.setController(this);
 		
-    	RequestObjectClient request = new RequestObjectClient("#GET_ALL_PRODUCTS","table=products","GET");  
+    	RequestObjectClient request = new RequestObjectClient("#GET_ALL_PRODUCTS","","GET");  
     	ClientUI.clientController.accept(request);
     	
 		ScrollPane = new ScrollPane();

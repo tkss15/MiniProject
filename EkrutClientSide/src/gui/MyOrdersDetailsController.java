@@ -105,16 +105,12 @@ public class MyOrdersDetailsController implements Initializable, IController {
 
 		// Retrieve the order details from the database by a query
 
-		String sql = "SELECT products.productname, products.productcode,productsinorder.productamount, products.productprice, productsInOrder.ProductFinalPrice "
-				+ "FROM productsinorder " + "INNER JOIN products ON products.ProductCode = productsinorder.productcode "
-				+ "WHERE productsinorder.ordercode = " + ClientUI.clientController.getManagerOrderdeatils();
-		
-		RequestObjectClient request1 = new RequestObjectClient("ShowDetails", sql, "*");
+
+		RequestObjectClient request1 = new RequestObjectClient("#GET_ORDER_DETAILS", String.format("%d#", ClientUI.clientController.getManagerOrderdeatils()), "*");
 
 		ClientUI.clientController.accept(request1);
 		// Retrieve the order date from the database by a query.
-		RequestObjectClient request2 = new RequestObjectClient("Date", "table=orders#condition=orderCode= "
-				+ ClientUI.clientController.getManagerOrderdeatils() + "#values=orderdate=orderdate", "GET");
+		RequestObjectClient request2 = new RequestObjectClient("#GET_ORDER_DATE", String.format("%d#",ClientUI.clientController.getManagerOrderdeatils()), "GET");
 
 		ClientUI.clientController.accept(request2);
 		// Set the order number and date fields
@@ -122,8 +118,7 @@ public class MyOrdersDetailsController implements Initializable, IController {
 		date.setText("Date: "+ Date);
 		
 		// Retrieve the final price for the order from the database by a query.
-		RequestObjectClient request3 = new RequestObjectClient("FinalPrice", "table=orders#condition=orderCode= "
-				+ ClientUI.clientController.getManagerOrderdeatils() + "#values=finalprice=finalprice", "GET");
+		RequestObjectClient request3 = new RequestObjectClient("#GET_ORDER_FINALPRICE", String.format("%d#",ClientUI.clientController.getManagerOrderdeatils()), "GET");
 		ClientUI.clientController.accept(request3);
 		
 		// Set the final price field of the order.
@@ -281,7 +276,7 @@ public class MyOrdersDetailsController implements Initializable, IController {
 			ResponseObject serverResponse = (ResponseObject) data;
 			 // Process the data based on the request type
 			switch (serverResponse.getRequest()) {
-			case "ShowDetails": 
+			case "#GET_ORDER_DETAILS": 
 				 // Loop through all rows of data
 				for (int i = 0; i < serverResponse.Responsedata.size(); i++) // Rows
 				{
@@ -301,13 +296,13 @@ public class MyOrdersDetailsController implements Initializable, IController {
 				}
 
 				break;
-			case "Date":{
+			case "#GET_ORDER_DATE":{
 				// Retrieve the data and save the orderDate
 				Object[] values = (Object[]) serverResponse.Responsedata.get(0); 
 				Date = (String) values[0];
 				break;
 			}
-			case "FinalPrice":
+			case "#GET_ORDER_FINALPRICE":
 				// Retrieve the data and save the finalPrice of the order.
 				Object[] values = (Object[]) serverResponse.Responsedata.get(0);
 				finalPrice = (Double) values[0];

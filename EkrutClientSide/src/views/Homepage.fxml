@@ -196,6 +196,81 @@
                   <Insets top="70.0" />
                </VBox.margin>
             </VBox>
+            <VBox fx:id="subscriberVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="122.0" prefWidth="333.0">
+               <children>
+                  <HBox>
+                     <children>
+                        <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/User.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Subscriber Info" wrappingWidth="159.095703125">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </HBox>
+                  <Line endX="149.5" startX="-100.0">
+                     <VBox.margin>
+                        <Insets left="40.0" top="10.0" />
+                     </VBox.margin>
+                  </Line>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="16.0" prefWidth="276.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Subscriber Number:" wrappingWidth="127.677734375">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="textSubscriberNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="124" HBox.hgrow="NEVER">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="16.0" prefWidth="247.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Monthly Fee:" wrappingWidth="127.677734375">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="textMonthlyFee" strokeType="OUTSIDE" strokeWidth="0.0" text="12332" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </VBox>
          </children>
       </VBox>
       <Button fx:id="Logout" layoutX="18.0" layoutY="739.0" mnemonicParsing="false" onAction="#Logout" prefHeight="44.0" prefWidth="111.0" text="Logout" textAlignment="RIGHT" />
@@ -236,5 +311,67 @@
             <Image url="@/Logout.png" />
          </image>
       </ImageView>
+      <VBox fx:id="SubscriberAd" alignment="TOP_CENTER" layoutX="410.0" layoutY="535.0" prefHeight="225.0" prefWidth="606.0">
+         <children>
+            <HBox>
+               <children>
+                  <ImageView fitHeight="25.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../gui/pictures/template.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="19.0" fitWidth="266.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../gui/pictures/template.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Join as a Subscriber !">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+               <VBox.margin>
+                  <Insets right="50.0" />
+               </VBox.margin>
+            </Text>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="100.0" prefWidth="247.0" spacing="10.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- 20% Off on first purchase">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- OL Ordering">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Delayed Payments">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- EK Application">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <Button mnemonicParsing="false" onAction="#ShowSubscriberRequest" prefHeight="45.0" prefWidth="94.0" text="Join">
+                     <HBox.margin>
+                        <Insets left="100.0" top="30.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
