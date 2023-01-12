@@ -34,6 +34,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -292,11 +293,26 @@ public class OrderDetailsController implements Initializable, IController {
 		{
 			ComboBoxYear.getItems().add((Integer.valueOf(Year) + i) + "");
 		}
-		
+		CVCtextField.textProperty().addListener((obv, oldValue, newValue) -> 
+		{
+			if(newValue.length() > 3)
+			{
+				CVCtextField.setText("000");
+				Alert alert = new Alert(AlertType.ERROR, "CVC must be 3 integers only");
+				alert.showAndWait();
+				return;
+			}
+			if(!newValue.matches("^(?:[0-9]|\\d\\d\\d*)$"))
+			{
+				CVCtextField.setText("000");
+				Alert alert = new Alert(AlertType.ERROR, "CVC must be 3 integers only");
+				alert.showAndWait();
+				return;
+			}
+		});
 		estimatedDelivery = simpleFormat.format(CalenderTime.getTime());
 		estimatedTime.setText(estimatedDelivery);
 		
-		//ClientUI.clientController.getTaskCountdown().setLabel(timerOrder);
 		ClientUI.clientController.getTaskCountdown().initialize(timerOrder);
 		
 		ProductName.setCellValueFactory(new PropertyValueFactory<ProudctTable, String>("ProductName"));
@@ -330,7 +346,6 @@ public class OrderDetailsController implements Initializable, IController {
 			ProductsTable.getItems().add(tempRow);
 		}
 		
-		//ProductsTable.setItems(colums);
 		ProductsTable.refresh();
 		DeliveryOption.setVisible(false);
 		OrderDate.setText(timeStamp);

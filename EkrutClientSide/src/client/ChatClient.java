@@ -75,6 +75,23 @@ public class ChatClient extends AbstractClient
 					awaitResponse = false;
 					break;
 				}
+				case"#UPDATE_AREAMANAGER":
+				{
+					StringBuilder fullMessage = new StringBuilder();
+					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+					{
+						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
+						String userName = (String)values[0];
+						if(!userName.equals(ClientUI.clientController.getUser().getUserName()))
+							continue;
+						
+						Integer FacilityID = (Integer) values[2];
+						
+						fullMessage.append(FacilityID + " ");
+					}
+					if(fullMessage.length() > 0)
+						showAlert(String.format("Facilitys %s are under the Threshold level", fullMessage.toString()));
+				}
 				case"#UPDATE_PRODUCTS_CLIENT":
 				{
 					clientConsole.display(msg);

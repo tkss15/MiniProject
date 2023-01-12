@@ -21,7 +21,7 @@ public class EchoServer extends AbstractServer
 	ChatIF serverUI;
 	DBConnect mySqlConnection;
 	private ArrayList<String> serverConfing;
-    private DistributedLock lock;
+    private boolean SendSMSNotifiction = false;
 	private Map<String,String> SqlQuerys = new HashMap<>();
 	public EchoServer(int port) 
 	{
@@ -64,6 +64,7 @@ public class EchoServer extends AbstractServer
 				try 
 				{
 					Twilio.init(serverConfing.get(5), serverConfing.get(6));
+					SendSMSNotifiction = true;
 					//SMSNotifiction sendExample = new SMSNotifiction("0547443546");
 					//sendExample.SendNotification("הדגמה");
 				}
@@ -117,21 +118,22 @@ public class EchoServer extends AbstractServer
 		serverUI.display("Client Connected "+ client.getInetAddress());
 		serverUI.display(clientToShow);
 	}
-	//#SEND_SMS
-	//#SEND_EMAIL
-	
-	/*
-	 * 
-SELECT c.userName, c.telephone 
-FROM users as s, users as c 
-INNER JOIN employees ON c.userName = employees.userName
-WHERE employees.Employeerole = "AreaManager" AND s.userName ="delop2" AND c.Area = s.Area
-	 * */
+
 	
 	private void InitiliazeQuerys()
 	{
 		SqlQuerys.put("#FIRST_INSTALL", "table=facilities");
 		SqlQuerys.put("#USER_LOGOUT", "table=users#condition=userName=@#values=userOnline=\"Offline\"");
+		SqlQuerys.put("#UPDATE_AREAMANAGER", "SELECT c.userName, c.telephone, f.FacilityID "
+				+ "FROM users as c "
+				+ "INNER JOIN employees ON c.userName = employees.userName "
+				+ "INNER JOIN ( "
+				+ "    SELECT distinct facilities.FacilityID, facilities.FacilityArea "
+				+ "    FROM facilities "
+				+ "    INNER JOIN productsinfacility on facilities.FacilityID = productsinfacility.FacilityID "
+				+ "    INNER JOIN users on users.Area = facilities.FacilityArea "
+				+ "    WHERE productsinfacility.ProductAmount < facilities.FacilityThreshholdLevel) f on c.Area = f.FacilityArea "
+				+ "WHERE employees.Employeerole = \"AreaManager\" ");
 		
 		/*ClientLoginPage*/
 		SqlQuerys.put("#USER_LOGIN_DATA", "table=users#condition=userName=@&userPassword=@");
@@ -207,9 +209,29 @@ WHERE employees.Employeerole = "AreaManager" AND s.userName ="delop2" AND c.Area
 			RequestObjectClient clientRequest = (RequestObjectClient) msg;
 			try 
 			{
+				/*
+				 * Explantion:
+				 * 
+				 * - Client Request ends with SEND_ALL it will update all users.
+				 * - Client Request ends with SEND_NOT_ME it will update all users BUT the sender. ( it will send empty response ).
+				 * - Other.
+				 * */
 				String Key = SqlQuerys.get(clientRequest.getRequestID());
 				String[] dataInjector = (clientRequest.getURL()).split("#");
 				StringBuilder FinalQuery = new StringBuilder();
+				Integer QueryCase = 0;
+				ResponseObject ResponseEmpty = new ResponseObject("Empty");
+				
+				if(clientRequest.getRequestID().endsWith("#SEND_NOT_ME"))
+				{
+					QueryCase = 1;
+					clientRequest.setRequestID(clientRequest.getRequestID().replace("#SEND_NOT_ME", ""));
+				}
+				if(clientRequest.getRequestID().endsWith("#SEND_ALL"))
+				{
+					QueryCase = 2;
+					clientRequest.setRequestID(clientRequest.getRequestID().replace("#SEND_ALL", ""));
+				}
 				
 				int currentData = 0;
 				for(char currentChar : Key.toCharArray())
@@ -223,20 +245,17 @@ WHERE employees.Employeerole = "AreaManager" AND s.userName ="delop2" AND c.Area
 						FinalQuery.append(currentChar);
 					}
 				}
-				System.out.println(FinalQuery);
 				
 				clientRequest.setURL(FinalQuery.toString());
+				
 				/*
-				 * Explantion:
-				 * 
-				 * - Client Request ends with SEND_ALL it will update all users.
-				 * - Client Request ends with SEND_NOT_ME it will update all users BUT the sender. ( it will send empty response ).
-				 * - Other.
+				 * Special Cases when we need to notify other users live
 				 * */
 				if(clientRequest.getRequestID().equals("#USER_LOGIN_DATA"))
 				{
 					DistributedLock lock = new DistributedLock(mySqlConnection.getConn(), "LogginLock");
-					lock.setOwner("tkss15");
+					lock.setOwner(dataInjector[0]);
+					
 					if(!lock.isLocked())
 					{		
 						lock.acquire();
@@ -244,34 +263,50 @@ WHERE employees.Employeerole = "AreaManager" AND s.userName ="delop2" AND c.Area
 					}
 					else
 					{
-						serverUI.display("Lock");
+						ResponseEmpty.setRequest("Empty");
+						client.sendToClient(ResponseEmpty);	
 					}
 				}
-				if(clientRequest.getRequestID().endsWith("#SEND_NOT_ME"))
+				if(clientRequest.getRequestID().equals("#REMOVE_ITEMS_FACILITY"))
 				{
-					clientRequest.setRequestID(clientRequest.getRequestID().replace("#SEND_NOT_ME", ""));
-					ResponseObject ResponseEmpty = new ResponseObject("Empty");
-					ResponseEmpty.setRequest("Empty");
+					RequestObjectClient ServerRequest = new RequestObjectClient("#UPDATE_AREAMANAGER", "", "*");
+					ResponseObject ServerResponse = mySqlConnection.SafeQuery(ServerRequest);
 					
-					sendToAllClients(mySqlConnection.SafeQuery(clientRequest), client);
-					client.sendToClient(ResponseEmpty);
+					if(SendSMSNotifiction)
+					{
+						// Insert SMS
+					}
+					sendToAllClients(ServerResponse, client);
 				}
-				if(clientRequest.getRequestID().endsWith("#SEND_ALL"))
-				{
-					clientRequest.setRequestID(clientRequest.getRequestID().replace("#SEND_ALL", ""));
-					sendToAllClients(mySqlConnection.SafeQuery(clientRequest));
-				}
-				
 				
 				if(clientRequest.getRequestID().equals("#USER_LOGOUT"))
 				{
 					clientDisconnected(client);
 					client.close();
 				}
-				else 
+				
+				switch(QueryCase)
 				{
-					client.sendToClient(mySqlConnection.SafeQuery(clientRequest));
+					case 0:
+					{
+						client.sendToClient(mySqlConnection.SafeQuery(clientRequest));							
+						break;
+					}
+					case 1:
+					{
+						ResponseEmpty.setRequest("Empty");
+						
+						sendToAllClients(mySqlConnection.SafeQuery(clientRequest), client);
+						client.sendToClient(ResponseEmpty);					
+						break;
+					}
+					case 2:
+					{
+						sendToAllClients(mySqlConnection.SafeQuery(clientRequest));						
+						break;
+					}
 				}
+				
 			} 
 			catch (IOException e) 
 			{
