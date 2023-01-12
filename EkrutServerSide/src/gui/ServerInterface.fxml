@@ -121,6 +121,8 @@
                   <Font name="Cambria Bold" size="12.0" />
                </font>
             </Button>
+            <Text layoutX="709.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Automatic report in:" />
+            <Label fx:id="labelReport" layoutX="821.0" layoutY="153.0" text="Label" />
          </children>
       </Pane>
       <Label layoutX="620.0" layoutY="185.0" prefHeight="61.0" prefWidth="314.0" text="Connected Clients">

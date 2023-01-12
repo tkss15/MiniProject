@@ -1,7 +1,11 @@
 package gui;
 
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import Server.ServerUI;
@@ -15,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -48,6 +53,9 @@ public class ServerInterfaceController implements Initializable, IController
 	private PasswordField textPasswordF;
 	@FXML
 	private ImageView ConnectLogo;
+    @FXML
+    private Label labelReport;
+
 	
 	public ServerInterfaceController() {}
 	
@@ -88,11 +96,11 @@ public class ServerInterfaceController implements Initializable, IController
 
 	@FXML
 	public void ConnectToDB(ActionEvent event) 
-	{
-		
+	{		
 		String port = textboxPort.getText();
 		ArrayList<String> serverConfing = new ArrayList<String>();
 		
+		labelReport.setText(CalculateTime() + " Days");
 		serverConfing.add(textboxIP.getText());//0
 		serverConfing.add(textboxPort.getText());//1
 		serverConfing.add(textboxDBName.getText());//2
@@ -200,7 +208,26 @@ public class ServerInterfaceController implements Initializable, IController
 	public void setTextPasswordF(PasswordField textPasswordF) {
 		this.textPasswordF = textPasswordF;
 	}
-
+	private float CalculateTime()
+	{
+		Calendar CalenderTime = Calendar.getInstance();
+		SimpleDateFormat simpleFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String timeStamp = simpleFormat.format(CalenderTime.getTime());
+		CalenderTime.add(Calendar.MONTH, 1);
+		String MonthOnly = "01/" + (new SimpleDateFormat("MM/yyyy")).format(CalenderTime.getTime());
+		
+		try {
+			Date currentDate = simpleFormat.parse(timeStamp);
+			Date nextMonthDate = simpleFormat.parse(MonthOnly);
+			long diff = nextMonthDate.getTime() - currentDate.getTime();
+			float days = (diff / (1000*60*60*24));
+			return days;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	@Override
 	public void updatedata(Object data) 
 	{

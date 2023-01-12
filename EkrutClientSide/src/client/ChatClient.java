@@ -77,6 +77,7 @@ public class ChatClient extends AbstractClient
 				}
 				case"#UPDATE_AREAMANAGER":
 				{
+					System.out.println("Hey`1234");
 					StringBuilder fullMessage = new StringBuilder();
 					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
 					{
@@ -129,8 +130,8 @@ public class ChatClient extends AbstractClient
 				awaitResponse = true;
 				if(((RequestObjectClient)message).getRequestID().equals("#USER_LOGOUT"))
 					awaitResponse = false;
+				System.out.println("Sends " + ((RequestObjectClient)message).getRequestID());
 			}
-			
 			openConnection();
 			sendToServer(message);
 			while (awaitResponse) {

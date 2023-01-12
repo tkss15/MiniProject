@@ -48,7 +48,6 @@ public class RegisterClient extends User {
 		return ClientStatus;
 	}
 	public void setClientStatus(String clientStatus) {
-		//enum('SUBSCRIBER','APPROVED','NOT_APPROVED','PENDING')
 		switch(clientStatus)
 		{
 			case"SUBSCRIBER": ClientStatus = ClientStatus.CLIENT_SUBSCRIBER;

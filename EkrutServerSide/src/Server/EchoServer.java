@@ -216,12 +216,9 @@ public class EchoServer extends AbstractServer
 				 * - Client Request ends with SEND_NOT_ME it will update all users BUT the sender. ( it will send empty response ).
 				 * - Other.
 				 * */
-				String Key = SqlQuerys.get(clientRequest.getRequestID());
-				String[] dataInjector = (clientRequest.getURL()).split("#");
-				StringBuilder FinalQuery = new StringBuilder();
-				Integer QueryCase = 0;
-				ResponseObject ResponseEmpty = new ResponseObject("Empty");
 				
+				
+				Integer QueryCase = 0;
 				if(clientRequest.getRequestID().endsWith("#SEND_NOT_ME"))
 				{
 					QueryCase = 1;
@@ -232,6 +229,11 @@ public class EchoServer extends AbstractServer
 					QueryCase = 2;
 					clientRequest.setRequestID(clientRequest.getRequestID().replace("#SEND_ALL", ""));
 				}
+				
+				String Key = SqlQuerys.get(clientRequest.getRequestID());
+				String[] dataInjector = (clientRequest.getURL()).split("#");
+				StringBuilder FinalQuery = new StringBuilder();
+				ResponseObject ResponseEmpty = new ResponseObject("Empty");
 				
 				int currentData = 0;
 				for(char currentChar : Key.toCharArray())
@@ -267,21 +269,10 @@ public class EchoServer extends AbstractServer
 						client.sendToClient(ResponseEmpty);	
 					}
 				}
-				if(clientRequest.getRequestID().equals("#REMOVE_ITEMS_FACILITY"))
-				{
-					RequestObjectClient ServerRequest = new RequestObjectClient("#UPDATE_AREAMANAGER", "", "*");
-					ResponseObject ServerResponse = mySqlConnection.SafeQuery(ServerRequest);
-					
-					if(SendSMSNotifiction)
-					{
-						// Insert SMS
-					}
-					sendToAllClients(ServerResponse, client);
-				}
-				
 				if(clientRequest.getRequestID().equals("#USER_LOGOUT"))
-				{
+				{	
 					clientDisconnected(client);
+					mySqlConnection.makeQuery(clientRequest);
 					client.close();
 				}
 				
@@ -289,6 +280,7 @@ public class EchoServer extends AbstractServer
 				{
 					case 0:
 					{
+						System.out.println("Opreation " + clientRequest.getRequestID());
 						client.sendToClient(mySqlConnection.SafeQuery(clientRequest));							
 						break;
 					}

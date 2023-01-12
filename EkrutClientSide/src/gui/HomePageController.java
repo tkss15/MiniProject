@@ -96,8 +96,7 @@ public class HomePageController implements Initializable, IController
     @FXML
     void closeWindow(ActionEvent event) 
     {
-    	ClientUI.clientController.UserDissconnected();
-    	System.exit(0);
+    	ClientUI.clientController.UserDissconnected(true);
     }
     
     @FXML

@@ -2,6 +2,7 @@ package client;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Entity.Employee;
 import Entity.Facility;
@@ -30,6 +31,10 @@ public class ClientConsole implements ChatIF
 	private String ApplicationType = null;
 	
 	public final String ApplicationConfig = "EkrutApplication/";
+	
+	private HashMap<String,String> mapMonths = new HashMap<>();
+	
+	private ArrayList<String> monthlyReportParameters = new ArrayList<>(3);
 	public ArrayList<Facility> arrFacility = new ArrayList<>();
 	private ArrayList<Product> arrProducts = new ArrayList<>();
 	
@@ -56,15 +61,21 @@ public class ClientConsole implements ChatIF
 	}
 	public void UserDissconnected()
 	{
-		if(this.clientUser.getOnlineStatus() == null)
-		{
-			System.out.println("Not updated");
-		}
-		if(this.clientUser.getOnlineStatus().equals("Online"))
+		if(this.clientUser.getOnlineStatus() != null && this.clientUser.getOnlineStatus().equals("Online"))
 		{
 	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("%s#", this.clientUser.getUserName()),"PUT");    
 	    	accept(request);
 	    	this.clientUser.setOnlineStatus("Offline");
+		}
+	}
+	public void UserDissconnected(boolean forceExit)
+	{
+		if(this.clientUser.getOnlineStatus() != null && this.clientUser.getOnlineStatus().equals("Online"))
+		{
+	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("%s#", this.clientUser.getUserName()),"PUT");    
+	    	accept(request);
+	    	this.clientUser.setOnlineStatus("Offline");
+	    	System.exit(0);
 		}
 	}
 	public void setController(IController currentController) {
@@ -87,6 +98,12 @@ public class ClientConsole implements ChatIF
 	 * 
 	 * 
 	 */
+	public void setHashMapMonths(HashMap<String,String> map) {
+		mapMonths = map;
+	}
+	public HashMap<String,String> getHashMapMonths() {
+		return mapMonths;
+	}
 	public CountdownOrder getTaskCountdown() {
 		return taskCountdown;
 	}
@@ -125,7 +142,7 @@ public class ClientConsole implements ChatIF
 	{
 		if(user instanceof Employee) {
 			Employee employee = (Employee)user;
-			clientUser = new Employee(employee,employee.getBranch());
+			clientUser = new Employee(employee);
 		}
 		else clientUser = user; 
 	}
@@ -140,6 +157,29 @@ public class ClientConsole implements ChatIF
 	}
 	public void setArrProducts(ArrayList<Product> arrProducts) {
 		this.arrProducts = arrProducts;
+	}
+	public void setReportYear(String year) 
+	{
+		monthlyReportParameters.add(0, year);
+	}
+	public void setReportMonth(String month) 
+	{
+		monthlyReportParameters.add(1, month);
+	}
+	public void setReportType(String type) 
+	{
+		monthlyReportParameters.add(2, type);
+	}
+	public String getReportYear() {
+		return monthlyReportParameters.get(0);
+	}
+	
+	public String getReportMonth() {
+		return monthlyReportParameters.get(1);
+	}
+	
+	public String getReportType() {
+		return monthlyReportParameters.get(2);
 	}
 	@Override
 	public void display(Object message) 

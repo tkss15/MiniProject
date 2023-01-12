@@ -151,6 +151,8 @@ public class OrderDetailsController implements Initializable, IController {
 			    				CurrentAmount),"PUT");  
 			    		ClientUI.clientController.accept(request);
 			    	}
+		    		request = new RequestObjectClient("#UPDATE_AREAMANAGER#SEND_NOT_ME","","*");
+			    	ClientUI.clientController.accept(request);
 		    		
 			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("%.2f#%d#%s#%s#", 
 			    			isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice(), 
@@ -174,6 +176,16 @@ public class OrderDetailsController implements Initializable, IController {
 			    				"POST"); 
 			    		ClientUI.clientController.accept(request);
 			    	}
+			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
+			    	{
+			    		request = new RequestObjectClient("#ADD_ITEMS_TO_ORDER",String.format("%d#%d#%d#%d#%.2f#", 
+			    				orderCode, 
+			    				myProduct.getProductCode(), 
+			    				myFacility, 
+			    				myProduct.getProductAmount(), 
+			    				ClientUI.clientController.getClientOrder().PriceItem(myProduct)),"POST");  
+			    		ClientUI.clientController.accept(request);
+			    	}
 			    	
 			    	if(buynow)
 			    	{
@@ -192,16 +204,6 @@ public class OrderDetailsController implements Initializable, IController {
 			    			
 			    			((RegisterClient)ClientUI.clientController.getUser()).setClientFirstPurchase(false);
 			    		}
-			    	}
-			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
-			    	{
-			        	request = new RequestObjectClient("#ADD_ITEMS_TO_ORDER",String.format("%d#%d#%d#%d#%.2f#", 
-			        			orderCode, 
-			        			myProduct.getProductCode(), 
-			        			myFacility, 
-			        			myProduct.getProductAmount(), 
-			        			ClientUI.clientController.getClientOrder().PriceItem(myProduct)),"POST");  
-			        	ClientUI.clientController.accept(request);
 			    	}
 		        	request = new RequestObjectClient("#UPDATE_PRODUCTS_CLIENT",String.format("%d#", myFacility),"*");  
 		        	ClientUI.clientController.accept(request);
