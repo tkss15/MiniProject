@@ -14,12 +14,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="ColorAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AreaManagerApproveController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AreaManagerApproveController">
    <children>
-      <Line endX="260.0" layoutX="661.0" layoutY="157.0" opacity="0.7" startX="-250.0" />
+      <Line endX="302.0" layoutX="637.0" layoutY="158.0" opacity="0.7" startX="-250.0" />
       <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="789.0" minWidth="335.0" prefHeight="789.0" prefWidth="342.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
          <children>
-            <ImageView fitHeight="149.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../gui/pictures/LogoEKRUT.png" />
                </image>
@@ -31,7 +31,7 @@
                <children>
                   <HBox prefHeight="35.0" prefWidth="326.0">
                      <children>
-                        <Text fx:id="textUserlogin" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="263.095703125">
+                        <Text fx:id="textUserlogin" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="272.095703125">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -157,44 +157,28 @@
                   <Insets top="70.0" />
                </VBox.margin>
             </VBox>
-            <ImageView fitHeight="149.0" fitWidth="246.0" layoutX="81.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../gui/pictures/ceo-office-icon.png" />
-               </image>
-               <VBox.margin>
-                  <Insets left="85.0" top="30.0" />
-               </VBox.margin>
-            </ImageView>
          </children>
       </VBox>
-      <Button id=".button" fx:id="Back" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#Back" text="Back">
-         <stylesheets>
-            <URL value="@Homepage.css" />
-            <URL value="@CatalogViewer.css" />
-         </stylesheets></Button>
+      <Button fx:id="Back" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#Back" text="Back" />
       <Text layoutX="396.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Manager Registration Center" wrappingWidth="553.0" />
-      <Line endX="260.0" layoutX="647.0" layoutY="556.0" opacity="0.7" startX="-250.0" />
+      <Line endX="301.0" layoutX="636.0" layoutY="531.0" opacity="0.7" startX="-250.0" />
       <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
       </Button>
-      <TableView fx:id="ApproveTable" layoutX="378.0" layoutY="170.0" prefHeight="370.0" prefWidth="569.0">
+      <TableView fx:id="ApproveTable" layoutX="387.0" layoutY="172.0" prefHeight="342.0" prefWidth="553.0">
          <columns>
-            <TableColumn fx:id="IDColumn" editable="false" prefWidth="115.0" style="-fx-alignment: CENTER;" text="ID" />
-            <TableColumn fx:id="NameColumn" editable="false" prefWidth="136.0" style="-fx-alignment: CENTER;" text="Name" />
-            <TableColumn fx:id="RegistrationTypeColumn" editable="false" prefWidth="142.0" style="-fx-alignment: CENTER;" text="Registration Type" />
-            <TableColumn fx:id="StatusColumn" editable="false" prefWidth="141.0" style="-fx-alignment: Center;" text="Status" />
+            <TableColumn fx:id="IDColumn" editable="false" prefWidth="72.0" style="-fx-alignment: CENTER;" text="ID" />
+            <TableColumn fx:id="NameColumn" editable="false" prefWidth="116.0" style="-fx-alignment: CENTER;" text="Name" />
+            <TableColumn fx:id="RegistrationTypeColumn" editable="false" prefWidth="170.0" style="-fx-alignment: CENTER;" text="Registration Type" />
+            <TableColumn fx:id="StatusColumn" editable="false" prefWidth="194.0" style="-fx-alignment: Center;" text="Status" />
          </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
       </TableView>
       <Button fx:id="changesBTN" layoutX="889.0" layoutY="723.0" mnemonicParsing="false" onAction="#applyChangesToTable" prefHeight="53.0" prefWidth="103.0" text="Apply Changes" />
    </children>
    <stylesheets>
-      <URL value="@TableView.css" />
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
+      <URL value="@../../git/MiniProject/git/MiniProject/EkrutClientSide/Downloads/FXML%20pages/שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
+      <URL value="@../../git/MiniProject/git/MiniProject/EkrutClientSide/Downloads/FXML%20pages/Homepage.css" />
    </stylesheets>
 </AnchorPane>

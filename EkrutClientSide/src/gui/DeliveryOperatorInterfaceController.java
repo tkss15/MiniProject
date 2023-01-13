@@ -142,9 +142,8 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 		textTelephone.setText(ClientUI.clientController.getUser().getPhone());
 		textEmail.setText(ClientUI.clientController.getUser().getEmail());
 
-		RequestObjectClient userArea = new RequestObjectClient("#USER_AREA", String.format(
-				"SELECT users.Area FROM users LEFT JOIN employees ON users.userName = employees.userName WHERE users.userName = \"%s\"",
-				ClientUI.clientController.getUser().getUserName()), "*");
+		RequestObjectClient userArea = new RequestObjectClient("#USER_AREA_DELOP", String.format( //DONE
+				"%s#",ClientUI.clientController.getUser().getUserName()), "*");
 		ClientUI.clientController.accept(userArea);
 		System.out.println(userRoleStr);
 
@@ -153,13 +152,8 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 //		Employee curr = (Employee) ClientUI.clientController.getUser();
 		deliveryRows = new ArrayList<>();
 
-		RequestObjectClient deliveries = new RequestObjectClient("#DELIVERY_OPERATOR_ORDERS_DELIVERY",
-				String.format(
-						"SELECT virtualorders.orderCode,virtualorders.DeliveryStatus,virtualorders.customerApproval "
-								+ "FROM virtualorders " + "INNER JOIN orders " + "INNER JOIN facilities "
-								+ "WHERE FacilityArea = '%s' AND DeliveryStatus != 'Done' GROUP BY orderCode",
-						userAreaStr),
-				"*");
+		RequestObjectClient deliveries = new RequestObjectClient("#DELIVERY_OPERATOR_ORDERS_DELIVERY", //DONE
+				String.format("%s#",userAreaStr),"*");
 		ClientUI.clientController.accept(deliveries);
 
 		for (DeliveryRow d : deliveryRows) {
@@ -212,6 +206,7 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 						int customerApproval = (Integer) values[2];
 
 						DeliveryRow deliveryRow = new DeliveryRow(orderCode, customerApproval, d, null);
+						System.out.println("KUKU");
 						deliveryRows.add(deliveryRow);
 						i++;
 
@@ -219,7 +214,7 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 
 				}
 				break;
-			case "#USER_AREA":
+			case "#USER_AREA_DELOP":
 				if (serverResponse.Responsedata.size() != 0) {
 					Object[] values = (Object[]) serverResponse.Responsedata.get(0);// Row 1
 					userAreaStr = (String) values[0];
@@ -235,7 +230,7 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 				String deliveryStatus = d.getDeliveryStatusCombobox().getValue().toString();
 				RequestObjectClient deliveries = new RequestObjectClient("#DELIVERY_OPERATOR_SET_DELIVERY_STATUS",
 						String.format(
-								"table=virtualorders#condition=HasDelivery=1&orderCode=%s#values=DeliveryStatus='%s'",
+								"%s#%s#",
 								Integer.toString(d.getOrderCode()), deliveryStatus),
 						"PUT");
 				ClientUI.clientController.accept(deliveries);
@@ -261,7 +256,7 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 
 	@FXML
 	public void closeWindow(ActionEvent e) {
-		System.exit(0);
+		logOut(e);
 	}
 
 	@FXML
@@ -270,10 +265,8 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 			System.out.println("Not updated");
 		}
 		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
-			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"",
-							ClientUI.clientController.getUser().getUserName()),
-					"PUT");
+			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",  // DONE
+					String.format("%s#",ClientUI.clientController.getUser().getUserName()),"PUT");
 			ClientUI.clientController.accept(request);
 			ClientUI.clientController.getUser().setOnlineStatus("Offline");
 		}

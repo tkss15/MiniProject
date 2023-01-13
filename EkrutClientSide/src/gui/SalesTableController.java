@@ -26,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 public class SalesTableController implements Initializable, IController {
 
@@ -140,6 +141,9 @@ public class SalesTableController implements Initializable, IController {
 	private Button CloseButton;
 
 	@FXML
+	private Button backBTN;
+
+	@FXML
 	private TableColumn<SaleRow, String> EndingDateColumn;
 
 	@FXML
@@ -163,12 +167,16 @@ public class SalesTableController implements Initializable, IController {
 	@FXML
 	private TableColumn<SaleRow, CheckBox> activateColumn;
 	@FXML
+	private Text areaText;
+	@FXML
 	private Button refershBTN;
+	@FXML
+	private Button Logout;
 
 	@FXML
 	void closeWindow(ActionEvent event) {
 		if (employeeType.equals("NetworkMarketingManager")) {
-			((Node) event.getSource()).getScene().getWindow().hide();
+			goBack(event);
 			return;
 		}
 
@@ -177,8 +185,7 @@ public class SalesTableController implements Initializable, IController {
 		}
 		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
 			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"",
-							ClientUI.clientController.getUser().getUserName()),
+					String.format("%s#",ClientUI.clientController.getUser().getUserName()),
 					"PUT");
 			ClientUI.clientController.accept(request);
 			ClientUI.clientController.getUser().setOnlineStatus("Offline");
@@ -192,7 +199,7 @@ public class SalesTableController implements Initializable, IController {
 		if (data instanceof ResponseObject) {
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch (serverResponse.getRequest()) {
-			case "#GET_SALES":
+			case "#GET_ALL_SALES":
 				if (serverResponse.Responsedata.size() != 0) {
 					int i = 0;
 					while (i < serverResponse.Responsedata.size()) {
@@ -213,18 +220,42 @@ public class SalesTableController implements Initializable, IController {
 										isActive, p.getProductName());
 								saleRows.add(saleRow);
 								map.putIfAbsent(saleRow, p);
+								break;
 							}
 						}
 
-//						int index = -1;
-//						for(Product p: itemList) {
-//							if(p.getProductCode() == itemCode) {
-//								index = itemList.indexOf(p);
-//							}
-//						}
+						i++;
+					} 
+
+				}
+				break;
+			case "#GET_ALL_SALES_IN_AREA":
+				if (serverResponse.Responsedata.size() != 0) {
+					int i = 0;
+					while (i < serverResponse.Responsedata.size()) {
+						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
+//						private String area, type, startDate, startTime, endDate, endTime;
+						String area = (String) values[0];
+						String type = (String) values[1];
+						String startDate = (String) values[2];
+						String startTime = (String) values[3];
+						String endDate = (String) values[4];
+						String endTime = (String) values[5];
+						int isActive = (Integer) values[6];
+						int itemCode = (int) values[7];
+
+						for (Product p : productsList) {
+							if (p.getProductCode() == itemCode) {
+								SaleRow saleRow = new SaleRow(area, type, startDate, startTime, endDate, endTime,
+										isActive, p.getProductName());
+								saleRows.add(saleRow);
+								map.putIfAbsent(saleRow, p);
+								break;
+							}
+						}
 
 						i++;
-					}
+					} 
 
 				}
 				break;
@@ -234,7 +265,7 @@ public class SalesTableController implements Initializable, IController {
 					employeeType = (String) values[0];
 				}
 				break;
-			case "#GET_ITEMS":
+			case "#GET_ALL_PRODUCTS":
 				if (serverResponse.Responsedata.size() != 0) {
 					int i = 0;
 					while (i < serverResponse.Responsedata.size()) {
@@ -273,9 +304,12 @@ public class SalesTableController implements Initializable, IController {
 
 		saleRows = new ArrayList<>();
 		map = new LinkedHashMap<>();
+		
+		Logout.setVisible(false);
+		backBTN.setVisible(false);
 
 		productsList = new ArrayList<>();
-		RequestObjectClient itemsRequest = new RequestObjectClient("#GET_ITEMS", "table=products", "GET");
+		RequestObjectClient itemsRequest = new RequestObjectClient("#GET_ALL_PRODUCTS", "", "GET"); // DONE
 		ClientUI.clientController.accept(itemsRequest);
 
 //		select employees.Employeerole
@@ -287,10 +321,8 @@ public class SalesTableController implements Initializable, IController {
 
 //		getItemsToList();
 
-		RequestObjectClient employeeTypeRequest = new RequestObjectClient("#GET_EMPLOYEE_TYPE",
-				String.format("table=employees#condition=userName=%s#values=Employeerole=Employeerole",
-						ClientUI.clientController.getUser().getUserName()),
-				"GET");
+		RequestObjectClient employeeTypeRequest = new RequestObjectClient("#GET_EMPLOYEE_TYPE", // DONE
+				String.format("%s#",ClientUI.clientController.getUser().getUserName()),"GET");
 		ClientUI.clientController.accept(employeeTypeRequest);
 
 		initSalesTable();
@@ -333,8 +365,10 @@ public class SalesTableController implements Initializable, IController {
 
 	private void initSalesTable() {
 		if (employeeType.equals("NetworkMarketingManager")) {
+			areaText.setVisible(false);
+			backBTN.setVisible(true);
 			deleteRowBTN.setVisible(false);
-			RequestObjectClient salesRequestForManager = new RequestObjectClient("#GET_SALES", "table=sales", "GET");
+			RequestObjectClient salesRequestForManager = new RequestObjectClient("#GET_ALL_SALES", "", "GET"); //DONE
 			ClientUI.clientController.accept(salesRequestForManager);
 			activateColumn.setEditable(false);
 			for (SaleRow saleRow : saleRows) {
@@ -344,20 +378,22 @@ public class SalesTableController implements Initializable, IController {
 				saleRow.setActivate(checkBox);
 			}
 		} else {
-			RequestObjectClient salesRequest = new RequestObjectClient("#GET_SALES",
-					String.format("table=sales#condition=area=%s", ClientUI.clientController.getUser().getArea()),
-					"GET");
+			Logout.setVisible(true);
+			RequestObjectClient salesRequest = new RequestObjectClient("#GET_ALL_SALES_IN_AREA", //DONE
+					String.format("%s#", ClientUI.clientController.getUser().getArea()),"GET");
 			ClientUI.clientController.accept(salesRequest);
+			areaText.setText("Area: " + ClientUI.clientController.getUser().getArea());
 			areaColumn.setVisible(false);
-			salesTable.setPrefWidth(1005);
-			activateColumn.setPrefWidth(181); /// do not change!!
+			salesTable.setPrefWidth(1060);
+			activateColumn.setPrefWidth(272); /// do not change!!
 			for (SaleRow saleRow : saleRows) {
 				CheckBox checkBox = new CheckBox();
+				checkBox.setSelected(saleRow.isActive);
 				checkBox.setOnAction((e) -> {
 					System.out.println(checkBox.isSelected());
-					RequestObjectClient activateRequest = new RequestObjectClient("#UPDATE_ACTIVE_STATUS",
+					RequestObjectClient activateRequest = new RequestObjectClient("#UPDATE_ACTIVE_STATUS", //DONE
 							String.format(
-									"table=sales#values=isActive=%b#condition=area=%s&saleType=%s&startDate=%s&startTime=%s&endDate=%s&endTime=%s&Item=%d",
+									"%b#%s#%s#%s#%s#%s#%s#%d#",
 									checkBox.isSelected(), ClientUI.clientController.getUser().getArea(),
 									saleRow.getType(), saleRow.getStartDate(), saleRow.getStartTime(),
 									saleRow.getEndDate(), saleRow.getEndTime(), map.get(saleRow).getProductCode()),
@@ -380,7 +416,7 @@ public class SalesTableController implements Initializable, IController {
 	@FXML
 	void deleteRow(ActionEvent event) {
 		SaleRow selectedItem = salesTable.getSelectionModel().getSelectedItem();
-		if(selectedItem == null) {
+		if (selectedItem == null) {
 			Alert error = new Alert(AlertType.ERROR);
 			setAlertIcon(error);
 			error.setContentText("You need to choose a sale!");
@@ -392,15 +428,16 @@ public class SalesTableController implements Initializable, IController {
 		Alert confirm = new Alert(AlertType.CONFIRMATION);
 		setAlertIcon(confirm);
 		confirm.setContentText("Are you sure you want to delete this sale?");
-		Optional<ButtonType> result  = confirm.showAndWait();
+		Optional<ButtonType> result = confirm.showAndWait();
 
 //    	 * Delete - DELETE - 
 //    	 * 		- table=subscriber#values=id=3
 //    	 * 		- DELETE FROM subscriber WHERE id=3
+		
 		if (result.get() == ButtonType.OK) {
 
-			RequestObjectClient salesRequest = new RequestObjectClient("#DELETE_SALE", String.format(
-					"table=sales#condition=area=%s&saleType=%s&startDate=%s&startTime=%s&endDate=%s&endTime=%s&Item=%d",
+			RequestObjectClient salesRequest = new RequestObjectClient("#DELETE_SALE", String.format( // DONE
+					"%s#%s#%s#%s#%s#%s#%d#",
 					ClientUI.clientController.getUser().getArea(), selectedItem.getType(), selectedItem.getStartDate(),
 					selectedItem.getStartTime(), selectedItem.getEndDate(), selectedItem.getEndTime(),
 					product.getProductCode()), "DELETE");
@@ -411,11 +448,20 @@ public class SalesTableController implements Initializable, IController {
 	}
 
 	private void setAlertIcon(Alert confirm) {
-		ImageView icon = new ImageView(
-				this.getClass().getResource("..\\gui\\pictures\\LogoEKRUT.png").toString());
+		ImageView icon = new ImageView(this.getClass().getResource("..\\gui\\pictures\\LogoEKRUT.png").toString());
 		icon.setFitWidth(80);
 		icon.setFitHeight(60);
 		confirm.setGraphic(icon);
+	}
+
+	@FXML
+	void logOut(ActionEvent event) {
+		closeWindow(event);
+	}
+
+	@FXML
+	void goBack(ActionEvent event) {
+		ClientUI.sceneManager.ShowSceneNew("../views/NetworkMarketingManagerInterface.fxml", event);
 	}
 
 }

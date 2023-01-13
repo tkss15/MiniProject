@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UsersRegistrationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UsersRegistrationController">
    <children>
       <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="213.0" minWidth="279.0" prefHeight="789.0" prefWidth="279.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
          <children>
@@ -164,26 +164,26 @@
          </font>
       </Button>
       <TextField fx:id="firstNameText" layoutX="712.0" layoutY="183.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="647.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
+      <Text layoutX="649.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="649.0" />
       <TextField fx:id="lastNameText" layoutX="712.0" layoutY="221.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="647.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
+      <Text layoutX="648.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="648.0" />
       <TextField fx:id="telephoneText" layoutX="712.0" layoutY="261.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="647.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telephone:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
+      <Text layoutX="648.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telephone:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="648.0" />
       <TextField fx:id="emailText" layoutX="712.0" layoutY="301.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="647.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
+      <Text layoutX="649.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="649.0" />
       <TextField fx:id="IDText" layoutX="712.0" layoutY="344.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="647.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
+      <Text layoutX="649.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="649.0" />
       <TextField fx:id="userNameText" layoutX="709.0" layoutY="382.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="644.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
+      <Text layoutX="648.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="648.0" />
       <TextField fx:id="passwordText" layoutX="710.0" layoutY="423.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="644.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
-      <Text layoutX="650.0" layoutY="481.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Area:" wrappingWidth="33.13671875" AnchorPane.leftAnchor="650.0" />
-      <Text layoutX="650.0" layoutY="518.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Role:" wrappingWidth="33.13672471046448" AnchorPane.leftAnchor="650.0" />
+      <Text layoutX="648.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="648.0" />
+      <Text layoutX="648.0" layoutY="481.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Area:" wrappingWidth="33.13671875" AnchorPane.leftAnchor="648.0" />
+      <Text layoutX="648.0" layoutY="518.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Type:" wrappingWidth="59.677734375" AnchorPane.leftAnchor="648.0" />
       <TextField fx:id="searchText" layoutX="289.0" layoutY="204.0" />
       <Text layoutX="307.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search User by ID:" wrappingWidth="99.13671875" />
-      <Text fx:id="errorMessage" fill="RED" layoutX="307.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User does not exist!" wrappingWidth="112.13671875" />
+      <Text fx:id="errorMessageID" fill="RED" layoutX="307.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User does not exist!" wrappingWidth="112.13671875" />
       <Button fx:id="searchButton" layoutX="452.0" layoutY="204.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
-      <Button fx:id="registerButton" layoutX="676.0" layoutY="545.0" mnemonicParsing="false" onAction="#register" prefHeight="36.0" prefWidth="134.0" text="Register">
+      <Button fx:id="registerButton" layoutX="676.0" layoutY="604.0" mnemonicParsing="false" onAction="#register" prefHeight="36.0" prefWidth="134.0" text="Register">
          <font>
             <Font size="20.0" />
          </font>
@@ -193,9 +193,12 @@
       <TableView fx:id="infoTable" layoutX="289.0" layoutY="295.0" prefHeight="480.0" prefWidth="267.0">
         <columns>
           <TableColumn fx:id="emailCol" prefWidth="142.0" text="Email" />
-          <TableColumn fx:id="IDCol" prefWidth="124.0" text="ID" />
+          <TableColumn fx:id="IDCol" prefWidth="124.0" style="-fx-alignment: CENTER;" text="ID" />
         </columns>
       </TableView>
+      <TextField fx:id="creditCardText" layoutX="715.0" layoutY="544.0" />
+      <Text layoutX="648.0" layoutY="561.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Credit Card:" wrappingWidth="64.6875" />
+      <Text fx:id="msgRegister" fill="RED" layoutX="687.0" layoutY="672.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User does not exist!" wrappingWidth="112.13671875" />
    </children>
    <stylesheets>
       <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />

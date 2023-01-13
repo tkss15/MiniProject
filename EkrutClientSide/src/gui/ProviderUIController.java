@@ -35,7 +35,7 @@ public class ProviderUIController implements IController, Initializable {
 			this.orderCode = orderCode;
 			this.deliveryLocation = deliveryLocation;
 			this.deliveryStatus = deliveryStatus;
-			this.acceptCheckBox = acceptCheckBox;
+			this.acceptCheckBox = acceptCheckBox; 
 		}
 
 		public CheckBox getAcceptCheckBox() {
@@ -116,7 +116,7 @@ public class ProviderUIController implements IController, Initializable {
 
 	@FXML
 	void applyChangesToTable(ActionEvent event) {
-
+		
 	}
 
 	@FXML
@@ -130,8 +130,8 @@ public class ProviderUIController implements IController, Initializable {
 			System.out.println("Not updated");
 		}
 		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
-			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"",
+			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS", // DONE
+					String.format("%s#",
 							ClientUI.clientController.getUser().getUserName()),
 					"PUT");
 			ClientUI.clientController.accept(request);
@@ -151,8 +151,8 @@ public class ProviderUIController implements IController, Initializable {
 		textTelephone.setText(ClientUI.clientController.getUser().getPhone());
 		textEmail.setText(ClientUI.clientController.getUser().getEmail());
 
-		RequestObjectClient userArea = new RequestObjectClient("#USER_AREA", String.format(
-				"SELECT users.Area FROM users LEFT JOIN employees ON users.userName = employees.userName WHERE users.userName = \"%s\"",
+		RequestObjectClient userArea = new RequestObjectClient("#USER_AREA_PROV", String.format( //DONE
+				"%s#",
 				ClientUI.clientController.getUser().getUserName()), "*");
 		ClientUI.clientController.accept(userArea);
 
@@ -196,7 +196,7 @@ public class ProviderUIController implements IController, Initializable {
 //				d.setAcceptCheckBox(checkBox);
 //			}
 
-		orderCodeColumn.setCellValueFactory(new PropertyValueFactory<DeliveryRow, Integer>("orderCode"));
+		orderCodeColumn.setCellValueFactory(new PropertyValueFactory<DeliveryRow, Integer>("orderCode")); 
 		orderCodeColumn.setResizable(false);
 		deliveryLocationColumn.setCellValueFactory(new PropertyValueFactory<DeliveryRow, String>("deliveryLocation"));
 		deliveryLocationColumn.setResizable(false);
@@ -213,13 +213,9 @@ public class ProviderUIController implements IController, Initializable {
 
 	private void refresh() {
 		deliveryRows.clear();
-		RequestObjectClient deliveries = new RequestObjectClient("#DELIVERY_PROVIDER_ORDERS_DELIVERY",
-				String.format(
-						"SELECT virtualorders.orderCode,virtualorders.DeliveryLocation,virtualorders.DeliveryStatus "
-								+ "FROM virtualorders INNER JOIN orders  INNER JOIN facilities "
-								+ "WHERE FacilityArea = '%s' AND DeliveryStatus != 'Done' GROUP BY orderCode",
-						userAreaStr),
-				"*");
+		DeliveryOrdersTable.getItems().clear();
+		RequestObjectClient deliveries = new RequestObjectClient("#DELIVERY_PROVIDER_ORDERS_DELIVERY", // DONE
+				String.format("%s#",userAreaStr),"*");
 		ClientUI.clientController.accept(deliveries);
 
 		for (DeliveryRow d : deliveryRows) {
@@ -231,18 +227,12 @@ public class ProviderUIController implements IController, Initializable {
 			checkBox.setOnAction((e) -> {
 				System.out.println(checkBox.isSelected());
 				if (checkBox.isSelected()) {
-					RequestObjectClient activateRequest = new RequestObjectClient("#UPDATE_ACTIVE_STATUS",
-							String.format(
-									"table=virtualorders#condition=orderCode=%d&hasDelivery=1#values=DeliveryStatus='Dispatched'",
-									d.getOrderCode()),
-							"PUT");
+					RequestObjectClient activateRequest = new RequestObjectClient("#UPDATE_ACTIVE_STATUS_DISPATCHED", // DONE
+							String.format("%d#",d.getOrderCode()),"PUT");
 					ClientUI.clientController.accept(activateRequest);
 				} else {
-					RequestObjectClient activateRequest = new RequestObjectClient("#UPDATE_ACTIVE_STATUS",
-							String.format(
-									"table=virtualorders#condition=orderCode=%d&hasDelivery=1#values=DeliveryStatus='SentToProvider'",
-									d.getOrderCode()),
-							"PUT");
+					RequestObjectClient activateRequest = new RequestObjectClient("#UPDATE_ACTIVE_STATUS_SENTTOPROVIDER", // DONE
+							String.format("%d#",d.getOrderCode()),"PUT");
 					ClientUI.clientController.accept(activateRequest);
 				}
 				Alert info = new Alert(AlertType.INFORMATION);
@@ -262,7 +252,7 @@ public class ProviderUIController implements IController, Initializable {
 		if (data instanceof ResponseObject) {
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch (serverResponse.getRequest()) {
-			case "#USER_AREA":
+			case "#USER_AREA_PROV":
 				if (serverResponse.Responsedata.size() != 0) {
 					Object[] values = (Object[]) serverResponse.Responsedata.get(0);// Row 1
 					userAreaStr = (String) values[0];
@@ -273,7 +263,7 @@ public class ProviderUIController implements IController, Initializable {
 				if (serverResponse.Responsedata.size() != 0) {
 					int i = 0;
 					while (i < serverResponse.Responsedata.size()) {
-						Object[] values = (Object[]) serverResponse.Responsedata.get(0);
+						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
 						int orderCode = (Integer) values[0];
 						String deliveryLocation = (String) values[1];
 						String deliveryStatus = (String) values[2];
@@ -282,12 +272,11 @@ public class ProviderUIController implements IController, Initializable {
 						deliveryRows.add(d);
 						i++;
 					}
-
 				}
 				break;
 			}
 
-		}
+		} 
 
 	}
 }

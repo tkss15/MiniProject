@@ -2,8 +2,7 @@ package gui;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -21,7 +20,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -29,8 +27,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 
 public class NetworkMarketingManagerController implements Initializable, IController {
 
@@ -204,9 +204,7 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 		}
 		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
 			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"",
-							ClientUI.clientController.getUser().getUserName()),
-					"PUT");
+					String.format("%s#",ClientUI.clientController.getUser().getUserName()),"PUT"); // DONE
 			ClientUI.clientController.accept(request);
 			ClientUI.clientController.getUser().setOnlineStatus("Offline");
 		}
@@ -221,7 +219,7 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 //		errorLabelStartHour.setVisible(false);
 //		errorLabelStartingDate.setVisible(false);
 
-		if (!checkingUserData()) {
+		if (!checkingUserData()) { 
 			return;
 		}
 //		 * Insert - POST - 
@@ -230,11 +228,17 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 
 //		for()
 
-		RequestObjectClient salesRequest = new RequestObjectClient("#CREATE_NEW_SALE", String.format(
-				"table=sales#values=area=%s&saleType=%s&startDate=%s&startTime=%s&endDate=%s&endTime=%s&isActive=0&Item=%d",
-				AreaCombo.getValue(), salesTypesCombo.getValue(), startDate.toString(), saleStartHour.getText(),
-				endDate.toString(), saleEndHour.getText(), selectItemCombo.getValue().getProductCode()), "POST");
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("DD-MM-YYYY");
+		String formatedStartDate = startDate.format(format);
+		String formatedEndDate = startDate.format(format);
+		
+		RequestObjectClient salesRequest = new RequestObjectClient("#CREATE_NEW_SALE", String.format( // DONE
+				"%s#%s#%s#%s#%s#%s#%d#",
+				AreaCombo.getValue(), salesTypesCombo.getValue(), formatedStartDate, saleStartHour.getText(),
+				formatedEndDate, saleEndHour.getText(), selectItemCombo.getValue().getProductCode()), "POST");
 		ClientUI.clientController.accept(salesRequest);
+		
+//		System.out.println(startDate.format(DateTimeFormatter.ofPattern("DD-MM-YYYY")));
 
 		if (!rejectionFalg) {
 
@@ -252,6 +256,14 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 	}
 
 	private boolean checkingUserData() {
+		
+		if (AreaCombo.getValue() == null || salesTypesCombo.getValue() == null) {
+			Alert error = new Alert(AlertType.ERROR);
+			setAlertIcon(error);
+			error.setContentText("You need to enter area and sale type!");
+			error.showAndWait();
+			return false;
+		}
 
 		if (selectItemCombo.getValue() == null) {
 			Alert error = new Alert(AlertType.ERROR);
@@ -261,16 +273,9 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 			return false;
 		}
 
-		if (AreaCombo.getValue() == null || salesTypesCombo.getValue() == null) {
-			Alert error = new Alert(AlertType.ERROR);
-			setAlertIcon(error);
-			error.setContentText("You need to enter area and sale type!");
-			error.showAndWait();
-			return false;
-		}
 
-		ObservableList<Product> items = FXCollections.observableArrayList(itemList);
-		selectItemCombo.setItems(items);
+//		ObservableList<Product> items = FXCollections.observableArrayList(itemList);
+//		selectItemCombo.setItems(items);
 
 		if (!isCorrect(saleStartHour.getText())) {
 			errorLabelStartHour.setVisible(true);
@@ -363,7 +368,7 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 		if (data instanceof ResponseObject) {
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch (serverResponse.getRequest()) {
-			case "#GET_ITEMS":
+			case "#GET_ALL_PRODUCTS_IN_AREA":
 				if (serverResponse.Responsedata.size() != 0) {
 					int i = 0;
 					while (i < serverResponse.Responsedata.size()) {
@@ -383,13 +388,13 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 				}
 				break;
 			case "#CREATE_NEW_SALE":
-				if (serverResponse.Responsedata.size() != 0) {
-					System.out.println(serverResponse.Responsedata.get(0));
-					if (serverResponse.Responsedata.get(0) instanceof Integer) {
-						if ((int) serverResponse.Responsedata.get(0) == -1) {
-							rejectionFalg = true;
-						}
-					}
+				if (serverResponse.Responsedata.size() == 0) {
+					rejectionFalg = true;
+//					if (serverResponse.Responsedata.get(0) instanceof Integer) {
+//						if ((int) serverResponse.Responsedata.get(0) == -1) {
+//							rejectionFalg = true;
+//						}
+//					}
 
 				}
 				break;
@@ -400,6 +405,46 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+//		datePickerStartDate.setConverter(new StringConverter<LocalDate>() {
+//			 String pattern = "dd-MM-yyyy";
+//			 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+//			 @Override public String toString(LocalDate date) {
+//			     if (date != null) {
+//			         return dateFormatter.format(date);
+//			     } else {
+//			         return "";
+//			     }
+//			 }
+//
+//			 @Override public LocalDate fromString(String string) {
+//			     if (string != null && !string.isEmpty()) {
+//			         return LocalDate.parse(string, dateFormatter);
+//			     } else {
+//			         return null;
+//			     }
+//			 }
+//			});
+//		
+//		datePickerEndDate.setConverter(new StringConverter<LocalDate>() {
+//			 String pattern = "dd-MM-yyyy";
+//			 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+//			 @Override public String toString(LocalDate date) {
+//			     if (date != null) {
+//			         return dateFormatter.format(date);
+//			     } else {
+//			         return "";
+//			     }
+//			 }
+//
+//			 @Override public LocalDate fromString(String string) {
+//			     if (string != null && !string.isEmpty()) {
+//			         return LocalDate.parse(string, dateFormatter);
+//			     } else {
+//			         return null;
+//			     }
+//			 }
+//			});
+		
 		ClientUI.clientController.setController(this);
 		errorLabelEndHour.setVisible(false);
 		errorLabelEndingDate.setVisible(false);
@@ -419,11 +464,16 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 		ObservableList<String> areas = FXCollections.observableArrayList("North", "South", "UAE");
 		AreaCombo.setItems(areas);
 
-		ObservableList<String> salesTypes = FXCollections.observableArrayList("1 + 1", "Custom Discount",
-				"Second Item In Half Price");
+		ObservableList<String> salesTypes = FXCollections.observableArrayList("1 + 1", "10% discount",
+				"20% discount","30% discount","40% discount","50% discount","60% discount","70% discount","Second Item In Half Price");
 		salesTypesCombo.setItems(salesTypes);
 
-		setItemsInCombo();
+		selectItemCombo.setDisable(true);
+		
+		AreaCombo.setOnAction((e) ->{
+			setItemsInCombo();
+			selectItemCombo.setDisable(false);
+		});
 
 //		RequestObjectClient salesRequest = new RequestObjectClient("#GET_SALES", "table=sales", "GET");
 //		ClientUI.clientController.accept(salesRequest);
@@ -438,11 +488,18 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 //		ObservableList<SaleRow> deliveryInfo = FXCollections.observableArrayList(saleRows);
 //		salesTable.setItems(deliveryInfo);
 //		salesTable.refresh();
+		
 
 	}
 
 	private void setItemsInCombo() {
-		RequestObjectClient itemsRequest = new RequestObjectClient("#GET_ITEMS", "table=products", "GET");
+//		RequestObjectClient itemsRequest = new RequestObjectClient("#GET_ITEMS", "table=products", "GET"); // to FIX TOMMOROW
+//		ClientUI.clientController.accept(itemsRequest);
+		
+		itemList.clear();
+		RequestObjectClient itemsRequest = new RequestObjectClient("#GET_ALL_PRODUCTS_IN_AREA",
+				String.format("%s#",AreaCombo.getValue()),
+				"*");
 		ClientUI.clientController.accept(itemsRequest);
 
 		ObservableList<Product> products = FXCollections.observableArrayList(itemList);
@@ -463,7 +520,7 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 
 	@FXML
 	void showSales(ActionEvent event) {
-		ClientUI.sceneManager.ShowSceneNew("../views/NetworkEmployeeInterface.fxml");
+		ClientUI.sceneManager.ShowSceneNew("../views/NetworkEmployeeInterface.fxml",event);
 	}
 	private void setAlertIcon(Alert confirm) {
 		ImageView icon = new ImageView(
