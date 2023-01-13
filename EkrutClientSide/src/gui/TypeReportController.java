@@ -123,6 +123,9 @@ public class TypeReportController implements Initializable, IController {
 
 	@FXML
 	void back(ActionEvent event) {
+		if(ClientUI.clientController.isCeo()) {
+			ClientUI.clientController.getUser().setArea("All");
+		}
 		ClientUI.sceneManager.ShowSceneNew("../views/MonthlyReports.fxml", event);
 	}
 

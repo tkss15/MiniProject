@@ -45,6 +45,8 @@ public class CEOController implements Initializable, IController {
 
 	@FXML
 	private Button CloseButton;
+	
+	
 
 	/**
 	 * method that triggers when the "X" button has been pressed
@@ -124,6 +126,7 @@ public class CEOController implements Initializable, IController {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		ClientUI.clientController.setController(this);
 		// sets the user details
 		firstNameText.setText(ClientUI.clientController.getUser().getFirstName());
 		lastNameText.setText(ClientUI.clientController.getUser().getLastName());

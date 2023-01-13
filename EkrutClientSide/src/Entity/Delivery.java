@@ -3,7 +3,7 @@ package Entity;
 public class Delivery {
 
 	public enum DeliveryStatus {
-		Dispatched("Dispatched"), Received("Received"), Done("Done");
+		SentToProvider("SentToProvider"),Dispatched("Dispatched"), Done("Done");
 
 		private String status;
 

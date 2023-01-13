@@ -38,7 +38,17 @@ public class ClientConsole implements ChatIF
 	public ArrayList<Facility> arrFacility = new ArrayList<>();
 	private ArrayList<Product> arrProducts = new ArrayList<>();
 	
-
+	
+	//FOR REPORTS
+	boolean isCeo = false;
+	
+	public boolean isCeo() {
+		return isCeo;
+	}
+	public void setCeo(boolean isCeo) {
+		this.isCeo = isCeo;
+	}
+	
 	SceneManager sceneManager = new SceneManager();
 	IController currentController;
 	/***

@@ -54,28 +54,26 @@ public class ServiceRepresentativeHomePageController implements Initializable,IC
     	System.exit(0);
     }
 
-    @FXML
-    void logout(ActionEvent event) {
-    	try {
-    		
-    		if(ClientUI.clientController.getUser().getOnlineStatus() == null)
-    		{
-    			System.out.println("Not updated");
-    		}
-    		if(ClientUI.clientController.getUser().getOnlineStatus().equals("Online"))
-    		{
-    			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",String.format("table=users#condition=userName=%s#values=userOnline=\"Offline\"", ClientUI.clientController.getUser().getUserName()),"PUT");    
-    			ClientUI.clientController.accept(request);
-    			ClientUI.clientController.getUser().setOnlineStatus("Offline");
-    		}
-    	}
-    	catch(Exception e) {
-    		System.out.println(e.getMessage());
-    		e.printStackTrace();
-    	}
-    	ClientUI.sceneManager.ShowSceneNew("../views/LoginClientInterface.fxml", event);
-    	//System.exit(0);
-    }
+    /**
+	 * method that triggers when the Logout button has been pressed
+	 * 
+	 * @author David
+	 * @param event the ActionEvent that triggered this method call
+	 */
+	@FXML
+	void logout(ActionEvent event) {
+		// logs out from the user and going back to the login screen
+		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
+			System.out.println("Not updated");
+		}
+		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
+			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
+					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
+			ClientUI.clientController.accept(request);
+			ClientUI.clientController.getUser().setOnlineStatus("Offline");
+		}
+		ClientUI.sceneManager.ShowSceneNew("../views/LoginClientInterface.fxml", event);
+	}
 
 	@Override
 	public void updatedata(Object data) {
