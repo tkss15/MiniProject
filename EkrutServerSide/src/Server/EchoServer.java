@@ -160,7 +160,7 @@ public class EchoServer extends AbstractServer
 				mySqlConnection.SafeQuery(setGlobal);
 				
 	
-				RequestObjectClient importSimul = new RequestObjectClient(String.format("%s#%s#", txtFile,txtToTable.get(txtFile)),"*","#IMPORT_SIMUL");
+				RequestObjectClient importSimul = new RequestObjectClient(String.format("%s#%s#", txtFile,txtToTable.get(txtFile)),"*","#SECOND_TRY");
 				importSimul.setURL(QueryChanged(importSimul));
 //				serverConsole.display(importSimul.getURL());
 				mySqlConnection.SafeQuery(importSimul);
@@ -446,6 +446,11 @@ public class EchoServer extends AbstractServer
 		SqlQuerys.put("#UPDATE_MONTHLY_REPORTS", "table=reports#values=reportType=@&reportDate=@&Area=@");
 		
 		/*Server Import Simulator*/
+		SqlQuerys.put("#SECOND_TRY", "LOAD DATA LOCAL INFILE '@' INTO TABLE @ "
+				+ "FIELDS TERMINATED BY ',' "
+				+ "ENCLOSED BY '\"' "
+				+ "LINES TERMINATED BY '\r\n'"
+				+ "IGNORE 1 LINES");
 		SqlQuerys.put("#IMPORT_SIMUL","load data local infile "+ "\"" + "@" + "\"" + " into table @");
 		SqlQuerys.put("#SET_GLOBAL", "SET GLOBAL local_infile=1");
 		
