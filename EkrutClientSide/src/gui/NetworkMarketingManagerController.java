@@ -34,6 +34,16 @@ import javafx.util.StringConverter;
 
 public class NetworkMarketingManagerController implements Initializable, IController {
 
+	
+	/**
+	 * 
+	 * @author galmu
+	 * inner class for row representation in the table view.
+	 * this class saves information about sales such as area,type,startDate,startTime,endDate,endTime and if the sale is active or not.
+	 * it has a constructor which initialises all the data to be saved for a sale.
+	 * it also has getters and setters for all instance variables.
+	 * 
+	 */
 	public class SaleRow {
 		private String area, type, startDate, startTime, endDate, endTime;
 		boolean isActive;
@@ -108,10 +118,14 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 
 	private LocalDate startDate, endDate;
 
+	/**
+	 * boolean variable which indicates that the user tries to save an already existing sale.
+	 */
 	private boolean rejectionFalg = false;
 
-//	private ArrayList<SaleRow> saleRows;
-
+	/**
+	 * itemList saves all the products which exists in a given area. (The area is selected in the AreaCombo by the user).
+	 */
 	private ArrayList<Product> itemList;
 
 	@FXML
@@ -192,11 +206,22 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 	@FXML
 	private ComboBox<Product> selectItemCombo;
 
+	
+	/**
+	 * this method is invoked when the user closes the window (when pressing on the X in the top right corner of the screen)
+	 * closeWindow closes the current window and logs out from the current account.
+	 * @param event
+	 */
 	@FXML
 	void closeWindow(ActionEvent event) {
-		System.exit(0);
+		logOut(event);
 	}
 
+	/**
+	 * method that triggers when the "X" button has been pressed
+	 * @author galmu
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void logOut(ActionEvent event) {
 		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
@@ -213,20 +238,10 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 
 	@FXML
 	void saveSales(ActionEvent event) {
-//		errorLabelEndHour.setVisible(false);
-//		errorLabelEndingDate.setVisible(false);
-//		errorLabelSave.setVisible(false);
-//		errorLabelStartHour.setVisible(false);
-//		errorLabelStartingDate.setVisible(false);
 
 		if (!checkingUserData()) { 
 			return;
 		}
-//		 * Insert - POST - 
-//		 * 		- table=subscriber#values=id=3&username=tkss15&lastname=shneor
-//		 * 		- INSERT INTO subscriber (id,username,lastname) VALUES ('3','tkss15','shneor')
-
-//		for()
 
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("DD-MM-YYYY");
 		String formatedStartDate = startDate.format(format);
@@ -238,7 +253,6 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 				formatedEndDate, saleEndHour.getText(), selectItemCombo.getValue().getProductCode()), "POST");
 		ClientUI.clientController.accept(salesRequest);
 		
-//		System.out.println(startDate.format(DateTimeFormatter.ofPattern("DD-MM-YYYY")));
 
 		if (!rejectionFalg) {
 
@@ -272,10 +286,6 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 			error.showAndWait();
 			return false;
 		}
-
-
-//		ObservableList<Product> items = FXCollections.observableArrayList(itemList);
-//		selectItemCombo.setItems(items);
 
 		if (!isCorrect(saleStartHour.getText())) {
 			errorLabelStartHour.setVisible(true);
@@ -373,7 +383,6 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 					int i = 0;
 					while (i < serverResponse.Responsedata.size()) {
 						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
-//						private String area, type, startDate, startTime, endDate, endTime;
 						int productCode = (int) values[0];
 						String productName = (String) values[1];
 						double productPrice = (double) values[2];
@@ -390,12 +399,6 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 			case "#CREATE_NEW_SALE":
 				if (serverResponse.Responsedata.size() == 0) {
 					rejectionFalg = true;
-//					if (serverResponse.Responsedata.get(0) instanceof Integer) {
-//						if ((int) serverResponse.Responsedata.get(0) == -1) {
-//							rejectionFalg = true;
-//						}
-//					}
-
 				}
 				break;
 			}
@@ -405,45 +408,6 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-//		datePickerStartDate.setConverter(new StringConverter<LocalDate>() {
-//			 String pattern = "dd-MM-yyyy";
-//			 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-//			 @Override public String toString(LocalDate date) {
-//			     if (date != null) {
-//			         return dateFormatter.format(date);
-//			     } else {
-//			         return "";
-//			     }
-//			 }
-//
-//			 @Override public LocalDate fromString(String string) {
-//			     if (string != null && !string.isEmpty()) {
-//			         return LocalDate.parse(string, dateFormatter);
-//			     } else {
-//			         return null;
-//			     }
-//			 }
-//			});
-//		
-//		datePickerEndDate.setConverter(new StringConverter<LocalDate>() {
-//			 String pattern = "dd-MM-yyyy";
-//			 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-//			 @Override public String toString(LocalDate date) {
-//			     if (date != null) {
-//			         return dateFormatter.format(date);
-//			     } else {
-//			         return "";
-//			     }
-//			 }
-//
-//			 @Override public LocalDate fromString(String string) {
-//			     if (string != null && !string.isEmpty()) {
-//			         return LocalDate.parse(string, dateFormatter);
-//			     } else {
-//			         return null;
-//			     }
-//			 }
-//			});
 		
 		ClientUI.clientController.setController(this);
 		errorLabelEndHour.setVisible(false);
@@ -458,7 +422,6 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 		textTelephone.setText(ClientUI.clientController.getUser().getPhone());
 		textEmail.setText(ClientUI.clientController.getUser().getEmail());
 
-//		saleRows = new ArrayList<>();
 		itemList = new ArrayList<>();
 
 		ObservableList<String> areas = FXCollections.observableArrayList("North", "South", "UAE");
@@ -474,27 +437,10 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 			setItemsInCombo();
 			selectItemCombo.setDisable(false);
 		});
-
-//		RequestObjectClient salesRequest = new RequestObjectClient("#GET_SALES", "table=sales", "GET");
-//		ClientUI.clientController.accept(salesRequest);
-//
-//		areaColumn.setCellValueFactory(new PropertyValueFactory<SaleRow, String>("area"));
-//		areaColumn.setResizable(false);
-//		saleHoursColumn.setCellValueFactory(new PropertyValueFactory<SaleRow, String>("hours"));
-//		saleHoursColumn.setResizable(false);
-//		saleTypeColumn.setCellValueFactory(new PropertyValueFactory<SaleRow, String>("type"));
-//		saleTypeColumn.setResizable(false);
-//
-//		ObservableList<SaleRow> deliveryInfo = FXCollections.observableArrayList(saleRows);
-//		salesTable.setItems(deliveryInfo);
-//		salesTable.refresh();
 		
-
 	}
 
 	private void setItemsInCombo() {
-//		RequestObjectClient itemsRequest = new RequestObjectClient("#GET_ITEMS", "table=products", "GET"); // to FIX TOMMOROW
-//		ClientUI.clientController.accept(itemsRequest);
 		
 		itemList.clear();
 		RequestObjectClient itemsRequest = new RequestObjectClient("#GET_ALL_PRODUCTS_IN_AREA",

@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.twilio.Twilio;
@@ -25,7 +26,7 @@ import ocsf.server.ConnectionToClient;
 
 public class EchoServer extends AbstractServer 
 {
-	ChatIF serverUI;
+	ChatIF serverConsole;
 	DBConnect mySqlConnection;
 	private ArrayList<String> serverConfing;
     private boolean SendSMSNotifiction = false;
@@ -38,14 +39,14 @@ public class EchoServer extends AbstractServer
 	public EchoServer(int port, ChatIF serverUI) 
 	{
 		this(port);
-		this.serverUI = serverUI;
+		this.serverConsole = serverUI;
 		
 	}
 
 	boolean isServerClosed;
 	protected void serverStarted() {
-		serverUI.display("Server listening for connections on port " + getPort());
-		serverUI.display("#SetButtonsOn");
+		serverConsole.display("Server listening for connections on port " + getPort());
+		serverConsole.display("#SetButtonsOn");
 		isServerClosed = false;
 
 		/// Import Reports
@@ -103,7 +104,7 @@ public class EchoServer extends AbstractServer
 	 */
 	protected void serverStopped() 
 	{
-		serverUI.display("Server has stopped listening for connections.");
+		serverConsole.display("Server has stopped listening for connections.");
 		isServerClosed = true;
 	}
 	
@@ -124,13 +125,13 @@ public class EchoServer extends AbstractServer
 				}
 				catch(Exception error)
 				{
-					serverUI.display(error.getMessage());
+					serverConsole.display(error.getMessage());
 				}
 			}
 			
 			InitiliazeQuerys();
 			
-			mySqlConnection = new DBConnect(serverUI, serverConfing);
+			mySqlConnection = new DBConnect(serverConsole, serverConfing);
 			mySqlConnection.connectToDB();
 		}
 		else if (message instanceof String) 
@@ -143,8 +144,26 @@ public class EchoServer extends AbstractServer
 					handleServerCommands(strMessage);
 				} catch (IOException e) 
 				{
-					serverUI.display(e.getMessage());
+					serverConsole.display(e.getMessage());
 				}
+			}
+		}
+		//HashMap
+		else if(message instanceof HashMap) {
+			LinkedHashMap<String,String> txtToTable = (LinkedHashMap<String,String>)message;
+			
+			for(String txtFile: txtToTable.keySet()) {
+				
+				RequestObjectClient setGlobal = new RequestObjectClient("","*","#SET_GLOBAL");
+				setGlobal.setURL(QueryChanged(setGlobal));
+//				serverConsole.display(setGlobal.getURL());
+				mySqlConnection.SafeQuery(setGlobal);
+				
+	
+				RequestObjectClient importSimul = new RequestObjectClient(String.format("%s#%s#", txtFile,txtToTable.get(txtFile)),"*","#IMPORT_SIMUL");
+				importSimul.setURL(QueryChanged(importSimul));
+//				serverConsole.display(importSimul.getURL());
+				mySqlConnection.SafeQuery(importSimul);
 			}
 		}
 	}
@@ -164,22 +183,22 @@ public class EchoServer extends AbstractServer
 		{
 			case "#close":
 				close();
-				serverUI.display("#SetButtonsOff");
+				serverConsole.display("#SetButtonsOff");
 			break;
 		}
 	}
 	protected void clientDisconnected(ConnectionToClient client) 
 	{
 		ClientConnection clientToShow = new ClientConnection(client,false);
-		serverUI.display("Client Disconnected "+ client.getInetAddress());
-		serverUI.display(clientToShow);
+		serverConsole.display("Client Disconnected "+ client.getInetAddress());
+		serverConsole.display(clientToShow);
 	}
 	protected void clientConnected(ConnectionToClient client) 
 	{
 		//SendPhotosToClient(null,client);
 		ClientConnection clientToShow = new ClientConnection(client);
-		serverUI.display("Client Connected "+ client.getInetAddress());
-		serverUI.display(clientToShow);
+		serverConsole.display("Client Connected "+ client.getInetAddress());
+		serverConsole.display(clientToShow);
 	}
 
 	
@@ -426,6 +445,10 @@ public class EchoServer extends AbstractServer
 		/* server Commands */
 		SqlQuerys.put("#UPDATE_MONTHLY_REPORTS", "table=reports#values=reportType=@&reportDate=@&Area=@");
 		
+		/*Server Import Simulator*/
+		SqlQuerys.put("#IMPORT_SIMUL","load data local infile "+ "\"" + "@" + "\"" + " into table @");
+		SqlQuerys.put("#SET_GLOBAL", "SET GLOBAL local_infile=1");
+		
 	}
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) 
@@ -534,7 +557,7 @@ public class EchoServer extends AbstractServer
 						}
 						else
 						{
-							serverUI.display(SMS);
+							serverConsole.display(SMS);
 						}
 						RequestObjectClient UpdateAuth = new RequestObjectClient(String.format("%d#%s#", SubscriberNumber,AuthCode),"PUT","#PUT_USER_AUTHCODE");
 						UpdateAuth.setURL(QueryChanged(UpdateAuth));
@@ -548,7 +571,7 @@ public class EchoServer extends AbstractServer
 				{
 					case 0:
 					{
-						System.out.println("Opreation " + clientRequest.getRequestID());
+//						System.out.println("Opreation " + clientRequest.getRequestID());
 						client.sendToClient(mySqlConnection.SafeQuery(clientRequest));							
 						break;
 					}

@@ -36,7 +36,6 @@ public class EKrutInstallController implements Initializable,IController {
 	ToggleGroup tg = new ToggleGroup();
     @FXML
     private RadioButton EKRadio;
-//knnhjnj
     @FXML
     private RadioButton OLRadio;
 
