@@ -20,7 +20,7 @@ import ocsf.client.AbstractClient;
 
 public class ChatClient extends AbstractClient 
 {
-	public static boolean awaitResponse = false;
+	public static boolean awaitResponse = false; //aslkfsasjfbalsskfna;slfm
 	ChatIF clientConsole;
 	/***
 	 * @param host - saves the data of the ip-address the client entered in order to connect to the server.
