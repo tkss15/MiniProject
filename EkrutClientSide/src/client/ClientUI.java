@@ -9,13 +9,18 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/***
+ * 
+ *ClientUI launches the first UI to the client the UI have a button of connect and a text field that 
+ *
+ */
 public class ClientUI extends Application 
 {
 
 	public static ClientConsole clientController;
 	private double offset_x;
 	private double offset_y;
-	public static SceneManager sceneManager = new SceneManager();
+	public static SceneManager sceneManager = new SceneManager();/// an instance of scene manager so it will be easier to switch between UI, and controllers
 	
 	public static void main(String[] args) 
 	{
@@ -50,14 +55,9 @@ public class ClientUI extends Application
 	        primaryStage.setY(event.getScreenY() - offset_y);
 	    });
 	    
-	    //setAppIcon(primaryStage);
 	    primaryStage.initStyle(StageStyle.UNDECORATED);
 	    primaryStage.setScene(scene);
 	    primaryStage.show(); 
-	}
-	private void setAppIcon(Stage primaryStage) {
-		primaryStage.setTitle("EKrut System");
-        primaryStage.getIcons().add(new Image("\\gui\\pictures\\LogoEKRUT.png"));
 	}
 	
 }

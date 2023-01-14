@@ -200,11 +200,6 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="Delivery Date:">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
                      </children>
                      <HBox.margin>
                         <Insets right="5.0" />
@@ -217,11 +212,6 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <Label fx:id="estimatedTime" text="text">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
                      </children>
                   </VBox>
                </children>
@@ -325,7 +315,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="labelErrorDate" layoutX="387.0" layoutY="331.0" text="errorlabel" textFill="RED">
+      <Label fx:id="labelErrorDate" layoutX="447.0" layoutY="328.0" text="errorlabel" textFill="RED">
          <font>
             <Font size="14.0" />
          </font>

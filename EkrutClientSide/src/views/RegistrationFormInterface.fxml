@@ -32,7 +32,7 @@
                   <Font size="24.0" />
                </font>
                <VBox.margin>
-                  <Insets left="35.0" top="150.0" />
+                  <Insets left="37.0" top="152.0" />
                </VBox.margin>
             </Text>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="333.0">
@@ -148,7 +148,7 @@
             </VBox>
             <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@User-removebg-preview.png" />
+                  <Image url="@../gui/pictures/User.png" />
                </image>
                <VBox.margin>
                   <Insets left="8.0" top="-225.0" />
@@ -156,49 +156,104 @@
             </ImageView>
          </children>
       </VBox>
-      <Button fx:id="BackButton" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#Back" text="Back" />
+      <Button id="Back" fx:id="BackButton" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#Back" text="Back" />
       <Text layoutX="452.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Registration Form" wrappingWidth="366.0000191926956" />
       <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X" textFill="#fdb925">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
       </Button>
-      <TextField fx:id="firstNameText" layoutX="712.0" layoutY="183.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="647.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
-      <TextField fx:id="lastNameText" layoutX="712.0" layoutY="221.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="647.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
-      <TextField fx:id="telephoneText" layoutX="712.0" layoutY="261.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="647.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telephone:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
-      <TextField fx:id="emailText" layoutX="712.0" layoutY="301.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="647.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
-      <TextField fx:id="IDText" layoutX="712.0" layoutY="344.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="647.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
-      <TextField fx:id="userNameText" layoutX="709.0" layoutY="382.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="644.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
-      <TextField fx:id="passwordText" layoutX="710.0" layoutY="423.0" AnchorPane.leftAnchor="715.0" />
-      <Text layoutX="644.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
-      <Text layoutX="650.0" layoutY="481.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Area:" wrappingWidth="33.13671875" AnchorPane.leftAnchor="650.0" />
-      <Text layoutX="650.0" layoutY="518.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Role:" wrappingWidth="33.13672471046448" AnchorPane.leftAnchor="650.0" />
-      <TextField fx:id="searchText" layoutX="289.0" layoutY="204.0" />
-      <Text layoutX="307.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search User by ID:" wrappingWidth="99.13671875" />
-      <Text fx:id="errorMessage" fill="RED" layoutX="307.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User does not exist!" wrappingWidth="112.13671875" />
-      <Button fx:id="searchButton" layoutX="452.0" layoutY="204.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
-      <Button fx:id="registerButton" layoutX="676.0" layoutY="545.0" mnemonicParsing="false" onAction="#register" prefHeight="36.0" prefWidth="134.0" text="Register">
+      <TextField fx:id="firstNameText" layoutX="775.0" layoutY="187.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="775.0" AnchorPane.rightAnchor="96.0" />
+      <Text layoutX="650.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="First Name:" wrappingWidth="89.13671875" AnchorPane.leftAnchor="650.0" />
+      <TextField fx:id="lastNameText" layoutX="775.0" layoutY="227.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="775.0" AnchorPane.rightAnchor="96.0" />
+      <Text layoutX="650.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Last Name:" wrappingWidth="82.05469179153442" AnchorPane.leftAnchor="650.0" />
+      <TextField fx:id="telephoneText" layoutX="775.0" layoutY="267.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="775.0" AnchorPane.rightAnchor="96.0" />
+      <Text layoutX="650.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Telephone:" wrappingWidth="82.05469179153442" AnchorPane.leftAnchor="650.0" />
+      <TextField fx:id="emailText" layoutX="775.0" layoutY="307.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="775.0" AnchorPane.rightAnchor="96.0" />
+      <Text layoutX="650.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Email:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
+      <TextField fx:id="IDText" layoutX="775.0" layoutY="348.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="775.0" />
+      <Text layoutX="650.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="ID:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="650.0" />
+      <TextField fx:id="userNameText" layoutX="775.0" layoutY="388.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="775.0" />
+      <Text layoutX="650.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="User Name:" wrappingWidth="82.05469179153442" AnchorPane.leftAnchor="650.0" />
+      <TextField fx:id="passwordText" layoutX="775.0" layoutY="430.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="775.0" />
+      <Text layoutX="650.0" layoutY="449.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Password:" wrappingWidth="89.13672137260437" AnchorPane.leftAnchor="650.0" />
+      <Text layoutX="650.0" layoutY="489.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Area:" wrappingWidth="44.99997854232788" AnchorPane.leftAnchor="650.0" />
+      <Text layoutX="650.0" layoutY="528.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="User Type:" wrappingWidth="82.05469179153442" AnchorPane.leftAnchor="650.0" />
+      <TextField fx:id="searchText" layoutX="292.0" layoutY="204.0" prefHeight="27.0" prefWidth="132.0" />
+      <Text fontSmoothingType="LCD" layoutX="298.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Search User by ID:" wrappingWidth="131.99999964237213" />
+      <Text fx:id="errorMessageID" fill="RED" layoutX="301.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User does not exist!" wrappingWidth="112.13671875" />
+      <Button fx:id="searchButton" layoutX="432.0" layoutY="201.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
+      <Button fx:id="registerButton" layoutX="704.0" layoutY="604.0" mnemonicParsing="false" onAction="#register" prefHeight="36.0" prefWidth="134.0" text="Register">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <TextField fx:id="areaText" layoutX="715.0" layoutY="464.0" AnchorPane.leftAnchor="715.0" />
-      <TextField fx:id="roleText" layoutX="715.0" layoutY="503.0" AnchorPane.leftAnchor="715.0" />
+      <TextField fx:id="areaText" layoutX="775.0" layoutY="473.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="775.0" AnchorPane.rightAnchor="96.0" />
+      <TextField fx:id="roleText" layoutX="775.0" layoutY="514.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="775.0" AnchorPane.rightAnchor="96.0" />
       <TableView fx:id="infoTable" layoutX="289.0" layoutY="295.0" prefHeight="480.0" prefWidth="267.0">
         <columns>
-          <TableColumn fx:id="emailCol" prefWidth="142.0" text="Email" />
-          <TableColumn fx:id="IDCol" prefWidth="124.0" text="ID" />
+          <TableColumn fx:id="emailCol" prefWidth="138.0" text="Email" />
+          <TableColumn fx:id="IDCol" prefWidth="128.0" style="-fx-alignment: CENTER;" text="ID" />
         </columns>
       </TableView>
+      <TextField fx:id="creditCardText" layoutX="775.0" layoutY="554.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="775.0" AnchorPane.rightAnchor="96.0" />
+      <Text layoutX="650.0" layoutY="569.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Credit Card:" wrappingWidth="89.13672137260437" AnchorPane.leftAnchor="650.0" />
+      <Text fx:id="msgRegister" fill="RED" layoutX="715.0" layoutY="670.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User does not exist!" wrappingWidth="112.13671875" />
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="620.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/כרטיס%20אשראי.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="620.0" layoutY="512.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="623.0" layoutY="473.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="623.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="623.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="126.0" fitWidth="143.0" layoutX="598.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/Telephone.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="126.0" fitWidth="134.0" layoutX="628.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/Envelope.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="620.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/password-lock-icon-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="620.0" layoutY="386.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/User.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="622.0" layoutY="349.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+         </image>
+      </ImageView>
    </children>
    <stylesheets>
-      <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
       <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
+      <URL value="@TextFieldAndListView.css" />
+      <URL value="@TableView.css" />
    </stylesheets>
 </AnchorPane>

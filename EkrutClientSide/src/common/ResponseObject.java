@@ -3,18 +3,25 @@ package common;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * ResponseObject is a class that implements the Serializable interface.
+ * The class holds the data for a server response to a client request, 
+ * including the RequestID, Table name, and the data and pictures of the response.
+ * The class provides methods for initializing and adding data and pictures to the response, 
+ * as well as getters and setters for the RequestID field.
+ */
 public class ResponseObject implements Serializable
 {
 	
-	/**
-	 * 
-	 */
 	private String RequestID;
 	public String Table;
-	public ArrayList<Object> Responsedata;
-	public ArrayList<byte[]> ResponsePicture;
+	
+	public ArrayList<Object> Responsedata;// Will hold all the received data from the Server without pictures
+	public ArrayList<byte[]> ResponsePicture;// Will hold all the pictures from the Server.
+	
 	private int size=0;
 	public  byte[] mybytearray;
+	
 	private static final long serialVersionUID = -37052886646462340L;
 
 	public ResponseObject(String Table)

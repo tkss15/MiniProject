@@ -2,9 +2,15 @@ package gui;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
-import Entity.ImportedUser;
 import Entity.User;
 import client.ClientUI;
 import common.IController;
@@ -16,18 +22,69 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class UsersRegistrationController implements Initializable, IController {
+
+	public class ImportedUser extends User {
+
+		private String userTypeRequest;
+		private boolean isSentToManager;
+		private String creditCard;
+
+		public ImportedUser(User user, String area, String userTypeRequest, boolean isSentToManager) {
+			super(user.getFirstName(), user.getLastName(), user.getPhone(), user.getEmail(), user.getID(),
+					user.getUserName(), user.getPassword(), user.getArea());
+
+			this.userTypeRequest = userTypeRequest;
+			this.isSentToManager = isSentToManager;
+		}
+
+		public String getRoleTypeRequest() {
+			return userTypeRequest;
+		}
+
+		public void setRoleTypeRequest(String roleType) {
+			this.userTypeRequest = roleType;
+		}
+
+		public boolean isSentToManager() {
+			return isSentToManager;
+		}
+
+		public void setSentToManager(boolean isSentToManager) {
+			this.isSentToManager = isSentToManager;
+		}
+
+		public String getCreditCard() {
+			return creditCard;
+		}
+
+		public void setCreditCard(String creditCard) {
+			this.creditCard = creditCard;
+		}
+
+	}
+
+	@FXML
+	private TextField creditCardText;
+
+	private Set<String> setID = new HashSet<>(); // set of ID's of existing users.
+
 	ObservableList<ImportedUser> userInfo;
+
 	private ArrayList<ImportedUser> userRows;
-	private ImportedUser user;
 
 	private boolean exists;
 
@@ -39,24 +96,24 @@ public class UsersRegistrationController implements Initializable, IController {
 
 	@FXML
 	private TableColumn<User, String> IDCol;
-	
+
 	@FXML
-    private Text welcomeMessageText;
+	private Text welcomeMessageText;
 
-    @FXML
-    private Text welcomeFirstName;
+	@FXML
+	private Text welcomeFirstName;
 
-    @FXML
-    private Text welcomeLastNameText;
+	@FXML
+	private Text welcomeLastNameText;
 
-    @FXML
-    private Text welcomeIDText;
+	@FXML
+	private Text welcomeIDText;
 
-    @FXML
-    private Text welcomePhoneNumberText;
+	@FXML
+	private Text welcomePhoneNumberText;
 
-    @FXML
-    private Text welcomeEmailText;
+	@FXML
+	private Text welcomeEmailText;
 
 	@FXML
 	private Button BackButton;
@@ -98,7 +155,10 @@ public class UsersRegistrationController implements Initializable, IController {
 	private TextField searchText;
 
 	@FXML
-	private Text errorMessage;
+	private Text errorMessageID;
+
+	@FXML
+	private Text msgRegister;
 
 	@FXML
 	private Button searchButton;
@@ -108,84 +168,225 @@ public class UsersRegistrationController implements Initializable, IController {
 
 	@FXML
 	void Back(ActionEvent event) {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		ClientUI.sceneManager.ShowScene("../views/ServiceRepresentativeInterface.fxml");
-	}
-
-	@FXML
-	void chooseRole(ActionEvent event) {
-
+		ClientUI.sceneManager.ShowSceneNew("../views/ServiceRepresentativeInterface.fxml",event);
 	}
 
 	@FXML
 	void close(ActionEvent event) {
+		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
+			System.out.println("Not updated");
+		}
+		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
+			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS", // DONE
+					String.format("%s#",
+							ClientUI.clientController.getUser().getUserName()),
+					"PUT");
+			ClientUI.clientController.accept(request);
+			ClientUI.clientController.getUser().setOnlineStatus("Offline");
+		}
 		System.exit(0);
 	}
 
 	@FXML
 	void register(ActionEvent event) {
-		if(user.isSentToManager()) {
+		msgRegister.setVisible(false);
+		ImportedUser currentUser = null;
+		for (ImportedUser user : userRows) {
+			if (user.getID().equals(IDText.getText())) {
+				currentUser = user;
+				currentUser.setCreditCard(creditCardText.getText());
+				break;
+			}
+		}
+
+		if (currentUser.isSentToManager()) {
+			msgRegister.setVisible(true);
+			msgRegister.setFill(Color.RED);
+			msgRegister.setText("this user has already been sent to the manager for approval!");
 			return;
 		}
 
-		RequestObjectClient changeIsSentToManager = new RequestObjectClient("#UPDATE_REQUEST_TO_MANAGER",
-				String.format("table=importtable#condition=ID=%s#values=isSentToManager=1", user.getID()), "PUT");
-		ClientUI.clientController.accept(changeIsSentToManager);
-		RequestObjectClient getUsersAfterUpdate = new RequestObjectClient("#GET_USERS",
-				"table=importtable#condition=isSentToManager=0", "GET");
-		ClientUI.clientController.accept(getUsersAfterUpdate);
-		this.infoTable.getItems().clear();
-		userInfo = FXCollections.observableArrayList(userRows);
-		this.infoTable.setItems(userInfo);
-		this.infoTable.refresh();
-		
-		
-		
+		if (setID.contains(IDText.getText()) && !(currentUser.userTypeRequest.equals("Registered To Subscriber"))
+				&& !(currentUser.userTypeRequest.equals("Subscriber To Registered"))) {
+			msgRegister.setVisible(true);
+			msgRegister.setFill(Color.RED);
+			msgRegister.setText("this user alredy exists!");
+			return;
+		}
+
+		if (creditCardText.getText().isEmpty()) {
+			msgRegister.setVisible(true);
+			msgRegister.setFill(Color.RED);
+			msgRegister.setText("You need to fill the Credit Card number in order to complete registration!");
+			return;
+		}
+
+		if (creditCardText.getText().charAt(0) == '0') {
+			msgRegister.setVisible(true);
+			msgRegister.setFill(Color.RED);
+			msgRegister.setText("You cannot have leading zeros!");
+			return;
+		}
+
+		if (!isDigit(creditCardText.getText())) {
+			msgRegister.setVisible(true);
+			msgRegister.setFill(Color.RED);
+			msgRegister.setText("Credit Card number should contain only digits!");
+			return;
+		}
+		if (creditCardText.getText().length() != 16) {
+			msgRegister.setVisible(true);
+			msgRegister.setFill(Color.RED);
+			msgRegister.setText("Credit Card number should have 16 digits!");
+			return;
+		}
+
+		Alert conf = new Alert(AlertType.CONFIRMATION);
+		conf.setContentText("Are you sure you want to send this user to manager?");
+
+		Optional<ButtonType> result = conf.showAndWait();
+
+		if (result.get() == ButtonType.OK) {
+
+			// set isSentToManager = 1.
+			RequestObjectClient changeIsSentToManager = new RequestObjectClient("#UPDATE_REQUEST_TO_MANAGER_URC", //DONE
+					String.format("%s#%s#",IDText.getText(), creditCardText.getText()),"PUT");
+			ClientUI.clientController.accept(changeIsSentToManager);
+
+//			POST - -
+//			 * table=subscriber#values=id=3&username=tkss15&lastname=shneor
+
+			if (!setID.contains(currentUser.getID())) {
+				RequestObjectClient addToUsersTableRequest = new RequestObjectClient("#UPDATE_USERS_TABLE_URC", // DONE
+						String.format(
+								"%s#%s#%s#%s#%s#%s#%s#%s#",
+								currentUser.getFirstName(), currentUser.getLastName(), currentUser.getPhone(),
+								currentUser.getEmail(), currentUser.getID(), currentUser.getUserName(),
+								currentUser.getPassword(), currentUser.getArea()),
+						"POST");
+				ClientUI.clientController.accept(addToUsersTableRequest);
+
+				RequestObjectClient addUsersToRegisteredClientsTable = new RequestObjectClient( // DONE
+						"#UPDATE_REGISTERED_CLIENTS_TABLE_URC",
+						String.format("%s#%s#",
+								currentUser.getUserName(), currentUser.getCreditCard()),
+						"POST");
+				ClientUI.clientController.accept(addUsersToRegisteredClientsTable);
+			}
+			else {
+				RequestObjectClient updateExistingUserInRegClientTable = new RequestObjectClient("#UPDATE_REQUEST_IN_REG_CLIENTS_URC", // DONE
+						String.format("%s#%s#%s#",
+								currentUser.getUserName(),currentUser.getRoleTypeRequest(),currentUser.getCreditCard()),
+						"PUT");
+				ClientUI.clientController.accept(updateExistingUserInRegClientTable);
+			}
+
+			Alert info = new Alert(AlertType.INFORMATION);
+			info.setContentText("User has been updated in users table!");
+			info.showAndWait();
+
+			msgRegister.setVisible(true);
+			msgRegister.setFill(Color.GREEN);
+			msgRegister.setText("User sent to manager successfully!");
+
+			userRows.clear();
+			clearAllTextFields();
+			registerButton.setDisable(true);
+			creditCardText.setDisable(true);
+
+			RequestObjectClient getUsers = new RequestObjectClient("#GET_USERS_URC", //DONE
+					"", "GET");
+			ClientUI.clientController.accept(getUsers);
+
+			userInfo = FXCollections.observableArrayList(userRows);
+			this.infoTable.setItems(userInfo);
+		}
+
+	}
+
+	// checks that all characters of the string are digits;
+	private boolean isDigit(String s) {
+		for (char c : s.toCharArray()) {
+			int cInt = Character.getNumericValue(c);
+			if (cInt < 0 || cInt > 9) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@FXML
 	void searchUser(ActionEvent event) {
-		errorMessage.setVisible(false);
+		errorMessageID.setVisible(false);
 		String getUserText = searchText.getText();
 		if (getUserText.isEmpty()) {
-			errorMessage.setText("Please enter user ID");
-			errorMessage.setVisible(true);
+			clearAllTextFields();
+			creditCardText.setDisable(true);
+			errorMessageID.setText("Please enter user ID");
+			errorMessageID.setVisible(true);
 			return;
 		}
-		RequestObjectClient searchUserInDB = new RequestObjectClient("#SEARCH_USER",
-				String.format("table=importtable#condition=ID=%s&isSentToManager=0", getUserText), "GET");
-		ClientUI.clientController.accept(searchUserInDB);
+		if (getUserText.charAt(0) == '0') {
+			clearAllTextFields();
+			creditCardText.setDisable(true);
+			errorMessageID.setText("You can not have leading zeroes");
+			errorMessageID.setVisible(true);
+			return;
+		}
+		if (!isDigit(getUserText)) {
+			clearAllTextFields();
+			creditCardText.setDisable(true);
+			errorMessageID.setText("User ID must consist of numbers only!");
+			errorMessageID.setVisible(true);
+			return;
+		}
+
+		ImportedUser currentUser = null;
+		for (ImportedUser user : userRows) {
+			if (user.getID().equals(getUserText)) {
+				currentUser = user;
+				exists = true;
+				break;
+			}
+		}
 
 		if (exists) {
-			firstNameText.setText(user.getFirstName());
-			lastNameText.setText(user.getLastName());
-			telephoneText.setText(user.getPhone());
-			emailText.setText(user.getEmail());
-			IDText.setText(user.getID());
-			userNameText.setText(user.getUserName());
-			passwordText.setText(user.getPassword());
+			registerButton.setDisable(false);
+			creditCardText.setDisable(false);
 
-			areaText.setText(user.getArea());
-			roleText.setText(user.getRoleType());
+			firstNameText.setText(currentUser.getFirstName());
+			lastNameText.setText(currentUser.getLastName());
+			telephoneText.setText(currentUser.getPhone());
+			emailText.setText(currentUser.getEmail());
+			IDText.setText(currentUser.getID());
+			userNameText.setText(currentUser.getUserName());
+			passwordText.setText(currentUser.getPassword());
+
+			areaText.setText(currentUser.getArea());
+			roleText.setText(currentUser.getRoleTypeRequest());
 			exists = false;
 			return;
-		}
-		else {
-			firstNameText.setText(null);
-			lastNameText.setText(null);
-			telephoneText.setText(null);
-			emailText.setText(null);
-			IDText.setText(null);
-			userNameText.setText(null);
-			passwordText.setText(null);
-
-			areaText.setText(null);
-			roleText.setText(null);
-			
-			errorMessage.setText(String.format("user with ID: %s does not exist", getUserText));
-			errorMessage.setVisible(true);
+		} else {
+			clearAllTextFields();
+			errorMessageID.setText(String.format("user with ID: %s does not exist", getUserText));
+			errorMessageID.setVisible(true);
+			creditCardText.setDisable(true);
 		}
 		// table=users#condition=userName=%s#values=userName=username&userPassword=password
+	}
+
+	private void clearAllTextFields() {
+		firstNameText.clear();
+		lastNameText.clear();
+		telephoneText.clear();
+		emailText.clear();
+		IDText.clear();
+		userNameText.clear();
+		passwordText.clear();
+		areaText.clear();
+		roleText.clear();
+		searchText.clear();
+		creditCardText.clear();
 	}
 
 	@Override
@@ -194,32 +395,19 @@ public class UsersRegistrationController implements Initializable, IController {
 		if (data instanceof ResponseObject) {
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch (serverResponse.getRequest()) {
-			case "#GET_USERS":
-				userRows = new ArrayList<>();
+			case "#GET_EXISTING_USERS":
 
 				if (serverResponse.Responsedata.size() != 0) {
 					for (int i = 0; i < serverResponse.Responsedata.size(); i++) {
 						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
-						String firstName = (String) values[0];
-						String LastName = (String) values[1];
-						String Telephone = (String) values[2];
-						String Email = (String) values[3];
-						String ID = (String) values[4];
-						String userName = (String) values[5];
-						String userPassword = (String) values[6];
-						String area = (String) values[7];
-						String userType = (String) values[8];
-						boolean isSentToUser = (Boolean)values[9];
-						User curr = new User(firstName, LastName, Telephone, Email, ID, userName, userPassword,area);
-						user = new ImportedUser(curr, area, userType,isSentToUser);
-						userRows.add(user);
+						String ID = (String) values[0];
+						setID.add(ID);
 					}
 				}
 				break;
-			case "#SEARCH_USER":
+			case "#GET_USERS_URC":
 				System.out.println(serverResponse.Responsedata.size());
 				if (serverResponse.Responsedata.size() != 0) {
-					exists = true;
 					for (int i = 0; i < serverResponse.Responsedata.size(); i++) {
 						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
 						String firstName = (String) values[0];
@@ -230,11 +418,12 @@ public class UsersRegistrationController implements Initializable, IController {
 						String userName = (String) values[5];
 						String userPassword = (String) values[6];
 						String area = (String) values[7];
-						String userType = (String) values[8];
-						boolean isSentToUser = (Boolean)values[9];
-						
-						User curr = new User(firstName, LastName, Telephone, Email, ID, userName, userPassword,area);
-						user = new ImportedUser(curr, area, userType,isSentToUser);
+						String userTypeRequest = (String) values[8];
+						boolean isSentToManager = (Boolean) values[9];
+
+						User curr = new User(firstName, LastName, Telephone, Email, ID, userName, userPassword, area);
+						ImportedUser user = new ImportedUser(curr, area, userTypeRequest, isSentToManager);
+						userRows.add(user);
 					}
 				}
 				break;
@@ -244,19 +433,56 @@ public class UsersRegistrationController implements Initializable, IController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		msgRegister.setVisible(false);
+		registerButton.setDisable(true);
+		firstNameText.setDisable(true);
+		lastNameText.setDisable(true);
+		telephoneText.setDisable(true);
+		emailText.setDisable(true);
+		IDText.setDisable(true);
+		userNameText.setDisable(true);
+		passwordText.setDisable(true);
+		areaText.setDisable(true);
+		roleText.setDisable(true);
+		creditCardText.setDisable(true);
+
+		Pattern pattern1 = Pattern.compile(".{0,10}");
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		TextFormatter formatter1 = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
+			return pattern1.matcher(change.getControlNewText()).matches() ? change : null;
+		});
+		Pattern pattern2 = Pattern.compile(".{0,16}");
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		TextFormatter formatter2 = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
+			return pattern2.matcher(change.getControlNewText()).matches() ? change : null;
+		});
+
+		searchText.setTextFormatter(formatter1);
+		creditCardText.setTextFormatter(formatter2);
+
 		welcomeFirstName.setText(ClientUI.clientController.getUser().getFirstName());
 		welcomeLastNameText.setText(ClientUI.clientController.getUser().getLastName());
 		welcomeIDText.setText(ClientUI.clientController.getUser().getID());
 		welcomePhoneNumberText.setText(ClientUI.clientController.getUser().getPhone());
 		welcomeEmailText.setText(ClientUI.clientController.getUser().getEmail());
-		welcomeMessageText.setText(String.format("Welcome Back %s",ClientUI.clientController.getUser().getFirstName()));
+		welcomeMessageText
+				.setText(String.format("Welcome Back %s", ClientUI.clientController.getUser().getFirstName()));
 		exists = false;
-		errorMessage.setVisible(false);
+		errorMessageID.setVisible(false);
 		ClientUI.clientController.setController(this);
+
+		userRows = new ArrayList<>();
+
 		emailCol.setCellValueFactory(new PropertyValueFactory<User, String>("Email"));
 		IDCol.setCellValueFactory(new PropertyValueFactory<User, String>("ID"));
-		RequestObjectClient getUsers = new RequestObjectClient("#GET_USERS",
-				"table=importtable#condition=isSentToManager=0", "GET");
+
+		// get the ID's of existing users in the DB.
+		RequestObjectClient getExistingUsers = new RequestObjectClient("#GET_EXISTING_USERS_URC", //DONE
+				"", "GET");
+		ClientUI.clientController.accept(getExistingUsers);
+
+		RequestObjectClient getUsers = new RequestObjectClient("#GET_USERS_URC",
+				"", "GET");
 		ClientUI.clientController.accept(getUsers);
 
 		userInfo = FXCollections.observableArrayList(userRows);

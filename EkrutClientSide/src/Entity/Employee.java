@@ -1,5 +1,17 @@
 package Entity;
 
+
+/**
+ * 
+ * @author galmu
+ * The Employee class is a subclass of the User class that represents an employee within the Ekrut system.
+ * It contains an enumeration of possible employee roles, as well as a field to store the employee's current role.
+ * The class has a default constructor, as well as a constructor that takes in a User object to copy its properties.
+ * It also has a constructor that takes in an EmployeeRole and a userName.
+ * The class overrides the toString() method inherited from the User class to provide its own implementation.
+ * It also has getters and setters for the employeeRole field.
+ */
+
 public class Employee extends User {
 
 	public enum EmployeeRole {
@@ -12,8 +24,6 @@ public class Employee extends User {
 	public Employee() {super();}
 	
 	public Employee(User user) {
-		//String firstName, String lastName, String phone, String email, String ID, String UserName,
-		//String Password)
 		super(user.getFirstName(),user.getLastName(),user.getPhone(),user.getEmail(),user.getID(),user.getUserName(),
 				user.getPassword(),user.getArea());
 		this.setOnlineStatus(user.getOnlineStatus());
@@ -26,7 +36,6 @@ public class Employee extends User {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return super.toString();
 	}
 

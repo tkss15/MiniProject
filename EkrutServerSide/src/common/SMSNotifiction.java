@@ -18,12 +18,21 @@ public class SMSNotifiction implements INotifictionStrategy
 	@Override
 	public void SendNotification(String to, String msg) 
 	{
-	        Message message = Message.creator(
-	                new com.twilio.type.PhoneNumber(to),
-	                new com.twilio.type.PhoneNumber("+12057821468"),
-	                msg)
-	            .create();
-	        System.out.println(message.getSid());
+		Thread SendSMS = new Thread() 
+		{
+		    public void run() 
+		    {
+		        Message message = Message.creator(
+				        new com.twilio.type.PhoneNumber(to),
+				        new com.twilio.type.PhoneNumber("+12057821468"),
+				        msg)
+				    .create();
+				System.out.println(message.getSid());
+		    }  
+		};
+
+		SendSMS.start();
+		
 	}
 
 }

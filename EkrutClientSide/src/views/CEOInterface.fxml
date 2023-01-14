@@ -17,9 +17,9 @@
       <Line endX="260.0" layoutX="655.0" layoutY="157.0" opacity="0.7" startX="-250.0" />
       <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="789.0" minWidth="335.0" prefHeight="789.0" prefWidth="342.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="154.0" fitWidth="248.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../project%20icons/EKrutLogo.jpeg" />
+                  <Image url="@../gui/pictures/LogoEKRUT.png" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -31,7 +31,7 @@
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../project%20icons/User.png" />
+                              <Image url="@../gui/pictures/User.png" />
                            </image>
                         </ImageView>
                         <Text fx:id="WelcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back Liel!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
@@ -157,7 +157,7 @@
       </VBox>
       <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
       <Text layoutX="485.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text=" CEO Work Space" wrappingWidth="401.0000191926956" />
-      <Button fx:id="monthlyReportsButton" layoutX="686.0" layoutY="215.0" mnemonicParsing="false" onAction="#monthlyReports" prefHeight="92.0" prefWidth="292.0" text="Monthly Reports" AnchorPane.leftAnchor="686.0">
+      <Button fx:id="monthlyReportsButton" layoutX="497.0" layoutY="279.0" mnemonicParsing="false" onAction="#monthlyReports" prefHeight="92.0" prefWidth="292.0" text="Monthly Reports" AnchorPane.leftAnchor="497.0">
          <font>
             <Font size="32.0" />
          </font></Button>
@@ -169,24 +169,14 @@
       </Button>
       <ImageView fitHeight="163.0" fitWidth="200.0" layoutX="586.0" layoutY="541.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../project%20icons/DivisionCEO.png" />
+            <Image url="@../gui/pictures/DivisionCEO.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="617.0" layoutY="711.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../project%20icons/CEOicon.png" />
+            <Image url="@../gui/pictures/CEOicon.png" />
          </image>
       </ImageView>
-      <Button fx:id="ThresholdLevelButton" layoutX="368.0" layoutY="222.0" mnemonicParsing="false" onAction="#thresholdLevel" prefHeight="92.0" prefWidth="292.0" text="Threshold Level">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </Button>
-      <Button fx:id="ApproveButton" layoutX="519.0" layoutY="349.0" mnemonicParsing="false" onAction="#approve" prefHeight="92.0" prefWidth="292.0" text="Approve">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </Button>
    </children>
    <stylesheets>
       <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />

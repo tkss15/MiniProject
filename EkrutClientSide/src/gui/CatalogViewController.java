@@ -107,8 +107,7 @@ public class CatalogViewController implements Initializable, IController
 	{
 	    // Close the application and inform the server that the user has disconnected
 		ClientUI.clientController.getTaskCountdown().cancelTask();
-	    ClientUI.clientController.UserDissconnected();
-	    System.exit(0);
+	    ClientUI.clientController.UserDisconnected(true);
 	}
 
 	@FXML
@@ -142,7 +141,7 @@ public class CatalogViewController implements Initializable, IController
     	
     	if(((RegisterClient)ClientUI.clientController.getUser()).getClientStatus() == RegisterClient.ClientStatus.CLIENT_SUBSCRIBER)
     	{
-			request = new RequestObjectClient("#GET_ALL_SALES",String.format("%s#", ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityArea()),"GET");  
+			request = new RequestObjectClient("#GET_ALL_SALES_CLIENT_VIEWER",String.format("%s#", ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityArea()),"GET");  
 	    	ClientUI.clientController.accept(request);
 	    	
 	    	for(int i = 0; i < ClientUI.clientController.getArrProducts().size(); i++)
@@ -159,6 +158,17 @@ public class CatalogViewController implements Initializable, IController
 		    			
 		    			case"Second Item In Half Price":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegySecondHalfPrice());
 		    			break;
+		    			
+		    			// 10% discount
+		    			default:	
+		    			{
+		    				String key = SalesMap.get(ClientUI.clientController.getArrProducts().get(i).getProductCode());
+		    				Integer discount = Integer.valueOf(key.substring(0, 2));
+		    				double perecnt = discount/100.0;
+		    				
+		    				ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegyCustom(perecnt));
+		    				break;
+		    			}
 	    			}
 	    		}
 	    	}
@@ -516,7 +526,7 @@ public class CatalogViewController implements Initializable, IController
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch(serverResponse.getRequest())
 			{
-				case"#GET_ALL_SALES":
+				case"#GET_ALL_SALES_CLIENT_VIEWER":
 				{
 					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
 					{

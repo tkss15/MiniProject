@@ -361,7 +361,7 @@
                         </Text>
                      </children>
                   </VBox>
-                  <Button mnemonicParsing="false" onAction="#ShowSubscriberRequest" prefHeight="45.0" prefWidth="94.0" text="Join">
+                  <Button fx:id="joinSubscriber" mnemonicParsing="false" onAction="#ShowSubscriberRequest" prefHeight="45.0" prefWidth="94.0" text="Join">
                      <HBox.margin>
                         <Insets left="100.0" top="30.0" />
                      </HBox.margin>

@@ -3,6 +3,7 @@ package gui;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -117,7 +118,12 @@ public class ServerInterfaceController implements Initializable, IController
 			if(MissingText = setting.isEmpty())
 				break;
 		}
-		ServerUI.runServer(port);
+		try {
+			ServerUI.runServer(port);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return;
+		}
 		ServerUI.sv.accept(serverConfing);
 		missingTxt.setVisible(MissingText);
 	}

@@ -13,7 +13,8 @@ public class RegisterClient extends User {
 	{
 		CLIENT_APRROVED,
 		CLIENT_SUBSCRIBER,
-		CLIENT_PENDING
+		CLIENT_PENDING,
+		CLIENT_APPORVED_TO_SUBSCRIBER
 	}
 	
 	public RegisterClient(User clientUser,
@@ -56,6 +57,8 @@ public class RegisterClient extends User {
 				break;
 			case"PENDING":ClientStatus = ClientStatus.CLIENT_PENDING;
 				break;
+			case"Registered To Subscriber": ClientStatus = ClientStatus.CLIENT_APPORVED_TO_SUBSCRIBER;
+				break;
 		}
 	}
 	public Integer getClientSubscriberNumber() {
@@ -87,5 +90,11 @@ public class RegisterClient extends User {
 	}
 	public void setClientFirstPurchase(Boolean clientFirstPurchase) {
 		this.clientFirstPurchase = clientFirstPurchase;
+	}
+	public void setClientFirstPurchase(int clientFirstPurchase) {
+		if(clientFirstPurchase ==1) {
+			this.clientFirstPurchase = true;
+		}
+		this.clientFirstPurchase = false;
 	}
 }

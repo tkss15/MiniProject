@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../project%20icons/EKrutLogo.jpeg" />
+                  <Image url="@../gui/pictures/EKrutLogo.jpeg" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -31,7 +31,7 @@
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../project%20icons/User.png" />
+                              <Image url="@../gui/pictures/User.png" />
                            </image>
                         </ImageView>
                         <Text fx:id="WelcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back Gal!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
@@ -158,7 +158,7 @@
       <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
       <Text layoutX="474.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut  Work Space" wrappingWidth="476.0000191926956" />
       <Button fx:id="monthlyReportsButton" layoutX="421.0" layoutY="246.0" mnemonicParsing="false" onAction="#MonthlyReportsScreen" prefHeight="64.0" prefWidth="200.0" text="Monthly Reports" AnchorPane.leftAnchor="427.0" />
-      <Button fx:id="approveCostumerButton" layoutX="691.0" layoutY="246.0" mnemonicParsing="false" onAction="#approveCostumerScreen" prefHeight="64.0" prefWidth="200.0" text="Approve Costumer" AnchorPane.leftAnchor="691.0" />
+      <Button fx:id="approveCostumerButton" layoutX="691.0" layoutY="246.0" mnemonicParsing="false" onAction="#approveCostumerScreen" prefHeight="64.0" prefWidth="200.0" text="Approve Customer" AnchorPane.leftAnchor="691.0" />
       <Line endX="260.0" layoutX="660.0" layoutY="530.0" opacity="0.7" startX="-250.0" />
       <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X" textFill="#fdb925">
          <font>
@@ -167,14 +167,14 @@
       </Button>
       <ImageView fitHeight="213.0" fitWidth="210.0" layoutX="551.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../project%20icons/ceo-office-icon.png" />
+            <Image url="@../gui/pictures/ceo-office-icon.png" />
          </image>
       </ImageView>
       <Button fx:id="thresholdLevelButton" layoutX="427.0" layoutY="363.0" mnemonicParsing="false" onAction="#ThresholdLevelScreen" prefHeight="64.0" prefWidth="200.0" text="Threshold Level" AnchorPane.leftAnchor="427.0" />
       <Button fx:id="refillOrderButton" layoutX="691.0" layoutY="375.0" mnemonicParsing="false" onAction="#refillOrder" prefHeight="64.0" prefWidth="200.0" text="Refill Order" />
    </children>
    <stylesheets>
-      <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
       <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
    </stylesheets>
 </AnchorPane>

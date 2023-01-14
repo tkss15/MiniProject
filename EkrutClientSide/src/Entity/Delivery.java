@@ -1,9 +1,19 @@
 package Entity;
 
+/***
+ * 
+ * @author galmu
+ * The Delivery class represents a delivery object that contains information about an order and its delivery status.
+ * It contains an enumeration called DeliveryStatus that contains the possible statuses of a delivery: SentToProvider, Dispatched and Done.
+ * The class has three private attributes: orderCode, deliveryStatus and costumerApproval.
+ * The Delivery class has a default constructor and a constructor that takes three parameters: orderCode, costumerApproval and deliveryStatus.
+ * There are also getters and setters for each attribute and a toString() method to return a string representation of the Delivery object.
+ *
+ */
 public class Delivery {
 
 	public enum DeliveryStatus {
-		Dispatched("Dispatched"), Received("Received"), Done("Done");
+		SentToProvider("SentToProvider"),Dispatched("Dispatched"), Done("Done");
 
 		private String status;
 

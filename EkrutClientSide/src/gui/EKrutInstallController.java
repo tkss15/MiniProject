@@ -164,7 +164,7 @@ public class EKrutInstallController implements Initializable,IController {
     		return;
     	ComboBoxFacility11.setVisible(true);
     	
-		Facilitylist = FXCollections.observableArrayList(ClientUI.clientController.arrFacility.stream()
+		Facilitylist = FXCollections.observableArrayList(ClientUI.clientController.getArrFacility().stream()
 				.filter(fac -> (ComboBoxArea.getValue().equals(fac.getFacilityArea()) && ComboBoxLocation.getValue().equals(fac.getFacilityLocation()) && !fac.isFacilityEK() ) )
 				.collect(Collectors.toList()));
 		
@@ -185,7 +185,7 @@ public class EKrutInstallController implements Initializable,IController {
 		
 		ComboBoxLocation.getItems().clear();
 		ComboBoxFacility11.getItems().clear();
-		for(Facility tempfacility : ClientUI.clientController.arrFacility)
+		for(Facility tempfacility : ClientUI.clientController.getArrFacility())
 		{
 			if(!tempfacility.getFacilityArea().equals(ComboBoxArea.getValue()))
 				continue;

@@ -2,20 +2,23 @@ package gui;
 
 import java.io.File;
 import java.io.FileReader;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import Entity.Facility;
 import client.ClientUI;
 import common.IController;
 import common.RequestObjectClient;
+import common.ResponseObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
 public class ClientLoginInterface implements IController {
-	private RequestObjectClient request;
 	@FXML
 	private Button UpdateButton;
 
@@ -28,8 +31,7 @@ public class ClientLoginInterface implements IController {
 
 	@FXML
 	private Button CloseButton;
-
-
+	
 	@FXML
 	void ConnectToDB(ActionEvent event) throws Exception 
 	{
@@ -37,6 +39,7 @@ public class ClientLoginInterface implements IController {
 
 		((Node) event.getSource()).getScene().getWindow().hide();
 		ClientUI.ConnectToServer(ipaddress);
+		ClientUI.clientController.setController(this);
     	
 		File firstInstalltion = new File(ClientUI.clientController.ApplicationConfig + "config.cfg");
 		System.out.println(firstInstalltion.getAbsolutePath());
@@ -53,7 +56,7 @@ public class ClientLoginInterface implements IController {
 	        reader.close();
 	        String[] arraySettings = configSettings.split("#");
 	        System.out.println(arraySettings.length);
-	        //EK 3 UAE Kirat-ata Rogozin School 45 
+
 	        if(arraySettings[0].equals("OL"))
 	        	ClientUI.clientController.getEKFacility().setFacilityEK(false);
 	        else
@@ -78,7 +81,33 @@ public class ClientLoginInterface implements IController {
 
 
 	@Override
-	public void updatedata(Object data) {
+	public void updatedata(Object data) 
+	{
+		if(data instanceof ResponseObject)
+		{
+			ResponseObject serverResponse = (ResponseObject) data;
+			
+			switch(serverResponse.getRequest())
+			{	
+				case"#FIRST_INSTALL":
+				{
+					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+					{
+						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
+						Integer FacilityID = (Integer)values[0];
+						String FacilityArea = (String)values[1];
+						String FacilityLocation = (String)values[2];
+						String FacilityName = (String)values[3];
+						Integer FacilityThresholder = (Integer)values[4];
+						Integer FacilityEK = (Integer) values[5];
+
+						ClientUI.clientController.getArrFacility().add(new Facility(FacilityID,FacilityArea, FacilityLocation, FacilityName, FacilityThresholder, FacilityEK == 0 ? false : true
+						));
+					}					
+					break;
+				}
+			}
+		}
 	}
 
 }

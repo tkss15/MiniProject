@@ -56,6 +56,16 @@ public class DBConnect
 	
 	public void connectToDB()
 	{
+		try 
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			System.out.println("Driver definition succeed");
+			serverUI.display("Error");
+		} catch (Exception ex) {
+			/* handle the error */
+			System.out.println("Driver definition failed");
+			return;
+		}
         try 
         {
             conn = DriverManager.getConnection(Constants.DB_URL,databaseDetails.get(3),databaseDetails.get(4));

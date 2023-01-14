@@ -108,12 +108,12 @@ public class OrderSettingsController implements Initializable, IController {
    		errorLabel.setVisible(false);
 		radioDelivery.setToggleGroup(tg);
 		radioPickup.setToggleGroup(tg);
-		for(Facility f : ClientUI.clientController.arrFacility)
+		for(Facility f : ClientUI.clientController.getArrFacility())
 		{
 			System.out.println(f);
 		}
 		//System.out.println(ClientUI.clientController.getUser().getArea());
-		list = FXCollections.observableArrayList(ClientUI.clientController.arrFacility.stream()
+		list = FXCollections.observableArrayList(ClientUI.clientController.getArrFacility().stream()
 				.filter(fac -> (fac.getFacilityArea().equals(ClientUI.clientController.getUser().getArea())) )
 				.collect(Collectors.toList()));
 		//list = FXCollections.observableArrayList(ClientUI.clientController.arrFacility);

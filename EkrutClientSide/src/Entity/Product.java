@@ -17,12 +17,6 @@ public class Product
 	
 	private IProductPrice PriceStategy;
 	
-	public int getMaxAmount() {
-		return MaxAmount;
-	}
-	public void setMaxAmount(int maxAmount) {
-		MaxAmount = maxAmount;
-	}
 	private final String dirPictures = "EkrutApplication";
 	
 	public Product(Integer ProductCode,String ProductName,String ProductDescription,String ProductSrc,Double ProductPrice, int MaxAmount)
@@ -38,9 +32,16 @@ public class Product
 		newDir.mkdirs();
 		this.PicturePhoto = new File(dirPictures + "/" + this.ProductSrc);
 	}
-	public String getPathPicture()
+	public Product(Integer ProductCode,String ProductName,String ProductDescription,String ProductSrc,Double ProductPrice)
 	{
-		return String.format("file:///%s", PicturePhoto.getAbsolutePath());
+		this.ProductCode = ProductCode;
+		this.ProductName = ProductName;
+		this.ProductDescription = ProductDescription;
+		this.ProductSrc = ProductSrc;
+		this.ProductPrice = ProductPrice;
+		File newDir = new File(dirPictures);
+		newDir.mkdirs();
+		this.PicturePhoto = new File(dirPictures + "/" + this.ProductSrc);
 	}
 	public Product(Product Oldproduct)
 	{
@@ -52,6 +53,10 @@ public class Product
 			Oldproduct.MaxAmount);
 		this.setPriceStategy(Oldproduct.PriceStategy);
 		this.setAmount(Oldproduct.getProductAmount());
+	}
+	public String getPathPicture()
+	{
+		return String.format("file:///%s", PicturePhoto.getAbsolutePath());
 	}
 	public IProductPrice getPriceStategy() {
 		return PriceStategy;
@@ -84,12 +89,15 @@ public class Product
 	{
 		ProductAmount = Amount;
 	}
+	public int getMaxAmount() {
+		return MaxAmount;
+	}
+	public void setMaxAmount(int maxAmount) {
+		MaxAmount = maxAmount;
+	}
 	@Override
 	public String toString() {
-		return "Product [ProductAmount=" + ProductAmount + ", MaxAmount=" + MaxAmount + ", ProductCode=" + ProductCode
-				+ ", ProductName=" + ProductName + ", ProductDescription=" + ProductDescription + ", ProductSrc="
-				+ ProductSrc + ", ProductPrice=" + ProductPrice + ", PicturePhoto=" + PicturePhoto + ", dirPictures="
-				+ dirPictures + "]";
+		return ProductName;
 	}
 	@Override
 	public int hashCode() {

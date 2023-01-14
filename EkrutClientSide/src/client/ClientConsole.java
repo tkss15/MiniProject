@@ -17,30 +17,37 @@ import common.RequestObjectClient;
 import common.SceneManager;
 import javafx.concurrent.Task;
 
+/***
+ * 
+ * ClientConsole is the second layer which help operating the client saved data or sending data to the server. 
+ */
 public class ClientConsole implements ChatIF 
 {
-	public static int DEFAULT_PORT = 5555;
-	ChatClient client;
+	public static int DEFAULT_PORT = 5555;// the Port of the server
+	public final String ApplicationConfig = "EkrutApplication/";// All files of the Application will be saved in a folder named 'EkrutApplication'
+
+	ChatClient client;// the third layer of protection we create it here so we can use it.
+	IController currentController;// IController is an interface all UI controllers have which help to detect which controller is being used right now.
 	
+	/**
+	 * Data:
+	 * List below is a data being used in different controllers. in order to restore data 
+	 * when changing between different controllers. All data is private and can be change only with getters and setters.
+	 * */
 	private User clientUser = new User(null, null);
 	private Order clientOrder = new Order(null,null,null);
 	private Facility EKFacility = new Facility(null, null, null, null, null, null);
 	private CountdownOrder taskCountdown = new CountdownOrder();
 	private Integer managerOrderdeatils;
-
 	private String ApplicationType = null;
-	
-	public final String ApplicationConfig = "EkrutApplication/";
 	
 	private HashMap<String,String> mapMonths = new HashMap<>();
 	
 	private ArrayList<String> monthlyReportParameters = new ArrayList<>(3);
-	public ArrayList<Facility> arrFacility = new ArrayList<>();
 	private ArrayList<Product> arrProducts = new ArrayList<>();
+	private ArrayList<Facility> arrFacility = new ArrayList<>();
+	private boolean isCeo = false;
 	
-
-	SceneManager sceneManager = new SceneManager();
-	IController currentController;
 	/***
 	 * ClientConsole is the Second layer of client. client console works with the ClientInterfaceController and with ChatClient.
 	 * @param host - saves the ip-address string adress that allows client to connect to sever.
@@ -59,25 +66,30 @@ public class ClientConsole implements ChatIF
 			System.exit(1);
 		}
 	}
-	public void UserDissconnected()
+	/***
+	 * 
+	 * @param forceExit - a boolean value that will exit all client windows if its true.
+	 * UserDisconnected is a function that will send the server that the current user want to disconnect his account.
+	 */
+	public void UserDisconnected(boolean forceExit)
 	{
-		if(this.clientUser.getOnlineStatus() != null && this.clientUser.getOnlineStatus().equals("Online"))
+		if(this.clientUser.getOnlineStatus() != null && 
+		   this.clientUser.getOnlineStatus().equals("Online"))
 		{
-	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("%s#", this.clientUser.getUserName()),"PUT");    
+	    	RequestObjectClient request = new RequestObjectClient(
+	    			"#USER_LOGOUT",
+	    			String.format("%s#", this.clientUser.getUserName()),
+	    			"PUT");    
 	    	accept(request);
 	    	this.clientUser.setOnlineStatus("Offline");
 		}
+		if(forceExit)
+			System.exit(0);
 	}
-	public void UserDissconnected(boolean forceExit)
-	{
-		if(this.clientUser.getOnlineStatus() != null && this.clientUser.getOnlineStatus().equals("Online"))
-		{
-	    	RequestObjectClient request = new RequestObjectClient("#USER_LOGOUT",String.format("%s#", this.clientUser.getUserName()),"PUT");    
-	    	accept(request);
-	    	this.clientUser.setOnlineStatus("Offline");
-	    	System.exit(0);
-		}
-	}
+	/***
+	 * Setter for currentController
+	 * @param currentController - is an @arg that holds a new controller which we need to update.
+	 */
 	public void setController(IController currentController) {
 		this.currentController = currentController;
 	}
@@ -95,8 +107,15 @@ public class ClientConsole implements ChatIF
 	}
 	/***
 	 * @param message
-	 * 
-	 * 
+	 * display will transfer the data received from @ChatClient down to the Current used Controller. 
+	 */
+	@Override
+	public void display(Object message) 
+	{
+		currentController.updatedata(message);
+	}
+	/***
+	* Getters and Setters to our data
 	 */
 	public void setHashMapMonths(HashMap<String,String> map) {
 		mapMonths = map;
@@ -140,7 +159,7 @@ public class ClientConsole implements ChatIF
 	}
 	public void setUser(User user)
 	{
-		if(user instanceof Employee) {
+		if(user instanceof Employee) {// if user as an employee he has a new instance which is Employee ( subclass of user)
 			Employee employee = (Employee)user;
 			clientUser = new Employee(employee);
 		}
@@ -181,10 +200,13 @@ public class ClientConsole implements ChatIF
 	public String getReportType() {
 		return monthlyReportParameters.get(2);
 	}
-	@Override
-	public void display(Object message) 
+	public boolean isCeo() 
 	{
-		currentController.updatedata(message);
+		return isCeo;
+	}
+	public void setCeo(boolean isCeo) 
+	{
+		this.isCeo = isCeo;
 	}
 
 }

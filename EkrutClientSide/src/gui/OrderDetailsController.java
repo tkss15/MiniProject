@@ -87,17 +87,13 @@ public class OrderDetailsController implements Initializable, IController {
     private Label labelError, labelErrorCVC, labelErrorDate;
     
     @FXML
-    private Label estimatedTime;  
-
-    @FXML
     private Text creditcardNumber;
 
     @FXML
     void ClickCloseWindow(ActionEvent event) 
     {
     	ClientUI.clientController.getTaskCountdown().cancelTask();
-    	ClientUI.clientController.UserDissconnected();
-    	System.exit(0);
+    	ClientUI.clientController.UserDisconnected(true);
     }
     
     @FXML
@@ -140,6 +136,28 @@ public class OrderDetailsController implements Initializable, IController {
 				  	int myFacility = ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID();
 					RequestObjectClient request;
 
+			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("%.2f#%d#%s#%s#", 
+			    			isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice(), 
+			    			ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID(), 
+			    			ClientUI.clientController.getUser().getUserName(),
+			    			OrderDate.getText()),"POST");  
+			    	ClientUI.clientController.accept(request);
+			    	
+			    	request = new RequestObjectClient("#GET_ORDER_NUMBER",String.format("\"%s\"#", 
+			    			ClientUI.clientController.getUser().getUserName()),"*");  
+			    	ClientUI.clientController.accept(request);
+			    	
+			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
+			    	{
+			    		request = new RequestObjectClient("#ADD_ITEMS_TO_ORDER",String.format("%d#%d#%d#%d#%.2f#", 
+			    				orderCode, 
+			    				myProduct.getProductCode(), 
+			    				myFacility, 
+			    				myProduct.getProductAmount(), 
+			    				ClientUI.clientController.getClientOrder().PriceItem(myProduct)),"POST");  
+			    		ClientUI.clientController.accept(request);
+			    	}
+			    	
 			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
 			    	{
 			    		int IndexOfProductfacility = ClientUI.clientController.getArrProducts().indexOf(myProduct);
@@ -154,36 +172,15 @@ public class OrderDetailsController implements Initializable, IController {
 		    		request = new RequestObjectClient("#UPDATE_AREAMANAGER#SEND_NOT_ME","","*");
 			    	ClientUI.clientController.accept(request);
 		    		
-			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("%.2f#%d#%s#%s#", 
-			    			isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice(), 
-			    			ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID(), 
-			    			ClientUI.clientController.getUser().getUserName(),
-			    			OrderDate.getText()),"POST");  
-			    	ClientUI.clientController.accept(request);
-			    	
-			    	request = new RequestObjectClient("#GET_ORDER_NUMBER",String.format("\"%s\"#", 
-			    			ClientUI.clientController.getUser().getUserName()),"*");  
-			    	ClientUI.clientController.accept(request);
 
 			    	if(!ClientUI.clientController.getClientOrder().getOrderType().equals("Instant Pickup"))
 			    	{	
-			    		request = new RequestObjectClient("#CREATE_NEW_VIRTUALORDER",String.format("%d#%d#%s#%s#%d#", 
+			    		request = new RequestObjectClient("#CREATE_NEW_VIRTUALORDER",String.format("%d#%d#%s#%d#", 
 			    				orderCode, 
 			    				(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery") ? 1 : 0), 
 			    				(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery") ? textFieldLocation.getText() : "None"),
-			    				estimatedTime.getText(),
 			    				(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery") ? 0 : 1)),
 			    				"POST"); 
-			    		ClientUI.clientController.accept(request);
-			    	}
-			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
-			    	{
-			    		request = new RequestObjectClient("#ADD_ITEMS_TO_ORDER",String.format("%d#%d#%d#%d#%.2f#", 
-			    				orderCode, 
-			    				myProduct.getProductCode(), 
-			    				myFacility, 
-			    				myProduct.getProductAmount(), 
-			    				ClientUI.clientController.getClientOrder().PriceItem(myProduct)),"POST");  
 			    		ClientUI.clientController.accept(request);
 			    	}
 			    	
@@ -205,7 +202,7 @@ public class OrderDetailsController implements Initializable, IController {
 			    			((RegisterClient)ClientUI.clientController.getUser()).setClientFirstPurchase(false);
 			    		}
 			    	}
-		        	request = new RequestObjectClient("#UPDATE_PRODUCTS_CLIENT",String.format("%d#", myFacility),"*");  
+		        	request = new RequestObjectClient("#UPDATE_PRODUCTS_CLIENT#SEND_NOT_ME",String.format("%d#", myFacility),"*");  
 		        	ClientUI.clientController.accept(request);
 			    return null;
 			  }
@@ -312,8 +309,6 @@ public class OrderDetailsController implements Initializable, IController {
 				return;
 			}
 		});
-		estimatedDelivery = simpleFormat.format(CalenderTime.getTime());
-		estimatedTime.setText(estimatedDelivery);
 		
 		ClientUI.clientController.getTaskCountdown().initialize(timerOrder);
 		

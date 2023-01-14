@@ -30,7 +30,7 @@ public class PriceStartegyCustom implements IProductPrice
 	
 	public String toString()
 	{
-		return percent + "% Off price";
+		return percent*100 + "% Off price";
 	}
 	
 }

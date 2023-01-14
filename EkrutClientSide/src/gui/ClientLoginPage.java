@@ -55,6 +55,11 @@ public class ClientLoginPage implements Initializable, IController
     private Label errorLabel;
     
     @FXML
+    void ShowFastLogin(ActionEvent event) {
+    	ClientUI.sceneManager.ShowSceneNew("../views/FastLoginInterface.fxml");	
+    }
+    
+    @FXML
     void ExitWindow(MouseEvent event) {
     	System.exit(0);
     }
@@ -145,7 +150,6 @@ public class ClientLoginPage implements Initializable, IController
 			LoginApp.setVisible(true);
 		}
 		exitbutton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-			System.out.println("Hello");
 			event.consume();
 		});
 		

@@ -54,7 +54,8 @@ public class ServerUI extends Application
         primaryStage.getIcons().add(new Image("\\gui\\pictures\\serverIcon.png"));
 	}
 	
-	public static void runServer(String strPort)
+	///changed by Gal.
+	public static void runServer(String strPort) throws Exception
 	{
 		 int port = 0; //Port to listen on
 
@@ -77,6 +78,10 @@ public class ServerUI extends Application
 	        {
 	        	System.out.println("ERROR - Could not listen for clients!");
 	        	//serverC.writeToConsole("ERROR - Could not listen for clients!");
+	        	
+	        	//added.
+	        	ServerUI.sv.display("ERROR - Could not listen for clients!");
+	        	throw new Exception();
 	        }
 	}
 	
