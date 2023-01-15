@@ -410,7 +410,7 @@ public class EchoServer extends AbstractServer {
 				+ "WHERE FacilityArea = '@' AND facilities.FacilityLocation = '@' AND facilities.FacilityName = '@' "
 				+ "GROUP BY products.ProductName,productsinfacility.ProductAmount");
 		SqlQuerys.put("#GET_SUPPLY_BELOW_THRESHOLD_TRC",
-				"SELECT facilities.FacilityName ,COUNT(facilities.FacilityName) AS AmountOfTimeBelowThreshold "
+				"SELECT facilities.FacilityName ,COUNT(facilities.FacilityName) AS AmountOfTimeBelowThreshold " // incorrect name.
 						+ "FROM facilities "
 						+ "INNER JOIN productsinfacility ON facilities.FacilityID = productsinfacility.FacilityID AND facilities.FacilityArea ='@' "
 						+ "AND productsinfacility.ProductAmount < facilities.FacilityThreshholdLevel "

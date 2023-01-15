@@ -40,15 +40,13 @@ public class AreaManagerApproveController implements Initializable, IController 
 	 * which is to be decided by the manager, it saves a boolean which shows if the user was sent to manager for acception, and it also saves the registration type of
 	 * that user - which can be one of the following ('Registered','Subscriber','Registered To Subscriber').
 	 * 
-	 * @author galmu
-	 *
 	 */
 	public class ImportedUser extends User {
 
 		private boolean isSentToManager;
 		private String creditCard;
-		private ComboBox<String> status;
-		private String registrationType;
+		private ComboBox<String> status; /*status can be either "Approve" or "Reject"*/
+		private String registrationType; /*registrationType can be one of the following: Registered To Subscriber,Registered,Subscriber */
 
 		/**
 		 * constructor of the ImportedUserd class.
@@ -168,14 +166,28 @@ public class AreaManagerApproveController implements Initializable, IController 
 	}
 
 	@FXML
+	/***
+	 * applies changes to the table.
+	 * this method iterates through all rows of the table, and makes changes according to the status combo box of the Imported user.
+	 * the area manager can choose whether to accept or reject a request of user registration.
+	 * @param event
+	 */
 	void applyChangesToTable(ActionEvent event) {
 		for (int i = 0; i < userRows.size(); i++) {
 			ImportedUser currRow = userRows.get(i);
 
 			if (currRow.getStatus().getValue() != null) {
 
+				/**if the area manager rejects the registration request of the user then:
+				 * 1. if the user is new in the system - the rejection operation deletes the user from the users,registerclients and registrationFormTable tables in the DB.
+				 * 2. if the user was registered and his request is to be upgraded to subscriber (Registered To Subscriber) - the rejection operation first change his status
+				 * back to "APPROVED" and secondly delete him from registrationFormTable.
+				 */
+				
 				if (currRow.getStatus().getValue().equals("Reject")) {
 					if (!currRow.getRegistrationType().equals("Registered To Subscriber")) {
+						
+						//pop up alert for the manager to confirm his reject choice.
 						Alert conf = new Alert(AlertType.CONFIRMATION);
 						conf.setContentText("Are you sure you want to reject " + currRow.getFirstName() + " "
 								+ currRow.getLastName() + ", and delete this user permanently?");
@@ -183,35 +195,35 @@ public class AreaManagerApproveController implements Initializable, IController 
 
 						if (result.get() == ButtonType.OK) {
 
-							// delete from registerclients.
-							RequestObjectClient RejectUser1 = new RequestObjectClient("#REJECT_USER_FROM_REG_CLIENTS_AMAC", // DONE
+							//request a  query to delete the curent imported user from registerclients.
+							RequestObjectClient RejectUser1 = new RequestObjectClient("#REJECT_USER_FROM_REG_CLIENTS_AMAC", 
 									String.format("%s#", currRow.getUserName()),
 									"DELETE");
 							ClientUI.clientController.accept(RejectUser1);
 
-							// delete from users
-							RequestObjectClient RejectUser2 = new RequestObjectClient("#REJECT_USER_FROM_USERS_AMAC", // DONE
+							//request a query to delete curent imported user from users
+							RequestObjectClient RejectUser2 = new RequestObjectClient("#REJECT_USER_FROM_USERS_AMAC", 
 									String.format("%s#", currRow.getID()), "DELETE");
 							ClientUI.clientController.accept(RejectUser2);
 
-							// delete from registrationFormTable
-							RequestObjectClient RejectUser3 = new RequestObjectClient("#REJECT_USER_FROM_REG_FORM_AMAC", // DONE
+							//request a  query to delete from curent imported user registrationFormTable
+							RequestObjectClient RejectUser3 = new RequestObjectClient("#REJECT_USER_FROM_REG_FORM_AMAC", 
 									String.format("%s#", currRow.getID()),
 									"DELETE");
 							ClientUI.clientController.accept(RejectUser3);
 						}
 					} else if (currRow.getRegistrationType().equals("Registered To Subscriber")) {
 
-						// change his status back to registered
-						RequestObjectClient ApproveUsertoClients = new RequestObjectClient("#REJECT_APPROVED_USER_AMAC", // DONE
+						//request a query to change his status back to registered
+						RequestObjectClient ApproveUsertoClients = new RequestObjectClient("#REJECT_APPROVED_USER_AMAC", 
 								String.format(
 										"%s#",
 										currRow.getUserName()),
 								"PUT");
 						ClientUI.clientController.accept(ApproveUsertoClients);
 
-						// delete user from registrationformntable
-						RequestObjectClient RejectUser = new RequestObjectClient("#REJECT_USER_FROM_REG_FORM_AMAC", // DONE
+						//request a query to delete user from registrationformntable
+						RequestObjectClient RejectUser = new RequestObjectClient("#REJECT_USER_FROM_REG_FORM_AMAC", 
 								String.format("%s#", currRow.getUserName()),
 								"DELETE");
 						ClientUI.clientController.accept(RejectUser);
@@ -220,8 +232,19 @@ public class AreaManagerApproveController implements Initializable, IController 
 
 				}
 
+				/**
+				 * Approval of new users who want to be registered (but not subscribed) includes applying of their status in "registerdclients" table to "APPROVED"
+				 * and deleting them from "registrationformtable" table.
+				 * 
+				 * Approval of both new users who want to be registerd as subscribers and existing users who want to upgrade to being subscribers includes:
+				 * 1. finding the highest current subscriber number.
+				 * 2. change the status of the user to SUBSCRIBER in the "registerdclients" table.
+				 * 3. deleting the the user from "registrationformtable" table.
+				 */
 				if (currRow.status.getValue().equals("Approve")) {
 					if (currRow.getRegistrationType().equals("Registered")) {
+						
+						//request a query to change the status of the imported user to "APPROVED".
 						RequestObjectClient ApproveUsertoClients = new RequestObjectClient("#APPROVE_BASIC_USER_AMC",
 								String.format(
 										"%s#%s#",
@@ -230,7 +253,8 @@ public class AreaManagerApproveController implements Initializable, IController 
 						ClientUI.clientController.accept(ApproveUsertoClients);
 
 
-
+						
+						//request a query to delete the user from "registrationformtable".
 						RequestObjectClient RemoveAfterApproval = new RequestObjectClient("#REJECT_USER_FROM_REG_FORM_AMAC",
 								String.format("%s#", currRow.getID()),
 								"DELETE");
@@ -240,13 +264,14 @@ public class AreaManagerApproveController implements Initializable, IController 
 
 					if (currRow.getRegistrationType().equals("Subscriber")
 							|| currRow.getRegistrationType().equals("Registered To Subscriber")) {
-						// get maximum subscriber number to create new one
-
+						
+						// request a query to get maximum subscriber number to create new one
 						RequestObjectClient getSubNum = new RequestObjectClient("#GET_MAX_SUB_NUM", 
 								String.format(""), "GET");
 						ClientUI.clientController.accept(getSubNum);
 
 
+						//request a query to change the status of the user in "registerclients" table to "SUBSCRIBER"
 						RequestObjectClient ApproveUsertoClients = new RequestObjectClient("#APPROVE_SUBSCRIBED_USER_AMAC", 
 								String.format(
 										"%s#%d#",
@@ -254,6 +279,7 @@ public class AreaManagerApproveController implements Initializable, IController 
 								"PUT");
 						ClientUI.clientController.accept(ApproveUsertoClients);
 
+						//request a query to delete the user from "registrationformtable" table.
 						RequestObjectClient RemoveAfterApproval = new RequestObjectClient("#REJECT_USER_FROM_REG_FORM_AMAC", 
 								String.format("%s#", currRow.getID()),
 								"DELETE");
@@ -262,13 +288,17 @@ public class AreaManagerApproveController implements Initializable, IController 
 				}
 			}
 		}
+		//refreshing the table to show all new updates which have been made by the manager.
 		userRows.clear();
+		
+		//query to retrieve all users with registration request.
 		RequestObjectClient requestUsersFromImportTable = new RequestObjectClient("#GET_USERS_AMAC", 
 				String.format("%s#",
 						ClientUI.clientController.getUser().getArea()),
 				"GET");
 		ClientUI.clientController.accept(requestUsersFromImportTable);
 		
+		//setting each row in the table with the corresponding combo box of the request status.
 		for (ImportedUser ur : userRows) {
 			ComboBox<String> combo = new ComboBox<>();
 			combo.setPromptText("Choose Approve / Reject");
@@ -279,14 +309,19 @@ public class AreaManagerApproveController implements Initializable, IController 
 
 		ObservableList<ImportedUser> info = FXCollections.observableArrayList(userRows);
 		ApproveTable.setItems(info);
-
+		
+		/*notifying the user with a pop window about the success of the operation*/
 		Alert information = new Alert(AlertType.INFORMATION);
 		information.setContentText("changes have been successfully saved!");
 		information.setTitle("Success");
 		information.showAndWait();
 	}
 
-	
+	/**
+	 * method that triggers when the "X" button has been pressed
+	 * 
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void closeWindow(ActionEvent event) {
 		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
@@ -303,9 +338,13 @@ public class AreaManagerApproveController implements Initializable, IController 
 		System.exit(0);
 	}
 
+	/**
+	 * saving all the data which is returned from the DB and relevant for the current controller.
+	 * saving the users (which want to register) in uesrRows.
+	 * saving the maximum subscriber number in subNums.
+	 */
 	@Override
 	public void updatedata(Object data) {
-		System.out.println(111111);
 		if (data instanceof ResponseObject) {
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch (serverResponse.getRequest()) {
@@ -347,9 +386,16 @@ public class AreaManagerApproveController implements Initializable, IController 
 	}
 
 	@Override
+	/**
+	 * 
+	 * initialises the controller as it is loaded. 
+	 */
 	public void initialize(URL location, ResourceBundle resources) {
+		//setting the static clientController to be this controller.
 		ClientUI.clientController.setController(this);
 		userRows = new ArrayList<>();
+		
+		//updating all the info about the current logged in user, in the Text elements of the GUI.
 		textFirstName.setText(ClientUI.clientController.getUser().getFirstName());
 		textLastName.setText(ClientUI.clientController.getUser().getLastName());
 		textID.setText(ClientUI.clientController.getUser().getID());
@@ -357,11 +403,14 @@ public class AreaManagerApproveController implements Initializable, IController 
 		textEmail.setText(ClientUI.clientController.getUser().getEmail());
 		textUserlogin.setText(String.format("Welcome Back %s", ClientUI.clientController.getUser().getFirstName()));
 
+		//request a query to get all the users who want to make a registration.
 		RequestObjectClient requestUsersFromImportTable = new RequestObjectClient("#GET_USERS_AMAC", 
 				String.format("%s#",
 						ClientUI.clientController.getUser().getArea()),
 				"GET");
 		ClientUI.clientController.accept(requestUsersFromImportTable);
+		
+		//assigning each userRow object its combo box.
 		for (ImportedUser ur : userRows) {
 			ComboBox<String> combo = new ComboBox<>();
 			combo.setPromptText("Choose Approve / Reject");
@@ -369,11 +418,13 @@ public class AreaManagerApproveController implements Initializable, IController 
 			combo.setItems(info);
 			ur.setStatus(combo);
 		}
+		//initialising the columns of the ApproveTable.
 		IDColumn.setCellValueFactory(new PropertyValueFactory<User, String>("ID"));
 		NameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("FirstName"));
 		RegistrationTypeColumn.setCellValueFactory(new PropertyValueFactory<ImportedUser, String>("registrationType"));
 		StatusColumn.setCellValueFactory(new PropertyValueFactory<ImportedUser, ComboBox<String>>("status"));
 
+		//inserting all the deliveryRows into the table via ObservableList.
 		ObservableList<ImportedUser> info = FXCollections.observableArrayList(userRows);
 		ApproveTable.setItems(info);
 

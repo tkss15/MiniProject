@@ -2,7 +2,6 @@ package Entity;
 
 /***
  * 
- * @author galmu
  * The Delivery class represents a delivery object that contains information about an order and its delivery status.
  * It contains an enumeration called DeliveryStatus that contains the possible statuses of a delivery: SentToProvider, Dispatched and Done.
  * The class has three private attributes: orderCode, deliveryStatus and costumerApproval.

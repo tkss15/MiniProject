@@ -37,7 +37,6 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 	
 	/**
 	 * 
-	 * @author galmu
 	 * inner class for row representation in the table view.
 	 * this class saves information about sales such as area,type,startDate,startTime,endDate,endTime and if the sale is active or not.
 	 * it has a constructor which initialises all the data to be saved for a sale.
@@ -219,7 +218,6 @@ public class NetworkMarketingManagerController implements Initializable, IContro
 
 	/**
 	 * method that triggers when the "X" button has been pressed
-	 * @author galmu
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML

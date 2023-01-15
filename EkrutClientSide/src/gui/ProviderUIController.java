@@ -32,7 +32,6 @@ public class ProviderUIController implements IController, Initializable {
 	 * inner class for the rows of the table.
 	 * DeliveryRow class saves information about Deliveries which are presented in the table, such that order code, delivery location, delivery status,
 	 * and providers acceptance status.
-	 * @author galmu
 	 *
 	 */
 	public class DeliveryRow {
@@ -141,7 +140,6 @@ public class ProviderUIController implements IController, Initializable {
 	/**
 	 * method that triggers when the "X" button has been pressed
 	 * 
-	 * @author galmu
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -153,7 +151,6 @@ public class ProviderUIController implements IController, Initializable {
 	 * method that triggers when the Logout button has been pressed
 	 * this method sends a query to which sets the user status to be Offline and thus log's him out from his account.
 	 * 
-	 * @author galmu
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -185,7 +182,7 @@ public class ProviderUIController implements IController, Initializable {
 		textTelephone.setText(ClientUI.clientController.getUser().getPhone());
 		textEmail.setText(ClientUI.clientController.getUser().getEmail());
 
-		//query which retrieves the area of the current logged in user - (provider of some area). 
+		//request a query which retrieves the area of the current logged in user - (provider of some area). 
 		RequestObjectClient userArea = new RequestObjectClient("#USER_AREA_PROV", String.format(
 				"%s#",
 				ClientUI.clientController.getUser().getUserName()), "*");
@@ -225,7 +222,7 @@ public class ProviderUIController implements IController, Initializable {
 	private void refresh() {
 		deliveryRows.clear();
 		DeliveryOrdersTable.getItems().clear();
-		//query which retrieves all the orders with delivery from the provider's area (userAreaStr).
+		//request a query which retrieves all the orders with delivery from the provider's area (userAreaStr).
 		RequestObjectClient deliveries = new RequestObjectClient("#DELIVERY_PROVIDER_ORDERS_DELIVERY", // DONE
 				String.format("%s#",userAreaStr),"*");
 		ClientUI.clientController.accept(deliveries);
@@ -263,18 +260,18 @@ public class ProviderUIController implements IController, Initializable {
 					exc.printStackTrace();
 				}
 				if (checkBox.isSelected()) {
-					//query which changes the delivery status from SentToProvider to Dispatched
+					//request a query which changes the delivery status from SentToProvider to Dispatched
 					RequestObjectClient activateRequest = new RequestObjectClient("#UPDATE_ACTIVE_STATUS_DISPATCHED", 
 							String.format("%d#'%s'#",d.getOrderCode(),estTime),"PUT");
 					ClientUI.clientController.accept(activateRequest);
 					
-					//query which selects the order code and notifies the connected customer about the estimated delivery time.
+					//request a query which selects the order code and notifies the connected customer about the estimated delivery time.
 					RequestObjectClient updateEstTimeForUser = new RequestObjectClient("#UPDATE_EST_TIME_FOR_USER#SEND_NOT_ME",
 							String.format("%d#",d.getOrderCode()),"*");
 					ClientUI.clientController.accept(updateEstTimeForUser);	
 					
 				} else {
-					////query which changes the delivery status from Dispatched to SentToProvider
+					//request a query which changes the delivery status from Dispatched to SentToProvider
 					RequestObjectClient activateRequest = new RequestObjectClient("#UPDATE_ACTIVE_STATUS_SENTTOPROVIDER", 
 							String.format("%d#",d.getOrderCode()),"PUT");
 					ClientUI.clientController.accept(activateRequest);

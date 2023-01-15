@@ -2,7 +2,6 @@ package Entity;
 
 
 /**
- * @author galmu
  * The Facility class represents a facility object and contains information about the facility
  * such as its ID, area, location, name, threshold value, and whether it is in use or not.
  * 

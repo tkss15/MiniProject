@@ -30,7 +30,6 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 	 * inner class for the rows of the table.
 	 * DeliveryRow class saves information about Deliveries which are presented in the table, such that order code, customer approval status
 	 * and the delivery status. 
-	 * @author galmu
 	 *
 	 */
 	
@@ -177,7 +176,7 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 		textEmail.setText(ClientUI.clientController.getUser().getEmail());
 		
 
-		//Query which gets the current logged in user area.
+		//request a query which gets the current logged in user area.
 		RequestObjectClient userArea = new RequestObjectClient("#USER_AREA_DELOP", String.format(
 				"%s#",ClientUI.clientController.getUser().getUserName()), "*");
 		ClientUI.clientController.accept(userArea);
@@ -188,7 +187,7 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 		//initialising the delivery rows array list.
 		deliveryRows = new ArrayList<>();
 
-		//Query which gets all the deliveries which were made in the current area - which is stored in the userAreaStr.
+		//request a query which gets all the deliveries which were made in the current area - which is stored in the userAreaStr.
 		RequestObjectClient deliveries = new RequestObjectClient("#DELIVERY_OPERATOR_ORDERS_DELIVERY", 
 				String.format("%s#",userAreaStr),"*");
 		ClientUI.clientController.accept(deliveries);
@@ -231,7 +230,9 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 
 	
 	/**
-	 * saving all the data which is returned from the DB and actual for the current controller.
+	 * saving all the data which is returned from the DB and relevant for the current controller.
+	 * saving the deliveries in deliveryRows.
+	 * saving the user area in userAreaStr.
 	 */
 	@Override
 	public void updatedata(Object data) {
@@ -280,7 +281,7 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 		for (DeliveryRow d : deliveryRows) {
 			if (!d.getDeliveryStatusCombobox().isDisable()) {
 				String deliveryStatus = d.getDeliveryStatusCombobox().getValue().toString();
-				//query which sets the current delivery's status to be exactly the status which is selected in the corresponding combo box.
+				//request a query which sets the current delivery's status to be exactly the status which is selected in the corresponding combo box.
 				RequestObjectClient deliveries = new RequestObjectClient("#DELIVERY_OPERATOR_SET_DELIVERY_STATUS",
 						String.format(
 								"%s#%s#",
@@ -306,7 +307,6 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 	/**
 	 * method that triggers when the "X" button has been pressed
 	 * 
-	 * @author galmu
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -316,9 +316,8 @@ public class DeliveryOperatorInterfaceController implements IController, Initial
 
 	/**
 	 * method that triggers when the Logout button has been pressed
-	 * this method sends a query to which sets the user status to be Offline and thus log's him out from his account.
+	 * this method sends a request to make a query which sets the user status to be Offline and thus log's him out from his account.
 	 * 
-	 * @author galmu
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML

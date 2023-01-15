@@ -4,7 +4,6 @@ import java.util.ArrayList;
 /**
 
 The Order class represents an order object and contains information about the order such as the type of facility, type of order, facility associated with the order, final price, and a list of products (myCart) that make up the order.
-@author galmu
 
 @field FacilityType - a string representing the type of facility associated with the order
 @field orderType - a string representing the type of order.

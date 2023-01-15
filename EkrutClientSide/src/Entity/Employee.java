@@ -3,7 +3,6 @@ package Entity;
 
 /**
  * 
- * @author galmu
  * The Employee class is a subclass of the User class that represents an employee within the Ekrut system.
  * It contains an enumeration of possible employee roles, as well as a field to store the employee's current role.
  * The class has a default constructor, as well as a constructor that takes in a User object to copy its properties.
