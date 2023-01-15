@@ -158,9 +158,9 @@ public class ServerInterfaceController implements Initializable, IController {
 		// import from employees
 		// import from registeredclients
 		
-		txtToTables.put("employeestest.txt", "employeestest");
-//		txtToTables.put("users.txt", "userstest");
-//		txtToTables.put("registeredClientsTXT.txt", "registerclientstest");
+		txtToTables.put("users.csv", "userstest");
+		txtToTables.put("employees.csv", "employeestest");
+		txtToTables.put("registerclients.csv", "registerclientstest");
 
 		ServerUI.sv.accept(txtToTables);
 //			stmt.executeUpdate("load data local infile \"users.txt\" into table users");

@@ -173,6 +173,12 @@ public class SalesTableController implements Initializable, IController {
 	@FXML
 	private Button Logout;
 
+	/**
+	 * method that triggers when the "X" button has been pressed
+	 * 
+	 * @author galmu
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void closeWindow(ActionEvent event) {
 		if (employeeType.equals("NetworkMarketingManager")) {
@@ -192,6 +198,7 @@ public class SalesTableController implements Initializable, IController {
 		}
 		ClientUI.sceneManager.ShowSceneNew("../views/LoginClientInterface.fxml", event);
 	}
+
 
 	@Override
 	public void updatedata(Object data) {
@@ -454,6 +461,13 @@ public class SalesTableController implements Initializable, IController {
 		confirm.setGraphic(icon);
 	}
 
+	/**
+	 * method that triggers when the Logout button has been pressed
+	 * this method sends a query to which sets the user status to be Offline and thus log's him out from his account.
+	 * 
+	 * @author galmu
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void logOut(ActionEvent event) {
 		closeWindow(event);

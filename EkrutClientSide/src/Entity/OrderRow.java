@@ -9,11 +9,9 @@ public class OrderRow {
 	private double finalPrice;
 	private int facilityID;
 	private Button orderDetails;
-	
-	//added by Gal
 	private boolean hasDelivery;
 	
-	//added by Gal.
+
 	private CheckBox orderReceptionAcception;
 
 	public OrderRow(int orderCode, double finalPrice, int facilityID, Button orderDetails) {
@@ -25,23 +23,23 @@ public class OrderRow {
 	}
 	
 
-	//added by Gal.
+
 	public boolean isHasDelivery() {
 		return hasDelivery;
 	}
 
-	//added by Gal.
+
 	public void setHasDelivery(boolean hasDelivery) {
 		this.hasDelivery = hasDelivery;
 	}
 
 
-	//added by Gal.
+
 	public CheckBox getOrderReceptionAcception() {
 		return orderReceptionAcception;
 	}
 
-	//added by Gal.
+
 	public void setOrderReceptionAcception(CheckBox orderReceptionAcception) {
 		this.orderReceptionAcception = orderReceptionAcception;
 	}

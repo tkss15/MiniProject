@@ -171,6 +171,12 @@ public class UsersRegistrationController implements Initializable, IController {
 		ClientUI.sceneManager.ShowSceneNew("../views/ServiceRepresentativeInterface.fxml",event);
 	}
 
+	/**
+	 * method that triggers when the "X" button has been pressed
+	 * 
+	 * @author galmu
+	 * @param event the ActionEvent that triggered this method call
+	 */
 	@FXML
 	void close(ActionEvent event) {
 		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {

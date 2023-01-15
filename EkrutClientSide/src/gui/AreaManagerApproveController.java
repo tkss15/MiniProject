@@ -31,6 +31,18 @@ import javafx.stage.Stage;
 
 
 public class AreaManagerApproveController implements Initializable, IController {
+	
+	/**
+	 * this class extends the User class.
+	 * inner class for representation of the rows of the table.
+	 * ImportedUser saves information about users which want to register to our system.
+	 * ImportedUser saves all of user's attributes (as it extends the User class) but also it saves the user credit card, his registration status -
+	 * which is to be decided by the manager, it saves a boolean which shows if the user was sent to manager for acception, and it also saves the registration type of
+	 * that user - which can be one of the following ('Registered','Subscriber','Registered To Subscriber').
+	 * 
+	 * @author galmu
+	 *
+	 */
 	public class ImportedUser extends User {
 
 		private boolean isSentToManager;
@@ -38,6 +50,15 @@ public class AreaManagerApproveController implements Initializable, IController 
 		private ComboBox<String> status;
 		private String registrationType;
 
+		/**
+		 * constructor of the ImportedUserd class.
+		 * @param user
+		 * @param area
+		 * @param isSentToManager
+		 * @param registrationsType
+		 * @param status
+		 * @param cardNumber
+		 */
 		public ImportedUser(User user, String area, boolean isSentToManager, String registrationsType,
 				ComboBox<String> status, String cardNumber) {
 			super(user.getFirstName(), user.getLastName(), user.getPhone(), user.getEmail(), user.getID(),
@@ -48,6 +69,8 @@ public class AreaManagerApproveController implements Initializable, IController 
 			this.registrationType = registrationsType;
 			this.creditCard = cardNumber;
 		}
+		
+		/*getters and setters*/
 
 		public String getRegistrationType() {
 			return registrationType;
@@ -83,8 +106,11 @@ public class AreaManagerApproveController implements Initializable, IController 
 
 	}
 
+	//priority queue - max heap - for assigning the the next subscriber number for a new subscriber, as subscriber numbers are following integers: 0,1,2...
 	private PriorityQueue<Integer> subNums = new PriorityQueue<Integer>(Collections.reverseOrder());
-//	private User user;
+
+	//ArrayList which is used to store all the users which want to register. 
+	//this array list saves all the user rows to be shown in the table.
 	private ArrayList<ImportedUser> userRows;
 	@FXML
 	private Text textUserlogin;
@@ -113,6 +139,7 @@ public class AreaManagerApproveController implements Initializable, IController 
 	@FXML
 	private Button CloseButton;
 
+	//declaring the table and its columns.
 	@FXML
 	private TableView<ImportedUser> ApproveTable;
 
@@ -132,6 +159,10 @@ public class AreaManagerApproveController implements Initializable, IController 
 	private Button changesBTN;
 
 	@FXML
+	/**
+	 * returns to the previous window via the SceneManager class.
+	 * @param event
+	 */
 	void Back(ActionEvent event) {
 		ClientUI.sceneManager.ShowSceneNew("../views/AreaManagerInterface.fxml", event);
 	}
@@ -191,35 +222,16 @@ public class AreaManagerApproveController implements Initializable, IController 
 
 				if (currRow.status.getValue().equals("Approve")) {
 					if (currRow.getRegistrationType().equals("Registered")) {
-//					RequestObjectClient getCurrUser = new RequestObjectClient("#GET_CURR_USER",
-//							String.format("table=importtable#condition=ID=%s", currRow.getID()), "GET");
-//					ClientUI.clientController.accept(getCurrUser);
-
-//					RequestObjectClient ApproveUserToUsers = new RequestObjectClient("#POST_TO_USERS",
-//							String.format(
-//									"table=users#values=firstName=%s&" + "lastName=%s&" + "telephone=%s&" + "Email=%s&"
-//											+ "ID=%s&" + "userName=%s&" + "userPassword=%s&" + "userOnline=Offline&"
-//											+ "Area=%s",
-//									user.getFirstName(), user.getLastName(), user.getPhone(), user.getEmail(),
-//									user.getID(), user.getUserName(), user.getPassword(), user.getArea()),
-//							"POST");
-//
-//					ClientUI.clientController.accept(ApproveUserToUsers);
-
-						/// POST - -
-//					 * table=subscriber#values=id=3&username=tkss15&lastname=shneor -INSERT INTO
-//					 * subscriber (id,username,lastname) VALUES ('3','tkss15','shneor')
-						///
-						RequestObjectClient ApproveUsertoClients = new RequestObjectClient("#APPROVE_BASIC_USER_AMC", // DONE
+						RequestObjectClient ApproveUsertoClients = new RequestObjectClient("#APPROVE_BASIC_USER_AMC",
 								String.format(
 										"%s#%s#",
 										currRow.getUserName(), currRow.getCreditCard()),
 								"PUT");
 						ClientUI.clientController.accept(ApproveUsertoClients);
 
-						/// ?????? how do i check that the user have updated in registerClients table.
 
-						RequestObjectClient RemoveAfterApproval = new RequestObjectClient("#REJECT_USER_FROM_REG_FORM_AMAC", // DONE
+
+						RequestObjectClient RemoveAfterApproval = new RequestObjectClient("#REJECT_USER_FROM_REG_FORM_AMAC",
 								String.format("%s#", currRow.getID()),
 								"DELETE");
 						ClientUI.clientController.accept(RemoveAfterApproval);
@@ -230,29 +242,19 @@ public class AreaManagerApproveController implements Initializable, IController 
 							|| currRow.getRegistrationType().equals("Registered To Subscriber")) {
 						// get maximum subscriber number to create new one
 
-						RequestObjectClient getSubNum = new RequestObjectClient("#GET_MAX_SUB_NUM", // DONE
+						RequestObjectClient getSubNum = new RequestObjectClient("#GET_MAX_SUB_NUM", 
 								String.format(""), "GET");
 						ClientUI.clientController.accept(getSubNum);
 
-//					RequestObjectClient ApproveUserToUsers = new RequestObjectClient("#POST_TO_USERS",
-//							String.format(
-//									"table=users#values=firstName=%s&" + "lastName=%s&" + "telephone=%s&" + "Email=%s&"
-//											+ "ID=%s&" + "userName=%s&" + "userPassword=%s&" + "userOnline=Offline&"
-//											+ "Area=%s",
-//											currRow.getFirstName(), currRow.getLastName(), currRow.getPhone(), currRow.getEmail(),
-//											currRow.getID(), currRow.getUserName(), currRow.getPassword(), currRow.getArea()),
-//							"POST");
-//
-//					ClientUI.clientController.accept(ApproveUserToUsers);
 
-						RequestObjectClient ApproveUsertoClients = new RequestObjectClient("#APPROVE_SUBSCRIBED_USER_AMAC", //DONE
+						RequestObjectClient ApproveUsertoClients = new RequestObjectClient("#APPROVE_SUBSCRIBED_USER_AMAC", 
 								String.format(
 										"%s#%d#",
 										currRow.getUserName(), subNums.peek() + 1),
 								"PUT");
 						ClientUI.clientController.accept(ApproveUsertoClients);
 
-						RequestObjectClient RemoveAfterApproval = new RequestObjectClient("#REJECT_USER_FROM_REG_FORM_AMAC", // DONE
+						RequestObjectClient RemoveAfterApproval = new RequestObjectClient("#REJECT_USER_FROM_REG_FORM_AMAC", 
 								String.format("%s#", currRow.getID()),
 								"DELETE");
 						ClientUI.clientController.accept(RemoveAfterApproval);
@@ -261,7 +263,7 @@ public class AreaManagerApproveController implements Initializable, IController 
 			}
 		}
 		userRows.clear();
-		RequestObjectClient requestUsersFromImportTable = new RequestObjectClient("#GET_USERS_AMAC", // DONE
+		RequestObjectClient requestUsersFromImportTable = new RequestObjectClient("#GET_USERS_AMAC", 
 				String.format("%s#",
 						ClientUI.clientController.getUser().getArea()),
 				"GET");
@@ -284,13 +286,14 @@ public class AreaManagerApproveController implements Initializable, IController 
 		information.showAndWait();
 	}
 
+	
 	@FXML
 	void closeWindow(ActionEvent event) {
 		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
 			System.out.println("Not updated");
 		}
 		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
-			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS", // DONE
+			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
 					String.format("%s#",
 							ClientUI.clientController.getUser().getUserName()),
 					"PUT");
@@ -339,22 +342,6 @@ public class AreaManagerApproveController implements Initializable, IController 
 					}
 				}
 				break;
-//			case "#GET_CURR_USER":
-//				if (serverResponse.Responsedata.size() != 0) {
-//					for (int i = 0; i < serverResponse.Responsedata.size(); i++) {
-////						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
-////						String firstName = (String) values[0];
-////						String lastName = (String) values[1];
-////						String telephone = (String) values[2];
-////						String Email = (String) values[3];
-////						String ID = (String) values[4];
-////						String userName = (String) values[5];
-////						String userPassword = (String) values[6];
-////						String area = (String) values[7];
-////						User user = new User(firstName, lastName, telephone, Email, ID, userName, userPassword, area);
-//					}
-//				}
-//				break;
 			}
 		}
 	}
@@ -370,7 +357,7 @@ public class AreaManagerApproveController implements Initializable, IController 
 		textEmail.setText(ClientUI.clientController.getUser().getEmail());
 		textUserlogin.setText(String.format("Welcome Back %s", ClientUI.clientController.getUser().getFirstName()));
 
-		RequestObjectClient requestUsersFromImportTable = new RequestObjectClient("#GET_USERS_AMAC", // DONE
+		RequestObjectClient requestUsersFromImportTable = new RequestObjectClient("#GET_USERS_AMAC", 
 				String.format("%s#",
 						ClientUI.clientController.getUser().getArea()),
 				"GET");
