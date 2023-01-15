@@ -156,13 +156,11 @@ public class EchoServer extends AbstractServer
 				
 				RequestObjectClient setGlobal = new RequestObjectClient("","*","#SET_GLOBAL");
 				setGlobal.setURL(QueryChanged(setGlobal));
-//				serverConsole.display(setGlobal.getURL());
 				mySqlConnection.SafeQuery(setGlobal);
 				
 	
-				RequestObjectClient importSimul = new RequestObjectClient(String.format("%s#%s#", txtFile,txtToTable.get(txtFile)),"*","#SECOND_TRY");
+				RequestObjectClient importSimul = new RequestObjectClient(String.format("%s#%s#", txtFile,txtToTable.get(txtFile)),"*","#IMPORT_SIMUL");
 				importSimul.setURL(QueryChanged(importSimul));
-//				serverConsole.display(importSimul.getURL());
 				mySqlConnection.SafeQuery(importSimul);
 			}
 		}
@@ -446,12 +444,11 @@ public class EchoServer extends AbstractServer
 		SqlQuerys.put("#UPDATE_MONTHLY_REPORTS", "table=reports#values=reportType=@&reportDate=@&Area=@");
 		
 		/*Server Import Simulator*/
-		SqlQuerys.put("#SECOND_TRY", "LOAD DATA LOCAL INFILE '@' INTO TABLE @ "
+		SqlQuerys.put("#IMPORT_SIMUL", "LOAD DATA LOCAL INFILE '@' INTO TABLE @ "
 				+ "FIELDS TERMINATED BY ',' "
 				+ "ENCLOSED BY '\"' "
 				+ "LINES TERMINATED BY '\r\n'"
 				+ "IGNORE 1 LINES");
-		SqlQuerys.put("#IMPORT_SIMUL","load data local infile "+ "\"" + "@" + "\"" + " into table @");
 		SqlQuerys.put("#SET_GLOBAL", "SET GLOBAL local_infile=1");
 		
 	}
@@ -507,22 +504,7 @@ public class EchoServer extends AbstractServer
 				/*
 				 * Special Cases when we need to notify other users live
 				 * */
-				if(clientRequest.getRequestID().equals("#USER_LOGIN_DATA"))
-				{
-					DistributedLock lock = new DistributedLock(mySqlConnection.getConn(), "LogginLock");
-					lock.setOwner(dataInjector[0]);
-					
-					if(!lock.isLocked())
-					{		
-						lock.acquire();
-						client.sendToClient(mySqlConnection.SafeQuery(clientRequest));
-					}
-					else
-					{
-						ResponseEmpty.setRequest("Empty");
-						client.sendToClient(ResponseEmpty);	
-					}
-				}
+
 				if(clientRequest.getRequestID().equals("#USER_LOGOUT"))
 				{	
 					clientDisconnected(client);

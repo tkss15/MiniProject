@@ -104,5 +104,6 @@ CREATE TABLE `ekrutdatabase`.ProductsInOrder(
     hasReachedThreshholdLevel boolean,
 	PRIMARY KEY (orderCode,ProductCode, FacilityID),
 	FOREIGN KEY (orderCode) REFERENCES Orders(orderCode),
-	FOREIGN KEY (ProductCode,FacilityID) REFERENCES ProductsInFacility(FacilityID,ProductCode)
+    FOREIGN KEY (ProductCode) REFERENCES products(ProductCode),
+    FOREIGN KEY (facilities) REFERENCES products(FacilityID)
 );

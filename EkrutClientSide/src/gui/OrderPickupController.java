@@ -51,7 +51,8 @@ public class OrderPickupController implements Initializable, IController {
     	isPickupValid = false;
     	
     	String orderCode = textFieldCode.getText();
-
+    	
+    	// Only matches numbers
 		if(!orderCode.matches("^(?:[1-9]|\\d\\d\\d*)$") || orderCode.equals(""))
 		{
 			Alert alert = new Alert(AlertType.ERROR, "Please insert a valid order code");
@@ -100,7 +101,6 @@ public class OrderPickupController implements Initializable, IController {
 	@Override
 	public void updatedata(Object data) 
 	{
-		System.out.println("Data ?");
 		if(data instanceof ResponseObject)
 		{
 			ResponseObject serverResponse = (ResponseObject) data;

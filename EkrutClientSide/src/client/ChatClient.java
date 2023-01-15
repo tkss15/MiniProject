@@ -89,6 +89,7 @@ public class ChatClient extends AbstractClient
 					}
 					if(AllFacility.length() > 0)// if the length is 0. the user is not an area manager and should not get an alert.
 						showAlert(String.format("Facilitys %s are under the Threshold level", AllFacility.toString()));
+					break;
 				}
 				//#UPDATE_PRODUCTS_CLEINT is a case where a client buys a product we want to notify other clients that the products quantity
 				// have changed.
@@ -101,9 +102,7 @@ public class ChatClient extends AbstractClient
 						Object[] values = (Object[])serverResponse.Responsedata.get(0);
 						Integer FacilityID = (Integer)values[0];// check facility id
 						
-						// Match only clients that have same facility id in the order
-						if(ClientUI.clientController.getClientOrder().getOrderFacility() != null && 
-						   ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != FacilityID)
+						if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != FacilityID)
 							return;
 						// Show update message for them
 						clientConsole.display(msg);

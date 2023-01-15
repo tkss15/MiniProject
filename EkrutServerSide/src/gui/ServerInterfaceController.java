@@ -153,20 +153,14 @@ public class ServerInterfaceController implements Initializable, IController {
 	}
 
 	@FXML
-	void importUsers(ActionEvent event) {
-		// import from users
-		// import from employees
-		// import from registeredclients
-		
+	void importUsers(ActionEvent event) 
+	{
+
 		txtToTables.put("employeestest.csv", "employeestest");
-//		txtToTables.put("users.txt", "userstest");
-//		txtToTables.put("registeredClientsTXT.txt", "registerclientstest");
+		txtToTables.put("users.csv", "userstest");
+		txtToTables.put("registerclient.csv", "registertest");
 
 		ServerUI.sv.accept(txtToTables);
-//			stmt.executeUpdate("load data local infile \"users.txt\" into table users");
-//			stmt.executeUpdate("load data local infile \"employees.txt\" into table employees");
-//			stmt.executeUpdate("load data local infile \"registeredClientsTXT.txt\" into table registerclients");
-
 	}
 
 
