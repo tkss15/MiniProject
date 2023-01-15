@@ -522,6 +522,10 @@ public class TypeReportController implements Initializable, IController {
 
 		//building the pie chart based on the data received from the query request.
 		//exactly the same way as before.
+		if(supplyMap.isEmpty()) {
+			productsBelowThreshold.setVisible(false);
+		}
+		else productsBelowThreshold.setVisible(true);
 		
 		ArrayList<PieChart.Data> dataArr = new ArrayList<>(supplyBelowThresholdMap.size());
 
