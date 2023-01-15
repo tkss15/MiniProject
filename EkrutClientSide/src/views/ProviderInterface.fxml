@@ -36,7 +36,7 @@
                               <Image url="@../gui/pictures/User.png" />
                            </image>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back" wrappingWidth="157.095703125" HBox.hgrow="ALWAYS">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome " wrappingWidth="108.095703125" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -59,7 +59,7 @@
                   </HBox>
                   <Line endX="149.5" startX="-100.0">
                      <VBox.margin>
-                        <Insets left="40.0" top="10.0" />
+                        <Insets left="50.0" />
                      </VBox.margin>
                   </Line>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
@@ -160,18 +160,13 @@
          </children>
       </VBox>
       <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#logOut" text="Logout" />
-      <Text layoutX="410.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut Provider Work Space" wrappingWidth="511.0" />
+      <Text layoutX="415.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut Provider Work Space" wrappingWidth="531.0" />
       <Line endX="291.0" layoutX="660.0" layoutY="530.0" opacity="0.7" startX="-250.0" />
       <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
       </Button>
-      <ImageView fitHeight="30.0" fitWidth="36.0" layoutX="888.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../eclipse-workspace/git/MiniProject/EkrutClientSide/src/gui/pictures/Logos/MagnifyingGlass.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="150.0" fitWidth="166.0" layoutX="599.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../gui/pictures/OrderPickup.png" />
@@ -185,14 +180,17 @@
             <TableColumn fx:id="acceptOrderColumn" prefWidth="181.0" style="-fx-alignment: CENTER;" text="Received &amp; Sent By Provider" />
          </columns>
       </TableView>
-      <Text fx:id="providerTextArea" layoutX="511.0" layoutY="590.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: bold;" text="Provider  " wrappingWidth="282.0">
+      <Text fx:id="providerTextArea" layoutX="599.0" layoutY="591.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: bold;" text="Provider  " wrappingWidth="282.0">
          <font>
             <Font size="15.0" />
          </font>
       </Text>
+      <Button fx:id="refreshBTN" layoutX="347.0" layoutY="731.0" mnemonicParsing="false" onAction="#refreshTable" prefHeight="53.0" prefWidth="103.0" text="Refresh" />
    </children>
    <stylesheets>
-      <URL value="@../../../eclipse-workspace/git/MiniProject/EkrutClientSide/Downloads/FXML%20pages/שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
-      <URL value="@../../../eclipse-workspace/git/MiniProject/EkrutClientSide/Downloads/FXML%20pages/Homepage.css" />
+      <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
+      <URL value="@TableView.css" />
+      <URL value="@boxCss.css" />
    </stylesheets>
 </AnchorPane>

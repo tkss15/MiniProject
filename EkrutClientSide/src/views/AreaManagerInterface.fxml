@@ -34,7 +34,7 @@
                               <Image url="@../gui/pictures/User.png" />
                            </image>
                         </ImageView>
-                        <Text fx:id="WelcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back Gal!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
+                        <Text fx:id="WelcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome Gal!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>

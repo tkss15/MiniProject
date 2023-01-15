@@ -48,7 +48,7 @@
                </font>
             </Text>
             <ComboBox fx:id="locationComboBox" layoutX="35.0" layoutY="226.0" onAction="#selectLocation" prefWidth="150.0" promptText="Select Location" />
-            <ComboBox fx:id="nameComboBox" layoutX="35.0" layoutY="273.0" prefWidth="150.0" promptText="Select Facility Name" />
+            <ComboBox fx:id="nameComboBox" layoutX="35.0" layoutY="273.0" prefWidth="150.0" promptText="Select Facility Name" stylesheets="@ComboBox.css" />
             <Button fx:id="showBTN" layoutX="35.0" layoutY="320.0" mnemonicParsing="false" onAction="#showSupplyReports" prefHeight="47.0" prefWidth="150.0" text="Show Report" />
             <Button fx:id="showCutomerReportBTN" layoutX="35.0" layoutY="321.0" mnemonicParsing="false" onAction="#showCustomerReport" prefHeight="47.0" prefWidth="150.0" text="Show Report" />
             <PieChart fx:id="pieChartBelowThreshold" layoutX="194.0" layoutY="14.0" prefHeight="258.0" prefWidth="664.0" />

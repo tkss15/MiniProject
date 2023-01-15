@@ -230,60 +230,12 @@ public class SalesTableController implements Initializable, IController {
 			switch (serverResponse.getRequest()) {
 			case "#GET_ALL_SALES":
 				if (serverResponse.Responsedata.size() != 0) {
-					int i = 0;
-					while (i < serverResponse.Responsedata.size()) {
-						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
-						String area = (String) values[0];
-						String type = (String) values[1];
-						String startDate = (String) values[2];
-						String startTime = (String) values[3];
-						String endDate = (String) values[4];
-						String endTime = (String) values[5];
-						int isActive = (Integer) values[6];
-						int itemCode = (int) values[7];
-
-						//searching for a product in the product list and adding it to the saleRows and adding mapping of the sale to the product.
-						for (Product p : productsList) {
-							if (p.getProductCode() == itemCode) {
-								//saving all of the sales attributes in a SaleRow object.
-								SaleRow saleRow = new SaleRow(area, type, startDate, startTime, endDate, endTime,
-										isActive, p.getProductName());
-								saleRows.add(saleRow);
-								map.putIfAbsent(saleRow, p);
-								break;
-							}
-						}
-						i++;
-					}
+					saveSalesAndMappingsToProducts(serverResponse);
 				}
 				break;
 			case "#GET_ALL_SALES_IN_AREA":
 				if (serverResponse.Responsedata.size() != 0) {
-					int i = 0;
-					while (i < serverResponse.Responsedata.size()) {
-						Object[] values = (Object[]) serverResponse.Responsedata.get(i);
-						String area = (String) values[0];
-						String type = (String) values[1];
-						String startDate = (String) values[2];
-						String startTime = (String) values[3];
-						String endDate = (String) values[4];
-						String endTime = (String) values[5];
-						int isActive = (Integer) values[6];
-						int itemCode = (int) values[7];
-
-						//searching for a product in the product list and adding it to the saleRows and adding mapping of the sale to the product.
-						for (Product p : productsList) {
-							if (p.getProductCode() == itemCode) {
-								//saving all of the sales attributes in a SaleRow object.
-								SaleRow saleRow = new SaleRow(area, type, startDate, startTime, endDate, endTime,
-										isActive, p.getProductName());
-								saleRows.add(saleRow);
-								map.putIfAbsent(saleRow, p);
-								break;
-							}
-						}
-						i++;
-					}
+					saveSalesAndMappingsToProducts(serverResponse);
 
 				}
 				break;
@@ -317,6 +269,38 @@ public class SalesTableController implements Initializable, IController {
 			}
 		}
 
+	}
+
+	/**
+	 * saves the sales in the saleRows array list and for each sale saves it's mapping to a product.
+	 * @param serverResponse an object containing the query output returned from the server.
+	 */
+	private void saveSalesAndMappingsToProducts(ResponseObject serverResponse) {
+		int i = 0;
+		while (i < serverResponse.Responsedata.size()) {
+			Object[] values = (Object[]) serverResponse.Responsedata.get(i);
+			String area = (String) values[0];
+			String type = (String) values[1];
+			String startDate = (String) values[2];
+			String startTime = (String) values[3];
+			String endDate = (String) values[4];
+			String endTime = (String) values[5];
+			int isActive = (Integer) values[6];
+			int itemCode = (int) values[7];
+
+			//searching for a product in the product list and adding it to the saleRows and adding mapping of the sale to the product.
+			for (Product p : productsList) {
+				if (p.getProductCode() == itemCode) {
+					//saving all of the sales attributes in a SaleRow object.
+					SaleRow saleRow = new SaleRow(area, type, startDate, startTime, endDate, endTime,
+							isActive, p.getProductName());
+					saleRows.add(saleRow);
+					map.putIfAbsent(saleRow, p);
+					break;
+				}
+			}
+			i++;
+		}
 	}
 
 

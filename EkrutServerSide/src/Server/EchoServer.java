@@ -271,7 +271,12 @@ public class EchoServer extends AbstractServer {
 
 		/* MyOrdersController */
 		SqlQuerys.put("#GET_MY_ORDERS", "table=orders#condition=userName=@");
-		SqlQuerys.put("#GET_MY_DELIVERYS", "table=virtualorders#HasDelivery=1");
+		SqlQuerys.put("#GET_MY_DELIVERYS", "SELECT virtualorders.orderCode,virtualorders.customerApproval "
+				+ "FROM users   "
+				+ "INNER JOIN orders ON users.userName = orders.userName  "
+				+ "INNER JOIN virtualorders ON virtualorders.orderCode = orders.orderCode  "
+				+ "WHERE users.userName = '@' AND virtualorders.HasDelivery = 1  "
+				+ "");
 		SqlQuerys.put("#SET_APPROVED_BY_CUSTOMER",
 				"table=virtualorders#condition=orderCode=@#values=customerApproval=@");
 		SqlQuerys.put("#GET_MY_ORDERS", "table=orders#condition=userName=@");
@@ -390,10 +395,10 @@ public class EchoServer extends AbstractServer {
 		SqlQuerys.put("#REJECT_APPROVED_USER_AMAC",
 				"table=registerclients#condition=userName=@#values=userStatus='APPROVED'");
 		SqlQuerys.put("#APPROVE_BASIC_USER_AMC",
-				"table=registerclients#condition=userName=@#values=userStatus='APPROVED'&CardNumber=@&SubscriberNumber=0");
+				"table=registerclients#condition=userName=@#values=userStatus='APPROVED'&CardNumber=@&SubscriberNumber=0&MonthlyFeeCharge=0&firstPurchase=0");
 		SqlQuerys.put("#GET_MAX_SUB_NUM", "table=registerclients#values=SubscriberNumber=SubscriberNumber");
 		SqlQuerys.put("#APPROVE_SUBSCRIBED_USER_AMAC",
-				"table=registerclients#condition=userName=@#values=SubscriberNumber=@&userStatus='SUBSCRIBER'&firstPurchase=1");
+				"table=registerclients#condition=userName=@#values=SubscriberNumber=@&userStatus='SUBSCRIBER'&firstPurchase=1&MonthlyFeeCharge=0");
 		SqlQuerys.put("#GET_USERS_AMAC", "table=registrationformtable#condition=area=@&isSentToManager=1");
 
 		/* TypeReportController */
@@ -479,18 +484,6 @@ public class EchoServer extends AbstractServer {
 				/*
 				 * Special Cases when we need to notify other users live
 				 */
-				if (clientRequest.getRequestID().equals("#USER_LOGIN_DATA")) {
-					DistributedLock lock = new DistributedLock(mySqlConnection.getConn(), "LogginLock");
-					lock.setOwner(dataInjector[0]);
-
-					if (!lock.isLocked()) {
-						lock.acquire();
-						client.sendToClient(mySqlConnection.SafeQuery(clientRequest));
-					} else {
-						ResponseEmpty.setRequest("Empty");
-						client.sendToClient(ResponseEmpty);
-					}
-				}
 				if (clientRequest.getRequestID().equals("#USER_LOGOUT")) {
 					clientDisconnected(client);
 					mySqlConnection.makeQuery(clientRequest);

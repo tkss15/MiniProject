@@ -158,7 +158,6 @@ public class ClientLoginPage implements Initializable, IController
 
 	@Override
 	public void updatedata(Object data) {
-			System.out.println("ClientLoginPage");
 			if(data instanceof ResponseObject)
 			{
 				ResponseObject serverResponse = (ResponseObject) data;

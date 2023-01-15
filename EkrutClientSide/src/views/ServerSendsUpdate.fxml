@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
@@ -8,4 +9,8 @@
       <Text layoutX="117.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Server Update: Facility quantity changed" />
       <Text layoutX="178.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sorry for bothering !" />
    </children>
+   <stylesheets>
+      <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
+   </stylesheets>
 </AnchorPane>

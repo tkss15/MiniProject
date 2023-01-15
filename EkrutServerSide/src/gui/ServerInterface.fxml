@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -15,17 +16,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerInterfaceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerInterfaceController">
    <children>
-      <VBox layoutX="32.0" layoutY="185.0" spacing="5.0" AnchorPane.topAnchor="185.0">
+      <VBox layoutX="35.0" layoutY="185.0" spacing="5.0" AnchorPane.topAnchor="185.0">
          <children>
             <Label prefHeight="61.0" prefWidth="314.0" text="Server Configuration">
                <font>
                   <Font name="Arial Bold" size="30.0" />
                </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
             </Label>
             <Label prefHeight="31.0" prefWidth="48.0" text="IP:">
                <font>
@@ -106,14 +111,14 @@
       </VBox>
       <Pane prefHeight="173.0" prefWidth="1000.0" style="-fx-background-color: FDB926;">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="23.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="127.0" fitWidth="231.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@/Ekrut.png" />
+                  <Image url="@pictures/LogoEKRUT.png" />
                </image>
             </ImageView>
-            <Text layoutX="374.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ekrut Server Config">
+            <Text layoutX="293.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ekrut Server Config">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="Arial Bold" size="44.0" />
                </font>
             </Text>
             <Button fx:id="CloseButton" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="958.0" layoutY="19.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="24.0" prefWidth="20.0" scaleShape="false" style="-fx-background-color: white;" text="X" textFill="#fdb925">
@@ -121,19 +126,25 @@
                   <Font name="Cambria Bold" size="12.0" />
                </font>
             </Button>
-            <Text layoutX="709.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Automatic report in:" />
-            <Label fx:id="labelReport" layoutX="821.0" layoutY="153.0" text="Label" />
+            <Text layoutX="666.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Automatic Report In:">
+               <font>
+                  <Font size="20.0" />
+               </font></Text>
+            <Label fx:id="labelReport" layoutX="849.0" layoutY="144.0" prefHeight="30.0" prefWidth="102.0">
+               <font>
+                  <Font size="20.0" />
+               </font></Label>
          </children>
       </Pane>
-      <Label layoutX="620.0" layoutY="185.0" prefHeight="61.0" prefWidth="314.0" text="Connected Clients">
+      <Label layoutX="620.0" layoutY="182.0" prefHeight="61.0" prefWidth="314.0" text="Connected Clients">
          <font>
             <Font name="Arial Bold" size="30.0" />
          </font>
       </Label>
-      <TableView fx:id="connectedClientsTable" editable="true" layoutX="592.0" layoutY="240.0" opacity="0.87" prefHeight="167.0" prefWidth="369.0">
+      <TableView fx:id="connectedClientsTable" editable="true" layoutX="565.0" layoutY="238.0" opacity="0.87" prefHeight="167.0" prefWidth="369.0" AnchorPane.leftAnchor="565.0" AnchorPane.rightAnchor="25.0">
          <columns>
-            <TableColumn fx:id="clientStatus" prefWidth="75.0" text="Status" />
-            <TableColumn fx:id="clientHost" prefWidth="174.0" text="Host" />
+            <TableColumn fx:id="clientStatus" prefWidth="118.0" text="Status" />
+            <TableColumn fx:id="clientHost" prefWidth="149.0" text="Host" />
             <TableColumn fx:id="clientIP" prefWidth="174.0" text="IP     " />
          </columns>
          <cursor>
@@ -143,41 +154,51 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Label layoutX="651.0" layoutY="465.0" prefHeight="61.0" prefWidth="281.0" text="Console Log">
+      <Label layoutX="672.0" layoutY="476.0" prefHeight="61.0" prefWidth="195.0" text="Console Log">
          <font>
             <Font name="Arial Bold" size="30.0" />
          </font>
       </Label>
-      <TextArea fx:id="textConsole" layoutX="592.0" layoutY="517.0" prefHeight="186.0" prefWidth="369.0">
+      <TextArea fx:id="textConsole" layoutX="565.0" layoutY="529.0" prefHeight="194.0" prefWidth="410.0" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="565.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="529.0">
          <font>
             <Font size="14.0" />
          </font></TextArea>
-      <Button fx:id="connectButton" ellipsisString="" layoutX="290.0" layoutY="726.0" mnemonicParsing="false" onAction="#ConnectToDB" prefHeight="54.0" prefWidth="159.0" style="-fx-background-color: white;" text="       Connect" textFill="#fdb925" textOverrun="LEADING_WORD_ELLIPSIS">
+      <Button fx:id="connectButton" ellipsisString="" layoutX="301.0" layoutY="730.0" mnemonicParsing="false" onAction="#ConnectToDB" prefHeight="54.0" prefWidth="159.0" style="-fx-background-color: white;" stylesheets="@ConnectDisconnectImport.css" text="       Connect" textFill="#fdb925" textOverrun="LEADING_WORD_ELLIPSIS">
          <font>
             <Font name="Cambria Bold" size="22.0" />
          </font>
          <graphic>
             <ImageView id="ConnectLogo" fx:id="ConnectLogo" fitHeight="31.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@/ConnectButton.png" />
+                  <Image url="@pictures/ConnectButton.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="dissconnectButton" layoutX="469.0" layoutY="726.0" mnemonicParsing="false" onAction="#disconnectFromDB" prefHeight="54.0" prefWidth="150.0" style="-fx-background-color: White;" text="Dissconnect" textFill="#fdb925">
+      <Button fx:id="dissconnectButton" layoutX="480.0" layoutY="730.0" mnemonicParsing="false" onAction="#disconnectFromDB" prefHeight="54.0" prefWidth="150.0" style="-fx-background-color: White;" stylesheets="@ConnectDisconnectImport.css" text="Dissconnect" textFill="#fdb925">
          <font>
             <Font name="Cambria Bold" size="20.0" />
          </font>
       </Button>
-      <Text fx:id="missingTxt" fill="#ee2b2b" layoutX="370.0" layoutY="717.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All fields are required!" wrappingWidth="212.103515625">
+      <Text fx:id="missingTxt" fill="#ee2b2b" layoutX="384.0" layoutY="717.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All fields are required!" wrappingWidth="212.103515625">
          <font>
             <Font name="Arial Black" size="13.0" />
          </font>
       </Text>
-      <Button fx:id="importBTN" ellipsisString="" layoutX="694.0" layoutY="423.0" mnemonicParsing="false" onAction="#importUsers" prefHeight="54.0" style="-fx-background-color: white;" text="Import Data" textFill="#fdb925" textOverrun="LEADING_WORD_ELLIPSIS">
+      <Button fx:id="importBTN" ellipsisString="" layoutX="694.0" layoutY="421.0" mnemonicParsing="false" onAction="#importUsers" prefHeight="54.0" style="-fx-background-color: white;" stylesheets="@ConnectDisconnectImport.css" text="Import Data" textFill="#fdb925" textOverrun="LEADING_WORD_ELLIPSIS">
          <font>
             <Font name="Cambria Bold" size="18.0" />
          </font>
       </Button>
+      <Line endX="-96.0" endY="-40.0" layoutX="455.0" layoutY="229.0" startX="-96.0" startY="493.0" style="-fx-stroke: rgba(0,0,0,0.2);" AnchorPane.leftAnchor="358.5" />
+      <Line endX="-440.0" endY="-50.5" layoutX="462.0" layoutY="239.0" startX="-103.0" startY="-50.5" style="-fx-stroke: rgba(0,0,0,0.2);" />
+      <Line endX="-440.0" endY="-50.5" layoutX="462.0" layoutY="773.0" startX="-103.0" startY="-50.5" style="-fx-stroke: rgba(0,0,0,0.2);" />
+      <Line endX="-96.0" endY="-40.0" layoutX="118.0" layoutY="227.0" startX="-96.0" startY="493.0" style="-fx-stroke: rgba(0,0,0,0.2);" AnchorPane.leftAnchor="21.5" />
    </children>
+   <stylesheets>
+      <URL value="@TableView.css" />
+      <URL value="@textAreaCss.css" />
+      <URL value="@TextFieldAndListViewAndcheckBox.css" />
+      <URL value="@boxCss.css" />
+   </stylesheets>
 </AnchorPane>

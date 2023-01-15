@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -13,13 +14,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" stylesheets="@CatalogViewer.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MyOrdersController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MyOrdersController">
    <children>
       <HBox alignment="CENTER" layoutX="-5.0" prefHeight="158.0" prefWidth="807.0" style="-fx-background-color: #FDB926;">
          <children>
             <HBox alignment="CENTER" prefHeight="158.0" prefWidth="342.0">
                <children>
-                  <ImageView fx:id="logoImage" fitHeight="108.0" fitWidth="185.0">
+                  <ImageView fx:id="logoImage" fitHeight="98.0" fitWidth="246.0">
                      <image>
                         <Image url="@../gui/pictures/EKrut.png" />
                      </image>
@@ -37,12 +38,12 @@
             </HBox>
             <HBox alignment="TOP_RIGHT" prefHeight="158.0" prefWidth="316.0">
                <children>
-                  <Button fx:id="CloseButton" minWidth="53.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="36.0" prefWidth="57.0" text="X" textFill="#484743">
+                  <Button fx:id="CloseButton" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="33.0" prefWidth="45.0" style="-fx-font-size: 12;" text="X" textFill="#484743">
                      <font>
                         <Font name="Cambria Bold" size="12.0" />
                      </font>
                      <HBox.margin>
-                        <Insets right="9.0" top="6.0" />
+                        <Insets left="5.0" right="9.0" top="6.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -53,15 +54,15 @@
         <columns>
           <TableColumn fx:id="OrderCode" prefWidth="75.0" style="-fx-alignment: center;" text="OrderCode" />
           <TableColumn fx:id="FinalPrice" prefWidth="75.0" style="-fx-alignment: center;" text="FinalPrice" />
-            <TableColumn fx:id="FacilityID" prefWidth="141.60003662109375" style="-fx-alignment: center;" text="FacilityID" />
+            <TableColumn fx:id="FacilityID" prefWidth="141.60003662109375" style="-fx-alignment: CENTER;" text="FacilityID" />
             <TableColumn fx:id="markAsReceivedColumn" prefWidth="138.0" style="-fx-alignment: CENTER;" text="Mark as Received" />
             <TableColumn fx:id="OrderDetails" prefWidth="123.199951171875" style="-fx-alignment: center;" text="OrderDetails" />
         </columns>
       </TableView>
-      <Button id="buttonFixed" fx:id="BackButton" contentDisplay="CENTER" layoutX="12.0" layoutY="653.0" mnemonicParsing="false" onAction="#GoBack" text="Back" />
-      <ImageView fx:id="ShoppingImage" fitHeight="199.0" fitWidth="206.0" layoutX="595.0" layoutY="503.0" nodeOrientation="RIGHT_TO_LEFT">
+      <Button id="buttonFixed" fx:id="BackButton" contentDisplay="CENTER" layoutX="4.0" layoutY="661.0" mnemonicParsing="false" onAction="#GoBack" text="Back" />
+      <ImageView fx:id="ShoppingImage" fitHeight="158.0" fitWidth="167.0" layoutX="659.0" layoutY="540.0">
          <image>
-            <Image url="@../Documents/מיני%20פרוייקט/קניות.png" />
+            <Image url="@../gui/pictures/myOrdersIcon.png" />
          </image>
       </ImageView>
       <Label layoutX="193.0" layoutY="185.0" text="Search Order:">
@@ -71,4 +72,10 @@
       </Label>
       <TextField fx:id="textFieldOrderCode" layoutX="308.0" layoutY="186.0" promptText="Enter order code" />
    </children>
+   <stylesheets>
+      <URL value="@CatalogViewer.css" />
+      <URL value="@Homepage.css" />
+      <URL value="@TextFieldAndListView.css" />
+      <URL value="@TableView.css" />
+   </stylesheets>
 </Pane>

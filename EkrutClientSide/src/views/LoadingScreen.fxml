@@ -3,10 +3,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="195.0" prefWidth="435.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoadingScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="195.0" prefWidth="435.0" style="-fx-background-color: #FDB926;" stylesheets="@Homepage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoadingScreenController">
    <children>
-      <Text layoutX="117.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your order is being processesd" />
-      <Text layoutX="178.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loading" />
+      <Text layoutX="7.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30;" text="Your order is being processesd" />
+      <Text layoutX="155.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Now Loading" wrappingWidth="120.708984375" />
    </children>
 </AnchorPane>

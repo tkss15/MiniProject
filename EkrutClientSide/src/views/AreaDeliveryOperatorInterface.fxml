@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DeliveryOperatorInterfaceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DeliveryOperatorInterfaceController">
    <children>
       <Line endX="305.0" layoutX="661.0" layoutY="157.0" opacity="0.7" startX="-250.0" />
       <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="789.0" minWidth="335.0" prefHeight="789.0" prefWidth="342.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
@@ -36,7 +36,7 @@
                               <Image url="@../gui/pictures/User.png" />
                            </image>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back" wrappingWidth="168.095703125" HBox.hgrow="ALWAYS">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="111.095703125" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -194,6 +194,7 @@
          </font>
       </Text>
       <Button fx:id="changesBTN" layoutX="889.0" layoutY="723.0" mnemonicParsing="false" onAction="#applyChangesToTable" prefHeight="53.0" prefWidth="103.0" text="Apply Changes" />
+      <Button fx:id="refreshBTN" layoutX="347.0" layoutY="723.0" mnemonicParsing="false" onAction="#refreshTable" prefHeight="53.0" prefWidth="103.0" text="Refresh" />
    </children>
    <stylesheets>
       <URL value="@Homepage.css" />

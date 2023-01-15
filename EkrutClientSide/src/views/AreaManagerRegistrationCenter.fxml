@@ -157,6 +157,14 @@
                   <Insets top="70.0" />
                </VBox.margin>
             </VBox>
+            <ImageView fitHeight="153.0" fitWidth="315.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../gui/pictures/ceo-office-icon.png" />
+               </image>
+               <VBox.margin>
+                  <Insets left="93.0" top="88.0" />
+               </VBox.margin>
+            </ImageView>
          </children>
       </VBox>
       <Button fx:id="Back" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#Back" text="Back" />
@@ -176,6 +184,11 @@
          </columns>
       </TableView>
       <Button fx:id="changesBTN" layoutX="889.0" layoutY="723.0" mnemonicParsing="false" onAction="#applyChangesToTable" prefHeight="53.0" prefWidth="103.0" text="Apply Changes" />
+      <ImageView fitHeight="153.0" fitWidth="315.0" layoutX="506.0" layoutY="583.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/ManagerResgistrationLogo.png" />
+         </image>
+      </ImageView>
    </children>
    <stylesheets>
       <URL value="@TableView.css" />

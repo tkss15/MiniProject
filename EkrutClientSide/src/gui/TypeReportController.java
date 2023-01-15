@@ -59,15 +59,15 @@ public class TypeReportController implements Initializable, IController {
 	}
 
 	
-	private ObservableList<PieChart.Data> pieChartData; /**/
-	private ObservableList<PieChart.Data> pieChartDataBelowThreshold;/**/
+	private ObservableList<PieChart.Data> pieChartData; 
+	private ObservableList<PieChart.Data> pieChartDataBelowThreshold;
 	private BarChart<String, Number> barChart;
 	private String userAreaName;
-	private HashMap<String, Long> OrderMap = new HashMap<>();/**/
+	private HashMap<String, Long> OrderMap = new HashMap<>();/*hash map which saves facilities and the number of orders in them.*/
 
-	private HashMap<String, Long> customerHistogramMap = new HashMap<>();/**/
+	private HashMap<String, Long> customerHistogramMap = new HashMap<>();/*hash map which saves mapping of customers to their amount of purchases per facility. */
 
-	private HashMap<String, Long> supplyBelowThresholdMap = new HashMap<>();/**/
+	private HashMap<String, Long> supplyBelowThresholdMap = new HashMap<>();/*hash map which saves mapping of products and their supply */
 
 	private CategoryAxis xAxis;
 	private NumberAxis yAxis;
@@ -344,10 +344,10 @@ public class TypeReportController implements Initializable, IController {
 			 * request a query to get all facilities from the user's area.
 			 */
 			if (userAreaName.equals("All")) {
-				RequestObjectClient getFacilities = new RequestObjectClient("#GET_ALL_FACILITIES_TRC","", "GET"); //DONE
+				RequestObjectClient getFacilities = new RequestObjectClient("#GET_ALL_FACILITIES_TRC","", "GET");
 				ClientUI.clientController.accept(getFacilities);
 			} else {
-				RequestObjectClient getFacilities = new RequestObjectClient("#GET_FACILITIES_FROM_AREA_TRC", // DONE
+				RequestObjectClient getFacilities = new RequestObjectClient("#GET_FACILITIES_FROM_AREA_TRC", 
 						String.format("%s#", userAreaName), "GET");
 				ClientUI.clientController.accept(getFacilities);
 			}
@@ -385,10 +385,10 @@ public class TypeReportController implements Initializable, IController {
 			 * request a query to get all facilities from the user's area.
 			 */
 			if (userAreaName.equals("All")) {
-				RequestObjectClient getFacilities = new RequestObjectClient("#GET_ALL_FACILITIES_TRC","", "GET"); //DONE
+				RequestObjectClient getFacilities = new RequestObjectClient("#GET_ALL_FACILITIES_TRC","", "GET"); 
 				ClientUI.clientController.accept(getFacilities);
 			} else {
-				RequestObjectClient getFacilities = new RequestObjectClient("#GET_FACILITIES_FROM_AREA_TRC", // DONE
+				RequestObjectClient getFacilities = new RequestObjectClient("#GET_FACILITIES_FROM_AREA_TRC",
 						String.format("%s#", userAreaName), "GET");
 				ClientUI.clientController.accept(getFacilities);
 			}
@@ -443,7 +443,7 @@ public class TypeReportController implements Initializable, IController {
 		// Convert the names ArrayList to an ObservableList
 		ObservableList<String> namesList = FXCollections.observableArrayList(names);
 
-		// Otherwise, add the names in the namesList to the NameCombo dropdown menu and
+		// Otherwise, add the names in the namesList to the NameCombo drop down menu and
 		// make it visible
 		nameComboBox.getItems().addAll(namesList);
 		nameComboBox.setDisable(false);
@@ -555,6 +555,7 @@ public class TypeReportController implements Initializable, IController {
 		});
 
 	}
+	
 
 	@FXML
 	/**

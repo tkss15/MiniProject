@@ -309,7 +309,7 @@ public class HomePageController implements Initializable, IController
 					{
 						Integer SubscriberNumber = (Integer) values[4];
 						Double MonthlyFee = (Double) values[5];
-						boolean firstPurchase = (boolean) values[6];	
+						int firstPurchase = (int) values[6];	
 						
 						registerClient.setClientSubscriberNumber(SubscriberNumber);
 						registerClient.setClientFirstPurchase(firstPurchase);
