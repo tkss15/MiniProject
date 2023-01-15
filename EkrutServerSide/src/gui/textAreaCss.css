@@ -1,0 +1,10 @@
+.text-area {
+    -fx-background-color: #d3d3d3;
+    -fx-control-inner-background: #d3d3d3;
+    -fx-background-radius: 4;
+    -fx-background-inset: 0;
+    -fx-font-family: "Arial";
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}

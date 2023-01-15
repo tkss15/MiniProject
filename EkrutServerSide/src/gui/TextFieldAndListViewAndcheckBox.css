@@ -1,19 +1,16 @@
 .text-field {
     -fx-background-color: #d3d3d3;
-    -fx-background-radius: 5;
+    -fx-background-radius: 15;
     -fx-background-inset: 0;
     -fx-font-family: "Arial";
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
     -fx-font-weight: bold;
     -fx-text-fill: black;
-}
-.text-field .prompt-text {
-    -fx-fill: red;
 }
 
 .list-view {
     -fx-background-color: #d3d3d3;
-    -fx-background-radius: 10;
+    -fx-background-radius: 15;
     -fx-background-inset: 0;
     -fx-font-family: "Arial";
     -fx-font-size: 9px;
@@ -28,16 +25,12 @@
     -fx-background-radius: 0;
     -fx-padding: 0 0 0 0;
 }
-.list-view .list-cell {
-    -fx-font-size: 15px;
-}
 
-#ConnectTextField {
-	    -fx-background-color: white;
-    -fx-background-radius: 15;
+.check-box {
+    -fx-background-color: #d3d3d3;
     -fx-background-inset: 0;
     -fx-font-family: "Arial";
-    -fx-font-size: 9px;
+    -fx-font-size: 11px;
     -fx-font-weight: bold;
     -fx-text-fill: black;
 }

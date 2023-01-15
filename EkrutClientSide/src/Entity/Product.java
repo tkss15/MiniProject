@@ -39,6 +39,7 @@ public class Product
 		this.ProductDescription = ProductDescription;
 		this.ProductSrc = ProductSrc;
 		this.ProductPrice = ProductPrice;
+		this.PriceStategy = new PriceStartegyRegular();
 		File newDir = new File(dirPictures);
 		newDir.mkdirs();
 		this.PicturePhoto = new File(dirPictures + "/" + this.ProductSrc);

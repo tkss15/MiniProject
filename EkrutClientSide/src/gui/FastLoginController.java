@@ -29,6 +29,11 @@ public class FastLoginController implements Initializable, IController {
     private TextField phoneAuth;
 
     @FXML
+    void closeWindow(ActionEvent event) 
+    {
+    	ClientUI.sceneManager.SceneBack(event, "../views/FastLoginInterface.fxml");
+    }
+    @FXML
     void LoginAction(ActionEvent event) 
     {
     	if(textSubscriberID.getText().trim().isEmpty() || textSubscriberID.getText() == null)

@@ -37,7 +37,7 @@
                               <Image url="@../gui/pictures/User.png" />
                            </image>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back" wrappingWidth="179.095703125" HBox.hgrow="ALWAYS">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="126.095703125" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -50,7 +50,7 @@
                               <Font size="24.0" />
                            </font>
                            <HBox.margin>
-                              <Insets />
+                              <Insets left="-18.0" top="2.0" />
                            </HBox.margin>
                         </Text>
                      </children>
@@ -192,7 +192,7 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Text>
-      <Text layoutX="371.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Area:" wrappingWidth="133.0">
+      <Text layoutX="372.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Area:" wrappingWidth="149.99999856948853">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>
@@ -225,12 +225,12 @@
       <Line endX="498.0" layoutX="476.0" layoutY="581.0" startX="-100.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="595.0" layoutY="592.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/SalesICON.png" />
+            <Image url="@../gui/pictures/salesPersonWithSign.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="109.0" fitWidth="127.0" layoutX="852.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/SaleREDICON.png" />
+            <Image url="@../gui/pictures/salesRedIcon.png" />
          </image>
       </ImageView>
       <Button fx:id="saveBTN1" layoutX="349.0" layoutY="748.0" mnemonicParsing="false" onAction="#showSales" prefHeight="35.0" prefWidth="103.0" text="Show all Sales" />

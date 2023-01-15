@@ -40,9 +40,9 @@ public class Order
 	public Order(Facility orderFacility, String orderType, String FacilityType)
 	{
 		finalPrice = 0.0;
+		this.orderFacility = orderFacility;
 		this.orderType = orderType;
 		this.FacilityType = FacilityType;
-		this.orderFacility = orderFacility;
 	}
 	
 	/**
@@ -114,6 +114,10 @@ public class Order
 
 		return product.getProductPrice() * product.getProductAmount();
 	}
+	public Double PriceItem(Product product)
+	{
+		return product.getPriceStategy().getPrice(product.getProductPrice(),product.getProductAmount());
+	}
 	
 	//Getters and Setters for the Order class.
 	
@@ -123,10 +127,6 @@ public class Order
 	
 	public void setFinalPrice(Double finalPrice) {
 		this.finalPrice = finalPrice;
-	}
-	public Double PriceItem(Product product)
-	{
-		return product.getPriceStategy().getPrice(product.getProductPrice(),product.getProductAmount());
 	}
 	public String getFacilityType() {
 		return FacilityType;

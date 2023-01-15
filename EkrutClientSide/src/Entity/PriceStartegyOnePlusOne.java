@@ -23,6 +23,6 @@ public class PriceStartegyOnePlusOne implements IProductPrice
 	}
 	public String toString()
 	{
-		return"One plus One";
+		return"1 + 1";
 	}
 }

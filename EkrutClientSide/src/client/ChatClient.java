@@ -99,11 +99,35 @@ public class ChatClient extends AbstractClient
 					//this data to clients that buy right now from the same facility
 					if(serverResponse.Responsedata.size() != 0)
 					{
-						Object[] values = (Object[])serverResponse.Responsedata.get(0);
-						Integer FacilityID = (Integer)values[0];// check facility id
+						Object[] arrvalues = (Object[])serverResponse.Responsedata.get(0);
+						Integer currentFacility = (Integer)arrvalues[0];// check facility id
 						
-						if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != FacilityID)
+						// Client not buying currently doesnot need to continue to listen to this request
+						if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != currentFacility)
 							return;
+						
+						for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+						{
+							// We will get data for each item inside the facility.
+							Object[] values = (Object[])serverResponse.Responsedata.get(i);
+							Integer FacilityID = (Integer)values[0];
+							Integer ProductCode = (Integer)values[1];
+							Integer ProductAmount = (Integer)values[2];
+							// first of all if the current client not in the same facility as the data we wont check.
+							if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != FacilityID)
+								return;
+							// then we need to find the facility products and change them
+							for(Product tempProduct : ClientUI.clientController.getArrProducts())
+							{
+								if(tempProduct.getProductCode() != ProductCode)
+									continue;
+								
+								Integer ProductIndex = ClientUI.clientController.getArrProducts().indexOf(tempProduct);
+								tempProduct.setMaxAmount(ProductAmount);
+								
+								ClientUI.clientController.getArrProducts().set(ProductIndex, tempProduct);
+							}
+						}
 						// Show update message for them
 						clientConsole.display(msg);
 						showAlert("Facility Quantity updated!");
@@ -171,10 +195,14 @@ public class ChatClient extends AbstractClient
 	        // Send the message to the server
 	        sendToServer(message);
 	        // While the awaitResponse flag is set, sleep for 200 milliseconds
-	        while (awaitResponse) {
-	            try {
+	        while (awaitResponse) 
+	        {
+	            try 
+	            {
 	                Thread.sleep(200);
-	            } catch (InterruptedException e) {
+	            } 
+	            catch (InterruptedException e) 
+	            {
 	                e.printStackTrace();
 	            }
 	        }

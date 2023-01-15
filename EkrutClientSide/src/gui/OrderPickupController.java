@@ -51,7 +51,7 @@ public class OrderPickupController implements Initializable, IController {
     	isPickupValid = false;
     	
     	String orderCode = textFieldCode.getText();
-    	
+    	Integer orderCodeValue = Integer.valueOf(orderCode);
     	// Only matches numbers
 		if(!orderCode.matches("^(?:[1-9]|\\d\\d\\d*)$") || orderCode.equals(""))
 		{
@@ -59,7 +59,7 @@ public class OrderPickupController implements Initializable, IController {
 			alert.showAndWait();
 			return;
 		}
-    	RequestObjectClient request = new RequestObjectClient("#GET_ORDER_PICKUP", String.format("%d#", orderCode) ,"*");    
+    	RequestObjectClient request = new RequestObjectClient("#GET_ORDER_PICKUP", String.format("%d#", orderCodeValue) ,"*");    
     	ClientUI.clientController.accept(request);
     	
     	
@@ -78,7 +78,7 @@ public class OrderPickupController implements Initializable, IController {
 			return;
     	}
     	
-    	request = new RequestObjectClient("#UPDATE_ORDER_PICKUP",String.format("%s#",orderCode),"PUT");    
+    	request = new RequestObjectClient("#UPDATE_ORDER_PICKUP",String.format("%d#",orderCodeValue),"PUT");    
     	ClientUI.clientController.accept(request);
   
     	Alert alert = new Alert(Alert.AlertType.INFORMATION);

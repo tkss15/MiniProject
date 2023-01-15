@@ -27,7 +27,6 @@ public class SMSNotifiction implements INotifictionStrategy
 				        new com.twilio.type.PhoneNumber("+12057821468"),
 				        msg)
 				    .create();
-				System.out.println(message.getSid());
 		    }  
 		};
 

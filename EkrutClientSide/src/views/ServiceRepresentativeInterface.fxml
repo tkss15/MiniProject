@@ -16,7 +16,7 @@
    <children>
       <VBox layoutX="-3.0" maxHeight="853.0" maxWidth="342.0" minHeight="789.0" minWidth="310.0" prefHeight="853.0" prefWidth="328.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="117.0" fitWidth="216.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../gui/pictures/EKrutLogo.jpeg" />
                </image>
@@ -33,7 +33,7 @@
                               <Image url="@../gui/pictures/User.png" />
                            </image>
                         </ImageView>
-                        <Text fx:id="welcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back Gal!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
+                        <Text fx:id="welcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome Gal!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>

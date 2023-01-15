@@ -16,9 +16,9 @@
             <Font name="Cambria Bold" size="25.0" />
          </font>
       </Label>
-      <TextField fx:id="textFiledIP" layoutX="102.0" layoutY="189.0" prefHeight="42.0" prefWidth="109.0" promptText="Enter Server IP" text="localhost" AnchorPane.bottomAnchor="94.6" AnchorPane.leftAnchor="102.0" AnchorPane.rightAnchor="102.0">
+      <TextField id="ConnectTextField" fx:id="textFiledIP" layoutX="102.0" layoutY="189.0" prefHeight="42.0" prefWidth="109.0" promptText="Enter Server IP" text="localhost" AnchorPane.bottomAnchor="94.6" AnchorPane.leftAnchor="102.0" AnchorPane.rightAnchor="102.0">
          <font>
-            <Font name="Cambria" size="12.0" />
+            <Font name="Arial" size="15.0" />
          </font>
       </TextField>
       <Button fx:id="UpdateButton" layoutX="90.0" layoutY="257.0" mnemonicParsing="false" onAction="#ConnectToDB" prefHeight="48.0" prefWidth="134.0" style="-fx-background-color: white;" text="       Connect" textFill="#fdb925" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="89.0">
@@ -28,12 +28,12 @@
       </Button>
       <ImageView id="ConnectLogo" fx:id="ConnectLogo" fitHeight="48.0" fitWidth="36.0" layoutX="99.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="99.0">
          <image>
-            <Image url="@/ConnectButton.png" />
+            <Image url="@../gui/pictures/ConnectLogo.jpeg" />
          </image>
       </ImageView>
       <ImageView fx:id="Logo" fitHeight="117.0" fitWidth="233.0" layoutX="55.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="25.0">
          <image>
-            <Image url="@/LogoEKRUT.png" />
+            <Image url="@../gui/pictures/LogoEKRUT.png" />
          </image>
       </ImageView>
       <Button fx:id="CloseButton" layoutX="275.0" layoutY="10.0" mnemonicParsing="false" onAction="#exitFromLogin" prefHeight="24.0" prefWidth="20.0" style="-fx-background-color: white;" text="X" textFill="#fdb925">

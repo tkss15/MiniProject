@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -16,11 +17,11 @@
    <children>
       <ImageView fx:id="Logo" fitHeight="74.0" fitWidth="150.0" layoutX="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../OneDrive/Desktop/Coding/Downloads/pictures/LogoEKRUT.png" />
+            <Image url="@../gui/pictures/LogoEKRUT.png" />
          </image>
       </ImageView>
       <HBox layoutX="622.0" layoutY="21.0" prefHeight="31.0" prefWidth="99.0" />
-      <VBox alignment="CENTER" layoutX="-3.0" layoutY="149.0" prefHeight="142.0" prefWidth="645.0" style="-fx-background-color: white;">
+      <VBox alignment="CENTER" layoutX="-6.0" layoutY="144.0" prefHeight="147.0" prefWidth="645.0" style="-fx-background-color: white;" AnchorPane.rightAnchor="0.0">
          <children>
             <Label alignment="CENTER" prefHeight="31.0" prefWidth="527.0" text="Enter your order pickup code:" textAlignment="CENTER">
                <font>
@@ -37,6 +38,10 @@
                </VBox.margin>
             </Button>
          </children>
+         <stylesheets>
+            <URL value="@Homepage.css" />
+            <URL value="@TextFieldAndListView.css" />
+         </stylesheets>
       </VBox>
       <Label alignment="CENTER" layoutX="45.0" layoutY="79.0" prefHeight="31.0" prefWidth="527.0" text="Order Pickup:" textAlignment="CENTER">
          <font>

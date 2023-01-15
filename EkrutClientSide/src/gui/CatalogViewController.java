@@ -166,7 +166,8 @@ public class CatalogViewController implements Initializable, IController
 		 recives all the products information inside the @updatedata
 		 * 
 		 */
-    	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",String.format("%d#", ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID()),"*");  
+    	RequestObjectClient request = new RequestObjectClient("#SIMPLE_REQUEST",
+    			String.format("%d#", ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID()),"*");  
     	ClientUI.clientController.accept(request);
     	
     	/***
@@ -198,9 +199,6 @@ public class CatalogViewController implements Initializable, IController
 	    			 * default: caculates all sales that starts with "10% discount" "20% discount" ... etc. and will caculate the discount of it with @PriceStartegyCustom
 	    			 */
 		    			case"1 + 1":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegyOnePlusOne());
-		    			break;
-		    			
-		    			case"Custom Discount":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegyCustom(0.25));
 		    			break;
 		    			
 		    			case"Second Item In Half Price":ClientUI.clientController.getArrProducts().get(i).setPriceStategy(new PriceStartegySecondHalfPrice());
@@ -592,6 +590,7 @@ public class CatalogViewController implements Initializable, IController
 		 * 		-VBox:
 		 * 				Image 
 		 * 				Product Name
+		 * 				Product Amount
 		 * 				Product Description
 		 * 				Price
 		 */
@@ -611,15 +610,15 @@ public class CatalogViewController implements Initializable, IController
 			ItemName.setId("ProductName");
 			VBox.setVgrow(ItemName, Priority.ALWAYS);
 			
+			// Creates the Product Price
+			Text ItemPrice = new Text((Product.getProductPrice() + ShekelCode)); 
+			ItemPrice.setId("ProductName");
+			
 			
 			//Creates the Product Description and Styles
 			Text ItemDescription = new Text(Product.getProductDescription());
 			ItemDescription.setId("ProductName");
 
-		    // Creates the Product Price
-			Text ItemPrice = new Text((Product.getProductPrice() + ShekelCode)); 
-			ItemPrice.setId("ProductName");
-			
 			/***
 			 * Explantion about AmountAvailable is a text that writes the current amount of available products in the facility
 			 * this text will change live if products are being added \ removed from the facility deepends on other users.
@@ -663,18 +662,19 @@ public class CatalogViewController implements Initializable, IController
 	 * @param PickOnBounds - Styling for the photo
 	 * @param PresarveRatio - is a boolean that if its true it will retain the Ratio of the original photo even after changing is height and width
 	 * @param cursor - if we want to change the cursor when hovering on the picture we can set it inside this
-	 * CreateImage will return an ImageView with given params this function 
+	 * CreateImage will return an ImageView with given params this function will return a Styled Image view with the given parramters
 	 * @return
 	 */
 	private ImageView CreateImage(String url, Double fitHeight, Double fitWidth, boolean PickOnBounds, boolean PresarveRatio, Cursor cursor )
 	{
+		// Creates a new ImageView with the given url
 		ImageView ItemPicture = new ImageView(url);
 		
-		if(fitHeight > 0)
+		if(fitHeight > 0)// this checks if there is a change to the fit if not it will use the default height of the Image
 			ItemPicture.setFitHeight(fitHeight);
-		if(fitWidth > 0)
+		if(fitWidth > 0)// same as before checks if there was a change to the fitwidth
 			ItemPicture.setFitWidth(fitWidth);
-		if(cursor != null)
+		if(cursor != null)// this checks if a new cursor have inserted if a null is been inserted then we wont change the cursor
 			ItemPicture.setCursor(cursor);
 		
 		ItemPicture.setPickOnBounds(PickOnBounds);
@@ -682,39 +682,45 @@ public class CatalogViewController implements Initializable, IController
 		
 		return ItemPicture;
 	}
-	public void updatedata(Object data) {
+	/***
+	 * @data - will contain data recived from the server. this data will be saved on the current controller or on the Clineconsole.
+	 * @importent we wont manipulate the data in the javafx UI from there since there will be a thread issue. we will always save the data
+	 * and use it with in the controller itself.
+	 */
+	public void updatedata(Object data) 
+	{
 		// TODO Auto-generated method stub
-		System.out.println("OrderSettingsController");
-		if(data instanceof ResponseObject)
+		if(data instanceof ResponseObject)// Safety Check to know if the data type is ResponseObject
 		{
 			ResponseObject serverResponse = (ResponseObject) data;
+			// Checking which Request type we get
 			switch(serverResponse.getRequest())
 			{
 				case"#GET_ALL_SALES_CLIENT_VIEWER":
-				{
+				{// In case we checking the sales for this current facility
+					// Loading all Sales
 					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
 					{
 						Object[] values = (Object[])serverResponse.Responsedata.get(i);
 						String SaleType = (String) values[1];
 						Integer ProductSale = (Integer)values[0];
-						System.out.println(ProductSale + " " + SaleType);
-						SalesMap.put(ProductSale, SaleType);
+						SalesMap.put(ProductSale, SaleType);// Adding sales to the hashmap
 					}
 					break;
 				}
 				case"#UPDATE_PRODUCTS_CLIENT":
-				{
-					System.out.println("Hey");
+				{// In case the Quantity of products changes in the middle of the buy
 					for(int i = 0; i < serverResponse.Responsedata.size(); i++)
 					{
+						// We will get data for each item inside the facility.
 						Object[] values = (Object[])serverResponse.Responsedata.get(i);
 						Integer FacilityID = (Integer)values[0];
 						Integer ProductCode = (Integer)values[1];
 						Integer ProductAmount = (Integer)values[2];
-						
+						// first of all if the current client not in the same facility as the data we wont check.
 						if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != FacilityID)
 							return;
-						
+						// then we need to find the facility products and change them
 						for(Product tempProduct : ClientUI.clientController.getArrProducts())
 						{
 							if(tempProduct.getProductCode() != ProductCode)
@@ -758,18 +764,20 @@ public class CatalogViewController implements Initializable, IController
 							continue;
 						}
 						FileOutputStream fos;
-						try {
+						try 
+						{
 							fos = new FileOutputStream(anotherProduct.PicturePhoto);
 							BufferedOutputStream bos = new BufferedOutputStream(fos); /* Create BufferedFileOutputStream */
 							
 							bos.write(arrayByte, 0, arrayByte.length); /* Write byte array to output stream */
-							System.out.println(anotherProduct.getPathPicture());
 						    bos.flush();
 						    fos.flush();
 						    
 						    fos.close();
 						    bos.close();
-						} catch (IOException e) {
+						} 
+						catch (IOException e) 
+						{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} /* Create file output stream */

@@ -201,9 +201,7 @@ public class ClientLoginPage implements Initializable, IController
 							user.setOnlineStatus("Online");
 							user.setArea(AreaUser);
 							alreadyLogged = false;
-							//	public User(String firstName, String lastName, String phone, String email, String ID, String UserName,
 							ClientUI.clientController.setUser(user); 
-							System.out.println("Hey 2 " + ClientUI.clientController.getUser());
 							
 						}
 						break;

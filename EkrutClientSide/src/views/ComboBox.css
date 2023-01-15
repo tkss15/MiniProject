@@ -8,11 +8,11 @@
     -fx-text-fill: black;
 }
 
-.combo-box .list-view {
+.combo-box .list-view  {
     -fx-background-color: #d3d3d3;
 }
 
-.combo-box .list-view {
+.combo-box .list-view  {
     -fx-background-color: #d3d3d3;
     -fx-background-radius: 0;
 }
@@ -20,3 +20,4 @@
     -fx-font-size: 11px;
     -fx-background-radius: 0;
 }
+

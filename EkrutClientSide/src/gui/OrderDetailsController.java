@@ -135,7 +135,7 @@ public class OrderDetailsController implements Initializable, IController {
 			  {
 				  	int myFacility = ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID();
 					RequestObjectClient request;
-
+					Thread.sleep(5000);
 			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("%.2f#%d#%s#%s#", 
 			    			isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice(), 
 			    			ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID(), 
@@ -245,8 +245,6 @@ public class OrderDetailsController implements Initializable, IController {
               	ClientUI.clientController.setClientOrder(new Order(null,null,null));
           		Platform.runLater(() -> ClientUI.sceneManager.ShowScene("../views/Homepage.fxml"));
           	}
-      		
-              System.out.println("Done");
           }
       });
 		new Thread(task).start();

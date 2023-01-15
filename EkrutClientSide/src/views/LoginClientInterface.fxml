@@ -18,34 +18,26 @@
    <children>
       <VBox fx:id="vboxlogo" prefHeight="800.0" prefWidth="493.0" style="-fx-background-color: #FDB926;">
          <children>
-            <ImageView fitHeight="156.0" fitWidth="330.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="354.0" fitWidth="333.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@/faf13193-4e2a-4556-b5af-87d639352dbb-removebg-preview.png" />
+                  <Image url="@../gui/pictures/EKrut.png" />
                </image>
                <VBox.margin>
-                  <Insets left="100.0" top="300.0" />
+                  <Insets left="100.0" top="250.0" />
                </VBox.margin>
             </ImageView>
          </children>
       </VBox>
-      <VBox cacheShape="false" centerShape="false" layoutX="493.0" prefHeight="800.0" prefWidth="508.0">
+      <VBox cacheShape="false" centerShape="false" layoutX="493.0" prefHeight="800.0" prefWidth="508.0" stylesheets="@CatalogViewer.css">
          <children>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="508.0">
                <children>
-                  <ImageView fx:id="exitbutton" fitHeight="34.0" fitWidth="88.0" onMouseClicked="#ExitWindow" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@/Exit.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets left="465.0" top="5.0" />
-                     </VBox.margin>
-                  </ImageView>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hello Again!" textAlignment="CENTER" wrappingWidth="222.13671875">
                      <font>
                         <Font name="System Bold" size="36.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="100.0" top="150.0" />
+                        <Insets left="100.0" top="100.0" />
                      </VBox.margin>
                   </Text>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="eat better with us" textAlignment="CENTER" wrappingWidth="98.13671875">
@@ -130,5 +122,10 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </VBox>
+      <Button id="CloseButton" layoutX="926.0" layoutY="9.0" minWidth="42.0" mnemonicParsing="false" onAction="#ExitWindow" prefHeight="34.0" prefWidth="58.0" text="X">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
