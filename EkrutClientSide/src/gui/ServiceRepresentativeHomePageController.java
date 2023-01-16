@@ -57,7 +57,6 @@ public class ServiceRepresentativeHomePageController implements Initializable,IC
     /**
 	 * method that triggers when the Logout button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML

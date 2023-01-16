@@ -74,7 +74,6 @@ public class ThresholdLevelController implements Initializable, IController {
 	 * triggers when the approve button is pressed. this method changes the
 	 * threshold level of the selected facility
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 * 
 	 */
@@ -123,7 +122,6 @@ public class ThresholdLevelController implements Initializable, IController {
 	 * after selected location, the NameCombo will display all of the facilities in
 	 * the selected location
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -175,7 +173,6 @@ public class ThresholdLevelController implements Initializable, IController {
 	 * after a Facility Name is selected, the id of the facility will be set in the
 	 * IDCombo
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -202,7 +199,6 @@ public class ThresholdLevelController implements Initializable, IController {
 	/**
 	 * after selecting the facility id, its threshold will be displayed in a text
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -225,7 +221,6 @@ public class ThresholdLevelController implements Initializable, IController {
 	/**
 	 * method that triggers when the "Back" button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -236,7 +231,6 @@ public class ThresholdLevelController implements Initializable, IController {
 	/**
 	 * method that triggers when the "X" button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -258,7 +252,6 @@ public class ThresholdLevelController implements Initializable, IController {
 	 * retrieves the query data from the server to this method, where the query
 	 * result set is distributed between all of the cases.
 	 * 
-	 * @author David
 	 * @param data that returns from the server
 	 * 
 	 */
@@ -295,7 +288,6 @@ public class ThresholdLevelController implements Initializable, IController {
 	 * Initialize the controller, so that all of the initial settings will be as we
 	 * wish. This method actives as the controller activates
 	 * 
-	 * @author David
 	 * @param location  the location of the FXML file that loaded this controller
 	 * @param resources the resources used to load the FXML file
 	 */

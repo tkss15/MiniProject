@@ -1,15 +1,35 @@
 package Entity;
 
+/**
+ * The User class represents a user with various attributes such as ID, username, first name, last name, password, phone, email, and online status.
+ * It has two constructors, one that takes in a username and password and another that takes in all user attributes.
+ */
 public class User
 {
 	private String ID,UserName,FirstName,LastName,Password,Phone,Email,OnlineStatus;
 	private String area;
 
+	/**
+	 * @param userName the username of the user
+	 * @param password the password of the user
+	 */
 	public User(String userName, String password)
 	{
 		UserName = userName;
 		Password = password;
 	}
+	/**
+	*
+
+	@param firstName the first name of the user
+	@param lastName the last name of the user
+	@param phone the phone number of the user
+	@param email the email of the user
+	@param ID the ID of the user
+	@param UserName the username of the user
+	@param Password the password of the user
+	@param area the area of the user
+	*/
 	public User(String firstName, String lastName, String phone, String email, String ID, String UserName,
 			String Password, String area) 
 	{
@@ -25,6 +45,7 @@ public class User
 	
 	public User() {} //Empty Constructor
 	
+	/*standard getters,setters and toString.*/
 	public String getID() {
 		return ID;
 	}

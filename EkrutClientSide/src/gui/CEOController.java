@@ -51,7 +51,6 @@ public class CEOController implements Initializable, IController {
 	/**
 	 * method that triggers when the "X" button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -73,7 +72,6 @@ public class CEOController implements Initializable, IController {
 	/**
 	 * method that triggers when the Logout button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -94,7 +92,6 @@ public class CEOController implements Initializable, IController {
 	/**
 	 * method that triggers when the Monthly reports button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -107,7 +104,6 @@ public class CEOController implements Initializable, IController {
 	/**
 	 * retrieves the query data from the server to this method
 	 * 
-	 * @author David
 	 * @param data that returns from the server
 	 * 
 	 */
@@ -120,7 +116,6 @@ public class CEOController implements Initializable, IController {
 	/**
 	 * Initialize the fields of the view with data from the client's user.
 	 * 
-	 * @author David
 	 * @param location  the location of the FXML file that loaded this controller
 	 * @param resources the resources used to load the FXML file
 	 */

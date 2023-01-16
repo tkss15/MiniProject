@@ -18,7 +18,6 @@ public class Report {
 	}
 	/**
 	 * getters and setters for the report entity
-	 * @author David
 	 * */
 	public String getReportType() {
 		return reportType;

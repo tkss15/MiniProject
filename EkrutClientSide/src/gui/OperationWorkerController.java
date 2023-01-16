@@ -33,7 +33,6 @@ public class OperationWorkerController implements Initializable, IController {
 	 * The RefillRow class represents a row in the tabe "RefillTable" that displays
 	 * information about a facility's product that needs to be refilled
 	 *
-	 * @author David
 	 */
 	public class RefillRow {
 		private TextField quantityToRefill;
@@ -153,7 +152,6 @@ public class OperationWorkerController implements Initializable, IController {
 	 * products and filled the text box that represents the new amount after the
 	 * replenishment.
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -256,7 +254,6 @@ public class OperationWorkerController implements Initializable, IController {
 	/**
 	 * method that triggers when the "X" button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -277,7 +274,6 @@ public class OperationWorkerController implements Initializable, IController {
 	/**
 	 * method that triggers when the Logout button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -299,7 +295,6 @@ public class OperationWorkerController implements Initializable, IController {
 	 * retrieves the query data from the server to this method, where the query
 	 * result set is distributed between all of the cases.
 	 * 
-	 * @author David
 	 * @param data that returns from the server
 	 * 
 	 */
@@ -352,7 +347,6 @@ public class OperationWorkerController implements Initializable, IController {
 	 * Initialize the controller, so that all of the initial settings will be as we
 	 * wish this method actives as the controller activates
 	 * 
-	 * @author David
 	 * @param location  the location of the FXML file that loaded this controller
 	 * @param resources the resources used to load the FXML file
 	 */

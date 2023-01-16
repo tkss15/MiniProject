@@ -85,7 +85,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	 * Initialize the controller, so that all of the initial settings will be as we
 	 * wish this method actives as the controller activates
 	 * 
-	 * @author David
 	 * @param location  the location of the FXML file that loaded this controller
 	 * @param resources the resources used to load the FXML file
 	 */
@@ -119,7 +118,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	 * the selected item productsToRefill contains all of the data needed to add the
 	 * product to the executiveorder table.
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -169,7 +167,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	 * quantity and location, and name, and facility name etc. add the product to
 	 * productsToRefill ArrayList of ProductToRefill type.
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -220,7 +217,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	/**
 	 * select the Location name and set the Facility Names below its threshold
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -253,7 +249,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	/**
 	 * select the facility name and set the items below its threshold
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -284,7 +279,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	 * select an item from the comboBox, this item will not appear in the comboBox
 	 * after selection
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -308,7 +302,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	/**
 	 * method that triggers when the "Back" button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -320,7 +313,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	/**
 	 * method that triggers when the "X" button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
@@ -341,7 +333,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	 * retrieves the query data from the server to this method, where the query
 	 * result set is distributed between all of the cases.
 	 * 
-	 * @author David
 	 * @param data that returns from the server
 	 * 
 	 */
@@ -398,7 +389,6 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	 * Initialize the controller, so that all of the initial settings will be as we
 	 * wish. This method actives as the controller activates
 	 * 
-	 * @author David
 	 * @param location  the location of the FXML file that loaded this controller
 	 * @param resources the resources used to load the FXML file
 	 */
