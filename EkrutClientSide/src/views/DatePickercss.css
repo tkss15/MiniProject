@@ -1,0 +1,19 @@
+.date-picker {
+    -fx-background-color: #d3d3d3;
+    -fx-background-radius: 4;
+    -fx-background-inset: 0;
+    -fx-font-family: "Arial";
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+.date-picker .list-view {
+    -fx-background-color: #d3d3d3;
+    -fx-background-radius: 0;
+}
+
+.date-picker .list-view .list-cell {
+    -fx-font-size: 11px;
+    -fx-background-radius: 0;
+}

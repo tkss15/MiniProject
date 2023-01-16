@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ProviderUIController">
+   <children>
+      <Line endX="291.0" layoutX="661.0" layoutY="157.0" opacity="0.7" startX="-250.0" />
+      <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="789.0" minWidth="335.0" prefHeight="789.0" prefWidth="342.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../gui/pictures/LogoEKRUT.png" />
+               </image>
+               <VBox.margin>
+                  <Insets left="70.0" top="50.0" />
+               </VBox.margin>
+            </ImageView>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="333.0" VBox.vgrow="NEVER">
+               <children>
+                  <HBox prefHeight="35.0" prefWidth="326.0">
+                     <children>
+                        <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../gui/pictures/User.png" />
+                           </image>
+                        </ImageView>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome " wrappingWidth="108.095703125" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="textUserlogin" strokeType="OUTSIDE" strokeWidth="0.0" text="Max!" wrappingWidth="89.095703125">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </HBox>
+                  <Line endX="149.5" startX="-100.0">
+                     <VBox.margin>
+                        <Insets left="50.0" />
+                     </VBox.margin>
+                  </Line>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="textFirstName" strokeType="OUTSIDE" strokeWidth="0.0" text="Max" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="textLastName" strokeType="OUTSIDE" strokeWidth="0.0" text="Lechner" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID Number:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="textID" strokeType="OUTSIDE" strokeWidth="0.0" text="206495872" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="35.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone number:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="textTelephone" strokeType="OUTSIDE" strokeWidth="0.0" text="0548975124" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="textEmail" strokeType="OUTSIDE" strokeWidth="0.0" text="MaxLechnerl@gmail.com" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="65.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="60.0" layoutY="163.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="70.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+      <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#logOut" text="Logout" />
+      <Text layoutX="415.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut Provider Work Space" wrappingWidth="531.0" />
+      <Line endX="291.0" layoutX="660.0" layoutY="530.0" opacity="0.7" startX="-250.0" />
+      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="150.0" fitWidth="166.0" layoutX="599.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/OrderPickup.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="DeliveryOrdersTable" layoutX="410.0" layoutY="173.0" prefHeight="342.0" prefWidth="543.0">
+         <columns>
+            <TableColumn fx:id="orderCodeColumn" prefWidth="98.0" style="-fx-alignment: CENTER;" text="Order Code" />
+            <TableColumn fx:id="deliveryLocationColumn" prefWidth="137.0" style="-fx-alignment: CENTER;" text="Delivery Location" />
+            <TableColumn fx:id="deliveryStatusColumn" prefWidth="126.0" style="-fx-alignment: CENTER;" text="Delivery Status" />
+            <TableColumn fx:id="acceptOrderColumn" prefWidth="181.0" style="-fx-alignment: CENTER;" text="Received &amp; Sent By Provider" />
+         </columns>
+      </TableView>
+      <Text fx:id="providerTextArea" layoutX="599.0" layoutY="591.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35; -fx-font-weight: bold;" text="Provider  " wrappingWidth="282.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+   </children>
+   <stylesheets>
+      <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
+      <URL value="@TableView.css" />
+      <URL value="@boxCss.css" />
+   </stylesheets>
+</AnchorPane>

@@ -1,0 +1,71 @@
+
+#ContiuneButton:hover {
+	-fx-background-color: #f06236;
+	-fx-cursor: hand;
+}
+
+#ContiuneButton {
+	-fx-background-color: #FDB926;
+	-fx-cursor: hand;
+}
+
+#BackButtonCss,#backButton {
+	-fx-background-color: #FDB926;
+	-fx-cursor: hand;
+}
+
+#BackButtonCss:hover {
+	-fx-background-color: #f06236;
+	-fx-cursor: hand;
+}
+#FullPriceSale {
+	-fx-font-size:16;
+	-fx-strikethrough: true;
+}
+
+#FullPriceNoSlash {
+	-fx-font-size:16;
+}
+
+#DiscountPriceSale {
+	-fx-font-size:16;
+	-fx-fill: red;
+}
+
+
+.button {
+    -fx-background-color: #FDB926;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
+#Back {
+   -fx-font-size: 12;
+    -fx-border-color: black;
+    -fx-border-radius: 40;
+    -fx-background-color: transparent;
+}
+
+.button:hover {
+	-fx-background-color: #f06236;
+	-fx-cursor: hand;
+}
+
+#Logout {
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-text-box-border: transparent;
+}
+
+#Logout:hover {
+	-fx-background-color: #f06236;
+	-fx-cursor: hand;
+
+}
+
+#ColorAnchor {
+    -fx-background-color: #F2EFEA;
+}
+

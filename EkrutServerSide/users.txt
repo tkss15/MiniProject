@@ -1,0 +1,2 @@
+firstName,lastName,telephone,Email,ID,userName,userPassword,userOnline,Area
+Amit	Malca	0538301984	amitmalca10@gmail.com	324130483	amitmalca10	123456	Offline	North

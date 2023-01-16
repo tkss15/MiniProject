@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UsersRegistrationController">
+   <children>
+      <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="213.0" minWidth="279.0" prefHeight="789.0" prefWidth="279.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
+         <children>
+            <ImageView fitHeight="112.0" fitWidth="204.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../gui/pictures/EKrut.png" />
+               </image>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="30.0" top="30.0" />
+               </VBox.margin>
+            </ImageView>
+            <Text fx:id="welcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome Gal!" wrappingWidth="235.095703125">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="37.0" top="154.0" />
+               </VBox.margin>
+            </Text>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="333.0">
+               <children>
+                  <Line endX="149.5" startX="-100.0">
+                     <VBox.margin>
+                        <Insets left="15.0" top="10.0" />
+                     </VBox.margin>
+                  </Line>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="welcomeFirstName" strokeType="OUTSIDE" strokeWidth="0.0" text="Gal" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="50.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="welcomeLastNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Farfel" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID Number:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="welcomeIDText" strokeType="OUTSIDE" strokeWidth="0.0" text="206495872" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="35.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phone number:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="welcomePhoneNumberText" strokeType="OUTSIDE" strokeWidth="0.0" text="0548975124" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <Text fx:id="welcomeEmailText" strokeType="OUTSIDE" strokeWidth="0.0" text="GalFarfel@gmail.com" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="65.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="60.0" layoutY="163.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <VBox.margin>
+                        <Insets left="50.0" top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox layoutX="60.0" layoutY="160.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="70.0" />
+                           </HBox.margin>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </VBox>
+            <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../gui/pictures/User.png" />
+               </image>
+               <VBox.margin>
+                  <Insets left="8.0" top="-225.0" />
+               </VBox.margin>
+            </ImageView>
+         </children>
+      </VBox>
+      <Button id="Back" fx:id="BackButton" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#Back" text="Back" />
+      <Text layoutX="452.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Registration Form" wrappingWidth="366.0000191926956" />
+      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X" textFill="#fdb925">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font>
+      </Button>
+      <TextField fx:id="firstNameText" layoutX="632.0" layoutY="225.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="632.0" AnchorPane.rightAnchor="239.0" />
+      <Text layoutX="507.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="First Name:" wrappingWidth="89.13671875" AnchorPane.leftAnchor="507.0" />
+      <TextField fx:id="lastNameText" layoutX="632.0" layoutY="265.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="632.0" AnchorPane.rightAnchor="239.0" />
+      <Text layoutX="507.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Last Name:" wrappingWidth="82.05469179153442" AnchorPane.leftAnchor="507.0" />
+      <TextField fx:id="telephoneText" layoutX="632.0" layoutY="305.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="632.0" AnchorPane.rightAnchor="239.0" />
+      <Text layoutX="507.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Telephone:" wrappingWidth="82.05469179153442" AnchorPane.leftAnchor="507.0" />
+      <TextField fx:id="emailText" layoutX="632.0" layoutY="345.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="632.0" AnchorPane.rightAnchor="239.0" />
+      <Text layoutX="507.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Email:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="507.0" />
+      <TextField fx:id="IDText" layoutX="632.0" layoutY="386.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="632.0" />
+      <Text layoutX="507.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="ID:" wrappingWidth="65.13671875" AnchorPane.leftAnchor="507.0" />
+      <TextField fx:id="userNameText" layoutX="632.0" layoutY="426.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="632.0" />
+      <Text layoutX="507.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="User Name:" wrappingWidth="82.05469179153442" AnchorPane.leftAnchor="507.0" />
+      <TextField fx:id="passwordText" layoutX="632.0" layoutY="468.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="632.0" />
+      <Text layoutX="507.0" layoutY="487.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Password:" wrappingWidth="89.13672137260437" AnchorPane.leftAnchor="507.0" />
+      <Text layoutX="507.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Area:" wrappingWidth="44.99997854232788" AnchorPane.leftAnchor="507.0" />
+      <Text layoutX="507.0" layoutY="566.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="User Type:" wrappingWidth="82.05469179153442" AnchorPane.leftAnchor="507.0" />
+      <TextField fx:id="searchText" layoutX="533.0" layoutY="139.0" prefHeight="27.0" prefWidth="132.0" />
+      <Text fontSmoothingType="LCD" layoutX="539.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Search User by ID:" wrappingWidth="131.99999964237213" />
+      <Text fx:id="errorMessageID" fill="RED" layoutX="542.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User does not exist!" wrappingWidth="112.13671875" />
+      <Button fx:id="searchButton" layoutX="671.0" layoutY="138.0" mnemonicParsing="false" onAction="#searchUser" text="Search" />
+      <Button fx:id="registerButton" layoutX="541.0" layoutY="642.0" mnemonicParsing="false" onAction="#register" prefHeight="36.0" prefWidth="134.0" text="Register">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <TextField fx:id="areaText" layoutX="632.0" layoutY="511.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="632.0" AnchorPane.rightAnchor="239.0" />
+      <TextField fx:id="roleText" layoutX="632.0" layoutY="552.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="632.0" AnchorPane.rightAnchor="239.0" />
+      <TextField fx:id="creditCardText" layoutX="632.0" layoutY="592.0" prefHeight="28.0" prefWidth="134.0" AnchorPane.leftAnchor="632.0" AnchorPane.rightAnchor="239.0" />
+      <Text layoutX="507.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 15;" text="Credit Card:" wrappingWidth="89.13672137260437" AnchorPane.leftAnchor="507.0" />
+      <Text fx:id="msgRegister" fill="RED" layoutX="558.0" layoutY="708.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User does not exist!" wrappingWidth="112.13671875" />
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="477.0" layoutY="588.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/כרטיס%20אשראי.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="477.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="480.0" layoutY="511.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="480.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="480.0" layoutY="266.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="126.0" fitWidth="143.0" layoutX="455.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/Telephone.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="126.0" fitWidth="134.0" layoutX="485.0" layoutY="277.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/Envelope.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="477.0" layoutY="468.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/password-lock-icon-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="477.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/User.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="31.0" layoutX="479.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+         </image>
+      </ImageView>
+   </children>
+   <stylesheets>
+      <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
+      <URL value="@TextFieldAndListView.css" />
+      <URL value="@TableView.css" />
+   </stylesheets>
+</AnchorPane>

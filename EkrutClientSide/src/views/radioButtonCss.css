@@ -1,0 +1,23 @@
+.radio-button {
+    -fx-border-color: #000000;
+    -fx-border-width: 0.2px;
+    -fx-border-radius: 3px;
+    -fx-background-color: #d3d3d3;
+    -fx-effect: dropshadow(gaussian, #696969, 10, 0, 0, 0);
+}
+
+.radio-button:hover, #radioDelivery:hover {
+    -fx-border-color: #000000;
+    -fx-border-width: 0.2px;
+    -fx-border-radius: 3px;
+    -fx-background-color: #d3d3d3;
+    -fx-effect: dropshadow(gaussian, #696969, 10, 0, 0, 0);
+}
+
+.radio-button:focus, #radioDelivery:focus {
+    -fx-border-color: #000000;
+    -fx-border-width: 0.2px;
+    -fx-border-radius: 3px;
+    -fx-background-color: #d3d3d3;
+    -fx-effect: dropshadow(gaussian, #696969, 10, 0, 0, 0);
+}
