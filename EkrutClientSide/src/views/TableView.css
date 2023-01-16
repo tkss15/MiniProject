@@ -31,7 +31,7 @@
 }
 .table-view .column-header .label{
 	-fx-font-weight: bold; 
-	-fx-alignment: center-left;
+	-fx-alignment: center;
 }
 /* This is just magic */
 .table-row-cell:filled {

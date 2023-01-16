@@ -52,6 +52,23 @@
 	-fx-cursor: hand;
 }
 
+#RegistrationFormButton:hover {
+	-fx-background-color: #f06236;
+	-fx-cursor: hand;	
+}
+
+
+#colorButton{
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+    -fx-text-box-border: transparent;
+}
+#colorButton:hover{
+	-fx-background-color: #f06236;
+	-fx-cursor: hand;
+}
+
 #Logout {
     -fx-background-color: transparent;
     -fx-border-color: black;

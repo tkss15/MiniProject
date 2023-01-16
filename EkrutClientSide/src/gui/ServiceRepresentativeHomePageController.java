@@ -44,28 +44,31 @@ public class ServiceRepresentativeHomePageController implements Initializable,IC
 
 
     @FXML
+    /**
+     * redirects the user to the registration form interface via the scene manager class.
+     * @param event ActionEvent that triggered this method call
+     */
     void RegistrationForm(ActionEvent event) {
-    	((Node) event.getSource()).getScene().getWindow().hide();
-    	ClientUI.sceneManager.ShowScene("../views/RegistrationFormInterface.fxml");
+    	ClientUI.sceneManager.ShowSceneNew("../views/RegistrationFormInterface.fxml",event);
     }
 
     @FXML
+    /**
+     * closes the window and logs out from the account.
+     * @param event ActionEvent that triggered this method call
+     */
     void close(ActionEvent event) {
-    	System.exit(0);
+    	logout(event);
     }
 
     /**
 	 * method that triggers when the Logout button has been pressed
 	 * 
-	 * @author David
 	 * @param event the ActionEvent that triggered this method call
 	 */
 	@FXML
 	void logout(ActionEvent event) {
 		// logs out from the user and going back to the login screen
-		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
-			System.out.println("Not updated");
-		}
 		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
 			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
 					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
@@ -76,6 +79,9 @@ public class ServiceRepresentativeHomePageController implements Initializable,IC
 	}
 
 	@Override
+	/**
+	 * not used in this particular controller.
+	 */
 	public void updatedata(Object data) {
 		// TODO Auto-generated method stub
 		
@@ -83,7 +89,9 @@ public class ServiceRepresentativeHomePageController implements Initializable,IC
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("ServiceRepresentativeInterface");
+		/**
+		 * Initializes the logged in user's personal data in the text fields on the screen.
+		 */
 		firstNameText.setText(ClientUI.clientController.getUser().getFirstName());
 		lastNameText.setText(ClientUI.clientController.getUser().getLastName());
 		idText.setText(ClientUI.clientController.getUser().getID());

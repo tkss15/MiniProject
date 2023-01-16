@@ -21,7 +21,7 @@
          <children>
             <ImageView fitHeight="354.0" fitWidth="333.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/EKrut.png" />
+                  <Image url="@../gui/pictures/EkrutLogoGif.gif" />
                </image>
                <VBox.margin>
                   <Insets left="100.0" top="250.0" />

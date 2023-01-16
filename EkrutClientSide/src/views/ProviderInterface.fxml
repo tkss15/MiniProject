@@ -159,7 +159,6 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#logOut" text="Logout" />
       <Text layoutX="415.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut Provider Work Space" wrappingWidth="531.0" />
       <Line endX="291.0" layoutX="660.0" layoutY="530.0" opacity="0.7" startX="-250.0" />
       <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
@@ -185,6 +184,12 @@
             <Font size="15.0" />
          </font>
       </Text>
+      <Button id="Back" fx:id="Logout" layoutX="4.0" layoutY="739.0" mnemonicParsing="false" onAction="#logOut" prefHeight="44.0" prefWidth="111.0" stylesheets="@Homepage.css" text="Logout" textAlignment="RIGHT" />
+      <ImageView fitHeight="24.0" fitWidth="25.0" layoutX="10.0" layoutY="753.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/Logout.png" />
+         </image>
+      </ImageView>
    </children>
    <stylesheets>
       <URL value="@Homepage.css" />

@@ -2,10 +2,8 @@ package gui;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.PriorityQueue;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.UnaryOperator;
@@ -16,22 +14,17 @@ import client.ClientUI;
 import common.IController;
 import common.RequestObjectClient;
 import common.ResponseObject;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -77,25 +70,21 @@ public class UsersRegistrationController implements Initializable, IController {
 
 	}
 
-	@FXML
-	private TextField creditCardText;
-
 	private Set<String> setID = new HashSet<>(); // set of ID's of existing users.
-
 	ObservableList<ImportedUser> userInfo;
 
 	private ArrayList<ImportedUser> userRows;
 
 	private boolean exists;
 
-	@FXML
-	private TableView<ImportedUser> infoTable;
-
-	@FXML
-	private TableColumn<User, String> emailCol;
-
-	@FXML
-	private TableColumn<User, String> IDCol;
+//	@FXML
+//	private TableView<ImportedUser> infoTable;
+//
+//	@FXML
+//	private TableColumn<User, String> emailCol;
+//
+//	@FXML
+//	private TableColumn<User, String> IDCol;
 
 	@FXML
 	private Text welcomeMessageText;
@@ -119,37 +108,55 @@ public class UsersRegistrationController implements Initializable, IController {
 	private Button BackButton;
 
 	@FXML
-	private TextField areaText;
-
-	@FXML
-	private TextField roleText;
-
-	@FXML
 	private Button CloseButton;
 
 	@FXML
 	private TextField firstNameText;
 
 	@FXML
+	private Text firstNameLabel;
+
+	@FXML
 	private TextField lastNameText;
+
+	@FXML
+	private Text lastNameLabel;
 
 	@FXML
 	private TextField telephoneText;
 
 	@FXML
+	private Text telephoneLabel;
+
+	@FXML
 	private TextField emailText;
+
+	@FXML
+	private Text emailLabel;
 
 	@FXML
 	private TextField IDText;
 
 	@FXML
+	private Text idLabel;
+
+	@FXML
 	private TextField userNameText;
+
+	@FXML
+	private Text userNameLabel;
 
 	@FXML
 	private TextField passwordText;
 
 	@FXML
-	private ComboBox<String> roleCombo;
+	private Text passwordLabel;
+
+	@FXML
+	private Text areaLabel;
+
+	@FXML
+	private Text userTypeLabel;
 
 	@FXML
 	private TextField searchText;
@@ -158,17 +165,59 @@ public class UsersRegistrationController implements Initializable, IController {
 	private Text errorMessageID;
 
 	@FXML
-	private Text msgRegister;
-
-	@FXML
 	private Button searchButton;
 
 	@FXML
 	private Button registerButton;
 
 	@FXML
+	private TextField areaText;
+
+	@FXML
+	private TextField roleText;
+
+	@FXML
+	private TextField creditCardText;
+
+	@FXML
+	private Text creditCardLabel;
+
+	@FXML
+	private Text msgRegister;
+
+	@FXML
+	private ImageView creditCardImage;
+
+	@FXML
+	private ImageView pencilImageUserType;
+
+	@FXML
+	private ImageView pencilImageUserArea;
+
+	@FXML
+	private ImageView pencilImageFirstName;
+
+	@FXML
+	private ImageView pencilImageLasName;
+
+	@FXML
+	private ImageView telephoneImage;
+
+	@FXML
+	private ImageView emailImage;
+
+	@FXML
+	private ImageView lockImage;
+
+	@FXML
+	private ImageView userImage;
+
+	@FXML
+	private ImageView pencilImageId;
+
+	@FXML
 	void Back(ActionEvent event) {
-		ClientUI.sceneManager.ShowSceneNew("../views/ServiceRepresentativeInterface.fxml",event);
+		ClientUI.sceneManager.ShowSceneNew("../views/ServiceRepresentativeInterface.fxml", event);
 	}
 
 	@FXML
@@ -178,9 +227,7 @@ public class UsersRegistrationController implements Initializable, IController {
 		}
 		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
 			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS", // DONE
-					String.format("%s#",
-							ClientUI.clientController.getUser().getUserName()),
-					"PUT");
+					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
 			ClientUI.clientController.accept(request);
 			ClientUI.clientController.getUser().setOnlineStatus("Offline");
 		}
@@ -249,8 +296,8 @@ public class UsersRegistrationController implements Initializable, IController {
 		if (result.get() == ButtonType.OK) {
 
 			// set isSentToManager = 1.
-			RequestObjectClient changeIsSentToManager = new RequestObjectClient("#UPDATE_REQUEST_TO_MANAGER_URC", //DONE
-					String.format("%s#%s#",IDText.getText(), creditCardText.getText()),"PUT");
+			RequestObjectClient changeIsSentToManager = new RequestObjectClient("#UPDATE_REQUEST_TO_MANAGER_URC", // DONE
+					String.format("%s#%s#", IDText.getText(), creditCardText.getText()), "PUT");
 			ClientUI.clientController.accept(changeIsSentToManager);
 
 //			POST - -
@@ -258,25 +305,21 @@ public class UsersRegistrationController implements Initializable, IController {
 
 			if (!setID.contains(currentUser.getID())) {
 				RequestObjectClient addToUsersTableRequest = new RequestObjectClient("#UPDATE_USERS_TABLE_URC", // DONE
-						String.format(
-								"%s#%s#%s#%s#%s#%s#%s#%s#",
-								currentUser.getFirstName(), currentUser.getLastName(), currentUser.getPhone(),
-								currentUser.getEmail(), currentUser.getID(), currentUser.getUserName(),
-								currentUser.getPassword(), currentUser.getArea()),
+						String.format("%s#%s#%s#%s#%s#%s#%s#%s#", currentUser.getFirstName(), currentUser.getLastName(),
+								currentUser.getPhone(), currentUser.getEmail(), currentUser.getID(),
+								currentUser.getUserName(), currentUser.getPassword(), currentUser.getArea()),
 						"POST");
 				ClientUI.clientController.accept(addToUsersTableRequest);
 
 				RequestObjectClient addUsersToRegisteredClientsTable = new RequestObjectClient( // DONE
 						"#UPDATE_REGISTERED_CLIENTS_TABLE_URC",
-						String.format("%s#%s#",
-								currentUser.getUserName(), currentUser.getCreditCard()),
-						"POST");
+						String.format("%s#%s#", currentUser.getUserName(), currentUser.getCreditCard()), "POST");
 				ClientUI.clientController.accept(addUsersToRegisteredClientsTable);
-			}
-			else {
-				RequestObjectClient updateExistingUserInRegClientTable = new RequestObjectClient("#UPDATE_REQUEST_IN_REG_CLIENTS_URC", // DONE
-						String.format("%s#%s#%s#",
-								currentUser.getUserName(),currentUser.getRoleTypeRequest(),currentUser.getCreditCard()),
+			} else {
+				RequestObjectClient updateExistingUserInRegClientTable = new RequestObjectClient(
+						"#UPDATE_REQUEST_IN_REG_CLIENTS_URC", // DONE
+						String.format("%s#%s#%s#", currentUser.getUserName(), currentUser.getRoleTypeRequest(),
+								currentUser.getCreditCard()),
 						"PUT");
 				ClientUI.clientController.accept(updateExistingUserInRegClientTable);
 			}
@@ -285,21 +328,19 @@ public class UsersRegistrationController implements Initializable, IController {
 			info.setContentText("User has been updated in users table!");
 			info.showAndWait();
 
-			msgRegister.setVisible(true);
-			msgRegister.setFill(Color.GREEN);
-			msgRegister.setText("User sent to manager successfully!");
-
 			userRows.clear();
 			clearAllTextFields();
 			registerButton.setDisable(true);
 			creditCardText.setDisable(true);
 
-			RequestObjectClient getUsers = new RequestObjectClient("#GET_USERS_URC", //DONE
+			RequestObjectClient getUsers = new RequestObjectClient("#GET_USERS_URC", // DONE
 					"", "GET");
 			ClientUI.clientController.accept(getUsers);
+			
+			setDetailsVisible(false);
 
-			userInfo = FXCollections.observableArrayList(userRows);
-			this.infoTable.setItems(userInfo);
+//			userInfo = FXCollections.observableArrayList(userRows);
+//			this.infoTable.setItems(userInfo);
 		}
 
 	}
@@ -321,6 +362,7 @@ public class UsersRegistrationController implements Initializable, IController {
 		String getUserText = searchText.getText();
 		if (getUserText.isEmpty()) {
 			clearAllTextFields();
+			setDetailsVisible(false);
 			creditCardText.setDisable(true);
 			errorMessageID.setText("Please enter user ID");
 			errorMessageID.setVisible(true);
@@ -328,6 +370,7 @@ public class UsersRegistrationController implements Initializable, IController {
 		}
 		if (getUserText.charAt(0) == '0') {
 			clearAllTextFields();
+			setDetailsVisible(false);
 			creditCardText.setDisable(true);
 			errorMessageID.setText("You can not have leading zeroes");
 			errorMessageID.setVisible(true);
@@ -335,6 +378,7 @@ public class UsersRegistrationController implements Initializable, IController {
 		}
 		if (!isDigit(getUserText)) {
 			clearAllTextFields();
+			setDetailsVisible(false);
 			creditCardText.setDisable(true);
 			errorMessageID.setText("User ID must consist of numbers only!");
 			errorMessageID.setVisible(true);
@@ -354,6 +398,8 @@ public class UsersRegistrationController implements Initializable, IController {
 			registerButton.setDisable(false);
 			creditCardText.setDisable(false);
 
+			setDetailsVisible(true);
+
 			firstNameText.setText(currentUser.getFirstName());
 			lastNameText.setText(currentUser.getLastName());
 			telephoneText.setText(currentUser.getPhone());
@@ -367,12 +413,57 @@ public class UsersRegistrationController implements Initializable, IController {
 			exists = false;
 			return;
 		} else {
+			setDetailsVisible(false);
 			clearAllTextFields();
 			errorMessageID.setText(String.format("user with ID: %s does not exist", getUserText));
 			errorMessageID.setVisible(true);
 			creditCardText.setDisable(true);
 		}
 		// table=users#condition=userName=%s#values=userName=username&userPassword=password
+	}
+
+	/**
+	 * sets all the GUI elements of on the screen according to the boolean flag.
+	 * if flag = false -> all the elements will be hidden, else the flag will be true.
+	 * @param flag the boolean variable of the visible property of the GUI elements.
+	 */
+	private void setDetailsVisible(boolean flag) {
+		registerButton.setVisible(flag);
+		firstNameText.setVisible(flag);
+		lastNameText.setVisible(flag);
+		telephoneText.setVisible(flag);
+		emailText.setVisible(flag);
+		IDText.setVisible(flag);
+		userNameText.setVisible(flag);
+		passwordText.setVisible(flag);
+		areaText.setVisible(flag);
+		roleText.setVisible(flag);
+		creditCardText.setVisible(flag);
+		
+		pencilImageFirstName.setVisible(flag);
+		pencilImageId.setVisible(flag);
+		pencilImageLasName.setVisible(flag);
+		pencilImageUserArea.setVisible(flag);
+		pencilImageUserType.setVisible(flag);
+		emailImage.setVisible(flag);
+		userImage.setVisible(flag);
+		telephoneImage.setVisible(flag);
+		lockImage.setVisible(flag);
+		creditCardImage.setVisible(flag);
+		
+		
+		firstNameLabel.setVisible(flag);
+		lastNameLabel.setVisible(flag);
+		telephoneLabel.setVisible(flag);
+		emailLabel.setVisible(flag);
+		idLabel.setVisible(flag);
+		userNameLabel.setVisible(flag);
+		passwordLabel.setVisible(flag);
+		areaLabel.setVisible(flag);
+		userTypeLabel.setVisible(flag);
+		creditCardLabel.setVisible(flag);
+		
+		registerButton.setVisible(flag);
 	}
 
 	private void clearAllTextFields() {
@@ -434,6 +525,9 @@ public class UsersRegistrationController implements Initializable, IController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		msgRegister.setVisible(false);
+
+		setDetailsVisible(false);
+
 		registerButton.setDisable(true);
 		firstNameText.setDisable(true);
 		lastNameText.setDisable(true);
@@ -473,21 +567,20 @@ public class UsersRegistrationController implements Initializable, IController {
 
 		userRows = new ArrayList<>();
 
-		emailCol.setCellValueFactory(new PropertyValueFactory<User, String>("Email"));
-		IDCol.setCellValueFactory(new PropertyValueFactory<User, String>("ID"));
+//		emailCol.setCellValueFactory(new PropertyValueFactory<User, String>("Email"));
+//		IDCol.setCellValueFactory(new PropertyValueFactory<User, String>("ID"));
 
 		// get the ID's of existing users in the DB.
-		RequestObjectClient getExistingUsers = new RequestObjectClient("#GET_EXISTING_USERS_URC", //DONE
+		RequestObjectClient getExistingUsers = new RequestObjectClient("#GET_EXISTING_USERS_URC", // DONE
 				"", "GET");
 		ClientUI.clientController.accept(getExistingUsers);
 
-		RequestObjectClient getUsers = new RequestObjectClient("#GET_USERS_URC",
-				"", "GET");
+		RequestObjectClient getUsers = new RequestObjectClient("#GET_USERS_URC", "", "GET");
 		ClientUI.clientController.accept(getUsers);
 
-		userInfo = FXCollections.observableArrayList(userRows);
-		this.infoTable.setItems(userInfo);
-		this.infoTable.refresh();
+//		userInfo = FXCollections.observableArrayList(userRows);
+//		this.infoTable.setItems(userInfo);
+//		this.infoTable.refresh();
 	}
 
 }

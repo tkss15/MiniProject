@@ -1,7 +1,7 @@
 .box {
     -fx-border-color: #000000;
     -fx-border-width: 2px;
-    -fx-border-radius: 10px;
+    -fx-border-radius: 2px;
     -fx-background-color: #d3d3d3;
     -fx-effect: dropshadow(gaussian, #696969, 10, 0, 0, 0);
 }
