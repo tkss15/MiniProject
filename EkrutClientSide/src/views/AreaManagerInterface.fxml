@@ -166,7 +166,7 @@
       </ImageView>
       <Button fx:id="thresholdLevelButton" layoutX="427.0" layoutY="363.0" mnemonicParsing="false" onAction="#ThresholdLevelScreen" prefHeight="64.0" prefWidth="200.0" text="Threshold Level" AnchorPane.leftAnchor="427.0" />
       <Button fx:id="refillOrderButton" layoutX="691.0" layoutY="375.0" mnemonicParsing="false" onAction="#refillOrder" prefHeight="64.0" prefWidth="200.0" text="Refill Order" />
-      <Button id="CloseButton" fx:id="CloseButton" layoutX="951.0" layoutY="9.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: white;" text="X">
+      <Button id="CloseButton" fx:id="CloseButton" layoutX="951.0" layoutY="9.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="49.0" text="X">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>

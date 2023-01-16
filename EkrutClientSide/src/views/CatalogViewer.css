@@ -17,7 +17,7 @@
 	-fx-font-size: 18;
     -fx-border-color: black;
     -fx-border-radius: 40;
-    -fx-background-color: #FDB926;
+    -fx-background-color: transparent;
     -fx-background-radius: 40;
     -fx-cursor: hand;
 }

@@ -498,7 +498,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <Button fx:id="CloseButton" layoutX="937.0" layoutY="17.0" minWidth="42.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="58.0" style="-fx-background-radius: 20; -fx-background-color: FDB926; -fx-border-color: black; -fx-border-radius: 20;" text="X">
+      <Button id="CloseButton" fx:id="CloseButton" layoutX="937.0" layoutY="17.0" minWidth="42.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="58.0" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>

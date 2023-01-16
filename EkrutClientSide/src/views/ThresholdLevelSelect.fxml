@@ -16,7 +16,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="395.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ThresholdLevelController">
    <children>
-      <Line endX="260.0" layoutX="545.0" layoutY="157.0" opacity="0.7" startX="-187.0" />
+      <Line endX="279.0" layoutX="533.0" layoutY="137.0" opacity="0.7" startX="-205.0" />
       <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="395.0" minWidth="319.0" prefHeight="395.0" prefWidth="319.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -40,23 +40,25 @@
                   <Font size="27.0" />
                </font>
                <VBox.margin>
-                  <Insets left="20.0" top="25.0" />
+                  <Insets left="20.0" top="19.0" />
                </VBox.margin>
             </Text>
-            <Button id="Back" fx:id="backButton" mnemonicParsing="false" onAction="#back" prefHeight="30.0" prefWidth="53.0" text="Back">
+            <Button id="buttonFixed" fx:id="backButton" mnemonicParsing="false" onAction="#back" prefHeight="41.0" prefWidth="99.0" text="Back">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../gui/pictures/Back.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                <VBox.margin>
-                  <Insets left="7.0" top="8.0" />
+                  <Insets bottom="5.0" left="5.0" />
                </VBox.margin>
             </Button>
          </children>
       </VBox>
-      <Text layoutX="396.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Threshold Level" wrappingWidth="371.0000191926956" />
-      <Button fx:id="CloseButton" layoutX="766.0" layoutY="4.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
-         <font>
-            <Font name="Cambria Bold" size="12.0" />
-         </font>
-      </Button>
-      <Label layoutX="335.0" layoutY="276.0" prefHeight="27.0" prefWidth="200.0" text="Set Threshold Level:">
+      <Text layoutX="396.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Threshold Level" wrappingWidth="371.0000191926956" />
+      <Label layoutX="323.0" layoutY="290.0" prefHeight="27.0" prefWidth="200.0" text="Set Threshold Level:">
          <font>
             <Font size="18.0" />
          </font>
@@ -77,13 +79,18 @@
       <ComboBox fx:id="IDCombo" layoutX="377.0" layoutY="239.0" onAction="#selectID" prefHeight="25.0" prefWidth="168.0" promptText="Select facility ID" />
       <ComboBox fx:id="LocationCombo" layoutX="378.0" layoutY="173.0" onAction="#SelectedLocation" prefHeight="25.0" prefWidth="168.0" promptText="Select Facility Location" />
       <ComboBox fx:id="NameCombo" layoutX="377.0" layoutY="206.0" onAction="#selectName" prefHeight="25.0" prefWidth="168.0" promptText="Select Facility Name" />
-      <TextField fx:id="SetThresholdTextField" layoutX="505.0" layoutY="277.0" prefHeight="25.0" prefWidth="41.0" style="-fx-alignment: CENTER;" />
+      <TextField fx:id="SetThresholdTextField" layoutX="493.0" layoutY="291.0" prefHeight="25.0" prefWidth="41.0" style="-fx-alignment: CENTER;" />
       <Label layoutX="582.0" layoutY="181.0" prefHeight="27.0" prefWidth="212.0" text="Current Facility Threshold:">
          <font>
             <Font name="Arial" size="18.0" />
          </font>
       </Label>
       <TextField fx:id="setCurrentFacilityThreshold" layoutX="650.0" layoutY="215.0" prefHeight="25.0" prefWidth="41.0" style="-fx-alignment: CENTER;" />
+      <Button id="CloseButton" fx:id="CloseButton" layoutX="771.0" layoutY="5.0" mnemonicParsing="false" onAction="#close" prefHeight="41.0" prefWidth="50.0" text="X" textFill="#fdb925">
+         <font>
+            <Font name="Cambria Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
    <stylesheets>
       <URL value="@Homepage.css" />

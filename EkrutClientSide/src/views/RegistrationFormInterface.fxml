@@ -155,7 +155,7 @@
          </children>
       </VBox>
       <Text layoutX="450.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Registration Form" wrappingWidth="366.0000191926956" />
-      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X" textFill="#fdb925">
+      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" text="X" textFill="#fdb925">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>

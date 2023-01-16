@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -36,10 +37,14 @@
             <Image url="@../gui/pictures/LogoEKRUT.png" />
          </image>
       </ImageView>
-      <Button fx:id="CloseButton" layoutX="275.0" layoutY="10.0" mnemonicParsing="false" onAction="#exitFromLogin" prefHeight="24.0" prefWidth="20.0" style="-fx-background-color: white;" text="X" textFill="#fdb925">
+      <Button fx:id="CloseButton" layoutX="260.0" layoutY="7.0" mnemonicParsing="false" onAction="#exitFromLogin" prefHeight="42.0" prefWidth="49.0" text="X" textFill="#fdb925">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
+         <stylesheets>
+            <URL value="@Homepage.css" />
+            <URL value="@CatalogViewer.css" />
+         </stylesheets>
       </Button>
    </children>
    <cursor>

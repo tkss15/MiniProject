@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="195.0" prefWidth="435.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoadingScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="195.0" prefWidth="435.0" stylesheets="@Homepage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoadingScreenController">
    <children>
-      <Text layoutX="117.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Server Update: Facility quantity changed" />
-      <Text layoutX="178.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sorry for bothering !" />
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="195.0" prefWidth="435.0" style="-fx-background-color: fdb925;" stylesheets="@CatalogViewer.css">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+         <children>
+            <Text layoutX="37.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Server Update: Facility quantity changed">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+            </Text>
+            <Text layoutX="119.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sorry for bothering !">
+               <font>
+                  <Font name="Arial" size="22.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="79.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../gui/pictures/LogoEKRUT.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
-   <stylesheets>
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
-   </stylesheets>
 </AnchorPane>

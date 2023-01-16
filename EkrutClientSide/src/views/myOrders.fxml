@@ -38,7 +38,7 @@
             </HBox>
             <HBox alignment="TOP_RIGHT" prefHeight="158.0" prefWidth="316.0">
                <children>
-                  <Button fx:id="CloseButton" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="33.0" prefWidth="45.0" style="-fx-font-size: 12;" text="X" textFill="#484743">
+                  <Button id="CloseButton" fx:id="CloseButton" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="42.0" prefWidth="49.0" style="-fx-font-size: 15;" text="X" textFill="#484743">
                      <font>
                         <Font name="Cambria Bold" size="12.0" />
                      </font>
@@ -59,7 +59,7 @@
             <TableColumn fx:id="OrderDetails" prefWidth="123.199951171875" style="-fx-alignment: center;" text="OrderDetails" />
         </columns>
       </TableView>
-      <Button id="buttonFixed" fx:id="BackButton" contentDisplay="CENTER" layoutX="4.0" layoutY="661.0" mnemonicParsing="false" onAction="#GoBack" text="Back" />
+      <Button id="CloseButton" fx:id="BackButton" contentDisplay="CENTER" layoutX="4.0" layoutY="655.0" mnemonicParsing="false" onAction="#GoBack" prefHeight="41.0" prefWidth="99.0" text="Back" />
       <ImageView fx:id="ShoppingImage" fitHeight="158.0" fitWidth="167.0" layoutX="659.0" layoutY="540.0">
          <image>
             <Image url="@../gui/pictures/myOrdersIcon.png" />
@@ -71,10 +71,14 @@
          </font>
       </Label>
       <TextField fx:id="textFieldOrderCode" layoutX="308.0" layoutY="186.0" promptText="Enter order code" />
+      <ImageView fitHeight="23.0" fitWidth="31.0" layoutX="6.0" layoutY="665.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/Back.png" />
+         </image>
+      </ImageView>
    </children>
    <stylesheets>
       <URL value="@CatalogViewer.css" />
-      <URL value="@Homepage.css" />
       <URL value="@TextFieldAndListView.css" />
       <URL value="@TableView.css" />
    </stylesheets>
