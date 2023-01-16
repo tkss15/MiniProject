@@ -19,7 +19,6 @@ import common.RequestObjectClient;
 import common.ResponseObject;
 import common.SMSNotifiction;
 import database.DBConnect;
-import database.DistributedLock;
 import javafx.application.Platform;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -30,10 +29,14 @@ public class EchoServer extends AbstractServer
 	DBConnect mySqlConnection;
 	private ArrayList<String> serverConfing;
     private boolean SendSMSNotifiction = false;
-	private Map<String,String> SqlQuerys = new HashMap<>();
+	private Map<String,String> SqlQuerys;
+	private ArrayList<ClientConnection> clientConnected;
+
 	public EchoServer(int port) 
 	{
 		super(port);
+		clientConnected = new ArrayList<>();
+		SqlQuerys = new HashMap<>();
 	}
 
 	public EchoServer(int port, ChatIF serverUI) 
@@ -174,7 +177,13 @@ public class EchoServer extends AbstractServer
         	RandomCode.append(rand.nextInt(10));
         return RandomCode.toString();
 	}
+	public ArrayList<ClientConnection> getClientConnected() {
+		return clientConnected;
+	}
 
+	public void setClientConnected(ArrayList<ClientConnection> clientConnected) {
+		this.clientConnected = clientConnected;
+	}
 	private void handleServerCommands(String message) throws IOException 
 	{
 		switch (message) 
@@ -188,15 +197,29 @@ public class EchoServer extends AbstractServer
 	protected void clientDisconnected(ConnectionToClient client) 
 	{
 		ClientConnection clientToShow = new ClientConnection(client,false);
+		if(clientConnected.contains(clientToShow))
+		{
+			int IndexOfClient = clientConnected.indexOf(clientToShow);
+			clientConnected.set(IndexOfClient, clientToShow);
+		}
 		serverConsole.display("Client Disconnected "+ client.getInetAddress());
-		serverConsole.display(clientToShow);
+		serverConsole.display(clientConnected);
 	}
 	protected void clientConnected(ConnectionToClient client) 
 	{
 		//SendPhotosToClient(null,client);
-		ClientConnection clientToShow = new ClientConnection(client);
+		ClientConnection clientToShow = new ClientConnection(client, true);
+		if(clientConnected.contains(clientToShow))
+		{
+			int IndexOfClient = clientConnected.indexOf(clientToShow);
+			clientConnected.set(IndexOfClient, clientToShow);
+		}
+		else
+		{
+			clientConnected.add(clientToShow);
+		}
 		serverConsole.display("Client Connected "+ client.getInetAddress());
-		serverConsole.display(clientToShow);
+		serverConsole.display(clientConnected);
 	}
 
 	
@@ -204,6 +227,7 @@ public class EchoServer extends AbstractServer
 	{
 		SqlQuerys.put("#FIRST_INSTALL", "table=facilities");
 		SqlQuerys.put("#USER_LOGOUT", "table=users#condition=userName=@#values=userOnline=\"Offline\"");
+		SqlQuerys.put("#USER_QUIT", "null");
 		SqlQuerys.put("#UPDATE_AREAMANAGER", "SELECT c.userName, c.telephone, f.FacilityID "
 				+ "FROM users as c "
 				+ "INNER JOIN employees ON c.userName = employees.userName "
@@ -278,7 +302,7 @@ public class EchoServer extends AbstractServer
 				+ "ORDER BY products.ProductCode");
 		
 		/*OrderPickupController*/
-		SqlQuerys.put("#GET_ORDER_PICKUP", "SELECT orders.FacilityID,virtualorders.DeliveryStatus "
+		SqlQuerys.put("#GET_ORDER_PICKUP", "SELECT orders.userName, orders.FacilityID,virtualorders.DeliveryStatus "
 				+ "FROM virtualorders "
 				+ "inner join orders on orders.orderCode = virtualorders.ordercode "
 				+ "WHERE virtualorders.orderCode=@ AND virtualorders.HasPickup = 1;");
@@ -467,19 +491,20 @@ public class EchoServer extends AbstractServer
 				 * - Client Request ends with #SEND_NOT_ME it will update all users BUT the sender. ( it will send empty response ).
 				 * - Other.
 				 * */
-				
-				
+
 				Integer QueryCase = 0;
 				if(clientRequest.getRequestID().endsWith("#SEND_NOT_ME"))
 				{
 					QueryCase = 1;
 					clientRequest.setRequestID(clientRequest.getRequestID().replace("#SEND_NOT_ME", ""));
+
 				}
 				if(clientRequest.getRequestID().endsWith("#SEND_ALL"))
 				{
 					QueryCase = 2;
 					clientRequest.setRequestID(clientRequest.getRequestID().replace("#SEND_ALL", ""));
 				}
+				
 				
 				String Key = SqlQuerys.get(clientRequest.getRequestID());
 				String[] dataInjector = (clientRequest.getURL()).split("#");
@@ -500,16 +525,41 @@ public class EchoServer extends AbstractServer
 				}
 				
 				clientRequest.setURL(FinalQuery.toString());
-				
+				serverConsole.display(ClientOpreationMessage(client,QueryCase,clientRequest.getRequestID()));
+
 				/*
 				 * Special Cases when we need to notify other users live
 				 * */
+				if(clientRequest.getRequestID().equals("#USER_QUIT"))
+				{
+					clientDisconnected(client);
+					client.close();
+				}
 
 				if(clientRequest.getRequestID().equals("#USER_LOGOUT"))
 				{	
-					clientDisconnected(client);
 					mySqlConnection.makeQuery(clientRequest);
-					client.close();
+				}
+				// We want to update the Clients IP with the username
+				if(clientRequest.getRequestID().equals("#USER_LOGIN_DATA"))
+				{
+					ResponseObject ServerResponse = mySqlConnection.SafeQuery(clientRequest);
+					if(ServerResponse.Responsedata.size() != 0)
+					{
+						Object[] values = (Object[]) ServerResponse.Responsedata.get(0);
+						String userName = (String)values[5];
+						String OnlineUser = (String)values[7];
+						
+						ClientConnection clientToShow = new ClientConnection(client);
+						
+						if(clientConnected.contains(clientToShow) && !OnlineUser.equals("Online"))
+						{
+							int indexOfClient = clientConnected.indexOf(clientToShow);
+							clientConnected.get(indexOfClient).setUserName(userName);
+						}
+						
+					}
+					//client.sendToClient(ServerResponse);
 				}
 				if(clientRequest.getRequestID().equals("#GET_USER_SUBSCRIBER_NUBMER"))
 				{
@@ -553,12 +603,11 @@ public class EchoServer extends AbstractServer
 						
 					}
 				}
-				
+
 				switch(QueryCase)
 				{
 					case 0:
 					{
-//						System.out.println("Opreation " + clientRequest.getRequestID());
 						client.sendToClient(mySqlConnection.SafeQuery(clientRequest));							
 						break;
 					}
@@ -584,6 +633,36 @@ public class EchoServer extends AbstractServer
 				e.printStackTrace();
 			}
 		}
+	}
+	private String ClientOpreationMessage(ConnectionToClient client,Integer queryCase, String queryString)
+	{
+		StringBuilder ClientMessage = new StringBuilder();
+		ClientConnection connectedClient = new ClientConnection(client);
+		if(clientConnected.contains(connectedClient))
+		{
+			int indexOfClient = clientConnected.indexOf(connectedClient);
+			ClientMessage.append(clientConnected.get(indexOfClient).getIP());
+			if(clientConnected.get(indexOfClient).getUserName() != null)
+			{
+				ClientMessage.append(" ("+clientConnected.get(indexOfClient).getUserName() + ") ");
+			}
+			ClientMessage.append(" >");
+		}
+		else
+		{
+			clientConnected.add(connectedClient);
+			ClientMessage.append(connectedClient.getIP() + " >>");
+		}
+		ClientMessage.append("has requested ");
+		ClientMessage.append(queryString);
+		switch(queryCase)
+		{
+		case 1:ClientMessage.append(" AND to display to everyone except himself");
+			break;
+		case 2:ClientMessage.append(" AND to display to everyone");
+			break;
+		}
+		return ClientMessage.toString();
 	}
 	private String QueryChanged(RequestObjectClient clientRequest)
 	{

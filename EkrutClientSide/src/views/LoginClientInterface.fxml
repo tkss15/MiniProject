@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@ServerInterface.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClientLoginPage">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClientLoginPage">
    <children>
       <VBox fx:id="vboxlogo" prefHeight="800.0" prefWidth="493.0" style="-fx-background-color: #FDB926;">
          <children>
@@ -32,17 +33,17 @@
          <children>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="508.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hello Again!" textAlignment="CENTER" wrappingWidth="222.13671875">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Ekrut" textAlignment="CENTER" wrappingWidth="350.13671875">
                      <font>
                         <Font name="System Bold" size="36.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="100.0" top="100.0" />
+                        <Insets left="60.0" top="100.0" />
                      </VBox.margin>
                   </Text>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="eat better with us" textAlignment="CENTER" wrappingWidth="98.13671875">
                      <VBox.margin>
-                        <Insets left="150.0" />
+                        <Insets left="170.0" />
                      </VBox.margin>
                      <font>
                         <Font name="System Italic" size="12.0" />
@@ -104,14 +105,6 @@
                         <Insets left="100.0" top="20.0" />
                      </VBox.margin>
                   </Button>
-                  <ImageView fx:id="FastLogin" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@/QRCode.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets left="130.0" />
-                     </VBox.margin>
-                  </ImageView>
                </children>
                <VBox.margin>
                   <Insets />
@@ -122,10 +115,14 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </VBox>
-      <Button id="CloseButton" layoutX="926.0" layoutY="9.0" minWidth="42.0" mnemonicParsing="false" onAction="#ExitWindow" prefHeight="34.0" prefWidth="58.0" text="X">
+      <Button id="CloseButton" fx:id="CloseButton" layoutX="926.0" layoutY="9.0" minWidth="42.0" mnemonicParsing="false" onAction="#ExitWindow" prefHeight="34.0" prefWidth="58.0" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
       </Button>
    </children>
+   <stylesheets>
+      <URL value="@ServerInterface.css" />
+      <URL value="@CatalogViewer.css" />
+   </stylesheets>
 </AnchorPane>

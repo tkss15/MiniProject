@@ -103,6 +103,7 @@ public class CatalogViewController implements Initializable, IController
 	{
 		ClientUI.clientController.getTaskCountdown().cancelTask();// We stopping the countdown of the client and clearnig his cart.
 	    ClientUI.clientController.getClientOrder().myCart.clear();
+	    ClientUI.clientController.setClientOrder(new Order(null,null,null));
 	    ClientUI.sceneManager.ShowScene("../views/Homepage.fxml", event);
 	}
 	@FXML
@@ -310,6 +311,10 @@ public class CatalogViewController implements Initializable, IController
 			HBox ProductDescription = new HBox();
 			ImageView ItemPicture = new ImageView();
 			
+			
+			final Text priceFull = new Text(String.format("%.2f%s", ClientUI.clientController.getClientOrder().PriceItemNoDiscount(product), "$"));
+			final Text priceDiscounted = new Text(String.format("%.2f%s", ClientUI.clientController.getClientOrder().PriceItem(product), "$"));
+			
 			ItemPicture.setFitHeight(80);
 			ItemPicture.setFitWidth(80);
 			ItemPicture.setPickOnBounds(true);
@@ -331,6 +336,7 @@ public class CatalogViewController implements Initializable, IController
 			TextField textFieldAmount = new TextField(Integer.toString(product.getProductAmount()));
 			textFieldAmount.setPrefWidth(34);
 			textFieldAmount.setPrefHeight(25);
+			textFieldAmount.setEditable(false);
 			ProductAmount.getChildren().addAll(ProductAmountText, textFieldAmount);
 			
 			ImageView PlusBtn = CreateImage(PlusImage,28.0,22.0,true,true, Cursor.HAND);
@@ -342,6 +348,8 @@ public class CatalogViewController implements Initializable, IController
 					return;
 				}
 				ClientUI.clientController.getClientOrder().UpdateItem(product, product.getProductAmount() + 1);
+				priceFull.setText(String.format("%.2f%s", ClientUI.clientController.getClientOrder().PriceItemNoDiscount(product), "$"));
+				priceDiscounted.setText(String.format("%.2f%s", ClientUI.clientController.getClientOrder().PriceItem(product), "$"));
 				textFieldAmount.setText(Integer.toString(product.getProductAmount()));
 				event.consume();
 			});	
@@ -355,6 +363,8 @@ public class CatalogViewController implements Initializable, IController
 					return;					
 				}
 				ClientUI.clientController.getClientOrder().UpdateItem(product, product.getProductAmount() - 1);
+				priceFull.setText(String.format("%.2f%s", ClientUI.clientController.getClientOrder().PriceItemNoDiscount(product), "$"));
+				priceDiscounted.setText(String.format("%.2f%s", ClientUI.clientController.getClientOrder().PriceItem(product), "$"));
 				textFieldAmount.setText(Integer.toString(product.getProductAmount()));
 				event.consume();				
 			});
@@ -377,10 +387,22 @@ public class CatalogViewController implements Initializable, IController
 			ProductDescription.getChildren().addAll(ItemPicture,ProductNameAndButtons);
 			HBox.setHgrow(ProductDescription, Priority.ALWAYS);
 			
-			Text price = new Text(String.format("%.2f", product.getProductPrice()));
-			price.setId("ProductName");
-			VBox Prices = new VBox(price);
+			VBox Prices = new VBox();
+			
+			priceFull.setText(String.format("%.2f%s", ClientUI.clientController.getClientOrder().PriceItemNoDiscount(product), "$"));
+			priceFull.setId("FullPriceNoSlash");
+			Prices.getChildren().add(priceFull);
+			
+			if(!(product.getPriceStategy() instanceof PriceStartegyRegular))
+			{
+				priceFull.setId("FullPriceSale");
+				priceDiscounted.setText(String.format("%.2f%s", ClientUI.clientController.getClientOrder().PriceItem(product), "$"));
+				priceDiscounted.setId("DiscountPriceSale");
+				Prices.getChildren().add(priceDiscounted);
+			}
+			
 			Prices.setAlignment(Pos.CENTER);
+			
 			ProductInCart.getChildren().addAll(ProductDescription,Prices);
 			
 			return ProductInCart;

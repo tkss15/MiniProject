@@ -59,11 +59,10 @@ public class DBConnect
 		try 
 		{
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-			System.out.println("Driver definition succeed");
-			serverUI.display("Error");
+			serverUI.display("Driver definition succeed");
 		} catch (Exception ex) {
 			/* handle the error */
-			System.out.println("Driver definition failed");
+			serverUI.display("Driver definition failed");
 			return;
 		}
         try 
@@ -193,7 +192,6 @@ public class DBConnect
 			}
 			
 		}
-		serverUI.display(query.toString());
 		return query.toString();	
 	}
 
@@ -271,7 +269,6 @@ public class DBConnect
 		{
 			query.setTable(queryTable);
 		}
-		serverUI.display(query.getURL());
 		CreateOpreation(query);
 		
 		ResponseObject res = new ResponseObject(query.getTable());

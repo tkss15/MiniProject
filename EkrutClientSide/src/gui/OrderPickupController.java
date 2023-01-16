@@ -63,7 +63,6 @@ public class OrderPickupController implements Initializable, IController {
     	ClientUI.clientController.accept(request);
     	
     	
-    	System.out.println(ClientUI.clientController.getEKFacility().getFacilityID());
     	if(!isPickupValid || ClientUI.clientController.getEKFacility().getFacilityID() != facilityCode)
     	{
 			Alert alert = new Alert(AlertType.ERROR, "Error 404 Order not found.");
@@ -94,8 +93,7 @@ public class OrderPickupController implements Initializable, IController {
       	{
       		closeWindow(event);
       	}
-    	System.out.println("Your order picked up !");
-    	
+      	    	
     }
     
 	@Override
@@ -108,18 +106,18 @@ public class OrderPickupController implements Initializable, IController {
 			{	
 				case"#GET_ORDER_PICKUP":
 				{
-					System.out.println("Data 2?");
 					if(!serverResponse.Responsedata.isEmpty())
 					{
 						Object[] values = (Object[])serverResponse.Responsedata.get(0);
-						facilityCode = (Integer)values[0];
-						Status = (String)values[1];
+						String UserName = (String)values[0];
+						if(!UserName.equals(ClientUI.clientController.getUser().getUserName()))
+						{
+							isPickupValid = false;							
+							return;
+						}
+						facilityCode = (Integer)values[1];
+						Status = (String)values[2];
 						isPickupValid = true;
-						System.out.println("Hey this is the data"+ facilityCode + Status);
-					}
-					else
-					{
-						System.out.println("No data");
 					}
 				}
 			}

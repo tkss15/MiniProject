@@ -34,7 +34,7 @@ import javafx.scene.text.Text;
 
 public class OrderInvoiceController implements Initializable,IController {
 
-		private final String ShekelCode = new String("\u20AA".getBytes(), StandardCharsets.UTF_8);
+		private final String ShekelCode = new String("$");
 
 		@FXML
 		private VBox VboxLayout;

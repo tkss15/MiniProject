@@ -35,9 +35,6 @@ public class ClientLoginPage implements Initializable, IController
     private VBox vboxlogo;
 
     @FXML
-    private ImageView exitbutton;
-
-    @FXML
     private TextField userNameTextField;
 
     @FXML
@@ -46,8 +43,6 @@ public class ClientLoginPage implements Initializable, IController
     @FXML
     private Button LoginButton;
 
-    @FXML
-    private ImageView FastLogin;
     @FXML
     private Button LoginApp;
     
@@ -58,9 +53,11 @@ public class ClientLoginPage implements Initializable, IController
     void ShowFastLogin(ActionEvent event) {
     	ClientUI.sceneManager.ShowSceneNew("../views/FastLoginInterface.fxml");	
     }
-    
     @FXML
-    void ExitWindow(MouseEvent event) {
+    void ExitWindow(ActionEvent event) 
+    {
+    	RequestObjectClient request = new RequestObjectClient("#USER_QUIT","","*");    	
+    	ClientUI.clientController.accept(request);
     	System.exit(0);
     }
 
@@ -69,13 +66,13 @@ public class ClientLoginPage implements Initializable, IController
     {
     	if(userNameTextField.getText() == null || userNameTextField.getText().trim().isEmpty())
     	{
-    		errorLabel.setText(null);
+    		errorLabel.setText("Error missing username or password");
     		errorLabel.setVisible(true);
     		return;
     	}
     	if(passwordTextField.getText() == null || passwordTextField.getText().trim().isEmpty())
     	{
-    		errorLabel.setText(null);
+    		errorLabel.setText("Error missing username or password");
     		errorLabel.setVisible(true);
     		return;
     	}
@@ -139,20 +136,7 @@ public class ClientLoginPage implements Initializable, IController
 		isEmployee = false;
 		user = new User(null,null);
     	errorLabel.setVisible(false);
-		if(ClientUI.clientController.getEKFacility() != null && ClientUI.clientController.getEKFacility().isFacilityEK())
-		{
-			FastLogin.setVisible(true);
-			LoginApp.setVisible(false);
-		}
-		else
-		{
-			FastLogin.setVisible(false);
-			LoginApp.setVisible(true);
-		}
-		exitbutton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-			event.consume();
-		});
-		
+		LoginApp.setVisible(true);
 		
     }
 

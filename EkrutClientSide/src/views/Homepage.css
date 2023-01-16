@@ -18,6 +18,20 @@
 	-fx-background-color: #f06236;
 	-fx-cursor: hand;
 }
+#FullPriceSale {
+	-fx-font-size:16;
+	-fx-strikethrough: true;
+}
+
+#FullPriceNoSlash {
+	-fx-font-size:16;
+}
+
+#DiscountPriceSale {
+	-fx-font-size:16;
+	-fx-fill: red;
+}
+
 
 .button {
     -fx-background-color: #FDB926;

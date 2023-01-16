@@ -346,7 +346,7 @@ public class OrderDetailsController implements Initializable, IController {
 		OrderDate.setText(timeStamp);
 		
 		OrderType.setText(ClientUI.clientController.getClientOrder().getOrderType());
-		OrderTotalPrice.setText((String.format("%.2f",isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice()) + "₪"));
+		OrderTotalPrice.setText((String.format("%.2f",isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice()) + "$"));
 		RegisterClient clientUser = (RegisterClient) ClientUI.clientController.getUser();
 		if(clientUser.getClientCardNumber() != null)
 		{
@@ -359,6 +359,7 @@ public class OrderDetailsController implements Initializable, IController {
 					cardNumber.append('-');
 				}
 			}
+			cardNumber.deleteCharAt(cardNumber.length()-1);
 			creditcardNumber.setText(cardNumber.toString());
 		}
 		if(clientUser.getClientStatus().equals(RegisterClient.ClientStatus.CLIENT_APRROVED))
@@ -443,7 +444,7 @@ public class OrderDetailsController implements Initializable, IController {
 			return ProductPrice;
 		}
 		public void setProductPrice(Double productPrice) {
-			ProductPrice = (String.format("%.2f",productPrice) + "₪");
+			ProductPrice = (String.format("%.2f",productPrice) + "$");
 		}
 		
 	}

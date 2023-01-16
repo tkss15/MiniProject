@@ -155,7 +155,7 @@ public class SceneManager
 	 */
 	public void SceneBack(Event event, String urlResources )
 	{
-		if(BackList.isEmpty())
+		if(BackList.isEmpty() || !BackList.containsKey(urlResources))
 			return;
 		Scene scene = BackList.get(urlResources);// Gets the matching stage from the Map
 		scene.getWindow().hide();// hides it.

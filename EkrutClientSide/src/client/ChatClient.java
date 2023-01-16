@@ -80,7 +80,7 @@ public class ChatClient extends AbstractClient
 					{
 						Object[] values =(Object[]) serverResponse.Responsedata.get(i);
 						String userName = (String)values[0];// Area manager username
-						if(!userName.equals(ClientUI.clientController.getUser().getUserName())) // we want to notify only the correct area manager 
+						if(!userName.equals(ClientUI.clientController.getUser().getUserName()) && ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) // we want to notify only the correct area manager 
 							continue;
 						// Gets the facility ID and adds it to the String AllFaility
 						Integer FacilityID = (Integer) values[2];
@@ -103,7 +103,8 @@ public class ChatClient extends AbstractClient
 						Integer currentFacility = (Integer)arrvalues[0];// check facility id
 						
 						// Client not buying currently doesnot need to continue to listen to this request
-						if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != currentFacility)
+						if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != currentFacility
+							&& ClientUI.clientController.getUser().getOnlineStatus().equals("Online"))
 							return;
 						
 						for(int i = 0; i < serverResponse.Responsedata.size(); i++)
@@ -141,7 +142,7 @@ public class ChatClient extends AbstractClient
 						Object[] values = (Object[]) serverResponse.Responsedata.get(0);
 						String userName = (String) values[1];
 						
-						if (!userName.equals(ClientUI.clientController.getUser().getUserName()))
+						if (!userName.equals(ClientUI.clientController.getUser().getUserName()) && ClientUI.clientController.getUser().getOnlineStatus().equals("Online"))
 							return;
 						
 						int orderCode = (int) values[2];
@@ -187,7 +188,10 @@ public class ChatClient extends AbstractClient
 	        if(message instanceof RequestObjectClient)
 	        {
 	            awaitResponse = true;
-	            if(((RequestObjectClient)message).getRequestID().equals("#USER_LOGOUT")) // we don't need to wait for the server response on logout.
+	            RequestObjectClient ClientQuits = (RequestObjectClient)message;
+	            if(ClientQuits.getRequestID().equals("#USER_LOGOUT") || 
+	               ClientQuits.getRequestID().equals("#USER_QUIT")) // we don't need to wait for the server response on logout.
+	            	
 	                awaitResponse = false;
 	        }
 	        // Open a connection to the server

@@ -1,5 +1,6 @@
 package common;
 
+import Entity.Order;
 import client.ClientUI;
 import javafx.concurrent.Task;
 import javafx.scene.control.Label;
@@ -19,7 +20,7 @@ public class CountdownOrder
 	private Task<Void> countdownTask;// we want to run the countdown in the background so we use task. watch @Task
 	private int countdownOrder;// a variable that saves the countdown timer. 
 	
-	private final int TIME_FIVE_MINUTES = 60*5;// 300 Seconds equals 5 minutes
+	private final int TIME_FIVE_MINUTES = 60*15;// 300 Seconds equals 5 minutes
 	
 	// Empty Constructor means we just started the order and we will get full 5 minutes
 	public CountdownOrder()
@@ -72,8 +73,13 @@ public class CountdownOrder
 	   // setOnSucceeded means that if task didnt throw an unexpected Error ( or task just completed ) it will end up doing the wirten inside 
 	   // this function. this method uses lambda function and not anonymous class since is easier.
 	   countdownTask.setOnSucceeded(event -> {
-		   ClientUI.clientController.UserDisconnected(true);
-		   System.exit(0);
+		   //ClientUI.clientController.UserDisconnected(true);
+		   ClientUI.sceneManager.SceneBack(event, "../views/OrderDetails.fxml");
+		   ClientUI.sceneManager.SceneBack(event, "../views/CatalogViewer.fxml");
+		   ClientUI.sceneManager.SceneBack(event, "../views/OrderInvoice.fxml");
+		   ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml");
+		   ClientUI.clientController.getClientOrder().myCart.clear();
+		   ClientUI.clientController.setClientOrder(new Order(null,null,null));
 	   });
 	   // In order to use updateMessage in countdownTask we need to bind a property to the contdownTask.
        timer.textProperty().bind(countdownTask.messageProperty());

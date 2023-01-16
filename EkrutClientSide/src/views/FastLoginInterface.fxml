@@ -49,7 +49,7 @@
             <Image url="@../gui/pictures/loginPicture.png" />
          </image>
       </ImageView>
-      <Label layoutX="290.0" layoutY="298.0" text="Error" textFill="RED" />
+      <Label fx:id="errorLabel" layoutX="206.0" layoutY="309.0" text="Error" textFill="RED" />
       <Button id="CloseButton" fx:id="CloseButton" layoutX="535.0" layoutY="6.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="34.0" prefWidth="58.0" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />

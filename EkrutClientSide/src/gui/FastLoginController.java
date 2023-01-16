@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -27,7 +28,10 @@ public class FastLoginController implements Initializable, IController {
 
     @FXML
     private TextField phoneAuth;
-
+    
+    @FXML
+    private Label errorLabel;
+    
     @FXML
     void closeWindow(ActionEvent event) 
     {
@@ -37,15 +41,36 @@ public class FastLoginController implements Initializable, IController {
     void LoginAction(ActionEvent event) 
     {
     	if(textSubscriberID.getText().trim().isEmpty() || textSubscriberID.getText() == null)
+    	{
+    		errorLabel.setVisible(true);
+    		errorLabel.setText("Error Subscriber cant be empty");
     		return;
-    	
-    	if(textSubscriberID.getText().trim().isEmpty() || textSubscriberID.getText() == null)
+    	}
+    	if( textSubscriberID.getText() != null && !textSubscriberID.getText().matches("[0-9]+"))
+    	{
+    		errorLabel.setVisible(true);
+    		errorLabel.setText("Error Subscriber must contain only numbers");
     		return;
-    	
+    	}
+
     	RequestObjectClient request;
     	
     	if(isSubscriber)
     	{
+        	if(phoneAuth.getText().trim().isEmpty() || phoneAuth.getText() == null)
+        	{
+        		errorLabel.setVisible(true);
+        		errorLabel.setText("Error Code cant be empty");
+        		return;
+        	}
+        	
+        	
+        	if( phoneAuth.getText() != null && !phoneAuth.getText().matches("[0-9]+"))
+        	{
+        		errorLabel.setVisible(true);
+        		errorLabel.setText("Error Code must contain only numbers");
+        		return;
+        	}
     		request = new RequestObjectClient("#GET_USER_AUTHCODE",String.format("%s#", phoneAuth.getText()),"*");    			
     	}
     	else
@@ -80,6 +105,11 @@ public class FastLoginController implements Initializable, IController {
 							{
 								textSubscriberID.setDisable(true);
 								PhoneVBox.setVisible(true);
+							}
+							else
+							{
+								errorLabel.setVisible(true);
+								errorLabel.setText("Subscriber number not valid");
 							}
 						});
 					}
@@ -124,6 +154,7 @@ public class FastLoginController implements Initializable, IController {
 	public void initialize(URL location, ResourceBundle resources) 
 	{
 		PhoneVBox.setVisible(false);
+		errorLabel.setVisible(false);
 	}
 
 }

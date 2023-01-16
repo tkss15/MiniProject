@@ -30,6 +30,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class ServerInterfaceController implements Initializable, IController {
@@ -105,6 +106,7 @@ public class ServerInterfaceController implements Initializable, IController {
 	public void ConnectToDB(ActionEvent event) {
 		String port = textboxPort.getText();
 		ArrayList<String> serverConfing = new ArrayList<String>();
+		textConsole.setFont(new Font(24));
 
 		labelReport.setText(CalculateTime() + " Days");
 		serverConfing.add(textboxIP.getText());// 0
@@ -174,7 +176,8 @@ public class ServerInterfaceController implements Initializable, IController {
 	 * @param message function demonstrating the server-user console. function
 	 *                appending the @message and a new line to the text field
 	 */
-	public void writeToConsole(String message) {
+	public void writeToConsole(String message) 
+	{
 		this.textConsole.appendText(message + "\n");
 	}
 
@@ -261,17 +264,19 @@ public class ServerInterfaceController implements Initializable, IController {
 	@Override
 	public void updatedata(Object data) {
 		Platform.runLater(() -> {
-			if (data instanceof ClientConnection) {
-				ClientConnection clientConnectionMessage = (ClientConnection) data;
-				if (colums.contains(clientConnectionMessage)) {
-					colums.remove(clientConnectionMessage);
-				}
-				colums.add(clientConnectionMessage);
+			if(data instanceof ArrayList)
+			{
+				@SuppressWarnings("unchecked")
+				ArrayList<ClientConnection> coldata = (ArrayList<ClientConnection>)data;
+				colums = FXCollections.observableArrayList(coldata);
 				connectedClientsTable.setItems(colums);
 				connectedClientsTable.refresh();
-			} else if (data instanceof String) {
+			}
+			if (data instanceof String) 
+			{
 				String message = (String) data;
-				switch (message) {
+				switch (message) 
+				{
 				case "#SetButtonsOff": {
 					ConnectLogo.setVisible(true);
 					connectButton.setDisable(false);

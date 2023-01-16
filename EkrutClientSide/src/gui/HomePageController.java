@@ -282,7 +282,7 @@ public class HomePageController implements Initializable, IController
 					
 					Double MonthlyFee = (Double)values[0];// first value is the Monthly fee recives from server
 					RegisterClient temp = (RegisterClient)ClientUI.clientController.getUser();// Updates the monthly fee.
-					temp.setClientMonthlyFee(MonthlyFee);
+					temp.setClientMonthlyFee((MonthlyFee == null) ? 0 : MonthlyFee);
 					break;
 				}
 				//if the Client Asks for #CHECK_CLIENT_STATUS this is the data they receive from Server.

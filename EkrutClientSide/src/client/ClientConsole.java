@@ -84,7 +84,11 @@ public class ClientConsole implements ChatIF
 	    	this.clientUser.setOnlineStatus("Offline");
 		}
 		if(forceExit)
+		{
+	    	RequestObjectClient request = new RequestObjectClient("#USER_QUIT","","*");    	
+	    	ClientUI.clientController.accept(request);	
 			System.exit(0);
+		}
 	}
 	/***
 	 * Setter for currentController

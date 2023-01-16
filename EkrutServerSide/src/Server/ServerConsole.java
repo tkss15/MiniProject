@@ -1,5 +1,7 @@
 package Server;
 
+import java.util.ArrayList;
+
 import common.ChatIF;
 import common.ClientConnection;
 import common.IController;
@@ -14,6 +16,7 @@ public class ServerConsole implements ChatIF
 	IController serverInterface;
 	EchoServer server;
 	final public static int DEFAULT_PORT = 5555;
+	
 	
 	public ServerConsole(int port, IController serverInterface)
 	{
