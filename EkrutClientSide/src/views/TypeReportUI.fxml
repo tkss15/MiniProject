@@ -17,7 +17,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="901.0" prefWidth="1000.0" style="-fx-background-color: fdb925;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TypeReportController">
    <children>
-      <Button fx:id="CloseButton" layoutX="968.0" layoutY="10.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="20.0" style="-fx-background-color: white;" text="X" textFill="#fdb925">
+      <Button id="Logout" fx:id="CloseButton" layoutX="946.0" layoutY="8.0" mnemonicParsing="false" onAction="#close" prefHeight="41.0" prefWidth="50.0" style="-fx-background-color: fdb925; -fx-font-size: 18;" text="X" textFill="#fdb925">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
@@ -31,11 +31,6 @@
       <Pane fx:id="pane" layoutY="128.0" prefHeight="779.0" prefWidth="1000.0" style="-fx-background-color: white;">
          <children>
             <Pane fx:id="paneForBarChart" layoutX="-4.0" layoutY="-1.0" prefHeight="726.0" prefWidth="1006.0" />
-            <Button id="Back" fx:id="backButton" layoutX="8.0" layoutY="740.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: fdb925;" text="Back">
-               <font>
-                  <Font name="Cambria Bold" size="12.0" />
-               </font>
-            </Button>
             <PieChart fx:id="pieChart" layoutX="173.0" layoutY="46.0" prefHeight="518.0" prefWidth="726.0" style="-fx-border-color: Black;" />
             <Text fx:id="areaText" layoutX="5.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Area" wrappingWidth="210.8193039894104">
                <font>
@@ -58,6 +53,15 @@
                </font>
             </Label>
             <Label fx:id="thresholdLabel" alignment="CENTER" layoutX="40.0" layoutY="387.0" prefHeight="31.0" prefWidth="133.0" text="Label" />
+            <Button id="buttonFixed" fx:id="backButton" layoutX="5.0" layoutY="729.0" mnemonicParsing="false" onAction="#back" prefHeight="41.0" prefWidth="99.0" text="Back">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../gui/pictures/Back.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
          <stylesheets>
             <URL value="@ComboBox.css" />
@@ -77,4 +81,9 @@
    <cursor>
       <Cursor fx:constant="DEFAULT" />
    </cursor>
+   <stylesheets>
+      <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
+      <URL value="@ComboBox.css" />
+   </stylesheets>
 </AnchorPane>

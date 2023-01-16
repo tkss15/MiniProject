@@ -17,12 +17,6 @@ public class ServiceRepresentativeHomePageController implements Initializable,IC
 
     @FXML
     private Button logoutButton;
-
-    @FXML
-    private Button CloseButton;
-
-    @FXML
-    private Button RegistrationFormButton;
     
     @FXML
     private Text welcomeMessageText;
@@ -59,6 +53,7 @@ public class ServiceRepresentativeHomePageController implements Initializable,IC
      */
     void close(ActionEvent event) {
     	logout(event);
+    	System.exit(0);
     }
 
     /**

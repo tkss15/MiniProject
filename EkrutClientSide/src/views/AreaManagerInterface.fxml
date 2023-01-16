@@ -155,16 +155,10 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
       <Text layoutX="474.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="EKrut  Work Space" wrappingWidth="476.0000191926956" />
       <Button fx:id="monthlyReportsButton" layoutX="421.0" layoutY="246.0" mnemonicParsing="false" onAction="#MonthlyReportsScreen" prefHeight="64.0" prefWidth="200.0" text="Monthly Reports" AnchorPane.leftAnchor="427.0" />
       <Button fx:id="approveCostumerButton" layoutX="691.0" layoutY="246.0" mnemonicParsing="false" onAction="#approveCostumerScreen" prefHeight="64.0" prefWidth="200.0" text="Approve Customer" AnchorPane.leftAnchor="691.0" />
       <Line endX="260.0" layoutX="660.0" layoutY="530.0" opacity="0.7" startX="-250.0" />
-      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X" textFill="#fdb925">
-         <font>
-            <Font name="Cambria Bold" size="12.0" />
-         </font>
-      </Button>
       <ImageView fitHeight="213.0" fitWidth="210.0" layoutX="551.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../gui/pictures/ceo-office-icon.png" />
@@ -172,6 +166,17 @@
       </ImageView>
       <Button fx:id="thresholdLevelButton" layoutX="427.0" layoutY="363.0" mnemonicParsing="false" onAction="#ThresholdLevelScreen" prefHeight="64.0" prefWidth="200.0" text="Threshold Level" AnchorPane.leftAnchor="427.0" />
       <Button fx:id="refillOrderButton" layoutX="691.0" layoutY="375.0" mnemonicParsing="false" onAction="#refillOrder" prefHeight="64.0" prefWidth="200.0" text="Refill Order" />
+      <Button id="CloseButton" fx:id="CloseButton" layoutX="951.0" layoutY="9.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: white;" text="X">
+         <font>
+            <Font name="Arial Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button id="Logout" fx:id="Logout" layoutX="6.0" layoutY="736.0" mnemonicParsing="false" onAction="#logout" prefHeight="44.0" prefWidth="111.0" text="Logout" textAlignment="RIGHT" />
+      <ImageView fitHeight="24.0" fitWidth="25.0" layoutX="14.0" layoutY="748.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/Logout.png" />
+         </image>
+      </ImageView>
    </children>
    <stylesheets>
       <URL value="@Homepage.css" />

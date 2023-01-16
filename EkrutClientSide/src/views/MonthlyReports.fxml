@@ -9,18 +9,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" style="-fx-background-color: fdb925;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.monthlyReportsController">
    <children>
-      <Button id="Back" fx:id="CloseButton" layoutX="562.0" layoutY="18.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="24.0" prefWidth="20.0" style="-fx-background-color: white;" text="X" textFill="#fdb925">
-         <font>
-            <Font name="Cambria Bold" size="12.0" />
-         </font>
-      </Button>
       <ImageView fx:id="EKrutLogo" fitHeight="90.0" fitWidth="176.0" layoutX="-3.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../gui/pictures/EKrutLogo.jpeg" />
@@ -34,49 +28,57 @@
             <DropShadow height="10.0" radius="4.5" width="10.0" />
          </effect>
       </Label>
-      <HBox layoutX="425.0" layoutY="14.0" prefHeight="31.0" prefWidth="99.0" />
       <Pane layoutY="115.0" prefHeight="340.0" prefWidth="600.0" style="-fx-background-color: white;">
          <children>
-            <Label layoutX="167.0" layoutY="31.0" prefHeight="27.0" prefWidth="119.0" text="Select Month:">
+            <Label layoutX="20.0" layoutY="98.0" prefHeight="27.0" prefWidth="119.0" text="Select Month:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="22.0" layoutY="31.0" prefHeight="27.0" prefWidth="106.0" text="Select Year:">
+            <Label layoutX="20.0" layoutY="28.0" prefHeight="27.0" prefWidth="106.0" text="Select Year:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="watchReportButton" layoutX="237.0" layoutY="139.0" mnemonicParsing="false" onAction="#watchReport" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: fdb925;" text="Watch Report">
+            <Button fx:id="watchReportButton" layoutX="180.0" layoutY="133.0" mnemonicParsing="false" onAction="#watchReport" prefHeight="31.0" prefWidth="99.0" style="-fx-background-color: fdb925;" text="Watch Report">
                <font>
                   <Font name="Cambria Bold" size="12.0" />
                </font>
             </Button>
-            <Label layoutX="319.0" layoutY="31.0" prefHeight="27.0" prefWidth="119.0" text="Select Type:">
+            <Label layoutX="20.0" layoutY="166.0" prefHeight="27.0" prefWidth="119.0" text="Select Type:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ImageView fx:id="ReportLogo" fitHeight="168.0" fitWidth="189.0" layoutX="436.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="ReportLogo" fitHeight="319.0" fitWidth="268.0" layoutX="336.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../gui/pictures/report-icon.png" />
                </image>
             </ImageView>
-            <Button fx:id="backButton" layoutX="2.0" layoutY="308.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="67.0" style="-fx-background-color: fdb925;" text="Back">
-               <font>
-                  <Font name="Cambria Bold" size="12.0" />
-               </font>
-            </Button>
-            <Text fx:id="errorMessage" fill="RED" layoutX="246.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="80.13671875" />
-            <ComboBox fx:id="selectYear" layoutX="14.0" layoutY="62.0" prefHeight="25.0" prefWidth="119.0" promptText="Year" />
-            <ComboBox fx:id="selectMonth" layoutX="163.0" layoutY="62.0" prefHeight="25.0" prefWidth="119.0" promptText="Month" />
-            <ComboBox fx:id="selectType" layoutX="312.0" layoutY="62.0" prefHeight="25.0" prefWidth="119.0" promptText="Type" />
-            <Label fx:id="selectAreaText" layoutX="467.0" layoutY="31.0" prefHeight="27.0" prefWidth="106.0" text="Select Area:">
+            <Text fx:id="errorMessage" fill="RED" layoutX="189.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="80.13671875" />
+            <ComboBox fx:id="selectYear" layoutX="18.0" layoutY="59.0" prefHeight="25.0" prefWidth="119.0" promptText="Year" />
+            <ComboBox fx:id="selectMonth" layoutX="18.0" layoutY="129.0" prefHeight="25.0" prefWidth="119.0" promptText="Month" />
+            <ComboBox fx:id="selectType" layoutX="18.0" layoutY="197.0" prefHeight="25.0" prefWidth="119.0" promptText="Type" />
+            <Label fx:id="selectAreaText" layoutX="178.0" layoutY="26.0" prefHeight="31.0" prefWidth="106.0" text="Select Area:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <ComboBox fx:id="selectArea" layoutX="461.0" layoutY="62.0" onAction="#AreaSelect" prefHeight="25.0" prefWidth="119.0" promptText="Area" />
+            <ComboBox fx:id="selectArea" layoutX="170.0" layoutY="57.0" onAction="#AreaSelect" prefHeight="25.0" prefWidth="119.0" promptText="Area" />
+            <Button id="buttonFixed" fx:id="backButton" layoutX="4.0" layoutY="294.0" mnemonicParsing="false" onAction="#back" prefHeight="41.0" prefWidth="99.0" text="Back">
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../gui/pictures/Back.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <ImageView fitHeight="23.0" fitWidth="31.0" layoutX="147.0" layoutY="-459.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../gui/pictures/Back.png" />
+               </image>
+            </ImageView>
          </children>
          <stylesheets>
             <URL value="@ComboBox.css" />
@@ -84,8 +86,17 @@
             <URL value="@Homepage.css" />
             <URL value="@CatalogViewer.css" />
          </stylesheets></Pane>
+      <Button id="CloseButton" fx:id="CloseButton" layoutX="544.0" layoutY="6.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="49.0" text="X">
+         <font>
+            <Font name="Arial Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
    <cursor>
       <Cursor fx:constant="DEFAULT" />
    </cursor>
+   <stylesheets>
+      <URL value="@Homepage.css" />
+      <URL value="@CatalogViewer.css" />
+   </stylesheets>
 </AnchorPane>
