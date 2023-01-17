@@ -17,7 +17,11 @@ import java.util.concurrent.locks.ReentrantLock;
 import common.ChatIF;
 import common.RequestObjectClient;
 import common.ResponseObject;
- 
+
+/**
+ * this class handles the connection to the database.
+ * and parsing and executing all the queries.
+ */
 public class DBConnect 
 {
 	ChatIF serverUI;
@@ -40,6 +44,9 @@ public class DBConnect
 		this.serverUI = serverUI;
 	}
 	
+	/**
+	 * this method disconnects from the DB and show message on the server console.
+	 */
 	public void disconnectFromDB()
 	{
 		try 
@@ -54,6 +61,9 @@ public class DBConnect
 		}
 	}
 	
+	/**
+	 * this class registers the driver and connects to the database.
+	 */
 	public void connectToDB()
 	{
 		try 
@@ -78,8 +88,13 @@ public class DBConnect
         	serverUI.display("VendorError: " + ex.getErrorCode());
         } 
    	}
-	/*
-	 * Update - PUT - 
+
+
+	
+	/**
+	 * creating a generic sql statement with the current Syntax with PUT,DELETE,INSERT,SELECT and a wildeCard for special queries.
+	 * here are examples for using this class :
+	 *  * Update - PUT - 
 	 * 		- URL: table=subscriber#condition=id=4#values=creditcardnumber=3&subscribernumber=4
 	 * 		- UPDATE subscriber SET subscribernumber = 4, creditcardnumber = 3 WHERE id = 4;
 	 * Delete - DELETE - 
@@ -91,10 +106,10 @@ public class DBConnect
 	 * SELECT - GET
 	 * 		- table=users#condition=userName=%s#values=userName=username&userPassword=password
 	 * 		- SELECT userPassword, userName FROM users WHERE userName = "tkss15"
-	 * Gal Changed
-	 * WildCard -
-	 * 
-	 * */
+	 * WildCard - for special queries such as join.
+	 * @param reqObject RequestObjectClient.
+	 * @return
+	 */
 	public String CreateSqlStatement(RequestObjectClient reqObject)
 	{
 		StringBuilder query = new StringBuilder();
@@ -195,6 +210,10 @@ public class DBConnect
 		return query.toString();	
 	}
 
+	/**
+	 * creates the sql query from our syntax according to all cases.
+	 * @param reqObject RequestObjectClient.
+	 */
 	public void CreateOpreation(RequestObjectClient reqObject)
 	{
 		if(reqObject.getSQLOpreation().equals("*"))
@@ -239,11 +258,20 @@ public class DBConnect
 		/*
 		 * /table=tablename?condition=condition?Values=set
 		 * */
+	/**
+	 * 
+	 * @return Connection to the DB.
+	 */
 	public Connection getConn() 
 	{
 		return conn;
 	}
 
+	/**
+	 * 
+	 * @param query RequestObjectClient object which was sent from the client.
+	 * @return allows only one query to be executed at a time.
+	 */
 	public ResponseObject SafeQuery(RequestObjectClient query)
 	{
 		ResponseObject serverResponse = null;
@@ -262,6 +290,11 @@ public class DBConnect
 		}
 		return serverResponse;
 	}
+	/**
+	 * 
+	 * @param query RequestObjectClient object send from the client with all needed information for the query.
+	 * @return ResponseObject from the object to the client.
+	 */
 	public ResponseObject makeQuery(RequestObjectClient query)
 	{
 		String queryTable = "WildCard";

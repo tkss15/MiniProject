@@ -17,7 +17,11 @@ public class ServerConsole implements ChatIF
 	EchoServer server;
 	final public static int DEFAULT_PORT = 5555;
 	
-	
+	/**
+	 * 
+	 * @param port the number of the port for connection.
+	 * @param serverInterface 
+	 */
 	public ServerConsole(int port, IController serverInterface)
 	{
 		server = new EchoServer(port,this);
@@ -25,6 +29,10 @@ public class ServerConsole implements ChatIF
 	}
 
  
+	/**
+	 * 
+	 * @param message object sent from the serverUI.
+	 */
 	public void accept(Object message)
 	{
 		try
@@ -38,6 +46,9 @@ public class ServerConsole implements ChatIF
 		}
 	}
 	@Override
+	/**
+	 * updates the data of the controller.
+	 */
 	public void display(Object message)
 	{
 		serverInterface.updatedata(message);
