@@ -8,7 +8,7 @@
    <children>
       <ImageView fitHeight="177.0" fitWidth="341.0" layoutX="47.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/LoadingScreenNew.gif" />
+            <Image url="@/gui/pictures/LoadingScreenNew.gif" />
          </image>
       </ImageView>
    </children>

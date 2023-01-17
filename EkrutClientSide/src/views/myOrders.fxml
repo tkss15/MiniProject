@@ -22,7 +22,7 @@
                <children>
                   <ImageView fx:id="logoImage" fitHeight="98.0" fitWidth="246.0">
                      <image>
-                        <Image url="@../gui/pictures/EKrut.png" />
+                        <Image url="@/gui/pictures/EKrut.png" />
                      </image>
                   </ImageView>
                </children>
@@ -62,7 +62,7 @@
       <Button id="CloseButton" fx:id="BackButton" contentDisplay="CENTER" layoutX="4.0" layoutY="655.0" mnemonicParsing="false" onAction="#GoBack" prefHeight="41.0" prefWidth="99.0" text="Back" />
       <ImageView fx:id="ShoppingImage" fitHeight="158.0" fitWidth="167.0" layoutX="659.0" layoutY="540.0">
          <image>
-            <Image url="@../gui/pictures/myOrdersIcon.png" />
+            <Image url="@/gui/pictures/myOrdersIcon.png" />
          </image>
       </ImageView>
       <Label layoutX="193.0" layoutY="185.0" text="Search Order:">
@@ -73,15 +73,15 @@
       <TextField fx:id="textFieldOrderCode" layoutX="308.0" layoutY="186.0" promptText="Enter order code" />
       <ImageView fitHeight="23.0" fitWidth="31.0" layoutX="6.0" layoutY="665.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/Back.png" />
+            <Image url="@/gui/pictures/Back.png" />
          </image>
       </ImageView>
    </children>
    <stylesheets>
-      <URL value="@CatalogViewer.css" />
-      <URL value="@TextFieldAndListView.css" />
-      <URL value="@TableView.css" />
-      <URL value="@Homepage.css" />
-      <URL value="@boxCss.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
+      <URL value="@/src/views/TextFieldAndListView.css" />
+      <URL value="@/src/views/TableView.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/boxCss.css" />
    </stylesheets>
 </Pane>

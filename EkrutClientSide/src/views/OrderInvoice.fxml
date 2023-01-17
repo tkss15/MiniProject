@@ -22,7 +22,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="23.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/LogoEKRUT.png" />
+                  <Image url="@/gui/pictures/LogoEKRUT.png" />
                </image>
             </ImageView>
             <Text layoutX="424.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Invoice">
@@ -36,7 +36,7 @@
                      <children>
                         <ImageView fx:id="currentState" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/Cart.png" />
+                              <Image url="@/gui/pictures/Cart.png" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Shop" />
@@ -51,7 +51,7 @@
                      <children>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/Invoice.png" />
+                              <Image url="@/gui/pictures/Invoice.png" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Invoice" />
@@ -66,7 +66,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/card.png" />
+                              <Image url="@/gui/pictures/card.png" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Payment" />
@@ -92,7 +92,7 @@
                                  <children>
                                     <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../gui/pictures/chips.png" />
+                                          <Image url="@/gui/pictures/chips.png" />
                                        </image>
                                     </ImageView>
                                     <VBox minWidth="220.0" prefHeight="108.0" prefWidth="242.0">
@@ -197,7 +197,7 @@
                                  <children>
                                     <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../gui/pictures/bisli2.png" />
+                                          <Image url="@/gui/pictures/bisli2.png" />
                                        </image>
                                     </ImageView>
                                     <VBox minWidth="220.0" HBox.hgrow="NEVER">
@@ -311,7 +311,7 @@
                                  <children>
                                     <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../gui/pictures/fanta.png" />
+                                          <Image url="@/gui/pictures/fanta.png" />
                                        </image>
                                     </ImageView>
                                     <VBox minWidth="220.0" prefWidth="220.0" HBox.hgrow="ALWAYS">
@@ -445,7 +445,7 @@
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/Back.png" />
+                  <Image url="@/gui/pictures/Back.png" />
                </image>
             </ImageView>
          </graphic>
@@ -465,8 +465,8 @@
       </Label>
    </children>
    <stylesheets>
-      <URL value="@OrderInvoice.css" />
-      <URL value="@Homepage.css" />
-      <URL value="@TextFieldAndListView.css" />
+      <URL value="@/src/views/OrderInvoice.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/TextFieldAndListView.css" />
    </stylesheets>
 </AnchorPane>

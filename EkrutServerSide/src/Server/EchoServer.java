@@ -58,11 +58,9 @@ public class EchoServer extends AbstractServer
 		Platform.runLater(() -> {
 			DateTimeFormatter format = DateTimeFormatter.ofPattern("DD/MM/YYYY");
 			LocalDate localDate = LocalDate.now();
-			System.out.println(localDate.format(format));
 
 			int currentDay = localDate.getDayOfMonth();
 			Month month = localDate.getMonth();
-			System.out.println(month.toString());
 			int year = localDate.getYear();
 
 			ArrayList<String> reportTypes = new ArrayList<>(Arrays.asList("Orders", "Supply", "Customer"));
@@ -589,7 +587,6 @@ public class EchoServer extends AbstractServer
 				}
 				
 				clientRequest.setURL(FinalQuery.toString());
-				serverConsole.display(FinalQuery.toString());
 				serverConsole.display(ClientOpreationMessage(client,QueryCase,clientRequest.getRequestID()));
 
 				/*
@@ -734,9 +731,7 @@ public class EchoServer extends AbstractServer
 		String Key = SqlQuerys.get(clientRequest.getRequestID());
 		String[] dataInjector = (clientRequest.getURL()).split("#");
 		StringBuilder FinalQuery = new StringBuilder();
-		
-		System.out.println(Key + " " + dataInjector);
-		
+				
 		int currentData = 0;
 		for(char currentChar : Key.toCharArray())
 		{

@@ -16,7 +16,7 @@
    <children>
       <ImageView fx:id="EKrutLogo" fitHeight="90.0" fitWidth="176.0" layoutX="-3.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/EKrutLogo.jpeg" />
+            <Image url="@/gui/pictures/EKrutLogo.jpeg" />
          </image>
       </ImageView>
       <Pane layoutY="115.0" prefHeight="340.0" prefWidth="600.0" style="-fx-background-color: white;">
@@ -43,7 +43,7 @@
             </Label>
             <ImageView fx:id="ReportLogo" fitHeight="319.0" fitWidth="268.0" layoutX="336.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/report-icon.png" />
+                  <Image url="@/gui/pictures/report-icon.png" />
                </image>
             </ImageView>
             <Text fx:id="errorMessage" fill="RED" layoutX="189.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="80.13671875" />
@@ -60,22 +60,22 @@
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../gui/pictures/Back.png" />
+                        <Image url="@/gui/pictures/Back.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
             <ImageView fitHeight="23.0" fitWidth="31.0" layoutX="147.0" layoutY="-459.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/Back.png" />
+                  <Image url="@/gui/pictures/Back.png" />
                </image>
             </ImageView>
          </children>
          <stylesheets>
-            <URL value="@ComboBox.css" />
-            <URL value="@TextFieldAndListView.css" />
-            <URL value="@Homepage.css" />
-            <URL value="@CatalogViewer.css" />
+            <URL value="@/src/views/ComboBox.css" />
+            <URL value="@/src/views/TextFieldAndListView.css" />
+            <URL value="@/src/views/Homepage.css" />
+            <URL value="@/src/views/CatalogViewer.css" />
          </stylesheets></Pane>
       <Button id="CloseButton" fx:id="CloseButton" layoutX="544.0" layoutY="6.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="49.0" text="X">
          <font>
@@ -92,7 +92,7 @@
       <Cursor fx:constant="DEFAULT" />
    </cursor>
    <stylesheets>
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
    </stylesheets>
 </AnchorPane>

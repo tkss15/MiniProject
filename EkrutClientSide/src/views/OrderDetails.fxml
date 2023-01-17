@@ -24,7 +24,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="26.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/EKrutLogo.jpeg" />
+                  <Image url="@/gui/pictures/EKrutLogo.jpeg" />
                </image>
             </ImageView>
             <Text layoutX="392.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Details">
@@ -38,7 +38,7 @@
                      <children>
                         <ImageView fx:id="currentState" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/Cart.png" />
+                              <Image url="@/gui/pictures/Cart.png" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Shop" />
@@ -53,7 +53,7 @@
                      <children>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/Invoice.png" />
+                              <Image url="@/gui/pictures/Invoice.png" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Invoice" />
@@ -68,7 +68,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/card.png" />
+                              <Image url="@/gui/pictures/card.png" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Payment" />
@@ -235,7 +235,7 @@
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/Back.png" />
+                  <Image url="@/gui/pictures/Back.png" />
                </image>
             </ImageView>
          </graphic>
@@ -323,10 +323,10 @@
       </Label>
    </children>
    <stylesheets>
-      <URL value="@OrderDetails.css" />
-      <URL value="@Homepage.css" />
-      <URL value="@TextFieldAndListView.css" />
-      <URL value="@ComboBox.css" />
-      <URL value="@TableView.css" />
+      <URL value="@/src/views/OrderDetails.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/TextFieldAndListView.css" />
+      <URL value="@/src/views/ComboBox.css" />
+      <URL value="@/src/views/TableView.css" />
    </stylesheets>
 </AnchorPane>

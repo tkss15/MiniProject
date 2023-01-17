@@ -1,5 +1,7 @@
 package Server;
 
+import java.net.URL;
+
 import gui.ServerInterfaceController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,10 +27,11 @@ public class ServerUI extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
-//		  SceneManager sceneManager = new SceneManager();
-//		  sceneManager.ShowScene("/gui/LoginInterface.fxml");
-//		  sercv
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ServerInterface.fxml"));
+	    URL url = this.getClass().getResource("/src/gui/ServerInterface.fxml"); 
+		System.out.println(url);
+		System.out.println(ServerUI.class.getResource("../src/gui/ServerInterface.fxml"));
+        FXMLLoader loader = new FXMLLoader(ServerUI.class.getResource("/src/gui/ServerInterface.fxml"));
+      //  FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ServerInterface.fxml"));
         Parent root = loader.load();
         serverInterface = (ServerInterfaceController) loader.getController();
         Scene scene = new Scene(root);

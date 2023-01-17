@@ -1,5 +1,7 @@
 package client;
 
+import java.net.URL;
+
 import common.SceneManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +32,7 @@ public class ClientUI extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
-		ShowScence(primaryStage, "../views/LogInServer.fxml");		
+		ShowScence(primaryStage, "/src/views/LogInServer.fxml");		
 	}
 	
 	public static void ConnectToServer(String p)
@@ -41,8 +43,9 @@ public class ClientUI extends Application
 	
 	public void ShowScence(Stage primaryStage, String URL) throws Exception
 	{
-		FXMLLoader loader = new FXMLLoader(getClass().getResource(URL));
-	    Parent root = loader.load();
+	    URL url = this.getClass().getResource(URL); 
+        FXMLLoader loader = new FXMLLoader(url);
+        	    Parent root = loader.load();
 		//makes the screen draggable	
 	    Scene scene = new Scene(root);
 	    scene.setOnMousePressed(event -> {

@@ -18,7 +18,7 @@
          <children>
             <ImageView fitHeight="117.0" fitWidth="216.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/EKrutLogo.jpeg" />
+                  <Image url="@/gui/pictures/EKrutLogo.jpeg" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -30,7 +30,7 @@
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/User.png" />
+                              <Image url="@/gui/pictures/User.png" />
                            </image>
                         </ImageView>
                         <Text fx:id="welcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome Gal!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
@@ -160,7 +160,7 @@
       <Text layoutX="492.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Service Representative" wrappingWidth="430.0" />
       <ImageView fitHeight="200.0" fitWidth="219.0" layoutX="607.0" layoutY="616.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/sales-representative-removebg-preview.png" />
+            <Image url="@/gui/pictures/sales-representative-removebg-preview.png" />
          </image>
       </ImageView>
       <Line endX="384.0" layoutX="655.0" layoutY="573.0" opacity="0.7" startX="-295.0" />
@@ -173,7 +173,7 @@
       <Button id="Logout" fx:id="logoutButton" layoutX="4.0" layoutY="804.0" mnemonicParsing="false" onAction="#logout" prefHeight="44.0" prefWidth="111.0" text="Logout" textAlignment="RIGHT" />
       <ImageView fitHeight="24.0" fitWidth="25.0" layoutX="12.0" layoutY="816.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/Logout.png" />
+            <Image url="@/gui/pictures/Logout.png" />
          </image>
       </ImageView>
       <Button id="CloseButton" layoutX="1041.0" layoutY="10.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="49.0" text="X">
@@ -183,7 +183,7 @@
       </Button>
    </children>
    <stylesheets>
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
    </stylesheets>
 </AnchorPane>

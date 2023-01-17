@@ -29,12 +29,12 @@
       </Button>
       <ImageView id="ConnectLogo" fx:id="ConnectLogo" fitHeight="48.0" fitWidth="36.0" layoutX="99.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="99.0">
          <image>
-            <Image url="@../gui/pictures/ConnectLogo.jpeg" />
+            <Image url="@/gui/pictures/ConnectLogo.jpeg" />
          </image>
       </ImageView>
       <ImageView fx:id="Logo" fitHeight="117.0" fitWidth="233.0" layoutX="55.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="25.0">
          <image>
-            <Image url="@../gui/pictures/LogoEKRUT.png" />
+            <Image url="@/gui/pictures/LogoEKRUT.png" />
          </image>
       </ImageView>
       <Button fx:id="CloseButton" layoutX="260.0" layoutY="7.0" mnemonicParsing="false" onAction="#exitFromLogin" prefHeight="42.0" prefWidth="49.0" text="X" textFill="#fdb925">
@@ -42,8 +42,8 @@
             <Font name="Cambria Bold" size="12.0" />
          </font>
          <stylesheets>
-            <URL value="@Homepage.css" />
-            <URL value="@CatalogViewer.css" />
+            <URL value="@/src/views/Homepage.css" />
+            <URL value="@/src/views/CatalogViewer.css" />
          </stylesheets>
       </Button>
    </children>

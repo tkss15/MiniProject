@@ -113,7 +113,7 @@
          <children>
             <ImageView fitHeight="127.0" fitWidth="231.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@pictures/LogoEKRUT.png" />
+                  <Image url="@LogoEKRUT.png" />
                </image>
             </ImageView>
             <Text layoutX="293.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ekrut Server Config">
@@ -163,19 +163,19 @@
          <font>
             <Font size="14.0" />
          </font></TextArea>
-      <Button fx:id="connectButton" ellipsisString="" layoutX="301.0" layoutY="730.0" mnemonicParsing="false" onAction="#ConnectToDB" prefHeight="54.0" prefWidth="159.0" style="-fx-background-color: white;" stylesheets="@ConnectDisconnectImport.css" text="       Connect" textFill="#fdb925" textOverrun="LEADING_WORD_ELLIPSIS">
+      <Button fx:id="connectButton" ellipsisString="" layoutX="301.0" layoutY="730.0" mnemonicParsing="false" onAction="#ConnectToDB" prefHeight="54.0" prefWidth="159.0" style="-fx-background-color: white;" stylesheets="@/src/gui/ConnectDisconnectImport.css" text="       Connect" textFill="#fdb925" textOverrun="LEADING_WORD_ELLIPSIS">
          <font>
             <Font name="Cambria Bold" size="22.0" />
          </font>
          <graphic>
             <ImageView id="ConnectLogo" fx:id="ConnectLogo" fitHeight="31.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@pictures/ConnectButton.png" />
+                  <Image url="@ConnectButton.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="dissconnectButton" layoutX="480.0" layoutY="730.0" mnemonicParsing="false" onAction="#disconnectFromDB" prefHeight="54.0" prefWidth="150.0" style="-fx-background-color: White;" stylesheets="@ConnectDisconnectImport.css" text="Dissconnect" textFill="#fdb925">
+      <Button fx:id="dissconnectButton" layoutX="480.0" layoutY="730.0" mnemonicParsing="false" onAction="#disconnectFromDB" prefHeight="54.0" prefWidth="150.0" style="-fx-background-color: White;" stylesheets="@/src/gui/ConnectDisconnectImport.css" text="Dissconnect" textFill="#fdb925">
          <font>
             <Font name="Cambria Bold" size="20.0" />
          </font>
@@ -185,7 +185,7 @@
             <Font name="Arial Black" size="13.0" />
          </font>
       </Text>
-      <Button fx:id="importBTN" ellipsisString="" layoutX="694.0" layoutY="421.0" mnemonicParsing="false" onAction="#importUsers" prefHeight="54.0" style="-fx-background-color: white;" stylesheets="@ConnectDisconnectImport.css" text="Import Data" textFill="#fdb925" textOverrun="LEADING_WORD_ELLIPSIS">
+      <Button fx:id="importBTN" ellipsisString="" layoutX="694.0" layoutY="421.0" mnemonicParsing="false" onAction="#importUsers" prefHeight="54.0" style="-fx-background-color: white;" stylesheets="@/src/gui/ConnectDisconnectImport.css" text="Import Data" textFill="#fdb925" textOverrun="LEADING_WORD_ELLIPSIS">
          <font>
             <Font name="Cambria Bold" size="18.0" />
          </font>
@@ -196,9 +196,9 @@
       <Line endX="-96.0" endY="-40.0" layoutX="118.0" layoutY="227.0" startX="-96.0" startY="493.0" style="-fx-stroke: rgba(0,0,0,0.2);" AnchorPane.leftAnchor="21.5" />
    </children>
    <stylesheets>
-      <URL value="@TableView.css" />
-      <URL value="@textAreaCss.css" />
-      <URL value="@TextFieldAndListViewAndcheckBox.css" />
-      <URL value="@boxCss.css" />
+      <URL value="@/src/gui/TableView.css" />
+      <URL value="@/src/gui/textAreaCss.css" />
+      <URL value="@/src/gui/TextFieldAndListViewAndcheckBox.css" />
+      <URL value="@/src/gui/boxCss.css" />
    </stylesheets>
 </AnchorPane>

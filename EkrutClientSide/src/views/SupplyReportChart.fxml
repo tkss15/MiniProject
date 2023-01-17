@@ -21,7 +21,7 @@
       </Button>
       <ImageView fx:id="Logo" fitHeight="104.0" fitWidth="233.0" layoutX="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../project%20icons/EKrutLogo.jpeg" />
+            <Image url="@/gui/pictures/EKrutLogo.jpeg" />
          </image>
       </ImageView>
       <HBox layoutX="425.0" layoutY="14.0" prefHeight="31.0" prefWidth="99.0" />

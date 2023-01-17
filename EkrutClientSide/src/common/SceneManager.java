@@ -1,6 +1,7 @@
 package common;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -46,6 +47,9 @@ public class SceneManager
 	 */
 	public void ShowPopup(String urlResources) // Method to show a new popup window
 	{	
+	    URL url = this.getClass().getResource("/src"+urlResources.substring(2)); 
+        FXMLLoader loader = new FXMLLoader(url);
+        
         loader = new FXMLLoader(getClass().getResource(urlResources)); // Create a new FXMLLoader with the specified resource URL
         Parent root;
 		try {
@@ -73,7 +77,8 @@ public class SceneManager
 	 */
 	public void ShowSceneNew(String urlResources)
 	{	
-        loader = new FXMLLoader(getClass().getResource(urlResources));// Create a new FXMLLoader with the specified resource URL
+	    URL url = this.getClass().getResource("/src"+urlResources.substring(2)); 
+        FXMLLoader loader = new FXMLLoader(url);
         Parent root;
 		try {
 			root = loader.load();// Load the FXML file
@@ -101,7 +106,8 @@ public class SceneManager
 	 */
 	public void ShowScene(String urlResources)
 	{	
-        loader = new FXMLLoader(getClass().getResource(urlResources));
+	    URL url = this.getClass().getResource("/src"+urlResources.substring(2)); 
+        FXMLLoader loader = new FXMLLoader(url);
         Parent root;
 		try {
 			root = loader.load();

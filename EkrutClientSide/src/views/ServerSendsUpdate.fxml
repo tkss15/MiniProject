@@ -26,7 +26,7 @@
             </Text>
             <ImageView fitHeight="79.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/LogoEKRUT.png" />
+                  <Image url="@/gui/pictures/LogoEKRUT.png" />
                </image>
             </ImageView>
          </children>

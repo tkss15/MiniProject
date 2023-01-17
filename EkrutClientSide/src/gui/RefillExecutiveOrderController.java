@@ -325,16 +325,7 @@ public class RefillExecutiveOrderController implements Initializable, IControlle
 	 */
 	@FXML
 	void close(ActionEvent event) {
-		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
-			System.out.println("Not updated");
-		}
-		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
-			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
-			ClientUI.clientController.accept(request);
-			ClientUI.clientController.getUser().setOnlineStatus("Offline");
-		}
-		System.exit(0);
+		ClientUI.clientController.UserDisconnected(true);
 	}
 
 	/**
