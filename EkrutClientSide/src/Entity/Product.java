@@ -7,6 +7,11 @@ import common.IProductPrice;
 
 public class Product 
 {
+	/**
+	 *each product is being saved in our database, pictures of the product are saved in a directory and in a
+	 *the DB as blobs
+	 *each product has a unique product code.
+	 * */
 	private int ProductAmount = 1;
 	private int MaxAmount;
 	private Integer ProductCode;
@@ -18,7 +23,16 @@ public class Product
 	private IProductPrice PriceStategy;
 	
 	private final String dirPictures = "EkrutApplication";
-	
+	/**
+	 * @param - productCode - the code of the product
+	 * @param - productName - the name of the product
+	 * @param - productDescription - the description of each product
+	 * @param - productSrc - the name of the file that is saved in the client
+	 * @param - productPrice - the price of the product
+	 * @param - MaxAmount - the maximum amount of the product
+	 * @param - the strategy of the product 
+	 * 
+	 * */
 	public Product(Integer ProductCode,String ProductName,String ProductDescription,String ProductSrc,Double ProductPrice, int MaxAmount)
 	{
 		this.ProductCode = ProductCode;
@@ -28,10 +42,12 @@ public class Product
 		this.ProductPrice = ProductPrice;
 		this.MaxAmount = MaxAmount;
 		this.PriceStategy = new PriceStartegyRegular();
+		//the directory to put the product pictures
 		File newDir = new File(dirPictures);
 		newDir.mkdirs();
 		this.PicturePhoto = new File(dirPictures + "/" + this.ProductSrc);
 	}
+	/**another constructor for the product, but with picture photo*/
 	public Product(Integer ProductCode,String ProductName,String ProductDescription,String ProductSrc,Double ProductPrice)
 	{
 		this.ProductCode = ProductCode;
@@ -44,6 +60,7 @@ public class Product
 		newDir.mkdirs();
 		this.PicturePhoto = new File(dirPictures + "/" + this.ProductSrc);
 	}
+	/**constructor for the pold product */
 	public Product(Product Oldproduct)
 	{
 		this(Oldproduct.ProductCode,
@@ -55,6 +72,7 @@ public class Product
 		this.setPriceStategy(Oldproduct.PriceStategy);
 		this.setAmount(Oldproduct.getProductAmount());
 	}
+	/**getters and setters for the product */
 	public String getPathPicture()
 	{
 		return String.format("file:///%s", PicturePhoto.getAbsolutePath());
@@ -100,10 +118,12 @@ public class Product
 	public String toString() {
 		return ProductName;
 	}
+	/**hashCode of the product*/
 	@Override
 	public int hashCode() {
 		return Objects.hash(ProductCode);
 	}
+	/**override of the equals method to do a manuel equals*/
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

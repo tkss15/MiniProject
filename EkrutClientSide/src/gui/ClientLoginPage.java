@@ -27,7 +27,7 @@ public class ClientLoginPage implements Initializable, IController
 {
 	private boolean isLogged;
 	private boolean alreadyLogged = false;
-	private boolean isEmployee = false; /////////
+	private boolean isEmployee = false;
 	private String role;
 
 	private User user;
@@ -48,11 +48,18 @@ public class ClientLoginPage implements Initializable, IController
     
     @FXML
     private Label errorLabel;
-    
+    /**
+     * fast login window, the user will be able to login with ekrut touch if he is subscribed
+     * @param
+     * */
     @FXML
     void ShowFastLogin(ActionEvent event) {
     	ClientUI.sceneManager.ShowSceneNew("../views/FastLoginInterface.fxml", event);	
     }
+    /**
+     * triggers when the "X" is being pressed
+     * exists from the system
+     * @param event*/
     @FXML
     void ExitWindow(ActionEvent event) 
     {
@@ -60,7 +67,13 @@ public class ClientLoginPage implements Initializable, IController
     	ClientUI.clientController.accept(request);
     	System.exit(0);
     }
-
+    /***
+     * when the user presses login, the software will check wether he has a user in the databse
+     * all fields must be filled in order for this button to activate.
+     * messages of error will be displayed if one of the fields are not correct
+     * also if the user is an employee he will have the option to choose to that interface he wants to enter
+     * @param
+     * */
     @FXML
     void actionLoggin(ActionEvent event) 
     {
@@ -129,7 +142,10 @@ public class ClientLoginPage implements Initializable, IController
     	}
 
     }
-    
+    /**
+     * this method is being called when this controller is activated
+     * @param - location
+     * @param - resources*/
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
@@ -139,7 +155,10 @@ public class ClientLoginPage implements Initializable, IController
 		LoginApp.setVisible(true);
 		
     }
-
+	/**
+	 * the data that is being returned from the queries
+	 *@param - data
+	 */
 	@Override
 	public void updatedata(Object data) {
 			if(data instanceof ResponseObject)

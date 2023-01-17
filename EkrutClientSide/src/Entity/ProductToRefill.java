@@ -7,6 +7,14 @@ public class ProductToRefill {
 	private String facilityLocation;
 	private String facilityName;
 	private String facilityThresholdLevel;
+	/**
+	 * @param: productName- the name of the product
+	 * @param: productQuantity- the quantity of the product
+	 * @param: area - the area the product is in
+	 * @param: facilityLocation- the location of the facility
+	 * @param:facilityName - the name of the facility
+	 * @param: facilityThresholdLevel - the thresholdlevel of the current facility
+	 * */
 	public ProductToRefill(String productName, String productQuantity, String area, String facilityLocation,
 			String facilityName, String facilityThresholdLevel) {
 		this.productName = productName;
@@ -16,6 +24,10 @@ public class ProductToRefill {
 		this.facilityName = facilityName;
 		this.facilityThresholdLevel = facilityThresholdLevel;
 	}
+	
+	/**
+	 * getters and setters for this entity
+	 * */
 	public String getProductName() {
 		return productName;
 	}
@@ -52,6 +64,9 @@ public class ProductToRefill {
 	public void setFacilityThresholdLevel(String facilityThresholdLevel) {
 		this.facilityThresholdLevel = facilityThresholdLevel;
 	}
+	/**
+	 * when this method is being called, this string is returned
+	 * */
 	@Override
 	public String toString() {
 		return "ProductToRefill [productName=" + productName + ", productQuantity=" + productQuantity + ", area=" + area

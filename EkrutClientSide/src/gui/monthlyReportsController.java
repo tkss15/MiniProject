@@ -58,7 +58,12 @@ public class monthlyReportsController implements Initializable, IController {
 
 	@FXML
 	private Button backButton;
-
+	/**
+	 * after the back button has been pressed, this method starts a new window called
+	 * CEOInterface if the initiall log-in was the ceo.
+	 * else, goes back to the areaManagerInterface.
+	 * @param : event triggers when the back button has been pressed.
+	 * */
 	@FXML
 	void back(ActionEvent event) {
 		if(ClientUI.clientController.isCeo())
@@ -66,17 +71,30 @@ public class monthlyReportsController implements Initializable, IController {
 		else
 			ClientUI.sceneManager.ShowSceneNew("../views/AreaManagerInterface.fxml", event);
 	}
-
+	/**
+	 * this method is called when area is selected.
+	 * 
+	 * */
 	@FXML
 	void AreaSelect(ActionEvent event) {
 
 	}
-
+	
+	/**
+	 * this method is called when the "X" button has been pressed.
+	 * @param event
+	 * */
 	@FXML
 	void closeWindow(ActionEvent event) {
 		back(event);
 	}
 
+	/**
+	 * when the user presses on the button watch report, if the report exists the relevent report
+	 * will be shown in a new screen.
+	 * all fields must be selected in order to watch a specific report
+	 * @param event 
+	 * */
 	@FXML
 	void watchReport(ActionEvent event) {
 		boolean isCEO = false;
@@ -87,12 +105,15 @@ public class monthlyReportsController implements Initializable, IController {
 		String Year = selectYear.getValue();
 		String Month = selectMonth.getValue();
 		String Type = selectType.getValue();
+		//check if all of the fields have been selected
 		if (Year == null || Month == null || Type == null) {
 			errorMessage.setText("Year, Month or Type has not been selected! ");
 			errorMessage.setVisible(true);
 			return;
 		}
+		//string to get the date format
 		String date = Year + "-" + Month;
+		//if the login is from the ceo, then the ceo must also choose the area to watch the report from.
 		if(isCEO) {
 			String Area = selectArea.getValue();
 			if(Area == null) {
@@ -100,16 +121,19 @@ public class monthlyReportsController implements Initializable, IController {
 				errorMessage.setVisible(true);
 				return;
 			}
-			RequestObjectClient request = new RequestObjectClient("#GET_REPORTS_MRC", // DONE
+			//query to get the reports
+			RequestObjectClient request = new RequestObjectClient("#GET_REPORTS_MRC", 
 					String.format("%s#%s#%s#", Area, Type, date), "GET");
 			ClientUI.clientController.accept(request);
 		}else {
-			RequestObjectClient request = new RequestObjectClient("#GET_REPORTS_MRC", // DONE
+			//query to get the reports
+			RequestObjectClient request = new RequestObjectClient("#GET_REPORTS_MRC", 
 					String.format("%s#%s#%s#", ClientUI.clientController.getUser().getArea(), Type, date), "GET");
 			ClientUI.clientController.accept(request);
 		}
 		
 		if (exists) {
+			//search the specific report from the returned query
 			for (int i = 0; i < reports.size(); i++) {
 				Report currReport = reports.get(i);
 				if (currReport.getReportDate().equals(date) && currReport.getReportType().equals(Type)) {
@@ -127,7 +151,9 @@ public class monthlyReportsController implements Initializable, IController {
 		exists = false;
 
 	}
-
+	/**
+	 * all of the information from the queries is returned here
+	 * */
 	@Override
 	public void updatedata(Object data) {
 		if (data instanceof ResponseObject) {
@@ -152,7 +178,9 @@ public class monthlyReportsController implements Initializable, IController {
 			}
 		}
 	}
-
+	/**
+	 * this method is being called when the controller starts
+	 * */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.clientController.setController(this);
