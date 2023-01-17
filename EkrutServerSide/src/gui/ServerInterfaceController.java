@@ -144,7 +144,9 @@ public class ServerInterfaceController implements Initializable, IController {
 		connectedClientsTable.getItems().clear();
 		ServerUI.sv.accept("#close");
 	}
-
+	/**
+	 * 
+	 * */
 	@FXML
 	void closeWindow(ActionEvent event) {
 		/*
@@ -153,14 +155,26 @@ public class ServerInterfaceController implements Initializable, IController {
 		 */
 		System.exit(0);
 	}
-
+	/**
+	 * import simualtion, imports all users and thier roles into the correct table in the database, firstly imports all users to users table
+	 * and every user that has a special role like employee or registeredClinet will be filtered to the relevent table.
+	 * @param event
+	 * */
 	@FXML
 	void importUsers(ActionEvent event) {
-		txtToTables.put("employees.csv", "employees");
-		txtToTables.put("users.csv", "users");
-		txtToTables.put("registerclient.csv", "registerclients");
+		// import from users
+		// import from employees
+		// import from registeredclients
+		
+		txtToTables.put("employeestest.csv", "employeestest");
+//		txtToTables.put("users.txt", "userstest");
+//		txtToTables.put("registeredClientsTXT.txt", "registerclientstest");
 
 		ServerUI.sv.accept(txtToTables);
+//			stmt.executeUpdate("load data local infile \"users.txt\" into table users");
+//			stmt.executeUpdate("load data local infile \"employees.txt\" into table employees");
+//			stmt.executeUpdate("load data local infile \"registeredClientsTXT.txt\" into table registerclients");
+
 	}
 
 
