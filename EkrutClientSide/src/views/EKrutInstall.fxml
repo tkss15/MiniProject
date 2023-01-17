@@ -82,14 +82,14 @@
       </HBox>
       <ImageView fitHeight="84.0" fitWidth="150.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/EKrutLogo.jpeg" />
+            <Image url="@/gui/pictures/EKrutLogo.jpeg" />
          </image>
       </ImageView>
    </children>
    <stylesheets>
-      <URL value="@Homepage.css" />
-      <URL value="@radioButtonCss.css" />
-      <URL value="@ComboBox.css" />
-      <URL value="@CatalogViewer.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/radioButtonCss.css" />
+      <URL value="@/src/views/ComboBox.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
    </stylesheets>
 </AnchorPane>

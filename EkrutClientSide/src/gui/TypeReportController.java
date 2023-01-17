@@ -469,13 +469,10 @@ public class TypeReportController implements Initializable, IController {
 		
 		foundMonth.append(ClientUI.clientController.getReportYear() + "-");
 		
-		System.out.println("This is Month "+ClientUI.clientController.getReportMonth());
         for (Map.Entry<String,String> entry : ClientUI.clientController.getHashMapMonths().entrySet()) 
         {
-        	System.out.println(entry.getKey()+ " " + entry.getValue());
         	if(entry.getValue().equals(ClientUI.clientController.getReportMonth()))
         	{
-        		System.out.println("Found" + entry.getKey()+ " " + entry.getValue());
         		foundMonth.append(entry.getKey());
         		break;
         	}
@@ -605,7 +602,8 @@ public class TypeReportController implements Initializable, IController {
 	 * @param yAxisName - name of the y Axis elements.
 	 * @param map - a map of Strings which represent the x axis elements Keys and values of Numbers (Long or Integer).
 	 */
-	private void createBarChart(String xAxisName, String yAxisName, HashMap<String, ? extends Number> map) {
+	private void createBarChart(String xAxisName, String yAxisName, HashMap<String, ? extends Number> map) 
+	{
 		xAxis = new CategoryAxis();
 		yAxis = new NumberAxis();
 		xAxis.setLabel(xAxisName);

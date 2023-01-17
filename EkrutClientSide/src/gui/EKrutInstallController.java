@@ -98,19 +98,16 @@ public class EKrutInstallController implements Initializable,IController {
     			}
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
-    			System.out.println("Here IOException ?");
     			e.printStackTrace();
     		}
         	catch(Exception e)
         	{
-    			System.out.println("Here Exception ?");
     			e.printStackTrace();
         	}
     		
     	}
     	else
     	{
-    		System.out.println("Here by mistake ?");
     		if(ComboBoxFacility11.getValue() == null || ComboBoxLocation.getValue() == null || ComboBoxArea.getValue() == null )
     			return;
     		

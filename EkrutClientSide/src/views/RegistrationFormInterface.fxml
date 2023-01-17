@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="112.0" fitWidth="204.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/EKrut.png" />
+                  <Image url="@/gui/pictures/EKrut.png" />
                </image>
                <VBox.margin>
                   <Insets bottom="5.0" left="30.0" top="30.0" />
@@ -176,7 +176,7 @@
             </VBox>
             <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/User.png" />
+                  <Image url="@/gui/pictures/User.png" />
                </image>
                <VBox.margin>
                   <Insets left="8.0" top="-225.0" />
@@ -222,59 +222,59 @@
       <Text fx:id="msgRegister" fill="RED" layoutX="557.0" layoutY="729.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User does not exist!" wrappingWidth="112.13671875" />
       <ImageView fx:id="creditCardImage" fitHeight="27.0" fitWidth="31.0" layoutX="476.0" layoutY="609.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/כרטיס%20אשראי.png" />
+            <Image url="@/gui/pictures/כרטיס%20אשראי.png" />
          </image>
       </ImageView>
       <ImageView fx:id="pencilImageUserType" fitHeight="27.0" fitWidth="31.0" layoutX="476.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+            <Image url="@/gui/pictures/pencil-logo-removebg-preview.png" />
          </image>
       </ImageView>
       <ImageView fx:id="pencilImageUserArea" fitHeight="27.0" fitWidth="31.0" layoutX="479.0" layoutY="532.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+            <Image url="@/gui/pictures/pencil-logo-removebg-preview.png" />
          </image>
       </ImageView>
       <ImageView fx:id="pencilImageFirstName" fitHeight="27.0" fitWidth="31.0" layoutX="479.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+            <Image url="@/gui/pictures/pencil-logo-removebg-preview.png" />
          </image>
       </ImageView>
       <ImageView fx:id="pencilImageLasName" fitHeight="27.0" fitWidth="31.0" layoutX="479.0" layoutY="287.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+            <Image url="@/gui/pictures/pencil-logo-removebg-preview.png" />
          </image>
       </ImageView>
       <ImageView fx:id="telephoneImage" fitHeight="126.0" fitWidth="139.0" layoutX="454.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/Telephone.png" />
+            <Image url="@/gui/pictures/Telephone.png" />
          </image>
       </ImageView>
       <ImageView fx:id="emailImage" fitHeight="126.0" fitWidth="195.0" layoutX="484.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/Envelope.png" />
+            <Image url="@/gui/pictures/Envelope.png" />
          </image>
       </ImageView>
       <ImageView fx:id="lockImage" fitHeight="27.0" fitWidth="31.0" layoutX="476.0" layoutY="489.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/password-lock-icon-removebg-preview.png" />
+            <Image url="@/gui/pictures/password-lock-icon-removebg-preview.png" />
          </image>
       </ImageView>
       <ImageView fx:id="userImage" fitHeight="27.0" fitWidth="31.0" layoutX="476.0" layoutY="445.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/User.png" />
+            <Image url="@/gui/pictures/User.png" />
          </image>
       </ImageView>
       <ImageView fx:id="pencilImageId" fitHeight="27.0" fitWidth="31.0" layoutX="478.0" layoutY="408.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/pencil-logo-removebg-preview.png" />
+            <Image url="@/gui/pictures/pencil-logo-removebg-preview.png" />
          </image>
       </ImageView>
       <Button id="buttonFixed" fx:id="BackButton" layoutX="3.0" layoutY="745.0" mnemonicParsing="false" onAction="#Back" text="Back">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/Back.png" />
+                  <Image url="@/gui/pictures/Back.png" />
                </image>
             </ImageView>
          </graphic>
@@ -284,14 +284,14 @@
       </Button>
       <ImageView fitHeight="25.0" fitWidth="20.0" layoutX="-3.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/Back.png" />
+            <Image url="@/gui/pictures/Back.png" />
          </image>
       </ImageView>
    </children>
    <stylesheets>
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
-      <URL value="@TextFieldAndListView.css" />
-      <URL value="@TableView.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
+      <URL value="@/src/views/TextFieldAndListView.css" />
+      <URL value="@/src/views/TableView.css" />
    </stylesheets>
 </AnchorPane>

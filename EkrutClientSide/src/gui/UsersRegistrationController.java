@@ -253,16 +253,7 @@ public class UsersRegistrationController implements Initializable, IController {
 	 */
 	@FXML
 	void close(ActionEvent event) {
-		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
-			System.out.println("Not updated");
-		}
-		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
-			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS", // DONE
-					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
-			ClientUI.clientController.accept(request);
-			ClientUI.clientController.getUser().setOnlineStatus("Offline");
-		}
-		System.exit(0);
+		ClientUI.clientController.UserDisconnected(true);
 	}
 
 	/**
@@ -567,7 +558,6 @@ public class UsersRegistrationController implements Initializable, IController {
 	 */
 	@Override
 	public void updatedata(Object data) {
-		System.out.println("UserRegistrationController");
 		if (data instanceof ResponseObject) {
 			ResponseObject serverResponse = (ResponseObject) data;
 			switch (serverResponse.getRequest()) {
@@ -583,7 +573,6 @@ public class UsersRegistrationController implements Initializable, IController {
 				}
 				break;
 			case "#GET_USERS_URC":
-				System.out.println(serverResponse.Responsedata.size());
 				if (serverResponse.Responsedata.size() != 0) {
 					for (int i = 0; i < serverResponse.Responsedata.size(); i++) {
 						Object[] values = (Object[]) serverResponse.Responsedata.get(i);

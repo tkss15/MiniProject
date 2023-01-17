@@ -46,7 +46,7 @@
       <Button layoutX="262.0" layoutY="327.0" mnemonicParsing="false" onAction="#LoginAction" prefHeight="39.0" prefWidth="83.0" style="-fx-font-size: 15;" stylesheets="@Homepage.css" text="Login !" />
       <ImageView fitHeight="203.0" fitWidth="194.0" layoutX="430.0" layoutY="229.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/loginPicture.png" />
+            <Image url="@/gui/pictures/loginPicture.png" />
          </image>
       </ImageView>
       <Label fx:id="errorLabel" layoutX="206.0" layoutY="309.0" text="Error" textFill="RED" />
@@ -57,7 +57,7 @@
       </Button>
    </children>
    <stylesheets>
-      <URL value="@TextFieldAndListView.css" />
-      <URL value="@CatalogViewer.css" />
+      <URL value="@/src/views/TextFieldAndListView.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
    </stylesheets>
 </AnchorPane>

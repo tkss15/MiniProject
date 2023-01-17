@@ -22,7 +22,7 @@
          <children>
             <ImageView fitHeight="121.0" fitWidth="219.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/EKrutLogo.jpeg" />
+                  <Image url="@/gui/pictures/EKrutLogo.jpeg" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -34,7 +34,7 @@
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/User.png" />
+                              <Image url="@/gui/pictures/User.png" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="126.095703125" HBox.hgrow="ALWAYS">
@@ -225,12 +225,12 @@
       <Line endX="498.0" layoutX="476.0" layoutY="581.0" startX="-100.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="595.0" layoutY="595.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/salesPersonWithSign.png" />
+            <Image url="@/gui/pictures/salesPersonWithSign.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="109.0" fitWidth="127.0" layoutX="852.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/salesRedIcon.png" />
+            <Image url="@/gui/pictures/salesRedIcon.png" />
          </image>
       </ImageView>
       <Button fx:id="saveBTN1" layoutX="349.0" layoutY="748.0" mnemonicParsing="false" onAction="#showSales" prefHeight="35.0" prefWidth="103.0" text="Show all Sales" />
@@ -242,14 +242,14 @@
       </Text>
       <ImageView fitHeight="23.0" fitWidth="31.0" layoutX="5.0" layoutY="754.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/Logout.png" />
+            <Image url="@/gui/pictures/Logout.png" />
          </image>
       </ImageView>
    </children>
    <stylesheets>
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
-      <URL value="@TextFieldAndListView.css" />
-      <URL value="@ComboBox.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
+      <URL value="@/src/views/TextFieldAndListView.css" />
+      <URL value="@/src/views/ComboBox.css" />
    </stylesheets>
 </AnchorPane>

@@ -17,7 +17,7 @@
    <children>
       <ImageView fx:id="Logo" fitHeight="74.0" fitWidth="150.0" layoutX="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/LogoEKRUT.png" />
+            <Image url="@/gui/pictures/LogoEKRUT.png" />
          </image>
       </ImageView>
       <HBox layoutX="622.0" layoutY="21.0" prefHeight="31.0" prefWidth="99.0" />
@@ -39,8 +39,8 @@
             </Button>
          </children>
          <stylesheets>
-            <URL value="@Homepage.css" />
-            <URL value="@TextFieldAndListView.css" />
+            <URL value="@/src/views/Homepage.css" />
+            <URL value="@/src/views/TextFieldAndListView.css" />
          </stylesheets>
       </VBox>
       <Label alignment="CENTER" layoutX="72.0" layoutY="85.0" prefHeight="31.0" prefWidth="491.0" text="Order Pickup:" textAlignment="CENTER">

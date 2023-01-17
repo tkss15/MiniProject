@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="154.0" fitWidth="248.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/LogoEKRUT.png" />
+                  <Image url="@/gui/pictures/LogoEKRUT.png" />
                </image>
                <VBox.margin>
                   <Insets left="50.0" top="50.0" />
@@ -31,7 +31,7 @@
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/User.png" />
+                              <Image url="@/gui/pictures/User.png" />
                            </image>
                         </ImageView>
                         <Text fx:id="WelcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome Liel!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
@@ -193,7 +193,7 @@
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../gui/pictures/Back.png" />
+                        <Image url="@/gui/pictures/Back.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -213,17 +213,16 @@
       </Button>
       <ImageView fitHeight="163.0" fitWidth="200.0" layoutX="586.0" layoutY="541.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/DivisionCEO.png" />
+            <Image url="@/gui/pictures/DivisionCEO.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="617.0" layoutY="711.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/CEOicon.png" />
+            <Image url="@/gui/pictures/CEOicon.png" />
          </image>
       </ImageView>
    </children>
    <stylesheets>
-      <URL value="@שיטות%20הנדסיות/פרוייקט/FXML/Homepage.css" />
-      <URL value="@Homepage.css" />
+      <URL value="@/src/views/Homepage.css" />
    </stylesheets>
 </AnchorPane>

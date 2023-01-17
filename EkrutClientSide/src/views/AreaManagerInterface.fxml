@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/EKrutLogo.jpeg" />
+                  <Image url="@/gui/pictures/EKrutLogo.jpeg" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -31,7 +31,7 @@
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/User.png" />
+                              <Image url="@/gui/pictures/User.png" />
                            </image>
                         </ImageView>
                         <Text fx:id="WelcomeMessageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome Gal!" wrappingWidth="235.095703125" HBox.hgrow="ALWAYS">
@@ -191,7 +191,7 @@
       <Line endX="260.0" layoutX="660.0" layoutY="530.0" opacity="0.7" startX="-250.0" />
       <ImageView fitHeight="213.0" fitWidth="210.0" layoutX="551.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/ceo-office-icon.png" />
+            <Image url="@/gui/pictures/ceo-office-icon.png" />
          </image>
       </ImageView>
       <Button fx:id="thresholdLevelButton" layoutX="427.0" layoutY="363.0" mnemonicParsing="false" onAction="#ThresholdLevelScreen" prefHeight="64.0" prefWidth="200.0" text="Threshold Level" AnchorPane.leftAnchor="427.0" />
@@ -204,12 +204,12 @@
       <Button id="Logout" fx:id="Logout" layoutX="6.0" layoutY="736.0" mnemonicParsing="false" onAction="#logout" prefHeight="44.0" prefWidth="111.0" text="Logout" textAlignment="RIGHT" />
       <ImageView fitHeight="24.0" fitWidth="25.0" layoutX="14.0" layoutY="748.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/Logout.png" />
+            <Image url="@/gui/pictures/Logout.png" />
          </image>
       </ImageView>
    </children>
    <stylesheets>
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
    </stylesheets>
 </AnchorPane>

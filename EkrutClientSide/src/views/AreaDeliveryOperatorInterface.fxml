@@ -21,7 +21,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/LogoEKRUT.png" />
+                  <Image url="@/gui/pictures/LogoEKRUT.png" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -33,7 +33,7 @@
                      <children>
                         <ImageView fitHeight="28.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../gui/pictures/User.png" />
+                              <Image url="@/gui/pictures/User.png" />
                            </image>
                         </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="111.095703125" HBox.hgrow="ALWAYS">
@@ -203,7 +203,7 @@
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../gui/pictures/Logout.png" />
+                        <Image url="@/gui/pictures/Logout.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -219,7 +219,7 @@
       </Button>
       <ImageView fitHeight="150.0" fitWidth="166.0" layoutX="599.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/OrderPickup.png" />
+            <Image url="@/gui/pictures/OrderPickup.png" />
          </image>
       </ImageView>
       <TableView fx:id="DeliveryOrdersTable" layoutX="410.0" layoutY="173.0" prefHeight="342.0" prefWidth="556.0">
@@ -238,8 +238,8 @@
       <Button fx:id="refreshBTN" layoutX="346.0" layoutY="730.0" mnemonicParsing="false" onAction="#refreshTable" prefHeight="53.0" prefWidth="103.0" text="Refresh" AnchorPane.bottomAnchor="13.0" />
    </children>
    <stylesheets>
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
-      <URL value="@TableView.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
+      <URL value="@/src/views/TableView.css" />
    </stylesheets>
 </AnchorPane>

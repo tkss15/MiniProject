@@ -21,7 +21,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/LogoEKRUT.png" />
+                  <Image url="@/gui/pictures/LogoEKRUT.png" />
                </image>
                <VBox.margin>
                   <Insets left="70.0" top="50.0" />
@@ -194,7 +194,7 @@
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../gui/pictures/Back.png" />
+                        <Image url="@/gui/pictures/Back.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -219,14 +219,14 @@
       <Button fx:id="changesBTN" layoutX="889.0" layoutY="723.0" mnemonicParsing="false" onAction="#applyChangesToTable" prefHeight="53.0" prefWidth="103.0" text="Apply Changes" />
       <ImageView fitHeight="153.0" fitWidth="315.0" layoutX="578.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/ceo-office-icon.png" />
+            <Image url="@/gui/pictures/ceo-office-icon.png" />
          </image>
       </ImageView>
    </children>
    <stylesheets>
-      <URL value="@TableView.css" />
-      <URL value="@ComboBox.css" />
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
+      <URL value="@/src/views/TableView.css" />
+      <URL value="@/src/views/ComboBox.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
    </stylesheets>
 </AnchorPane>

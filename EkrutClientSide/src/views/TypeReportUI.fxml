@@ -24,7 +24,7 @@
       </Button>
       <ImageView fx:id="Logo" fitHeight="104.0" fitWidth="233.0" layoutX="15.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/LogoEKRUT.png" />
+            <Image url="@/gui/pictures/LogoEKRUT.png" />
          </image>
       </ImageView>
       <HBox layoutX="425.0" layoutY="14.0" prefHeight="31.0" prefWidth="99.0" />
@@ -57,16 +57,16 @@
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../gui/pictures/Back.png" />
+                        <Image url="@/gui/pictures/Back.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
          </children>
          <stylesheets>
-            <URL value="@ComboBox.css" />
-            <URL value="@Homepage.css" />
-            <URL value="@CatalogViewer.css" />
+            <URL value="@/src/views/ComboBox.css" />
+            <URL value="@/src/views/Homepage.css" />
+            <URL value="@/src/views/CatalogViewer.css" />
          </stylesheets>
       </Pane>
       <Label fx:id="reportTypeText" layoutX="336.0" layoutY="11.0" prefHeight="114.0" prefWidth="513.0" text="Order Report" textFill="WHITE">
@@ -82,8 +82,8 @@
       <Cursor fx:constant="DEFAULT" />
    </cursor>
    <stylesheets>
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
-      <URL value="@ComboBox.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
+      <URL value="@/src/views/ComboBox.css" />
    </stylesheets>
 </AnchorPane>

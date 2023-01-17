@@ -425,7 +425,6 @@ public class OrderDetailsController implements Initializable, IController {
 				{
 					Object[] values =(Object[]) serverResponse.Responsedata.get(0);
 					orderCode = (Integer) values[0];
-					System.out.println(orderCode);
 					break;
 				}
 			}
@@ -573,10 +572,10 @@ public class OrderDetailsController implements Initializable, IController {
     		alert.setHeaderText("Facility Items are missing. Order will be changed");
     		alert.setContentText("Removed Items: "+Items.toString());
 
-    		ButtonType RemoveItems = new ButtonType("Return Shopping");
-    		ButtonType employeeHomepage = new ButtonType("Continue");
+    		ButtonType RemoveItems = new ButtonType("Continue");
+    		ButtonType ReturnShopping = new ButtonType("Return Shopping");
 
-    		alert.getButtonTypes().setAll(RemoveItems, employeeHomepage);
+    		alert.getButtonTypes().setAll(RemoveItems, ReturnShopping);
 			Optional<ButtonType> result = alert.showAndWait();
 			
     		if (result.get() == RemoveItems)
@@ -591,7 +590,7 @@ public class OrderDetailsController implements Initializable, IController {
     				TotalPriceString.setValue((String.format("%.2f",isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice()) + "$"));
     			}
     		} 
-    		else if (result.get() == employeeHomepage) 
+    		else if (result.get() == ReturnShopping) 
     		{
     			for(Product temp : arrProblem)
     			{

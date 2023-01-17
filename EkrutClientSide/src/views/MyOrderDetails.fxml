@@ -27,7 +27,7 @@
          <children>
             <ImageView fx:id="LogoImage" fitHeight="73.0" fitWidth="144.0">
                <image>
-                  <Image url="@../gui/pictures/LogoEKRUT.png" />
+                  <Image url="@/gui/pictures/LogoEKRUT.png" />
                </image>
             </ImageView>
             <Label fx:id="OrderNumber" prefHeight="27.0" text="Order Number:" textFill="#131212">
@@ -77,8 +77,8 @@
          </font></Label>
    </children>
    <stylesheets>
-      <URL value="@Homepage.css" />
-      <URL value="@CatalogViewer.css" />
-      <URL value="@TableView.css" />
+      <URL value="@/src/views/Homepage.css" />
+      <URL value="@/src/views/CatalogViewer.css" />
+      <URL value="@/src/views/TableView.css" />
    </stylesheets>
 </Pane>
