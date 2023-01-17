@@ -13,7 +13,10 @@ public class MyFile implements Serializable {
 	private int size=0;
 	public  byte[] mybytearray;
 	
-	
+	/**
+	 * 
+	 * @param - size
+	 * */
 	public void initArray(int size)
 	{
 		mybytearray = new byte [size];	
@@ -23,7 +26,9 @@ public class MyFile implements Serializable {
 		this.fileName = fileName;
 	}
 	
-	
+	/**
+	 * getters and setters for the file
+	 * */
 	public String getFileName() {
 		return fileName;
 	}

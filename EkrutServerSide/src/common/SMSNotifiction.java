@@ -3,6 +3,10 @@ package common;
 
 import com.twilio.rest.api.v2010.account.Message;
 
+/**
+ * this class uses the twilo package to send SMS to the registered users.
+ */
+
 public class SMSNotifiction implements INotifictionStrategy 
 {
 	private String CelephoneReciver;
@@ -16,6 +20,9 @@ public class SMSNotifiction implements INotifictionStrategy
 		SendNotification(CelephoneReciver,msg);
 	}
 	@Override
+	/**
+	 * sends sms notification to the user.
+	 */
 	public void SendNotification(String to, String msg) 
 	{
 		Thread SendSMS = new Thread() 

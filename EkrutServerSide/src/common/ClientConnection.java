@@ -15,7 +15,10 @@ public class ClientConnection {
 	private String IP;
 	private String Status;
 	private String userName;
-
+	/**
+	 * constructor saves relevent data about client connection such as status, ip address, and host name
+	 * @param  client
+	 * */
 	public ClientConnection(ConnectionToClient client) {
 		Status = client.isAlive() == true ? "Connected" : "Disconnected";
 		IP = client.getInetAddress().getHostAddress();
@@ -25,7 +28,9 @@ public class ClientConnection {
 		this(client);
 		Status = setStatus == true ? "Connected" : "Disconnected";
 	}
-
+	
+	/**
+	 * getters and setters for the client connection*/
 	public String getHost() {
 		return Host;
 	}
