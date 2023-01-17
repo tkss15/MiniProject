@@ -75,9 +75,12 @@ public class CatalogViewController implements Initializable, IController
 	@FXML
 	private Button GetOrder, BtnBack;
 
-  	
+  	/**
+  	 * Method called when the user clicks the "Cancel Order" button
+  	 * @param event
+  	 * */
 	@FXML 
-	void CancelOrder(ActionEvent event) // Method called when the user clicks the "Cancel Order" button
+	void CancelOrder(ActionEvent event)
 	{
 	    // Display a confirmation alert to the user
 	    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -98,6 +101,7 @@ public class CatalogViewController implements Initializable, IController
 	        ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);	    	  
 	    } 
 	}
+	
 	@FXML 
 	void ShowPrevPage(ActionEvent event) // Method called when the user clicks the "Back" button
 	{

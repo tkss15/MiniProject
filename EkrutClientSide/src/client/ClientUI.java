@@ -43,7 +43,7 @@ public class ClientUI extends Application
 	{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(URL));
 	    Parent root = loader.load();
-			
+		//makes the screen draggable	
 	    Scene scene = new Scene(root);
 	    scene.setOnMousePressed(event -> {
 	        offset_x = event.getSceneX();
