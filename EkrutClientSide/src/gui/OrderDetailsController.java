@@ -92,7 +92,13 @@ public class OrderDetailsController implements Initializable, IController {
     
     @FXML
     private Text creditcardNumber;
-
+    
+    
+    /**
+	 * method that triggers when the "X" button has been pressed
+	 * 
+	 * @param event the ActionEvent that triggered this method call
+	 */
     @FXML
     void ClickCloseWindow(ActionEvent event) 
     {
@@ -100,12 +106,21 @@ public class OrderDetailsController implements Initializable, IController {
     	ClientUI.clientController.UserDisconnected(true);
     }
     
+    /**
+	 * method that triggers when the "Back" button has been pressed
+	 * goes back to the order invoice window and cancels the current task
+	 * @param event the ActionEvent that triggered this method call
+	 */
     @FXML
     void ClickBack(ActionEvent event) {
     	ClientUI.clientController.getTaskCountdown().cancelTask();
     	ClientUI.sceneManager.ShowSceneNew("../views/OrderInvoice.fxml",event);
     }
-
+    /**
+	 * triggers when "cancel order" button has been pressed, this will,if approved will
+	 * cancel the current order and terminate the order process.
+	 * @param event the ActionEvent that triggered this method call
+	 */
     @FXML
     void CancelOrderAction(ActionEvent event) {
     	Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -121,17 +136,20 @@ public class OrderDetailsController implements Initializable, IController {
     		ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);	    	  
     	} 
     }
-
-    @FXML
-    void CloseWindow(ActionEvent event) {
-    	ClientUI.clientController.getTaskCountdown().cancelTask();
-    }
     
+    /**
+     * This method is used to handle the action of the pay button. It checks that all the necessary data is filled and valid.
+     * It creates a task that creates a new order, adds items to the order, updates the amount of products in the facility, and sends notifications to the appropriate parties.
+     * @param event - The event that triggered this method (clicking the pay button)
+     * @param buynow - A boolean indicating whether the user clicked the 'Buy Now' button or the 'Add to Cart' button.
+     */
     void PayAction(ActionEvent event, boolean buynow)
-    {
+    {	
+    	//checks if all of the data has been filled
     	if(!isDataFilled(event))
     		return;
     	
+    	//runs a concurrent task that creates a new order, gives the user his order number, adds items to the order.
 		Task<Void> task = new Task<Void>() 
 		{
 			  @Override
@@ -140,19 +158,21 @@ public class OrderDetailsController implements Initializable, IController {
 				  	int myFacility = ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID();
 					RequestObjectClient request;
 					Thread.sleep(5000);
+					//creates the new order
 			    	request = new RequestObjectClient("#CREATE_NEW_ORDER",String.format("%.2f#%d#%s#%s#", 
 			    			isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice(), 
 			    			ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID(), 
 			    			ClientUI.clientController.getUser().getUserName(),
 			    			OrderDate.getText()),"POST");  
 			    	ClientUI.clientController.accept(request);
-			    	
+			    	//gets the order number
 			    	request = new RequestObjectClient("#GET_ORDER_NUMBER",String.format("\"%s\"#", 
 			    			ClientUI.clientController.getUser().getUserName()),"*");  
 			    	ClientUI.clientController.accept(request);
 			    	
 			    	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
 			    	{
+			    		//adds the items t othe order
 			    		request = new RequestObjectClient("#ADD_ITEMS_TO_ORDER",String.format("%d#%d#%d#%d#%.2f#", 
 			    				orderCode, 
 			    				myProduct.getProductCode(), 
@@ -166,19 +186,22 @@ public class OrderDetailsController implements Initializable, IController {
 			    	{
 			    		int IndexOfProductfacility = ClientUI.clientController.getArrProducts().indexOf(myProduct);
 			    		int CurrentAmount = ClientUI.clientController.getArrProducts().get(IndexOfProductfacility).getMaxAmount() - myProduct.getProductAmount();
-			    		
+			    		//updates the amount after purchase 
 			    		request = new RequestObjectClient("#REMOVE_ITEMS_FACILITY",String.format("%d#%d#%d#", 
 			    				myFacility, 
 			    				myProduct.getProductCode(),
 			    				CurrentAmount),"PUT");  
 			    		ClientUI.clientController.accept(request);
 			    	}
+			    	
+			    	//sends a message
 		    		request = new RequestObjectClient("#UPDATE_AREAMANAGER#SEND_NOT_ME","","*");
 			    	ClientUI.clientController.accept(request);
 		    		
 
 			    	if(!ClientUI.clientController.getClientOrder().getOrderType().equals("Instant Pickup"))
 			    	{	
+			    		//if the customer made a virtual order, it will add it to the virtual order table
 			    		request = new RequestObjectClient("#CREATE_NEW_VIRTUALORDER",String.format("%d#%d#%s#%d#", 
 			    				orderCode, 
 			    				(ClientUI.clientController.getClientOrder().getOrderType().equals("Delivery") ? 1 : 0), 
@@ -187,7 +210,7 @@ public class OrderDetailsController implements Initializable, IController {
 			    				"POST"); 
 			    		ClientUI.clientController.accept(request);
 			    	}
-			    	
+			    	//user can pay for the order immiedietly or choose to pay later if he is a subscriber
 			    	if(buynow)
 			    	{
 			    		request = new RequestObjectClient("#CREATE_NEW_DELYEDPAYMENT",String.format("%d#%s#", 
@@ -198,6 +221,7 @@ public class OrderDetailsController implements Initializable, IController {
 			    		
 			    		if(isFirstPurchase)
 			    		{
+			    			//if the user is a subscriber, and he did not make his first purchase yet, then update that he have. 
 			    			request = new RequestObjectClient("#UPDATE_FIRST_PURCHASE",String.format("%s#%b#", 
 			    					ClientUI.clientController.getUser().getUserName(),
 			    					false),"PUT");
@@ -211,6 +235,7 @@ public class OrderDetailsController implements Initializable, IController {
 			    return null;
 			  }
 		};
+		
 		ClientUI.sceneManager.ShowPopup("../views/LoadingScreen.fxml");
 		task.setOnFailed(new EventHandler<WorkerStateEvent>() 
 		{
@@ -218,6 +243,7 @@ public class OrderDetailsController implements Initializable, IController {
 				task.getException().printStackTrace();
 			}
 		});
+		
 		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() 
 		{
           @Override
@@ -253,19 +279,28 @@ public class OrderDetailsController implements Initializable, IController {
       });
 		new Thread(task).start();
     }
+    
+    
     @FXML
     void PayNowAction(ActionEvent event) {
     	ClientUI.clientController.getTaskCountdown().cancelTask();
     	PayAction(event,false);
     }
-	
+    
+	/**
+	 * 
+	 * @param event, triggers when the user chooses to pay later option(if he is a subscriber)
+	 * */
 	@FXML 
 	void PayLaterAction(ActionEvent event)
 	{
 		ClientUI.clientController.getTaskCountdown().cancelTask();
 		PayAction(event,true);
 	}
-
+	
+	/**
+	 * initialises the controller as it is loaded.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -351,6 +386,11 @@ public class OrderDetailsController implements Initializable, IController {
 			DeliveryOption.setVisible(true);
 		}
 	}
+	
+	/**
+	 * saving all the data which is returned from the DB and relevant for the
+	 * current controller.
+	 */
 	@Override
 	public void updatedata(Object data) 
 	{
@@ -472,6 +512,11 @@ public class OrderDetailsController implements Initializable, IController {
 		
 		ProductsTable.refresh();
 	}
+	
+	/**
+	 * checks if all of the neccessary data has been filled
+	 * @param event triggers when a button that must provide varification that all of the data has been filled
+	 * */
     private boolean isDataFilled(ActionEvent event)
     {
     	if(ComboBoxMonth.getValue() == null || ComboBoxYear.getValue() == null)
@@ -482,6 +527,7 @@ public class OrderDetailsController implements Initializable, IController {
     		labelErrorDate.setText("Please fill the valid values.");
     		return false;
     	}
+    	
     	if(CVCtextField.getText() == null || CVCtextField.getText().trim().isEmpty())
     	{
     		labelErrorDate.setVisible(false);

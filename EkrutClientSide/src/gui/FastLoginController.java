@@ -99,8 +99,7 @@ public class FastLoginController implements Initializable, IController {
 
 	/**
 	 * saving all the data which is returned from the DB and relevant for the
-	 * current controller. saves all the id's of the existing users in the setID.
-	 * saves all imported users in userRows.
+	 * current controller.
 	 */
 	@Override
 	public void updatedata(Object data) {
