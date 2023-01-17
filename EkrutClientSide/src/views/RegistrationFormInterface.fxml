@@ -15,7 +15,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1005.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UsersRegistrationController">
    <children>
-      <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="213.0" minWidth="279.0" prefHeight="789.0" prefWidth="279.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
+      <VBox layoutX="-3.0" maxHeight="802.0" maxWidth="342.0" minHeight="213.0" minWidth="279.0" prefHeight="789.0" prefWidth="335.0" style="-fx-background-color: #FDB926; -fx-border-color: #838888;">
          <children>
             <ImageView fitHeight="112.0" fitWidth="204.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -35,7 +35,7 @@
             </Text>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="333.0">
                <children>
-                  <Line endX="149.5" startX="-100.0">
+                  <Line endX="194.5" startX="-100.0">
                      <VBox.margin>
                         <Insets left="15.0" top="10.0" />
                      </VBox.margin>
@@ -46,15 +46,21 @@
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                         <Text fx:id="welcomeFirstName" strokeType="OUTSIDE" strokeWidth="0.0" text="Gal" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="50.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                      </children>
                      <VBox.margin>
-                        <Insets left="50.0" top="20.0" />
+                        <Insets left="40.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity">
@@ -63,15 +69,21 @@
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                         <Text fx:id="welcomeLastNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Farfel" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                      </children>
                      <VBox.margin>
-                        <Insets left="50.0" top="5.0" />
+                        <Insets left="40.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
@@ -80,15 +92,21 @@
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                         <Text fx:id="welcomeIDText" strokeType="OUTSIDE" strokeWidth="0.0" text="206495872" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="35.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                      </children>
                      <VBox.margin>
-                        <Insets left="50.0" top="5.0" />
+                        <Insets left="40.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
@@ -97,15 +115,21 @@
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                         <Text fx:id="welcomePhoneNumberText" strokeType="OUTSIDE" strokeWidth="0.0" text="0548975124" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="15.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                      </children>
                      <VBox.margin>
-                        <Insets left="50.0" top="5.0" />
+                        <Insets left="40.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
                   <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
@@ -114,15 +138,21 @@
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                         <Text fx:id="welcomeEmailText" strokeType="OUTSIDE" strokeWidth="0.0" text="GalFarfel@gmail.com" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="65.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                      </children>
                      <VBox.margin>
-                        <Insets left="50.0" top="5.0" />
+                        <Insets left="40.0" top="10.0" />
                      </VBox.margin>
                   </HBox>
                   <HBox layoutX="60.0" layoutY="163.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
@@ -155,7 +185,7 @@
          </children>
       </VBox>
       <Text layoutX="450.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Registration Form" wrappingWidth="366.0000191926956" />
-      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X" textFill="#fdb925">
+      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="30.0" prefWidth="54.0" text="X" textFill="#fdb925">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>

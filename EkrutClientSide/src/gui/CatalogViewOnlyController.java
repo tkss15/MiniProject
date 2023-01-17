@@ -191,7 +191,6 @@ public class CatalogViewOnlyController implements Initializable, IController
 							BufferedOutputStream bos = new BufferedOutputStream(fos); /* Create BufferedFileOutputStream */
 							
 							bos.write(arrayByte, 0, arrayByte.length); /* Write byte array to output stream */
-							System.out.println(anotherProduct.getPathPicture());
 							bos.flush();
 							fos.flush();
 							

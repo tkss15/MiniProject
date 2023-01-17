@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -18,6 +19,8 @@ import common.IController;
 import common.RequestObjectClient;
 import common.ResponseObject;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -43,7 +46,8 @@ public class OrderDetailsController implements Initializable, IController {
 	
 	private boolean isFirstPurchase = false;
 	private Integer orderCode;
-	private String estimatedDelivery;
+	private StringProperty TotalPriceString = new SimpleStringProperty();
+
     @FXML
     private Button CloseButton, CloseButton3, CloseButton2;
 
@@ -125,7 +129,7 @@ public class OrderDetailsController implements Initializable, IController {
     
     void PayAction(ActionEvent event, boolean buynow)
     {
-    	if(!isDataFilled())
+    	if(!isDataFilled(event))
     		return;
     	
 		Task<Void> task = new Task<Void>() 
@@ -314,39 +318,15 @@ public class OrderDetailsController implements Initializable, IController {
 		ProductAmount.setCellValueFactory(new PropertyValueFactory<ProudctTable, Integer>("ProductAmount"));
 		ProductPrice.setCellValueFactory(new PropertyValueFactory<ProudctTable, String>("ProductPrice"));
 		
-		Integer TotalAmount = 0;
-		ObservableList<ProudctTable> colums = FXCollections.observableArrayList();
+		createTable();
 		
-		for(Product tempProduct : ClientUI.clientController.getClientOrder().myCart)
-		{
-			TotalAmount += tempProduct.getProductAmount();
-			ProudctTable tempRow = new ProudctTable(tempProduct.getProductName(), tempProduct.getProductAmount(), null);
-			tempRow.setProductPrice(ClientUI.clientController.getClientOrder().PriceItem(tempProduct));
-			colums.add(tempRow);
-			ProductsTable.getItems().add(tempRow);
-		}
-		if(((RegisterClient)ClientUI.clientController.getUser()).getClientStatus() == RegisterClient.ClientStatus.CLIENT_SUBSCRIBER)
-		{
-			if(((RegisterClient)ClientUI.clientController.getUser()).getClientFirstPurchase())
-			{		
-				isFirstPurchase = true;
-				ProudctTable firstPurchaseRow = new ProudctTable("First Purchase Discount", 1, "20.0%");
-				ProductsTable.getItems().add(firstPurchaseRow);
-			}
-		}
-		if(TotalAmount > 0)
-		{
-			ProudctTable tempRow = new ProudctTable("Total Products", TotalAmount, null);
-			tempRow.setProductPrice( isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice());			
-			ProductsTable.getItems().add(tempRow);
-		}
-		
-		ProductsTable.refresh();
 		DeliveryOption.setVisible(false);
 		OrderDate.setText(timeStamp);
 		
 		OrderType.setText(ClientUI.clientController.getClientOrder().getOrderType());
-		OrderTotalPrice.setText((String.format("%.2f",isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice()) + "$"));
+		
+		TotalPriceString.setValue((String.format("%.2f",isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice()) + "$"));
+		OrderTotalPrice.textProperty().bind(TotalPriceString);
 		RegisterClient clientUser = (RegisterClient) ClientUI.clientController.getUser();
 		if(clientUser.getClientCardNumber() != null)
 		{
@@ -418,6 +398,7 @@ public class OrderDetailsController implements Initializable, IController {
 	 * */
 	public class ProudctTable
 	{
+		private Integer ProductCode;
 		private String ProductName;
 		private Integer ProductAmount;
 		private String ProductPrice;
@@ -427,6 +408,13 @@ public class OrderDetailsController implements Initializable, IController {
 			this.ProductAmount = ProductAmount;
 			this.ProductPrice = ProductPrice;
 			// TODO Auto-generated constructor stub
+		}
+		public Integer getProductCode() {
+			return ProductCode;
+		}
+		public void setProductCode(Integer ProductCode)
+		{
+			this.ProductCode = ProductCode;
 		}
 		public String getProductName() {
 			return ProductName;
@@ -449,7 +437,42 @@ public class OrderDetailsController implements Initializable, IController {
 		
 	}
 	
-    private boolean isDataFilled()
+	private void createTable()
+	{
+		ProductsTable.getItems().clear();
+		
+		Integer TotalAmount = 0;
+		ObservableList<ProudctTable> colums = FXCollections.observableArrayList();
+		
+		for(Product tempProduct : ClientUI.clientController.getClientOrder().myCart)
+		{
+			TotalAmount += tempProduct.getProductAmount();
+			ProudctTable tempRow = new ProudctTable(tempProduct.getProductName(), tempProduct.getProductAmount(), null);
+			tempRow.setProductCode(tempProduct.getProductCode());
+			tempRow.setProductPrice(ClientUI.clientController.getClientOrder().PriceItem(tempProduct));
+			colums.add(tempRow);
+			ProductsTable.getItems().add(tempRow);
+		}
+		if(((RegisterClient)ClientUI.clientController.getUser()).getClientStatus() == RegisterClient.ClientStatus.CLIENT_SUBSCRIBER)
+		{
+			if(((RegisterClient)ClientUI.clientController.getUser()).getClientFirstPurchase())
+			{		
+				isFirstPurchase = true;
+				ProudctTable firstPurchaseRow = new ProudctTable("First Purchase Discount", 1, "20.0%");
+				ProductsTable.getItems().add(firstPurchaseRow);
+			}
+		}
+		if(TotalAmount > 0)
+		{
+			
+			ProudctTable tempRow = new ProudctTable("Total Products", TotalAmount, null);
+			tempRow.setProductPrice( isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice());			
+			ProductsTable.getItems().add(tempRow);
+		}
+		
+		ProductsTable.refresh();
+	}
+    private boolean isDataFilled(ActionEvent event)
     {
     	if(ComboBoxMonth.getValue() == null || ComboBoxYear.getValue() == null)
     	{
@@ -479,6 +502,8 @@ public class OrderDetailsController implements Initializable, IController {
     		}
     	}
     	
+    	ArrayList<Product> arrProblem = new ArrayList<>();
+    	StringBuilder Items = new StringBuilder();
     	for(Product myProduct : ClientUI.clientController.getClientOrder().myCart)
     	{
     		for(Product facilityProduct : ClientUI.clientController.getArrProducts())
@@ -487,10 +512,51 @@ public class OrderDetailsController implements Initializable, IController {
     			{
     				if(myProduct.getProductAmount() > facilityProduct.getMaxAmount())
     				{
-    					return false;
+    					arrProblem.add(myProduct);
+    					Items.append(myProduct.getProductName() + ",");
     				}
     			}
     		}
+    	}
+    	if(!arrProblem.isEmpty())
+    	{
+    		Items.deleteCharAt(Items.length()-1);
+    		
+    		Alert alert = new Alert(AlertType.CONFIRMATION);
+    		alert.setTitle("Shopping Cart Error");
+    		alert.setHeaderText("Facility Items are missing. Order will be changed");
+    		alert.setContentText("Removed Items: "+Items.toString());
+
+    		ButtonType RemoveItems = new ButtonType("Return Shopping");
+    		ButtonType employeeHomepage = new ButtonType("Continue");
+
+    		alert.getButtonTypes().setAll(RemoveItems, employeeHomepage);
+			Optional<ButtonType> result = alert.showAndWait();
+			
+    		if (result.get() == RemoveItems)
+    		{
+    			for(Product temp : arrProblem)
+    			{
+    				if(ClientUI.clientController.getClientOrder().myCart.contains(temp))
+    				{
+    					ClientUI.clientController.getClientOrder().removeItem(temp);
+    				}
+    				createTable();
+    				TotalPriceString.setValue((String.format("%.2f",isFirstPurchase ? ClientUI.clientController.getClientOrder().getFinalPrice() * 0.8 : ClientUI.clientController.getClientOrder().getFinalPrice()) + "$"));
+    			}
+    		} 
+    		else if (result.get() == employeeHomepage) 
+    		{
+    			for(Product temp : arrProblem)
+    			{
+    				if(ClientUI.clientController.getClientOrder().myCart.contains(temp))
+    				{
+    					ClientUI.clientController.getClientOrder().removeItem(temp);
+    				}
+    			}
+              	ClientUI.sceneManager.ShowSceneNew("../views/CatalogViewer.fxml", event);
+    		}
+			return false;
     	}
     	return true;
     }

@@ -281,7 +281,6 @@ public class MyOrdersDetailsController implements Initializable, IController {
 				for (int i = 0; i < serverResponse.Responsedata.size(); i++) // Rows
 				{
 					OrderDetails TempOrder;
-					System.out.println("in loop 31231231231");
 					// Retrieve the data for the current row
 					Object[] values = (Object[]) serverResponse.Responsedata.get(i);
 					// save all order data.

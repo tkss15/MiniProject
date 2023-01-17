@@ -38,9 +38,9 @@
             <Label fx:id="labelError" layoutX="283.0" layoutY="210.0" text="Error:" textFill="RED" />
          </children>
       </Pane>
-      <Text layoutX="155.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ekrut First Installtion" wrappingWidth="333.58984375">
+      <Text layoutX="158.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ekrut First Installtion" wrappingWidth="333.58984375">
          <font>
-            <Font size="36.0" />
+            <Font name="System Bold" size="28.0" />
          </font>
       </Text>
       <HBox fx:id="EKOptions" layoutX="35.0" layoutY="230.0" prefHeight="66.0" prefWidth="530.0">

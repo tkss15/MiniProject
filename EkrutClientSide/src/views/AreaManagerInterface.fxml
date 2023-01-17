@@ -74,11 +74,17 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                   <Text fx:id="firstNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Gal" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="50.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                </children>
                <VBox.margin>
@@ -91,11 +97,17 @@
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                   <Text fx:id="lastNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Farfel" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="40.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                </children>
                <VBox.margin>
@@ -108,11 +120,17 @@
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                   <Text fx:id="IDText" strokeType="OUTSIDE" strokeWidth="0.0" text="206459562" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="35.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                </children>
                <VBox.margin>
@@ -125,11 +143,17 @@
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                   <Text fx:id="phoneNumberText" strokeType="OUTSIDE" strokeWidth="0.0" text="0548975124" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="15.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                </children>
                <VBox.margin>
@@ -142,11 +166,17 @@
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                   <Text fx:id="emailText" strokeType="OUTSIDE" strokeWidth="0.0" text="GalFarfel@gmail.com" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="65.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Text>
                </children>
                <VBox.margin>
@@ -166,7 +196,7 @@
       </ImageView>
       <Button fx:id="thresholdLevelButton" layoutX="427.0" layoutY="363.0" mnemonicParsing="false" onAction="#ThresholdLevelScreen" prefHeight="64.0" prefWidth="200.0" text="Threshold Level" AnchorPane.leftAnchor="427.0" />
       <Button fx:id="refillOrderButton" layoutX="691.0" layoutY="375.0" mnemonicParsing="false" onAction="#refillOrder" prefHeight="64.0" prefWidth="200.0" text="Refill Order" />
-      <Button id="CloseButton" fx:id="CloseButton" layoutX="951.0" layoutY="9.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="49.0" style="-fx-background-color: white;" text="X">
+      <Button id="CloseButton" fx:id="CloseButton" layoutX="951.0" layoutY="9.0" minWidth="42.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="49.0" text="X">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>

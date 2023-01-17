@@ -51,7 +51,7 @@ public class ClientLoginPage implements Initializable, IController
     
     @FXML
     void ShowFastLogin(ActionEvent event) {
-    	ClientUI.sceneManager.ShowSceneNew("../views/FastLoginInterface.fxml");	
+    	ClientUI.sceneManager.ShowSceneNew("../views/FastLoginInterface.fxml", event);	
     }
     @FXML
     void ExitWindow(ActionEvent event) 
@@ -142,7 +142,6 @@ public class ClientLoginPage implements Initializable, IController
 
 	@Override
 	public void updatedata(Object data) {
-			System.out.println("ClientLoginPage");
 			if(data instanceof ResponseObject)
 			{
 				ResponseObject serverResponse = (ResponseObject) data;
@@ -192,13 +191,11 @@ public class ClientLoginPage implements Initializable, IController
 					}
 					case "#USER_IS_EMPLOYEE":
 					{
-						System.out.println(serverResponse.Responsedata.size());
 						if(serverResponse.Responsedata.size() != 0)
 						{
 							Object[] values =(Object[]) serverResponse.Responsedata.get(0);//Row 1 
 							role=(String)values[0];
 							isEmployee=true;
-							System.out.println("Employee");
 							Employee employee = new Employee(ClientUI.clientController.getUser());
 							ClientUI.clientController.setUser(employee); 
 						}

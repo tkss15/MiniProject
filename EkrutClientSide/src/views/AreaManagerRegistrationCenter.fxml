@@ -55,11 +55,17 @@
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                         <Text fx:id="textFirstName" strokeType="OUTSIDE" strokeWidth="0.0" text="Max" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="50.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                      </children>
                      <VBox.margin>
@@ -72,11 +78,17 @@
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                         <Text fx:id="textLastName" strokeType="OUTSIDE" strokeWidth="0.0" text="Lechner" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                      </children>
                      <VBox.margin>
@@ -89,11 +101,17 @@
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                         <Text fx:id="textID" strokeType="OUTSIDE" strokeWidth="0.0" text="206495872" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="35.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                      </children>
                      <VBox.margin>
@@ -106,11 +124,17 @@
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                         <Text fx:id="textTelephone" strokeType="OUTSIDE" strokeWidth="0.0" text="0548975124" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="15.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                      </children>
                      <VBox.margin>
@@ -123,11 +147,17 @@
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                         <Text fx:id="textEmail" strokeType="OUTSIDE" strokeWidth="0.0" text="MaxLechnerl@gmail.com" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="65.0" />
                            </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
                         </Text>
                      </children>
                      <VBox.margin>
@@ -157,20 +187,23 @@
                   <Insets top="70.0" />
                </VBox.margin>
             </VBox>
-            <ImageView fitHeight="153.0" fitWidth="315.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../gui/pictures/ceo-office-icon.png" />
-               </image>
+            <Button id="CloseButton" fx:id="Back" mnemonicParsing="false" onAction="#Back" prefHeight="41.0" prefWidth="99.0" text="Back">
                <VBox.margin>
-                  <Insets left="93.0" top="88.0" />
+                  <Insets left="5.0" top="323.0" />
                </VBox.margin>
-            </ImageView>
+               <graphic>
+                  <ImageView fitHeight="23.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../gui/pictures/Back.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </VBox>
-      <Button fx:id="Back" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#Back" text="Back" />
       <Text layoutX="396.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Manager Registration Center" wrappingWidth="553.0" />
       <Line endX="301.0" layoutX="636.0" layoutY="531.0" opacity="0.7" startX="-250.0" />
-      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
+      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
@@ -184,9 +217,9 @@
          </columns>
       </TableView>
       <Button fx:id="changesBTN" layoutX="889.0" layoutY="723.0" mnemonicParsing="false" onAction="#applyChangesToTable" prefHeight="53.0" prefWidth="103.0" text="Apply Changes" />
-      <ImageView fitHeight="153.0" fitWidth="315.0" layoutX="506.0" layoutY="583.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="153.0" fitWidth="315.0" layoutX="578.0" layoutY="570.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../gui/pictures/ManagerResgistrationLogo.png" />
+            <Image url="@../gui/pictures/ceo-office-icon.png" />
          </image>
       </ImageView>
    </children>

@@ -65,7 +65,6 @@ public class monthlyReportsController implements Initializable, IController {
 			ClientUI.sceneManager.ShowSceneNew("../views/CEOInterface.fxml", event);
 		else
 			ClientUI.sceneManager.ShowSceneNew("../views/AreaManagerInterface.fxml", event);
-		ClientUI.clientController.setCeo(false);
 	}
 
 	@FXML
@@ -75,17 +74,7 @@ public class monthlyReportsController implements Initializable, IController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
-			System.out.println("Not updated");
-		}
-		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
-			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS", // DONE
-					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
-			ClientUI.clientController.accept(request);
-			ClientUI.clientController.getUser().setOnlineStatus("Offline");
-		}
-		ClientUI.clientController.setCeo(false);
-		System.exit(0);
+		back(event);
 	}
 
 	@FXML
@@ -172,8 +161,7 @@ public class monthlyReportsController implements Initializable, IController {
 		selectAreaText.setVisible(false);
 		selectArea.setVisible(false);
 		String userArea = ClientUI.clientController.getUser().getArea();
-		if (userArea.equals("All")) {
-			ClientUI.clientController.setCeo(true);
+		if (ClientUI.clientController.isCeo()) {
 			selectArea.setVisible(true);
 			selectAreaText.setVisible(true);
 		}

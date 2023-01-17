@@ -70,7 +70,6 @@ public class EKrutInstallController implements Initializable,IController {
 	@Override
 	public void updatedata(Object data) {
 		// TODO Auto-generated method stub
-		System.out.println("EKrutInstallController");
 	}
 	
     @FXML

@@ -8,6 +8,8 @@ import Entity.PriceStartegyRegular;
 import Entity.Product;
 import client.ClientUI;
 import common.IController;
+import common.ResponseObject;
+import gui.CatalogViewController.ProductUI;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -129,7 +131,6 @@ public class OrderInvoiceController implements Initializable,IController {
 			VboxLayout.getChildren().clear();
 			for(Product tempProduct : ClientUI.clientController.getClientOrder().myCart)
 			{
-				System.out.println(tempProduct);
 				ProductUI ProductUITemp = new ProductUI(tempProduct);
 				HBox HProductUI = ProductUITemp.CreateProductSection();
 				HProductUI.setId(String.valueOf(tempProduct.getProductCode()));
@@ -205,6 +206,7 @@ public class OrderInvoiceController implements Initializable,IController {
 				Amount.setAlignment(Pos.CENTER);
 				Amount.setPrefHeight(25);
 				Amount.setPrefWidth(58);
+				Amount.setEditable(false);
 				HBox.setMargin(Amount, new Insets(5.0, 5.0, 5.0, 5.0));
 				
 				MinusBtn = new Button();
@@ -402,9 +404,43 @@ public class OrderInvoiceController implements Initializable,IController {
 		}
 
 		@Override
-		public void updatedata(Object data) {
+		public void updatedata(Object data) 
+		{
 			// TODO Auto-generated method stub
-			
+			if(data instanceof ResponseObject)// Safety Check to know if the data type is ResponseObject
+			{
+				ResponseObject serverResponse = (ResponseObject) data;
+				// Checking which Request type we get
+				switch(serverResponse.getRequest())
+				{
+					case"#UPDATE_PRODUCTS_CLIENT":
+					{// In case the Quantity of products changes in the middle of the buy
+						for(int i = 0; i < serverResponse.Responsedata.size(); i++)
+						{
+							// We will get data for each item inside the facility.
+							Object[] values = (Object[])serverResponse.Responsedata.get(i);
+							Integer FacilityID = (Integer)values[0];
+							Integer ProductCode = (Integer)values[1];
+							Integer ProductAmount = (Integer)values[2];
+							// first of all if the current client not in the same facility as the data we wont check.
+							if(ClientUI.clientController.getClientOrder().getOrderFacility().getFacilityID() != FacilityID)
+								return;
+							// then we need to find the facility products and change them
+							for(Product tempProduct : ClientUI.clientController.getArrProducts())
+							{
+								if(tempProduct.getProductCode() != ProductCode)
+									continue;
+								
+								Integer ProductIndex = ClientUI.clientController.getArrProducts().indexOf(tempProduct);
+								tempProduct.setMaxAmount(ProductAmount);
+								
+								ClientUI.clientController.getArrProducts().set(ProductIndex, tempProduct);
+							}
+						}
+						break;
+					}
+				}
+			}
 		}
 
 

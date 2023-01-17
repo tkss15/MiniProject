@@ -241,17 +241,7 @@ public class ThresholdLevelController implements Initializable, IController {
 	 */
 	@FXML
 	void close(ActionEvent event) {
-		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
-			System.out.println("Not updated");
-		}
-		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
-			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
-			ClientUI.clientController.accept(request);
-			
-			ClientUI.clientController.getUser().setOnlineStatus("Offline");
-		}
-		System.exit(0);
+		ClientUI.clientController.UserDisconnected(true);
 	}
 
 	/**
@@ -327,7 +317,6 @@ public class ThresholdLevelController implements Initializable, IController {
 		arrayLocation = new ArrayList<>();
 		arrayName = new ArrayList<>();
 
-		// System.out.println(Facilities);// check the facilities
 
 		// set the combo boxes
 		for (int i = 0; i < Facilities.size(); i++) {

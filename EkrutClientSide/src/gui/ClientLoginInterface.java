@@ -42,7 +42,6 @@ public class ClientLoginInterface implements IController {
 		ClientUI.clientController.setController(this);
     	
 		File firstInstalltion = new File(ClientUI.clientController.ApplicationConfig + "config.cfg");
-		System.out.println(firstInstalltion.getAbsolutePath());
 		
 		RequestObjectClient request = new RequestObjectClient("#FIRST_INSTALL","","GET");    	
 		ClientUI.clientController.accept(request);
@@ -55,7 +54,6 @@ public class ClientLoginInterface implements IController {
 	        String configSettings = new String(chars);
 	        reader.close();
 	        String[] arraySettings = configSettings.split("#");
-	        System.out.println(arraySettings.length);
 
 	        if(arraySettings[0].equals("OL"))
 	        	ClientUI.clientController.getEKFacility().setFacilityEK(false);
@@ -67,7 +65,6 @@ public class ClientLoginInterface implements IController {
 	        ClientUI.sceneManager.ShowScene("../views/LoginClientInterface.fxml");		
 			return;
 		}
-    	System.out.println("Here 2");
 		ClientUI.sceneManager.ShowScene("../views/EKrutInstall.fxml");
 		
 		

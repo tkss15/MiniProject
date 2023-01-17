@@ -21,10 +21,10 @@
          <children>
             <ImageView fitHeight="354.0" fitWidth="333.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../gui/pictures/EkrutLogoGif.gif" />
+                  <Image url="@../gui/pictures/EkrutLogo.gif" />
                </image>
                <VBox.margin>
-                  <Insets left="100.0" top="250.0" />
+                  <Insets left="100.0" top="170.0" />
                </VBox.margin>
             </ImageView>
          </children>
@@ -38,12 +38,12 @@
                         <Font name="System Bold" size="36.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="60.0" top="100.0" />
+                        <Insets left="80.0" top="70.0" />
                      </VBox.margin>
                   </Text>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="eat better with us" textAlignment="CENTER" wrappingWidth="98.13671875">
                      <VBox.margin>
-                        <Insets left="170.0" />
+                        <Insets left="205.0" />
                      </VBox.margin>
                      <font>
                         <Font name="System Italic" size="12.0" />
@@ -56,14 +56,14 @@
                               <Insets />
                            </VBox.margin>
                         </Label>
-                        <TextField fx:id="userNameTextField" promptText="enter your Username">
+                        <TextField fx:id="userNameTextField" prefWidth="322.0" promptText="enter your Username">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </TextField>
                      </children>
                      <VBox.margin>
-                        <Insets left="50.0" top="50.0" />
+                        <Insets left="80.0" top="40.0" />
                      </VBox.margin>
                   </VBox>
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="356.0">
@@ -73,41 +73,44 @@
                               <Insets />
                            </VBox.margin>
                         </Label>
-                        <PasswordField fx:id="passwordTextField" promptText="Enter your password" />
+                        <PasswordField fx:id="passwordTextField" promptText="Enter your password">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin></PasswordField>
                      </children>
                      <VBox.margin>
-                        <Insets left="50.0" top="20.0" />
+                        <Insets left="80.0" top="20.0" />
                      </VBox.margin>
                   </VBox>
                   <Label fx:id="errorLabel" text="Error not vaild username or password" textFill="RED">
                      <VBox.margin>
-                        <Insets left="50.0" top="10.0" />
+                        <Insets left="80.0" top="10.0" />
                      </VBox.margin>
                   </Label>
                   <Button fx:id="LoginButton" mnemonicParsing="false" onAction="#actionLoggin" prefHeight="11.0" prefWidth="218.0" style="-fx-border-radius: 80;" text="Login" textFill="WHITE" VBox.vgrow="NEVER">
                      <VBox.margin>
-                        <Insets bottom="20.0" left="100.0" top="30.0" />
+                        <Insets bottom="20.0" left="140.0" top="30.0" />
                      </VBox.margin>
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Line endX="197.5" startX="-160.0" stroke="#838888">
+                  <Line endX="235.5" startX="-160.0" stroke="#838888">
                      <VBox.margin>
-                        <Insets left="50.0" top="10.0" />
+                        <Insets left="70.0" top="10.0" />
                      </VBox.margin>
                   </Line>
-                  <Button fx:id="LoginApp" mnemonicParsing="false" onAction="#ShowFastLogin" prefHeight="11.0" prefWidth="218.0" text="Sign-in with EKrut Touch" textAlignment="CENTER" textFill="#838888">
+                  <Button fx:id="LoginApp" mnemonicParsing="false" onAction="#ShowFastLogin" prefHeight="46.0" prefWidth="218.0" text="Sign-in with EKrut Touch" textAlignment="CENTER" textFill="#838888">
                      <font>
                         <Font size="14.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="100.0" top="20.0" />
+                        <Insets left="140.0" top="50.0" />
                      </VBox.margin>
                   </Button>
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets top="70.0" />
                </VBox.margin>
             </VBox>
          </children>

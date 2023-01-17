@@ -43,12 +43,12 @@
             <URL value="@TextFieldAndListView.css" />
          </stylesheets>
       </VBox>
-      <Label alignment="CENTER" layoutX="45.0" layoutY="79.0" prefHeight="31.0" prefWidth="527.0" text="Order Pickup:" textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="72.0" layoutY="85.0" prefHeight="31.0" prefWidth="491.0" text="Order Pickup:" textAlignment="CENTER">
          <font>
             <Font name="Arial Bold" size="32.0" />
          </font>
       </Label>
-      <Button id="buttonFixed" fx:id="CloseButton" layoutX="564.0" layoutY="20.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="34.0" prefWidth="58.0" text="X">
+      <Button id="buttonFixed" fx:id="CloseButton" layoutX="576.0" layoutY="6.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="34.0" prefWidth="58.0" text="X">
          <font>
             <Font name="Arial Bold" size="12.0" />
          </font>

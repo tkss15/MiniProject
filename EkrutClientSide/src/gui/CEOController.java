@@ -57,17 +57,9 @@ public class CEOController implements Initializable, IController {
 	@FXML
 	void close(ActionEvent event) {
 		// This method will logout from the current user and finish the client-Side run
-		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
-			System.out.println("Not updated");
-		}
-		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
-			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
-			ClientUI.clientController.accept(request);
-			ClientUI.clientController.getUser().setOnlineStatus("Offline");
-		}
-		// Exit from the process
-		System.exit(0);
+		ClientUI.clientController.setCeo(false);
+		ClientUI.clientController.UserDisconnected(true);
+
 	}
 
 	/**
@@ -79,15 +71,8 @@ public class CEOController implements Initializable, IController {
 	@FXML
 	void logout(ActionEvent event) {
 		// logs out from the user and going back to the login screen
-		if (ClientUI.clientController.getUser().getOnlineStatus() == null) {
-			System.out.println("Not updated");
-		}
-		if (ClientUI.clientController.getUser().getOnlineStatus().equals("Online")) {
-			RequestObjectClient request = new RequestObjectClient("#USER_UPDATE_STATUS",
-					String.format("%s#", ClientUI.clientController.getUser().getUserName()), "PUT");
-			ClientUI.clientController.accept(request);
-			ClientUI.clientController.getUser().setOnlineStatus("Offline");
-		}
+		ClientUI.clientController.setCeo(false);
+		ClientUI.clientController.UserDisconnected(false);
 		ClientUI.sceneManager.ShowSceneNew("../views/LoginClientInterface.fxml", event);
 	}
 
@@ -127,6 +112,7 @@ public class CEOController implements Initializable, IController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		ClientUI.clientController.setController(this);
+		ClientUI.clientController.setCeo(true);
 		// sets the user details
 		firstNameText.setText(ClientUI.clientController.getUser().getFirstName());
 		lastNameText.setText(ClientUI.clientController.getUser().getLastName());

@@ -25,12 +25,12 @@
                   <Image url="@../gui/pictures/LogoEKRUT.png" />
                </image>
             </ImageView>
-            <Text layoutX="391.0" layoutY="132.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Invoice">
+            <Text layoutX="424.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order Invoice">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Text>
-            <HBox layoutX="295.0" layoutY="11.0">
+            <HBox layoutX="328.0" layoutY="14.0">
                <children>
                   <VBox alignment="CENTER" prefHeight="66.0" prefWidth="66.0">
                      <children>
@@ -416,7 +416,7 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <Button fx:id="CloseButton" layoutX="932.0" layoutY="11.0" minWidth="42.0" mnemonicParsing="false" onAction="#ClickCloseWindow" prefHeight="34.0" prefWidth="58.0" text="X">
+      <Button fx:id="CloseButton" layoutX="936.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#ClickCloseWindow" prefHeight="34.0" prefWidth="58.0" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
@@ -441,7 +441,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button id="buttonFixed" fx:id="btnBack" layoutX="20.0" layoutY="753.0" mnemonicParsing="false" onAction="#ClickBack" text="Back">
+      <Button id="CloseButton" fx:id="btnBack" layoutX="4.0" layoutY="754.0" mnemonicParsing="false" onAction="#ClickBack" text="Back">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                <image>

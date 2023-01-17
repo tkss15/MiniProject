@@ -35,7 +35,7 @@ public class FastLoginController implements Initializable, IController {
     @FXML
     void closeWindow(ActionEvent event) 
     {
-    	ClientUI.sceneManager.SceneBack(event, "../views/FastLoginInterface.fxml");
+    	ClientUI.sceneManager.ShowSceneNew("../views/LoginClientInterface.fxml",event);
     }
     @FXML
     void LoginAction(ActionEvent event) 

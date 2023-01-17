@@ -33,12 +33,7 @@
 	-fx-font-weight: bold; 
 	-fx-alignment: center;
 }
-/* This is just magic */
-.table-row-cell:filled {
-	-fx-background-color: transparent;
-	-fx-border-color: transparent -fx-lightest-grey-color -fx-lightest-grey-color -fx-lightest-grey-color, transparent;
-	-fx-border-insets: 0, 1;
-}
+
 .table-row-cell:empty {
 	-fx-background-color: transparent;
 }
@@ -48,6 +43,12 @@
 .table-row-cell:filled:selected:hover {
 	-fx-background-color: -fx-light-grey-color;
 }
+
+.table-row-cell:selected:focus {
+	-fx-border-color: transparent;
+	-fx-background-color: transparent; 
+}
+
 .table-row-cell:filled:selected {
   	-fx-background-color: #eaeaea;
  	-fx-background-insets: 0.0;
@@ -65,8 +66,4 @@
 }
 .check-box-table-cell > .check-box:selected .box{
 	-fx-background-color: -fx-accent-color;
-}
-.table-view .placeholder .label {
-	-fx-text-fill: red;
-	-fx-padding:20px;
 }

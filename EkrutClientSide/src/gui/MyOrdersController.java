@@ -35,7 +35,7 @@ public class MyOrdersController implements Initializable, IController {
 
 	// Eldad Changed
 	private ObservableList<OrderRow> deliveryInfo;
-	private HashMap<Integer,Boolean> deliveryOrderCodes = new HashMap<>();
+	private HashMap<Integer,Integer> deliveryOrderCodes = new HashMap<>();
 	@FXML
 	private Button BackButton;
 
@@ -74,8 +74,7 @@ public class MyOrdersController implements Initializable, IController {
 
 	@FXML
 	void closeWindow(ActionEvent event) {
-		ClientUI.sceneManager.ShowSceneNew("../views/Homepage.fxml", event);
-
+		ClientUI.clientController.UserDisconnected(true);
 	}
 
 	@FXML
@@ -101,6 +100,7 @@ public class MyOrdersController implements Initializable, IController {
 		// the information imported from the query) and orderRows(Contains all rows of
 		// the table) lists
 		
+		OrdesTable.setEditable(false);
 		OrdersData = new ArrayList<>();
 		orderRows = new ArrayList<>();
 
@@ -113,10 +113,10 @@ public class MyOrdersController implements Initializable, IController {
 		RequestObjectClient requestDelivery = new RequestObjectClient("#GET_MY_DELIVERYS",
 				String.format("%s#",
 						ClientUI.clientController.getUser().getUserName()),
-				"GET");
+				"*");
 		ClientUI.clientController.accept(requestDelivery);
 
-		// Initialize the cells in the order table(columns)
+		// Initialise the cells in the order table(columns)
 		OrderCode.setCellValueFactory(new PropertyValueFactory<OrderRow, Integer>("orderCode"));
 		FinalPrice.setCellValueFactory(new PropertyValueFactory<OrderRow, Integer>("finalPrice"));
 		FacilityID.setCellValueFactory(new PropertyValueFactory<OrderRow, Integer>("facilityID"));
@@ -136,8 +136,12 @@ public class MyOrdersController implements Initializable, IController {
 			if (deliveryOrderCodes.containsKey(temp.getOrderCode())) 
 			{
 				CheckBox checkBox = new CheckBox();
+				checkBox.setId("box");
 				
-				checkBox.setSelected(deliveryOrderCodes.get(temp.getOrderCode()));
+				if(deliveryOrderCodes.get(temp.getOrderCode())==1) {
+					checkBox.setSelected(true);					
+				}
+				else checkBox.setSelected(false);
 				
 				if(checkBox.isSelected()) 
 				{
@@ -147,15 +151,20 @@ public class MyOrdersController implements Initializable, IController {
 				orderRow.setOrderReceptionAcception(checkBox);
 				checkBox.setOnAction((event) -> {
 					
-					RequestObjectClient setReceived = new RequestObjectClient("SET_APPROVED_BY_CUSTOMER",
-							String.format("%d#%b#",
-							temp.getOrderCode(),checkBox.isSelected()),"PUT");
+					int flag = checkBox.isSelected() ? 1 : 0;
+					//request query to set the customer approval status as the value of the flag.
+					//i.e if the check box is selected then set the status to 1. else set status to 0.
+					RequestObjectClient setReceived = new RequestObjectClient("#SET_APPROVED_BY_CUSTOMER",
+							String.format("%d#%d#",
+							temp.getOrderCode(),flag),"PUT");
 					ClientUI.clientController.accept(setReceived);
 					
+					//show alert of information for the user after completion of the action.
 					Alert info = new Alert(AlertType.INFORMATION);
 					
-					info.setContentText("Thank you for your order! delivery completed Successfully.");
+					info.setContentText("Thank you for your order! See you next time!");
 					info.showAndWait();
+					checkBox.setDisable(true);
 					
 				});
 			}
@@ -218,8 +227,6 @@ public class MyOrdersController implements Initializable, IController {
 			OrderDetails = new Button("Order Details");
 			// Add an event handler for when the button is clicked
 			OrderDetails.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-				// Print the order code to the console
-				System.out.println(this.orderCode);
 				// Set the order details for the current manager
 				ClientUI.clientController.setManagerOrderdeatils(this.orderCode);
 				// Show the MyOrderDetails.fxml scene
@@ -311,7 +318,6 @@ public class MyOrdersController implements Initializable, IController {
 	 */
 	@Override
 	public void updatedata(Object data) {
-		System.out.println(1);
 		if (data instanceof ResponseObject) {
 			ResponseObject serverResponse = (ResponseObject) data;
 
@@ -323,7 +329,6 @@ public class MyOrdersController implements Initializable, IController {
 				for (int i = 0; i < serverResponse.Responsedata.size(); i++) // Rows
 				{
 					OrderTable TempOrder;
-					System.out.println("in loop");
 					Object[] values = (Object[]) serverResponse.Responsedata.get(i);
 					// save all order data.
 					int orderCode = (Integer) values[0];
@@ -339,9 +344,9 @@ public class MyOrdersController implements Initializable, IController {
 			case "#GET_MY_DELIVERYS":
 				for (int i = 0; i < serverResponse.Responsedata.size(); i++) {
 					Object[] values = (Object[]) serverResponse.Responsedata.get(i);
-					int isReceiverdByCustomer = (Integer)values[4];
-					boolean isAccepted = isReceiverdByCustomer == 0 ? false : true; 
-					deliveryOrderCodes.put((Integer) values[0],isAccepted);
+					int isReceiverdByCustomer = (Integer)values[1];
+					deliveryOrderCodes.put((Integer) values[0],isReceiverdByCustomer);
+	
 				}
 
 			}

@@ -169,12 +169,12 @@
             </VBox>
          </children>
       </VBox>
-      <Button fx:id="Logout" layoutX="4.0" layoutY="756.0" mnemonicParsing="false" onAction="#logOut" text="Logout" />
+      <Button id="CloseButton" fx:id="Logout" layoutX="4.0" layoutY="744.0" mnemonicParsing="false" onAction="#logOut" prefHeight="32.0" prefWidth="109.0" text="Logout" />
       <Text layoutX="371.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40; -fx-font-weight: bold;" text="Marketing Manager Worksapce" wrappingWidth="601.0">
          <font>
             <Font size="14.0" />
          </font></Text>
-      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #fdb925;" text="X">
+      <Button fx:id="CloseButton" layoutX="942.0" layoutY="7.0" minWidth="42.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="30.0" prefWidth="54.0" text="X">
          <font>
             <Font name="Cambria Bold" size="12.0" />
          </font>
@@ -192,12 +192,12 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Text>
-      <Text layoutX="372.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Area:" wrappingWidth="149.99999856948853">
+      <Text layoutX="377.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Area:" wrappingWidth="149.99999856948853">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>
       </Text>
-      <ComboBox fx:id="AreaCombo" layoutX="371.0" layoutY="187.0" prefHeight="32.0" prefWidth="178.0" promptText="Sales Types" />
+      <ComboBox fx:id="AreaCombo" layoutX="377.0" layoutY="187.0" prefHeight="32.0" prefWidth="178.0" promptText="Sales Types" />
       <Label fx:id="errorLabelStartHour" layoutX="467.0" layoutY="524.0" prefHeight="43.0" prefWidth="188.0" text="Please Enter Hours According to the Format!" textFill="#f50000" wrapText="true" />
       <Label fx:id="errorLabelSave" layoutX="580.0" layoutY="749.0" prefHeight="28.0" prefWidth="216.0" text="Please enter all fields in order to save!" textFill="#f50000" wrapText="true" />
       <DatePicker fx:id="datePickerStartDate" layoutX="463.0" layoutY="374.0" onAction="#setStartingDate" prefHeight="35.0" prefWidth="178.0" promptText="Choose Sale Start Date" />
@@ -223,12 +223,12 @@
       <Label fx:id="errorLabelEndHour" layoutX="685.0" layoutY="524.0" prefHeight="43.0" prefWidth="188.0" text="Please Enter Hours According to the Format!" textFill="#f50000" wrapText="true" />
       <Line endX="498.0" layoutX="477.0" layoutY="228.0" startX="-100.0" />
       <Line endX="498.0" layoutX="476.0" layoutY="581.0" startX="-100.0" />
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="595.0" layoutY="592.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="595.0" layoutY="595.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../gui/pictures/salesPersonWithSign.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="109.0" fitWidth="127.0" layoutX="852.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="109.0" fitWidth="127.0" layoutX="852.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../gui/pictures/salesRedIcon.png" />
          </image>
@@ -240,6 +240,11 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Text>
+      <ImageView fitHeight="23.0" fitWidth="31.0" layoutX="5.0" layoutY="754.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../gui/pictures/Logout.png" />
+         </image>
+      </ImageView>
    </children>
    <stylesheets>
       <URL value="@Homepage.css" />

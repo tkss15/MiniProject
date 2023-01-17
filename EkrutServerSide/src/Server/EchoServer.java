@@ -98,6 +98,27 @@ public class EchoServer extends AbstractServer
 		monthlyReports.setURL(QueryChanged(monthlyReports));
 		mySqlConnection.SafeQuery(monthlyReports);
 
+		RequestObjectClient GetProducts = new RequestObjectClient("","GET","#GET_ALL_CURRENT_PRODUCTS");
+		GetProducts.setURL(QueryChanged(GetProducts));
+		
+		ResponseObject currentProductResponse = mySqlConnection.SafeQuery(GetProducts);
+		
+		if(!currentProductResponse.Responsedata.isEmpty())
+		{
+			for(int i = 0; i < currentProductResponse.Responsedata.size(); i++)
+			{
+				Object[] values = (Object[]) currentProductResponse.Responsedata.get(i);
+				Integer ProductCode = (Integer) values[0];
+				Integer ProductAmount = (Integer) values[1];
+				Integer FacilityID= (Integer) values[2];
+				
+				RequestObjectClient AddProductsReport = new RequestObjectClient(String.format("%d#%d#%d#%s#", ProductCode,FacilityID,ProductAmount,reportDate),"POST","#CREATE_NEW_PRODUCT_REPORT");
+				AddProductsReport.setURL(QueryChanged(AddProductsReport));
+				mySqlConnection.SafeQuery(AddProductsReport);
+			}
+		}
+
+
 		
 	}
 
@@ -277,7 +298,7 @@ public class EchoServer extends AbstractServer
 		SqlQuerys.put("#UPDATE_CLIENT_STATUS","table=registerclients#condition=userName=@#values=userStatus=\'Registered To Subscriber\'");
 		
 		/*Fast Login*/
-		SqlQuerys.put("#GET_USER_SUBSCRIBER_NUBMER", "SELECT registerclients.SubscriberNumber,users.telephone FROM registerclients INNER join users ON registerclients.userName = users.userName where SubscriberNumber=@ and users.userOnline='Offline';");
+		SqlQuerys.put("#GET_USER_SUBSCRIBER_NUBMER", "SELECT registerclients.SubscriberNumber,users.telephone FROM registerclients INNER join users ON registerclients.userName = users.userName where userStatus=\"SUBSCRIBER\" and SubscriberNumber=@ and users.userOnline='Offline';");
 		SqlQuerys.put("#PUT_USER_AUTHCODE", "table=registerclients#condition=SubscriberNumber=@#values=authcode=@");
 		SqlQuerys.put("#GET_USER_AUTHCODE", "SELECT users.* FROM users INNER JOIN registerclients ON users.userName = registerclients.userName WHERE registerclients.authcode = @;");
 
@@ -311,16 +332,39 @@ public class EchoServer extends AbstractServer
 		/*CatalogViewerOnly*/
 		SqlQuerys.put("#GET_ALL_PRODUCTS", "table=products");
 
-		/*MyOrdersController */ 
+
+		/* MyOrdersController */
 		SqlQuerys.put("#GET_MY_ORDERS", "table=orders#condition=userName=@");
-		SqlQuerys.put("#GET_MY_DELIVERYS", "table=virtualorders#HasDelivery=1");
-		SqlQuerys.put("#SET_APPROVED_BY_CUSTOMER", "table=virtualorders#condition=orderCode=@#values=customerApproval=@");
+		SqlQuerys.put("#GET_MY_DELIVERYS", "SELECT virtualorders.orderCode,virtualorders.customerApproval "
+				+ "FROM users   "
+				+ "INNER JOIN orders ON users.userName = orders.userName  "
+				+ "INNER JOIN virtualorders ON virtualorders.orderCode = orders.orderCode  "
+				+ "WHERE users.userName = '@' AND virtualorders.HasDelivery = 1  "
+				+ "");
+		SqlQuerys.put("#SET_APPROVED_BY_CUSTOMER",
+				"table=virtualorders#condition=orderCode=@#values=customerApproval=@");
 		SqlQuerys.put("#GET_MY_ORDERS", "table=orders#condition=userName=@");
-		SqlQuerys.put("#GET_ORDER_DETAILS", "SELECT products.productname, products.productcode,productsinorder.productamount, products.productprice, productsInOrder.ProductFinalPrice "
-				+ "FROM productsinorder " + "INNER JOIN products ON products.ProductCode = productsinorder.productcode "
-				+ "WHERE productsinorder.ordercode = @");
+		SqlQuerys.put("#GET_ORDER_DETAILS",
+				"SELECT products.productname, products.productcode,productsinorder.productamount, products.productprice, productsInOrder.ProductFinalPrice "
+						+ "FROM productsinorder "
+						+ "INNER JOIN products ON products.ProductCode = productsinorder.productcode "
+						+ "WHERE productsinorder.ordercode = @");
 		SqlQuerys.put("#GET_ORDER_DATE", "table=orders#condition=orderCode=@#values=orderdate=orderdate");
 		SqlQuerys.put("#GET_ORDER_FINALPRICE", "table=orders#condition=orderCode=@#values=finalprice=finalprice");
+
+		/* OperationWorkerController */
+		SqlQuerys.put("#OPERATION_REFILL_ROWS",
+				"SELECT facilities.FacilityID, products.ProductCode" + " FROM facilities" + " INNER JOIN products"
+						+ " INNER JOIN productsinfacility" + " ON productsinfacility.FacilityID = facilities.FacilityID"
+						+ " WHERE FacilityName = @  AND FacilityLocation = @" + " AND ProductName = @"
+						+ " GROUP BY facilities.FacilityID, products.ProductCode");
+
+		SqlQuerys.put("#OPERATION_UPDATE_QUANTITY",
+				"table=productsinfacility#condition=FacilityID=@&ProductCode=@#values=ProductAmount=@");
+
+		SqlQuerys.put("#OPERATION_DELETE_ORDER", "table=executiveorders#condition=FacilityName=@&ProductName=@");
+
+		SqlQuerys.put("#OPERATION_GET_EXECUTIVE_ORDERS", "table=executiveorders#condition=Area=@");
 		
 		/* OperationWorkerController */
 		SqlQuerys.put("#OPERATION_REFILL_ROWS",
@@ -385,12 +429,13 @@ public class EchoServer extends AbstractServer
 				"SELECT virtualorders.orderCode,virtualorders.DeliveryLocation,virtualorders.DeliveryStatus "
 						+ "FROM virtualorders " + "INNER JOIN orders ON orders.orderCode = virtualorders.orderCode "
 						+ "INNER JOIN facilities ON facilities.FacilityID = orders.FacilityID "
-						+ "WHERE FacilityArea = '@' AND DeliveryStatus != 'Done' AND HasDelivery=1 " + "GROUP BY orderCode");
-		
-		SqlQuerys.put("#UPDATE_EST_TIME_FOR_USER", "SELECT virtualorders.estimatedDateAndTime,orders.userName,virtualorders.orderCode "
-				+ "FROM virtualorders "
-				+ "INNER JOIN orders ON orders.orderCode = virtualorders.orderCode "
-				+ "WHERE virtualorders.orderCode = @");
+						+ "WHERE FacilityArea = '@' AND DeliveryStatus != 'Done' AND HasDelivery=1 "
+						+ "GROUP BY orderCode");
+
+		SqlQuerys.put("#UPDATE_EST_TIME_FOR_USER",
+				"SELECT virtualorders.estimatedDateAndTime,orders.userName,virtualorders.orderCode "
+						+ "FROM virtualorders " + "INNER JOIN orders ON orders.orderCode = virtualorders.orderCode "
+						+ "WHERE virtualorders.orderCode = @");
 
 		SqlQuerys.put("#UPDATE_ACTIVE_STATUS_DISPATCHED",
 				"table=virtualorders#condition=orderCode=@&hasDelivery=1#values=DeliveryStatus='Dispatched'&estimatedDateAndTime=@");
@@ -442,11 +487,12 @@ public class EchoServer extends AbstractServer
 						+ " and SUBSTRING(orderdate, 7, 4) = '@' " + "GROUP BY facilities.FacilityName;");
 		SqlQuerys.put("#GET_ALL_FACILITIES_TRC", "table=facilities");
 		SqlQuerys.put("#GET_FACILITIES_FROM_AREA_TRC", "table=facilities#condition=FacilityArea=@");
-		SqlQuerys.put("#GET_SUPPLY_REPORT_TRC", "SELECT products.ProductName,productsinfacility.ProductAmount "
-				+ "FROM products " + "INNER JOIN facilities " + "INNER JOIN productsinfacility "
-				+ "ON productsinfacility.ProductCode = products.ProductCode AND productsinfacility.FacilityID = facilities.FacilityID "
-				+ "WHERE FacilityArea = '@' AND facilities.FacilityLocation = '@' AND facilities.FacilityName = '@' "
-				+ "GROUP BY products.ProductName,productsinfacility.ProductAmount");
+		SqlQuerys.put("#GET_SUPPLY_REPORT_TRC", "SELECT products.ProductName,reportproducts.ProductAmount "
+				+ "FROM products "
+				+ "INNER JOIN facilities "
+				+ "INNER JOIN reportproducts ON reportproducts.ProductCode = products.ProductCode AND reportproducts.FacilityID = facilities.FacilityID "
+				+ "WHERE FacilityArea = '@' AND facilities.FacilityLocation = '@' AND facilities.FacilityName = '@' AND reportproducts.reportDate = '@' "
+				+ "GROUP BY products.ProductName,reportproducts.ProductAmount");
 		SqlQuerys.put("#GET_SUPPLY_BELOW_THRESHOLD_TRC",
 				"SELECT facilities.FacilityName ,COUNT(facilities.FacilityName) AS AmountOfTimeBelowThreshold "
 						+ "FROM facilities "
@@ -466,6 +512,9 @@ public class EchoServer extends AbstractServer
 
 		/* server Commands */
 		SqlQuerys.put("#UPDATE_MONTHLY_REPORTS", "table=reports#values=reportType=@&reportDate=@&Area=@");
+		SqlQuerys.put("#GET_ALL_CURRENT_PRODUCTS", "table=productsinfacility");
+		SqlQuerys.put("#CREATE_NEW_PRODUCT_REPORT", "table=reportproducts#values=ProductCode=@&FacilityID=@&ProductAmount=@&reportDate=@");
+		
 		
 		/*Server Import Simulator*/
 		SqlQuerys.put("#IMPORT_SIMUL", "LOAD DATA LOCAL INFILE '@' INTO TABLE @ "
@@ -525,6 +574,7 @@ public class EchoServer extends AbstractServer
 				}
 				
 				clientRequest.setURL(FinalQuery.toString());
+				serverConsole.display(FinalQuery.toString());
 				serverConsole.display(ClientOpreationMessage(client,QueryCase,clientRequest.getRequestID()));
 
 				/*
@@ -551,7 +601,7 @@ public class EchoServer extends AbstractServer
 						String OnlineUser = (String)values[7];
 						
 						ClientConnection clientToShow = new ClientConnection(client);
-						
+						serverConsole.display(clientToShow);
 						if(clientConnected.contains(clientToShow) && !OnlineUser.equals("Online"))
 						{
 							int indexOfClient = clientConnected.indexOf(clientToShow);
