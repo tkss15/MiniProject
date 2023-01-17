@@ -92,12 +92,20 @@ public class EchoServer extends AbstractServer
 		});
 
 	}
-
+	
+	/**
+	 * This method is used to post a report for the supply report, gets the value of the quantity of the items at the end of each month.
+	 * @param reportType - A string representing the type of report being posted
+	 * @param reportDate - A string representing the date of the report
+	 * @param area - A string representing the area that the report is for
+	*/
+	
 	private void postReport(String reportType, String reportDate, String area) {
 		RequestObjectClient monthlyReports = new RequestObjectClient(String.format("%s#%s#%s#", reportType,reportDate,area),"POST","#UPDATE_MONTHLY_REPORTS");
 		monthlyReports.setURL(QueryChanged(monthlyReports));
 		mySqlConnection.SafeQuery(monthlyReports);
-
+		
+		//get the amount of all products
 		RequestObjectClient GetProducts = new RequestObjectClient("","GET","#GET_ALL_CURRENT_PRODUCTS");
 		GetProducts.setURL(QueryChanged(GetProducts));
 		
@@ -111,15 +119,12 @@ public class EchoServer extends AbstractServer
 				Integer ProductCode = (Integer) values[0];
 				Integer ProductAmount = (Integer) values[1];
 				Integer FacilityID= (Integer) values[2];
-				
+				//this adds the report informaion for the report.
 				RequestObjectClient AddProductsReport = new RequestObjectClient(String.format("%d#%d#%d#%s#", ProductCode,FacilityID,ProductAmount,reportDate),"POST","#CREATE_NEW_PRODUCT_REPORT");
 				AddProductsReport.setURL(QueryChanged(AddProductsReport));
 				mySqlConnection.SafeQuery(AddProductsReport);
 			}
 		}
-
-
-		
 	}
 
 	/**
@@ -145,7 +150,7 @@ public class EchoServer extends AbstractServer
 					Twilio.init(serverConfing.get(5), serverConfing.get(6));
 					SendSMSNotifiction = true;
 					//SMSNotifiction sendExample = new SMSNotifiction("0547443546");
-					//sendExample.SendNotification("הדגמה");
+					//sendExample.SendNotification("׳”׳“׳’׳�׳”");
 				}
 				catch(Exception error)
 				{
@@ -189,7 +194,9 @@ public class EchoServer extends AbstractServer
 			}
 		}
 	}
-	
+	/**
+	 * this method generates a secure random 5 digit code which later will be used for fast login
+	 * */
 	private String AutoGenerateRandomCode()
 	{
 		StringBuilder RandomCode = new StringBuilder();
@@ -215,6 +222,10 @@ public class EchoServer extends AbstractServer
 			break;
 		}
 	}
+	
+	/**
+	 * this method disconnects the client from the server
+	 * @param- client: gives the connection information of the specific connected clinet*/
 	protected void clientDisconnected(ConnectionToClient client) 
 	{
 		ClientConnection clientToShow = new ClientConnection(client,false);
@@ -243,7 +254,9 @@ public class EchoServer extends AbstractServer
 		serverConsole.display(clientConnected);
 	}
 
-	
+	/**
+	 * in this method all of the queries are managed
+	 * */
 	private void InitiliazeQuerys()
 	{
 		SqlQuerys.put("#FIRST_INSTALL", "table=facilities");
@@ -525,6 +538,8 @@ public class EchoServer extends AbstractServer
 		SqlQuerys.put("#SET_GLOBAL", "SET GLOBAL local_infile=1");
 		
 	}
+	
+	
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) 
 	{
